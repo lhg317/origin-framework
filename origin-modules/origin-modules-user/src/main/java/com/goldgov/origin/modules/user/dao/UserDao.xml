@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goldgov.origin.modules.user.dao.UserDao">
+	<resultMap type="com.goldgov.origin.modules.user.service.User" id="user">
+		<id column="USER_ID" jdbcType="VARCHAR" property="userID"/>
+		<result column="LOGIN_ID" jdbcType="VARCHAR" property="loginID"/>
+		<result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+	</resultMap>
+
+	<select id="findUserByID" resultMap="user">
+		SELECT * FROM LHG_USER WHERE USER_ID=#{userID};
+	</select>
+	
+	<insert id="addUser" keyProperty="userID" useGeneratedKeys="true">
+		INSERT INTO LHG_USER (LOGIN_ID,USER_NAME,PASSWORD,EMAIL)VALUES(#{loginID},#{userName},#{password},#{email});
+	</insert>
+	
+	<update id="updateUser">
+		update LHG_USER
+		<set>
+			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
+			<if test="password != null and password != ''">password=#{password},</if>
+			<if test="email != null and email != ''">email=#{email},</if>
+		</set>
+		where user_id=#{userID}
+	</update>
+	
+	<delete id="deleteUser">
+		delete from LHG_USER where USER_ID in
+		<foreach item="id" index="index" collection="userIDs" open="(" separator="," close=")">
+		   #{id}
+		</foreach>
+	</delete>
+	
+	<select id="findUserListByPage" resultMap="user">
+		SELECT * FROM LHG_USER
+	</select>
+	
+</mapper>
