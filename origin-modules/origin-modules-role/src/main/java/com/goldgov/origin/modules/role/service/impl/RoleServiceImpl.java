@@ -41,19 +41,19 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public void deleteRoleByIDs(String[] ids) {
-		roleDao.deleteRoleByIds(ids);
+	public void deleteRole(Integer[] ids) {
+		roleDao.deleteRole(ids);
 	}
 
 	@Override
-	public void deleteRoleResourceByIDs(String[] ids) {
+	public void deleteRoleResource(Integer[] ids) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Role findRoleById(String id) {
-		return roleDao.findRoleById(id);
+	public Role findRole(Integer id) {
+		return roleDao.findRole(id);
 	}
 
 	@Override

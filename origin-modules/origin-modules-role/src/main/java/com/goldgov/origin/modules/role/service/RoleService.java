@@ -12,11 +12,11 @@ public interface RoleService {
 	
 	public void updateRoleResource(RoleResource roleResource);
 	
-	public void deleteRoleByIDs(String[] ids);
+	public void deleteRole(Integer[] ids);
 	
-	public void deleteRoleResourceByIDs(String[] ids);
+	public void deleteRoleResource(Integer[] ids);
 	
-	public Role findRoleById(String id);
+	public Role findRole(Integer id);
 	
 	public List<Role> findRoleListByPage(RoleQuery roleQuery);
 	

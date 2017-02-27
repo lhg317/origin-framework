@@ -16,9 +16,9 @@ public interface RoleDao {
 	
 	public void updateRole(Role role);
 	
-	public void deleteRoleByIds(String[] ids);
+	public void deleteRole(Integer[] ids);
 	
-	public Role findRoleById(String id);
+	public Role findRole(Integer id);
 	
 	public List<Role> findRoleListByPage(RoleQuery query);
 }
