@@ -11,7 +11,7 @@
 		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
 	</resultMap>
 
-	<select id="findUserByID" resultMap="user">
+	<select id="findUser" resultMap="user">
 		SELECT * FROM LHG_USER WHERE USER_ID=#{userID};
 	</select>
 	

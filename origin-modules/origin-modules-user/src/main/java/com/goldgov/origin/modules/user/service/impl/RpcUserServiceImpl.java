@@ -38,7 +38,7 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 
 	@Override
 	public RpcUser findUserByID(int userID) throws TException {
-		User user = userService.findUserByID(userID);
+		User user = userService.findUser(userID);
 		return new ProxyUser(user).toRpcUser();
 	}
 

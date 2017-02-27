@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.goldgov.origin.core.web.annotation.ModuleOperating;
+import com.goldgov.origin.core.web.annotation.ModuleResource;
+import com.goldgov.origin.core.web.annotation.OperatingType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.user.api.RpcUser;
@@ -18,6 +21,7 @@ import com.goldgov.origin.modules.user.api.RpcUserService;
 
 @Controller
 @RequestMapping("/user")
+@ModuleResource(name="User Manage")
 public class RpcUserController {
 	
 	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/")+"/pages/";
@@ -34,12 +38,14 @@ public class RpcUserController {
 	
 	@RequestMapping("/addUser")
 	@WebToken(handle=TokenHandleType.VERIFY)
+	@ModuleOperating(name="Add User",type=OperatingType.Save)
 	public String addUser(RpcUser user) throws TException{
 		userService.addUser(user);
 		return "forward:/user/findUserList";
 	}
 	
 	@RequestMapping("/deleteUser")
+	@ModuleOperating(name="Del User",type=OperatingType.Delete)
 	public String deleteUser(@RequestParam("userID") Integer[] ids) throws TException{
 		userService.deleteUser(Arrays.asList(ids));
 		return "forward:/user/findUserList";

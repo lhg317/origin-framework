@@ -17,7 +17,7 @@ public interface UserDao {
 	
 	public void updateUser(User user);
 	
-	public User findUserByID(Integer userID);
+	public User findUser(Integer userID);
 	
 	public List<User> findUserListByPage(UserQuery userQuery);
 }

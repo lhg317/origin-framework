@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goldgov.origin.modules.resource.dao.ResourceDao">
+
+	<resultMap type="com.goldgov.origin.modules.resource.service.Resource" id="resource">
+		<id column="ROLE_ID" jdbcType="VARCHAR" property="entityID"/>
+		<result column="ROLE_NAME" jdbcType="VARCHAR" property="name"/>
+		<result column="ROLE_CODE" jdbcType="VARCHAR" property="code"/>
+		<result column="ROLE_TYPE" jdbcType="NUMERIC" property="type"/>
+		<result column="IS_ENABLE" jdbcType="NUMERIC" property="isEnable"/>
+		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+	</resultMap>
+
+	<sql id="queryFields">
+		ROLE_ID as "entityID",
+		ROLE_NAME as "name",
+		ROLE_CODE as "code",
+		ROLE_TYPE as "type",
+		IS_ENABLE as "isEnable",
+		DESCRIPTION as "description"
+	</sql>
+	
+	<insert id="addResource">
+		<selectKey keyProperty="entityID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		insert into role (ROLE_ID,ROLE_NAME,ROLE_CODE,ROLE_TYPE,IS_ENABLE,DESCRIPTION)value(#{entityID,jdbcType=VARCHAR},#{name},#{code},#{type},#{isEnable},#{description});
+	</insert>
+	
+	<delete id="deleteResourceByIds">
+		delete from role where ROLE_ID in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		   #{id}
+		</foreach>
+	</delete>
+	
+	<update id="updateResource">
+		update role 
+		<set>
+			<if test="name != null">ROLE_NAME = #{name},</if>
+			<if test="code != null">ROLE_CODE = #{code},</if>
+			<if test="type != null">ROLE_TYPE = #{type},</if>
+			<if test="isEnable != null">IS_ENABLE = #{isEnable},</if>
+			<if test="description != null">DESCRIPTION = #{description},</if>
+		</set>
+		where ROLE_ID = #{id}
+	</update>
+	
+	<select id="findResourceById" resultMap="resource">
+		select <include refid="queryFields" /> from role where ROLE_ID=#{id}
+	</select>
+	
+	<select id="findResourceList" resultMap="resource">
+		select <include refid="queryFields" /> from role
+		<where>
+			<if test="params.searchName != null">
+				USER_NAME like '%${params.searchName}%'
+			</if>
+		</where>
+		
+		<!-- <if test="first >= 0">
+			limit #{param2,jdbcType=INTEGER}
+		</if>
+		<if test="first >= 0 and maxResult >= 0">
+			, #{param3,jdbcType=INTEGER}
+		</if> -->
+	</select>
+	
+</mapper>
