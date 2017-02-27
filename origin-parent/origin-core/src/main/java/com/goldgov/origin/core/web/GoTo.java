@@ -135,7 +135,7 @@ public class GoTo {
 	 */
 	public String sendPage(String path,Throwable e){
 		HttpServletRequest request = RequestHolder.getRequest();
-		request.setAttribute(Keys.PUZZLE_EXCEPTION, e);
+		request.setAttribute(Keys.ORIGIN_EXCEPTION, e);
 		processToken(request);
 		
 		return sendPage(path);
@@ -143,7 +143,7 @@ public class GoTo {
 	
 	public String sendPage(String path,String errorMsg){
 		HttpServletRequest request = RequestHolder.getRequest();
-		request.setAttribute(Keys.PUZZLE_EXCEPTION, new RuntimeException(errorMsg));
+		request.setAttribute(Keys.ORIGIN_EXCEPTION, new RuntimeException(errorMsg));
 		processToken(request);
 		
 		return sendPage(path);
