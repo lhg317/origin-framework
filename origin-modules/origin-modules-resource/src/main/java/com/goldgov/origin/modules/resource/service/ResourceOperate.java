@@ -1,14 +1,17 @@
 package com.goldgov.origin.modules.resource.service;
 
+import com.goldgov.origin.core.web.annotation.OperateType;
+
 public class ResourceOperate {
 
 	private Integer operateID;
 
 	private String operateName;
 	private String operateCode;
-	private String operateType;
-	private String method;//操作方式，拼接URL或参数方式
+	private OperateType operateType;
+	
 	private Resource resource;
+
 	public Integer getOperateID() {
 		return operateID;
 	}
@@ -27,23 +30,16 @@ public class ResourceOperate {
 	public void setOperateCode(String operateCode) {
 		this.operateCode = operateCode;
 	}
-	public String getOperateType() {
-		return operateType;
-	}
-	public void setOperateType(String operateType) {
-		this.operateType = operateType;
-	}
-	public String getMethod() {
-		return method;
-	}
-	public void setMethod(String method) {
-		this.method = method;
-	}
 	public Resource getResource() {
 		return resource;
 	}
 	public void setResource(Resource resource) {
 		this.resource = resource;
 	}
-	
+	public OperateType getOperateType() {
+		return operateType;
+	}
+	public void setOperateType(OperateType operateType) {
+		this.operateType = operateType;
+	}
 }

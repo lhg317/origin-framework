@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.web.annotation.ModuleOperating;
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.LocaleChangeHandler.MessagesHolder;
 import com.goldgov.origin.core.web.validator.Constraint;
@@ -83,9 +83,9 @@ public class ValidationHandler implements IRequestHandler{
 						//判断需要被验证参数的方法上是否标注了@ModuleOperating注解，用于得到方法操作类型，否则方法操作类型被置为None
 						Method method = methodParameters[i].getMethod();
 						ModuleOperating operatingAnno = method.getAnnotation(ModuleOperating.class);
-						OperatingType optType = null;
+						OperateType optType = null;
 						if(operatingAnno == null){
-							optType = OperatingType.None;
+							optType = OperateType.None;
 						}else{
 							optType = operatingAnno.type();
 						}
@@ -182,9 +182,9 @@ public class ValidationHandler implements IRequestHandler{
 							//判断需要被验证参数的方法上是否标注了@ModuleOperating注解，用于得到方法操作类型，否则方法操作类型被置为None
 							Method method = methodParameters[i].getMethod();
 							ModuleOperating operatingAnno = method.getAnnotation(ModuleOperating.class);
-							OperatingType optType = null;
+							OperateType optType = null;
 							if(operatingAnno == null){
-								optType = OperatingType.None;
+								optType = OperateType.None;
 							}else{
 								optType = operatingAnno.type();
 							}

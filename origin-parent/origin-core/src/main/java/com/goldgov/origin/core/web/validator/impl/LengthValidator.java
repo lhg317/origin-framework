@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.validator.ConstraintValidator;
 import com.goldgov.origin.core.web.validator.annotation.Length;
 
@@ -15,7 +15,7 @@ public class LengthValidator implements ConstraintValidator<Length,String>{
 	private int min;
 	private int max;
 
-	private OperatingType[] types;
+	private OperateType[] types;
 	
 	@Override
 	public void initialize(Length constraintAnnotation) {
@@ -26,7 +26,7 @@ public class LengthValidator implements ConstraintValidator<Length,String>{
 	}
 
 	@Override
-	public boolean isValid(String name,String value, Field field, OperatingType type,HttpServletRequest request,HttpServletResponse response) {
+	public boolean isValid(String name,String value, Field field, OperateType type,HttpServletRequest request,HttpServletResponse response) {
 		if(Utils.operatingValidate(type, types)){
 			if(value == null){
 				return true;

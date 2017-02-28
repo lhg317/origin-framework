@@ -6,9 +6,6 @@ public class Resource {
 
 	private String resourceName;
 	private String resourceCode;
-	private String parameterName;
-	private String resourceUri;
-	private String method;
 	
 	private ResourceCategory resourceCategory;
 	
@@ -38,29 +35,6 @@ public class Resource {
 		this.resourceCode = resourceCode;
 	}
 
-	public String getParameterName() {
-		return parameterName;
-	}
-
-	public void setParameterName(String parameterName) {
-		this.parameterName = parameterName;
-	}
-
-	public String getResourceUri() {
-		return resourceUri;
-	}
-
-	public void setResourceUri(String resourceUri) {
-		this.resourceUri = resourceUri;
-	}
-
-	public String getMethod() {
-		return method;
-	}
-
-	public void setMethod(String method) {
-		this.method = method;
-	}
 
 	public ResourceCategory getResourceCategory() {
 		return resourceCategory;

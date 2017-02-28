@@ -8,7 +8,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.validator.ConstraintValidator;
 import com.goldgov.origin.core.web.validator.annotation.Past;
 
@@ -17,7 +17,7 @@ public class PastValidator implements ConstraintValidator<Past,String>{
 	private SimpleDateFormat dateFormat = new SimpleDateFormat();
 	private Date targetDate;
 
-	private OperatingType[] types;
+	private OperateType[] types;
 	
 	@Override
 	public void initialize(Past constraintAnnotation) {
@@ -41,7 +41,7 @@ public class PastValidator implements ConstraintValidator<Past,String>{
 	}
 
 	@Override
-	public boolean isValid(String name,String value, Field field,OperatingType type,HttpServletRequest request,HttpServletResponse response) {
+	public boolean isValid(String name,String value, Field field,OperateType type,HttpServletRequest request,HttpServletResponse response) {
 		if(Utils.operatingValidate(type, types)){
 			try {
 				Date date = dateFormat.parse(value);

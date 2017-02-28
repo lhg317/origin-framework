@@ -3,7 +3,7 @@ package com.goldgov.origin.core.web.validator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 
 /**
  * 自定义字段验证器
@@ -21,6 +21,6 @@ public interface Validator {
 	 * @param response
 	 * @return
 	 */
-	boolean isValid(String name,String value, OperatingType type,
-			OperatingType[] types, HttpServletRequest request, HttpServletResponse response);
+	boolean isValid(String name,String value, OperateType type,
+			OperateType[] types, HttpServletRequest request, HttpServletResponse response);
 }

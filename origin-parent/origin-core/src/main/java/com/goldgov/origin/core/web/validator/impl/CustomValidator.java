@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.validator.ConstraintValidator;
 import com.goldgov.origin.core.web.validator.Validator;
 import com.goldgov.origin.core.web.validator.annotation.Custom;
@@ -18,7 +18,7 @@ public class CustomValidator implements ConstraintValidator<Custom, String> {
 	
 	private Class<? extends Validator> validatorClass;
 
-	private OperatingType[] types;
+	private OperateType[] types;
 
 	@Override
 	public void initialize(Custom constraintAnnotation) {
@@ -27,7 +27,7 @@ public class CustomValidator implements ConstraintValidator<Custom, String> {
 	}
 
 	@Override
-	public boolean isValid(String name,String value, Field field,OperatingType type,
+	public boolean isValid(String name,String value, Field field,OperateType type,
 			HttpServletRequest request, HttpServletResponse response) {
 		Validator v = null;
 		if(validatorMap.containsKey(validatorClass)){

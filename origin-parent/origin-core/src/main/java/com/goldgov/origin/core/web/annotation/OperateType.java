@@ -5,7 +5,7 @@ package com.goldgov.origin.core.web.annotation;
  * @author LiuHG
  * @version 1.0
  */
-public enum OperatingType {
+public enum OperateType {
 
 	/**
 	 * 保存（新增）操作

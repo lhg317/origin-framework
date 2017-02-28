@@ -6,7 +6,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.validator.Constraint;
 import com.goldgov.origin.core.web.validator.impl.LengthValidator;
 
@@ -16,6 +16,6 @@ import com.goldgov.origin.core.web.validator.impl.LengthValidator;
 public @interface Length {
 	public int min();
 	public int max();
-	public OperatingType[] type() default OperatingType.None;
+	public OperateType[] type() default OperateType.None;
 	public String message() default "{fieldDesc}长度最小{min}最大{max}";
 }

@@ -110,7 +110,7 @@ public class ResourceClassProcessor implements InitializingBean{
 			
 			if(requestMappingAnno != null){
 				//FIXME 
-				resource.setResourceUri(requestMappingAnno.value()[0]);
+				resource.setResourceCode(requestMappingAnno.value()[0]);
 			}
 			
 			Method[] allDeclaredMethods = ReflectionUtils.getAllDeclaredMethods(clazz);
@@ -126,9 +126,7 @@ public class ResourceClassProcessor implements InitializingBean{
 					}else{
 						resourceOperate.setOperateCode(moduleOperating.code());
 					}
-					resourceOperate.setOperateType(moduleOperating.type().name());
-					//FIXME 
-					resourceOperate.setMethod(actionRequestMapping.value()[0]);
+					resourceOperate.setOperateType(moduleOperating.type());
 					resourceOperateList.add(resourceOperate);
 				}
 			}

@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.validator.ConstraintValidator;
 import com.goldgov.origin.core.web.validator.annotation.NotContain;
 
@@ -13,7 +13,7 @@ public class NotContainValidator implements ConstraintValidator<NotContain,Strin
 
 //	private static Map<String,List<String>> wordMap = new HashMap<String,List<String>>();
 	
-	private OperatingType[] types;
+	private OperateType[] types;
 	private String[] words;
 	
 	@Override
@@ -24,7 +24,7 @@ public class NotContainValidator implements ConstraintValidator<NotContain,Strin
 
 	@Override
 	public boolean isValid(String name, String value, Field field,
-			OperatingType type, HttpServletRequest request,
+			OperateType type, HttpServletRequest request,
 			HttpServletResponse response) {
 		if(Utils.operatingValidate(type, types)){
 			for (String word : words) {

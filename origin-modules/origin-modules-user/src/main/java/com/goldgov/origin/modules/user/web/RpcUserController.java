@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goldgov.origin.core.web.annotation.ModuleOperating;
 import com.goldgov.origin.core.web.annotation.ModuleResource;
-import com.goldgov.origin.core.web.annotation.OperatingType;
+import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.user.api.RpcUser;
@@ -38,14 +38,14 @@ public class RpcUserController {
 	
 	@RequestMapping("/addUser")
 	@WebToken(handle=TokenHandleType.VERIFY)
-	@ModuleOperating(name="Add User",type=OperatingType.Save)
+	@ModuleOperating(name="Add User",type=OperateType.Save)
 	public String addUser(RpcUser user) throws TException{
 		userService.addUser(user);
 		return "forward:/user/findUserList";
 	}
 	
 	@RequestMapping("/deleteUser")
-	@ModuleOperating(name="Del User",type=OperatingType.Delete)
+	@ModuleOperating(name="Del User",type=OperateType.Delete)
 	public String deleteUser(@RequestParam("userID") Integer[] ids) throws TException{
 		userService.deleteUser(Arrays.asList(ids));
 		return "forward:/user/findUserList";

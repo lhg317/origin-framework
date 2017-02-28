@@ -5,8 +5,6 @@ public class Role {
 	private Integer roleID;
 	private String roleName;
 	private String roleCode;
-	private Integer roleType;
-	private Integer isEnable;
 	private String description;
 	
 	public Integer getRoleID() {
@@ -26,18 +24,6 @@ public class Role {
 	}
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
-	}
-	public Integer getRoleType() {
-		return roleType;
-	}
-	public void setRoleType(Integer roleType) {
-		this.roleType = roleType;
-	}
-	public Integer getIsEnable() {
-		return isEnable;
-	}
-	public void setIsEnable(Integer isEnable) {
-		this.isEnable = isEnable;
 	}
 	public String getDescription() {
 		return description;
