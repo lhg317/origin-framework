@@ -12,13 +12,21 @@ public interface RoleDao {
 
 	public void addRole(Role role);
 	
-	public String addRoleResource(RoleResource roleResource);
+	public void addRoleResource(RoleResource roleResource);
 	
 	public void updateRole(Role role);
 	
 	public void deleteRole(Integer[] ids);
 	
+	public void deleteRoleResource(Integer[] ids);
+
 	public Role findRole(Integer id);
 	
 	public List<Role> findRoleListByPage(RoleQuery query);
+	
+	public RoleResource findRoleResource(String code);
+	
+	public List<RoleResource> findRoleResourceList(String objectID);
+
+
 }

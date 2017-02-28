@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
+import com.goldgov.origin.modules.role.service.RoleObject;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 import com.goldgov.origin.modules.role.service.RoleResource;
 import com.goldgov.origin.modules.role.service.RoleService;
@@ -18,26 +19,22 @@ public class RoleServiceImpl implements RoleService{
 	private RoleDao roleDao;
 	
 	@Override
-	public Integer addRole(Role role) {
+	public void addRole(Role role) {
 		roleDao.addRole(role);
-		return role.getRoleID();
 	}
 
 	@Override
-	public Integer addRoleResource(RoleResource roleResource) {
-		// TODO Auto-generated method stub
-		return null;
+	public void addRoleResource(RoleResource roleResource) {
+		roleDao.addRoleResource(roleResource);
+	}
+	
+	public void addRole(RoleObject roleObject){
+		//TODO 
 	}
 
 	@Override
 	public void updateRole(Role role) {
 		roleDao.updateRole(role);
-	}
-
-	@Override
-	public void updateRoleResource(RoleResource roleResource) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -47,8 +44,11 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public void deleteRoleResource(Integer[] ids) {
-		// TODO Auto-generated method stub
-		
+		roleDao.deleteRoleResource(ids);
+	}
+	
+	public void deleteRoleObject(Integer[] ids){
+		//TODO 
 	}
 
 	@Override
@@ -62,14 +62,12 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public RoleResource findRoleResourceByUrl(String requestUrl) {
-		// TODO Auto-generated method stub
-		return null;
+	public RoleResource findRoleResource(String code) {
+		return roleDao.findRoleResource(code);
 	}
 
 	@Override
-	public List<RoleResource> findRoleResourceListByUserID(String entityID) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RoleResource> findRoleResourceList(String objectID) {
+		return roleDao.findRoleResourceList(objectID);
 	}
 }
