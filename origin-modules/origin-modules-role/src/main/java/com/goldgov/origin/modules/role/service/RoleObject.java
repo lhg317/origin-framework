@@ -4,7 +4,7 @@ public class RoleObject {
 
 	private Integer roleObjectID;
 	private String objectID;
-	private Role role;
+	private Integer roleID;
 	public Integer getRoleObjectID() {
 		return roleObjectID;
 	}
@@ -17,11 +17,10 @@ public class RoleObject {
 	public void setObjectID(String objectID) {
 		this.objectID = objectID;
 	}
-	public Role getRole() {
-		return role;
+	public Integer getRoleID() {
+		return roleID;
 	}
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoleID(Integer roleID) {
+		this.roleID = roleID;
 	}
-	
 }

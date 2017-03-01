@@ -5,28 +5,28 @@ import com.goldgov.origin.modules.resource.service.ResourceOperate;
 
 public class RoleResource {
 
-	private String roleResourceID;
+	private Integer roleResourceID;
 //	private Resource resource;
 	private ResourceOperate operate;
-	private Role role;
+	private Integer roleID;
 	
-	public String getRoleResourceID() {
+	public Integer getRoleResourceID() {
 		return roleResourceID;
 	}
-	public void setRoleResourceID(String roleResourceID) {
+	public void setRoleResourceID(Integer roleResourceID) {
 		this.roleResourceID = roleResourceID;
-	}
-	public Role getRole() {
-		return role;
-	}
-	public void setRole(Role role) {
-		this.role = role;
 	}
 	public ResourceOperate getOperate() {
 		return operate;
 	}
 	public void setOperate(ResourceOperate operate) {
 		this.operate = operate;
+	}
+	public Integer getRoleID() {
+		return roleID;
+	}
+	public void setRoleID(Integer roleID) {
+		this.roleID = roleID;
 	}
 	
 }
