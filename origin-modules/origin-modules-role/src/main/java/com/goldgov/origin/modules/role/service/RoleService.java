@@ -6,8 +6,6 @@ public interface RoleService {
 
 	public void addRole(Role role);
 	
-	public void addRole(RoleObject roleObject);
-	
 	public void addRoleResource(RoleResource roleResource);
 	
 	public void updateRole(Role role);
@@ -15,8 +13,6 @@ public interface RoleService {
 	public void deleteRole(Integer[] ids);
 	
 	public void deleteRoleResource(Integer[] ids);
-	
-	public void deleteRoleObject(Integer[] ids);
 	
 	public Role findRole(Integer id);
 	

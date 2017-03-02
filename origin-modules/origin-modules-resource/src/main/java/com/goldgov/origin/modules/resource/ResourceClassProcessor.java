@@ -131,7 +131,7 @@ public class ResourceClassProcessor implements InitializingBean{
 				}
 			}
 			
-			resource.setResourceOperateList(resourceOperateList.toArray(new ResourceOperate[0]));
+			resource.setResourceOperateList(resourceOperateList);
 			ResourceContext.addResource(resource);
 		}
 	}

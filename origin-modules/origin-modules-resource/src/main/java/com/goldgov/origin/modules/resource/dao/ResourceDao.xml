@@ -4,9 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goldgov.origin.modules.resource.dao.ResourceDao">
 
+	<resultMap type="com.goldgov.origin.modules.resource.service.ResourceCategory" id="resource">
+		<id column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryID"/>
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName"/>
+		<result column="DATA_PATH" jdbcType="VARCHAR" property="dataPath"/>
+		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+		<result column="RESOURCE_ID" jdbcType="VARCHAR" property="resourceID"/>
+	</resultMap>
+	
 	<resultMap type="com.goldgov.origin.modules.resource.service.Resource" id="resource">
+		<id column="RESOURCE_ID" jdbcType="VARCHAR" property="resourceID"/>
+		<result column="RESOURCE_NAME" jdbcType="VARCHAR" property="resourceName"/>
+		<result column="RESOURCE_CODE" jdbcType="VARCHAR" property="resourceCode"/>
+		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+		<collection property="resourceOperateList" resultMap="resourceOperate"/>
+	</resultMap>
+	
+	<resultMap type="com.goldgov.origin.modules.resource.service.ResourceOperate" id="resourceOperate">
 		<id column="ROLE_ID" jdbcType="VARCHAR" property="entityID"/>
-		<result column="ROLE_NAME" jdbcType="VARCHAR" property="name"/>
+		<result column="ROLE_NAME" jdbcType="VARCHAR" property="operateName"/>
 		<result column="ROLE_CODE" jdbcType="VARCHAR" property="code"/>
 		<result column="ROLE_TYPE" jdbcType="NUMERIC" property="type"/>
 		<result column="IS_ENABLE" jdbcType="NUMERIC" property="isEnable"/>

@@ -1,5 +1,7 @@
 package com.goldgov.origin.modules.resource.service;
 
+import java.util.List;
+
 public class Resource {
 
 	private Integer resourceID;
@@ -9,7 +11,7 @@ public class Resource {
 	
 	private ResourceCategory resourceCategory;
 	
-	private ResourceOperate[] resourceOperateList;
+	private List<ResourceOperate> resourceOperateList;
 
 	public Integer getResourceID() {
 		return resourceID;
@@ -44,11 +46,11 @@ public class Resource {
 		this.resourceCategory = resourceCategory;
 	}
 
-	public ResourceOperate[] getResourceOperateList() {
+	public List<ResourceOperate> getResourceOperateList() {
 		return resourceOperateList;
 	}
 
-	public void setResourceOperateList(ResourceOperate[] resourceOperateList) {
+	public void setResourceOperateList(List<ResourceOperate> resourceOperateList) {
 		this.resourceOperateList = resourceOperateList;
 	}
 

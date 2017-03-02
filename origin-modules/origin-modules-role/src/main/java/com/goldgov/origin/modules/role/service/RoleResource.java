@@ -1,13 +1,10 @@
 package com.goldgov.origin.modules.role.service;
 
-import com.goldgov.origin.modules.resource.service.ResourceOperate;
-
-
 public class RoleResource {
 
 	private Integer roleResourceID;
 //	private Resource resource;
-	private ResourceOperate operate;
+	private Integer operateID;
 	private Integer roleID;
 	
 	public Integer getRoleResourceID() {
@@ -16,17 +13,16 @@ public class RoleResource {
 	public void setRoleResourceID(Integer roleResourceID) {
 		this.roleResourceID = roleResourceID;
 	}
-	public ResourceOperate getOperate() {
-		return operate;
-	}
-	public void setOperate(ResourceOperate operate) {
-		this.operate = operate;
-	}
 	public Integer getRoleID() {
 		return roleID;
 	}
 	public void setRoleID(Integer roleID) {
 		this.roleID = roleID;
 	}
-	
+	public Integer getOperateID() {
+		return operateID;
+	}
+	public void setOperateID(Integer operateID) {
+		this.operateID = operateID;
+	}
 }

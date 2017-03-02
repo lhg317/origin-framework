@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
-import com.goldgov.origin.modules.role.service.RoleObject;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 import com.goldgov.origin.modules.role.service.RoleResource;
 import com.goldgov.origin.modules.role.service.RoleService;
@@ -28,10 +27,6 @@ public class RoleServiceImpl implements RoleService{
 		roleDao.addRoleResource(roleResource);
 	}
 	
-	public void addRole(RoleObject roleObject){
-		//TODO 
-	}
-
 	@Override
 	public void updateRole(Role role) {
 		roleDao.updateRole(role);
@@ -47,10 +42,6 @@ public class RoleServiceImpl implements RoleService{
 		roleDao.deleteRoleResource(ids);
 	}
 	
-	public void deleteRoleObject(Integer[] ids){
-		//TODO 
-	}
-
 	@Override
 	public Role findRole(Integer id) {
 		return roleDao.findRole(id);

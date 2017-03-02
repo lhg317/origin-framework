@@ -13,7 +13,7 @@
 	
 	<resultMap type="com.goldgov.origin.modules.role.service.RoleResource" id="roleResource">
 		<id column="ROLE_RESOURCE_ID" jdbcType="INTEGER" property="roleResourceID"/>
-		<result column="OPERATE_ID" jdbcType="INTEGER" property="operate"/>
+		<result column="OPERATE_ID" jdbcType="INTEGER" property="operateID"/>
 		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleID"/>
 	</resultMap>
 	
@@ -28,6 +28,12 @@
 		ROLE_NAME as "roleName",
 		ROLE_CODE as "roleCode",
 		DESCRIPTION as "description"
+	</sql>
+	
+	<sql id="queryFields">
+		ROLE_RESOURCE_ID as "roleResourceID",
+		ROLE_CODE as "roleCode",
+		OPERATE_ID as "operateID"
 	</sql>
 	
 	<insert id="addRole">
