@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goldgov.origin.modules.resource.dao.ResourceDao">
 
-	<resultMap type="com.goldgov.origin.modules.resource.service.ResourceCategory" id="resource">
-		<id column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryID"/>
+	<resultMap type="com.goldgov.origin.modules.resource.service.ResourceCategory" id="resourceCategory">
+		<id column="CATEGORY_ID" jdbcType="INTEGER" property="categoryID"/>
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName"/>
 		<result column="DATA_PATH" jdbcType="VARCHAR" property="dataPath"/>
 		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
@@ -13,7 +13,7 @@
 	</resultMap>
 	
 	<resultMap type="com.goldgov.origin.modules.resource.service.Resource" id="resource">
-		<id column="RESOURCE_ID" jdbcType="VARCHAR" property="resourceID"/>
+		<id column="RESOURCE_ID" jdbcType="INTEGER" property="resourceID"/>
 		<result column="RESOURCE_NAME" jdbcType="VARCHAR" property="resourceName"/>
 		<result column="RESOURCE_CODE" jdbcType="VARCHAR" property="resourceCode"/>
 		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
@@ -21,15 +21,21 @@
 	</resultMap>
 	
 	<resultMap type="com.goldgov.origin.modules.resource.service.ResourceOperate" id="resourceOperate">
-		<id column="ROLE_ID" jdbcType="VARCHAR" property="entityID"/>
-		<result column="ROLE_NAME" jdbcType="VARCHAR" property="operateName"/>
-		<result column="ROLE_CODE" jdbcType="VARCHAR" property="code"/>
-		<result column="ROLE_TYPE" jdbcType="NUMERIC" property="type"/>
-		<result column="IS_ENABLE" jdbcType="NUMERIC" property="isEnable"/>
-		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+		<id column="OPERATE_ID" jdbcType="INTEGER" property="operateID"/>
+		<result column="OPERATE_NAME" jdbcType="VARCHAR" property="operateName"/>
+		<result column="OPERATE_CODE" jdbcType="VARCHAR" property="code"/>
+		<result column="OPERATE_TYPE" jdbcType="INTEGER" property="operateType"/>
 	</resultMap>
 
-	<sql id="queryFields">
+	<sql id="categoryQueryFields">
+		CATEGORY_ID as "categoryID",
+		CATEGORY_NAME as "categoryName",
+		DATA_PATH as "dataPath",
+		DESCRIPTION as "description",
+		RESOURCE_ID as "resourceID"
+	</sql>
+	
+	<sql id="resourceQueryFields">
 		ROLE_ID as "entityID",
 		ROLE_NAME as "name",
 		ROLE_CODE as "code",
@@ -37,6 +43,7 @@
 		IS_ENABLE as "isEnable",
 		DESCRIPTION as "description"
 	</sql>
+	
 	
 	<insert id="addResource">
 		<selectKey keyProperty="entityID" resultType="String" order="BEFORE">
