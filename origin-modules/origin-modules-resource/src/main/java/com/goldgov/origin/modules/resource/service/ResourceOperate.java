@@ -10,7 +10,7 @@ public class ResourceOperate {
 	private String operateCode;
 	private OperateType operateType;
 	
-	private Resource resource;
+	private Integer resourceID;
 
 	public Integer getOperateID() {
 		return operateID;
@@ -30,16 +30,17 @@ public class ResourceOperate {
 	public void setOperateCode(String operateCode) {
 		this.operateCode = operateCode;
 	}
-	public Resource getResource() {
-		return resource;
-	}
-	public void setResource(Resource resource) {
-		this.resource = resource;
-	}
 	public OperateType getOperateType() {
 		return operateType;
 	}
 	public void setOperateType(OperateType operateType) {
 		this.operateType = operateType;
 	}
+	public Integer getResourceID() {
+		return resourceID;
+	}
+	public void setResourceID(Integer resourceID) {
+		this.resourceID = resourceID;
+	}
+	
 }

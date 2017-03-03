@@ -5,7 +5,6 @@ import java.util.List;
 public class Resource {
 
 	private Integer resourceID;
-
 	private String resourceName;
 	private String resourceCode;
 	

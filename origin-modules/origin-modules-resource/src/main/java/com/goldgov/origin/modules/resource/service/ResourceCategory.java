@@ -7,6 +7,7 @@ public class ResourceCategory {
 	private String categoryName;
 	private String description;
 	private String dataPath;
+	private Integer parentID;
 	private Integer orderNum;
 	
 	public Integer getCategoryID() {
@@ -38,6 +39,12 @@ public class ResourceCategory {
 	}
 	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
+	}
+	public Integer getParentID() {
+		return parentID;
+	}
+	public void setParentID(Integer parentID) {
+		this.parentID = parentID;
 	}
 	
 }
