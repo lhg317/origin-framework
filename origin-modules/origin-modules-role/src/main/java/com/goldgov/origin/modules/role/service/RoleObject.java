@@ -3,18 +3,19 @@ package com.goldgov.origin.modules.role.service;
 public class RoleObject {
 
 	private Integer roleObjectID;
-	private String objectID;
+	private Integer objectID;
 	private Integer roleID;
+	
 	public Integer getRoleObjectID() {
 		return roleObjectID;
 	}
 	public void setRoleObjectID(Integer roleObjectID) {
 		this.roleObjectID = roleObjectID;
 	}
-	public String getObjectID() {
+	public Integer getObjectID() {
 		return objectID;
 	}
-	public void setObjectID(String objectID) {
+	public void setObjectID(Integer objectID) {
 		this.objectID = objectID;
 	}
 	public Integer getRoleID() {

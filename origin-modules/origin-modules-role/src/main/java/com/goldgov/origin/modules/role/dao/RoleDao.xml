@@ -14,7 +14,7 @@
 	<resultMap type="com.goldgov.origin.modules.role.service.RoleResource" id="roleResource">
 		<id column="ROLE_RESOURCE_ID" jdbcType="INTEGER" property="roleResourceID"/>
 		<result column="OPERATE_ID" jdbcType="INTEGER" property="operateID"/>
-		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleID"/>
+		<result column="ROLE_ID" jdbcType="INTEGER" property="roleID"/>
 	</resultMap>
 	
 	<resultMap type="com.goldgov.origin.modules.role.service.RoleObject" id="roleObject">

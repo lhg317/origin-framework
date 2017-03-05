@@ -1,4 +1,4 @@
-include "Resource.thrift"
+#include "Resource.thrift"
 
 namespace java com.goldgov.origin.modules.role.api
 
@@ -7,15 +7,12 @@ struct RpcRole {
 	2: string roleName,
 	3: string roleCode,
 	4: string description,
-	5: i32 roleType,
-	6: i32 isEnable,
-	
 }
 
 struct RpcRoleResource {
 	1: i32 roleResourceID,
-	2: RpcRole role,
-	3: Resource.RpcResource resource,
+	2: i32 roleID,
+	3: i32 operateID,
 }
 
 struct RpcRoleQuery {
@@ -30,10 +27,8 @@ struct RpcRoleQuery {
 
 struct RpcRoleObject{
 	1: i32 roleObjectID,
-	2: i32 objectType,
-	3: string objectID,
-	4: string objectName,
-	5: RpcRole role
+	2: i32 roleID,
+	3: i32 objectID,
 }
 
 service RpcRoleService{
