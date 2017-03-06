@@ -1,0 +1,107 @@
+package com.goldgov.origin.modules.resource.service.impl;
+
+import java.util.List;
+
+import org.apache.thrift.TException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.goldgov.origin.core.discovery.rpc.RpcService;
+import com.goldgov.origin.modules.resource.api.RpcResource;
+import com.goldgov.origin.modules.resource.api.RpcResourceCategory;
+import com.goldgov.origin.modules.resource.api.RpcResourceCategoryQuery;
+import com.goldgov.origin.modules.resource.api.RpcResourceOperate;
+import com.goldgov.origin.modules.resource.api.RpcResourceQuery;
+import com.goldgov.origin.modules.resource.api.RpcResourceService;
+import com.goldgov.origin.modules.resource.service.ResourceService;
+
+@RpcService
+public class RpcResourceServiceImpl implements RpcResourceService.Iface{
+
+	@Autowired
+	private ResourceService resourceService;
+	
+	@Override
+	public void addCategory(RpcResourceCategory category) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateCategory(RpcResourceCategory category) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCategory(List<Integer> ids) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RpcResourceCategory findCategory(int id) throws TException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RpcResourceCategory> findResourceCategoryList(RpcResourceCategoryQuery query) throws TException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addResource(RpcResource resource) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addOperate(RpcResourceOperate operate) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateResource(RpcResource user) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOperate(RpcResourceOperate operate) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteResource(List<Integer> ids) throws TException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RpcResource findResource(int id) throws TException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RpcResourceOperate findOperate(int id) throws TException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RpcResource> findResourceList(RpcResourceQuery query) throws TException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RpcResourceOperate> findOperateList(RpcResourceQuery query) throws TException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.goldgov.origin.modules.resource.ResourceContext;
 import com.goldgov.origin.modules.resource.dao.ResourceDao;
 import com.goldgov.origin.modules.resource.service.Resource;
 import com.goldgov.origin.modules.resource.service.ResourceCategory;
@@ -87,6 +88,12 @@ public class ResourceServiceImpl implements ResourceService{
 	@Override
 	public List<ResourceOperate> findOperateList(ResourceQuery query) {
 		return resourceDao.findOperateList(query);
+	}
+
+	@Override
+	public List<Resource> findAllResourceList() {
+		List<Resource> allResource = ResourceContext.getAllResource();
+		return allResource;
 	}
 
 }

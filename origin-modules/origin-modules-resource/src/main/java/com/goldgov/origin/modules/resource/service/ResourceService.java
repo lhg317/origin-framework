@@ -30,6 +30,8 @@ public interface ResourceService {
 	
 	public List<Resource> findResourceList(ResourceQuery query);
 	
+	public List<Resource> findAllResourceList();
+	
 	public List<ResourceOperate> findOperateList(ResourceQuery query);
 	
 }

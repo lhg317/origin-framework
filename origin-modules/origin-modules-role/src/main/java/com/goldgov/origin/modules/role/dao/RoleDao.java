@@ -2,6 +2,8 @@ package com.goldgov.origin.modules.role.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.goldgov.origin.core.dao.Mapper;
 import com.goldgov.origin.modules.role.service.Role;
 import com.goldgov.origin.modules.role.service.RoleQuery;
@@ -16,9 +18,9 @@ public interface RoleDao {
 	
 	public void updateRole(Role role);
 	
-	public void deleteRole(Integer[] ids);
+	public void deleteRole(@Param("ids") Integer[] ids);
 	
-	public void deleteRoleResource(Integer[] ids);
+	public void deleteRoleResource(@Param("ids") Integer[] ids);
 
 	public Role findRole(Integer id);
 	

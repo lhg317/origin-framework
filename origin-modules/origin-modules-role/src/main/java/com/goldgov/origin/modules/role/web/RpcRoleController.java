@@ -1,5 +1,7 @@
 package com.goldgov.origin.modules.role.web;
 
+import java.util.Arrays;
+
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,9 +44,16 @@ public class RpcRoleController {
 		return "forward:/role/findRoleList";
 	}
 	
+	@RequestMapping("/deleteRole")
+	@ModuleOperating(name="Delete Role",type=OperateType.Delete)
+	public String deleteRole(@RequestParam("roleID") Integer[] ids) throws TException{
+		roleService.deleteRole(Arrays.asList(ids));
+		return "forward:/role/findRoleList";
+	}
+	
 	@RequestMapping("/findRole")
 	@WebToken(handle=TokenHandleType.GENERATE)
-	@ModuleOperating(name="Find Role",type=OperateType.Save)
+	@ModuleOperating(name="Find Role",type=OperateType.Find)
 	public String findRole(@RequestParam("roleID") Integer roleID,Model model) throws TException{
 		RpcRole role = roleService.findRoleByID(roleID);
 		model.addAttribute("role", role);
@@ -53,7 +62,7 @@ public class RpcRoleController {
 	
 	@RequestMapping("/updateRole")
 	@WebToken(handle=TokenHandleType.VERIFY)
-	@ModuleOperating(name="Update Role",type=OperateType.Save)
+	@ModuleOperating(name="Update Role",type=OperateType.Update)
 	public String updateRole(RpcRole role) throws TException{
 		roleService.updateRole(role);
 		return "forward:/role/findRoleList";

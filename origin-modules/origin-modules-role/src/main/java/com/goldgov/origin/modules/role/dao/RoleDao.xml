@@ -44,7 +44,7 @@
 		insert into role_resource (ROLE_RESOURCE_ID,OPERATE_ID,ROLE_ID)value(#{roleResourceID},#{operate},#{roleID});
 	</insert>
 	
-	<delete id="deleteRoleByIds">
+	<delete id="deleteRole">
 		delete from role where ROLE_ID in
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
