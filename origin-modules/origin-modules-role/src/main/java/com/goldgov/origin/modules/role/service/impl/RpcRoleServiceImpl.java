@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import com.goldgov.origin.core.discovery.rpc.RpcService;
 import com.goldgov.origin.modules.role.api.ProxyRole;
 import com.goldgov.origin.modules.role.api.ProxyRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRole;
@@ -15,7 +15,7 @@ import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
 
-@Service("roleService")
+@RpcService
 public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 
 	@Autowired

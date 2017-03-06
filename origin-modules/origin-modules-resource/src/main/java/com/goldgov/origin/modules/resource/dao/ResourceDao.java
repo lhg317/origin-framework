@@ -2,12 +2,14 @@ package com.goldgov.origin.modules.resource.dao;
 
 import java.util.List;
 
+import com.goldgov.origin.core.dao.Mapper;
 import com.goldgov.origin.modules.resource.service.Resource;
 import com.goldgov.origin.modules.resource.service.ResourceCategory;
 import com.goldgov.origin.modules.resource.service.ResourceCategoryQuery;
 import com.goldgov.origin.modules.resource.service.ResourceOperate;
 import com.goldgov.origin.modules.resource.service.ResourceQuery;
 
+@Mapper
 public interface ResourceDao {
 
 	public void addCategory(ResourceCategory category);

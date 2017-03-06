@@ -6,7 +6,7 @@ import java.util.List;
 import com.goldgov.origin.modules.role.service.Role;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 
-public class ProxyRoleQuery extends RoleQuery {
+public class ProxyRoleQuery extends RoleQuery<Role> {
 
 	private RpcRoleQuery roleQuery;
 	

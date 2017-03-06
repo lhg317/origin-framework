@@ -35,7 +35,7 @@ service RpcRoleService{
 	void addRole(1:RpcRole user),
 	void deleteRole(1:list<i32> ids),
 	void updateRole(1:RpcRole role),
-	RpcRole findRoleByID(1:i32 roleID),
+	RpcRole findRole(1:i32 roleID),
 	RpcRoleQuery findRoleList(1:RpcRoleQuery query),
 	
 } 

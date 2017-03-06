@@ -23,30 +23,24 @@
 		<result column="ROLE_ID" jdbcType="INTEGER" property="role_ID"/>
 	</resultMap>
 
-	<sql id="queryFields">
+	<sql id="roleFields">
 		ROLE_ID as "roleID",
 		ROLE_NAME as "roleName",
 		ROLE_CODE as "roleCode",
 		DESCRIPTION as "description"
 	</sql>
 	
-	<sql id="queryFields">
+	<sql id="resourceFields">
 		ROLE_RESOURCE_ID as "roleResourceID",
 		ROLE_CODE as "roleCode",
 		OPERATE_ID as "operateID"
 	</sql>
 	
 	<insert id="addRole">
-		<selectKey keyProperty="entityID" resultType="String" order="BEFORE">
-		    select uuid() from dual
-		</selectKey>
-		insert into role (ROLE_ID,OPERATE_ID,ROLE_CODE,DESCRIPTION)value(#{roleID},#{name},#{code},#{description});
+		insert into role (ROLE_ID,ROLE_NAME,ROLE_CODE,DESCRIPTION)value(#{roleID},#{roleName},#{roleCode},#{description});
 	</insert>
 	
 	<insert id="addRoleResource">
-		<selectKey keyProperty="entityID" resultType="String" order="BEFORE">
-		    select uuid() from dual
-		</selectKey>
 		insert into role_resource (ROLE_RESOURCE_ID,OPERATE_ID,ROLE_ID)value(#{roleResourceID},#{operate},#{roleID});
 	</insert>
 	
@@ -60,19 +54,19 @@
 	<update id="updateRole">
 		update role 
 		<set>
-			<if test="name != null">ROLE_NAME = #{name},</if>
-			<if test="code != null">ROLE_CODE = #{code},</if>
+			<if test="roleName != null">ROLE_NAME = #{roleName},</if>
+			<if test="roleCode != null">ROLE_CODE = #{roleCode},</if>
 			<if test="description != null">DESCRIPTION = #{description},</if>
 		</set>
 		where ROLE_ID = #{roleID}
 	</update>
 	
 	<select id="findRole" resultMap="role">
-		select <include refid="queryFields" /> from role where ROLE_ID=#{roleID}
+		select <include refid="roleFields" /> from role where ROLE_ID=#{roleID}
 	</select>
 	
 	<select id="findRoleListByPage" resultMap="role">
-		select <include refid="queryFields" /> from role
+		select <include refid="roleFields" /> from role
 	</select>
 	
 </mapper>

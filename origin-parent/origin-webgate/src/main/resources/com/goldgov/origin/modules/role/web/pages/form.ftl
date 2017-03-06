@@ -5,22 +5,21 @@
 </head>
 <body>
 
-<#if (!user??) || (!user.userID??) >
-<form method="post" action="./addUser">
+<#if (!role??) || (!role.roleID??) >
+<form method="post" action="./addRole">
 </#if>
-<#if user?? && (user.userID??)>
-<form method="post" action="./updateUser">
-<input type="hidden" name="userID" value="${(user.userID)!}">
+<#if role?? && (role.roleID??)>
+<form method="post" action="./updateRole">
+<input type="hidden" name="roleID" value="${(role.roleID)!}">
 </#if>
 
-<@i18n code="label.userName" suffix="colon"/><input type="text" name="userName" value="${(user.userName)!}">
-<@i18n code="label.loginID" suffix="colon"/><input type="text" name="loginID" value="${(user.loginID)!}">
-<@i18n code="label.password" suffix="colon"/><input type="password" name="password" value="${(user.passwrd)!}">
-<@i18n code="label.email" suffix="colon"/><input type="text" name="email" value="${(user.email)!}">
+<@i18n code="label.roleName" suffix="colon"/><input type="text" name="roleName" value="${(role.roleName)!}">
+<@i18n code="label.roleCode" suffix="colon"/><input type="text" name="roleCode" value="${(role.roleCode)!}">
+<@i18n code="label.description" suffix="colon"/><input type="text" name="description" value="${(role.description)!}">
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 ${webToken(true)}
 <br>
-<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./findUserList','_self')"/>
+<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./findRoleList','_self')"/>
 
 </form>
 
