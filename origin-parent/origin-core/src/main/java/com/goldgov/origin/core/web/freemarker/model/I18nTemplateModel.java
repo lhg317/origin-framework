@@ -5,8 +5,8 @@ import java.io.Writer;
 import java.util.Map;
 
 import org.springframework.util.Assert;
-import org.springframework.web.servlet.support.RequestContext;
-import org.springframework.web.servlet.view.AbstractTemplateView;
+
+import com.goldgov.origin.core.web.interceptor.handler.impl.LocaleChangeHandler.MessagesHolder;
 
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
@@ -26,8 +26,8 @@ public class I18nTemplateModel implements TemplateDirectiveModel {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		TemplateModel i8nContext = env.getVariable(AbstractTemplateView.SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE);
-		RequestContext requestContext = (RequestContext)objectWrapper.unwrap(i8nContext);
+//		TemplateModel i8nContext = env.getVariable(AbstractTemplateView.SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE);
+//		RequestContext requestContext = (RequestContext)objectWrapper.unwrap(i8nContext);
 //		requestContext.changeLocale(locale);
 		Object code = params.get("code");
 		Assert.notNull(code,"@i18n code属性不能为空");
@@ -39,14 +39,18 @@ public class I18nTemplateModel implements TemplateDirectiveModel {
 		String message = null;
 		if(args != null){
 			String[] argArray = args.toString().split("[|]");
-			message = requestContext.getMessage((String)objectWrapper.unwrap((TemplateModel) code),argArray);
+			message = MessagesHolder.getMessage((String)objectWrapper.unwrap((TemplateModel) code),argArray);
 		}else{
-			message = requestContext.getMessage((String)objectWrapper.unwrap((TemplateModel) code));
+			if(code.toString().startsWith("i18n:")){
+				message = MessagesHolder.getMessageByPrefix((String)objectWrapper.unwrap((TemplateModel) code));
+			}else{
+				message = MessagesHolder.getMessage((String)objectWrapper.unwrap((TemplateModel) code));
+			}
 		}
 		
 		Object suffix = params.get("suffix");
 		if(suffix != null){
-			message = message + requestContext.getMessage((String)objectWrapper.unwrap((TemplateModel) suffix));
+			message = message + MessagesHolder.getMessage((String)objectWrapper.unwrap((TemplateModel) suffix));
 		}
 		
 //		int num = 0;

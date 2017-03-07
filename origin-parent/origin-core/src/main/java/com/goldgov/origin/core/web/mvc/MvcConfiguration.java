@@ -1,21 +1,37 @@
 package com.goldgov.origin.core.web.mvc;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.thrift.TBase;
+import org.apache.thrift.TException;
+import org.apache.thrift.TSerializer;
+import org.apache.thrift.protocol.TSimpleJSONProtocol;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.goldgov.origin.core.web.freemarker.PuzzleFreeMarkerView;
 import com.goldgov.origin.core.web.interceptor.WebInterceptor;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
@@ -68,10 +84,10 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		List<IRequestHandler> requestHadnler = new ArrayList<>();
+		requestHadnler.add(new RequestHolderHandler());
+		requestHadnler.add(new LocaleChangeHandler());
 		requestHadnler.add(new AuditRecordHandler());
 		requestHadnler.add(new FreemarkModelHandler());
-		requestHadnler.add(new LocaleChangeHandler());
-		requestHadnler.add(new RequestHolderHandler());
 		requestHadnler.add(new TokenCheckHandler());
 		requestHadnler.add(new ValidationHandler());
 		
@@ -135,21 +151,36 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	
 
 	
-//	@Bean
-//	public ContentNegotiatingViewResolver contentNegotiatingViewResolver(ContentNegotiationManager contentNegotiationManager){
-//		
-//		ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
-//		viewResolver.setOrder(2);
-//		viewResolver.setContentNegotiationManager(contentNegotiationManager);
-//		
-//		List<View> defaultViews = new ArrayList<View>();
-//		MappingJackson2JsonView jackson2JsonView = new MappingJackson2JsonView();
-//		ObjectMapper objectMapper = jackson2JsonView.getObjectMapper();
-//		objectMapper.setSerializationInclusion(Include.NON_NULL);
-//		defaultViews.add(jackson2JsonView);
-//		viewResolver.setDefaultViews(defaultViews);
-//		return viewResolver;
-//	}
+	@Bean
+	public ContentNegotiatingViewResolver contentNegotiatingViewResolver(ContentNegotiationManager contentNegotiationManager){
+		ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
+		viewResolver.setOrder(2);
+		viewResolver.setContentNegotiationManager(contentNegotiationManager);
+		
+		List<View> defaultViews = new ArrayList<View>();
+		MappingJackson2JsonView jackson2JsonView = new MappingJackson2JsonView();
+		ObjectMapper objectMapper = jackson2JsonView.getObjectMapper();
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		
+		final TSerializer serializer = new TSerializer(new TSimpleJSONProtocol.Factory());
+		SimpleModule module = new SimpleModule();  
+		module.addSerializer(TBase.class, new JsonSerializer<TBase>(){
+			public void serialize(TBase value, JsonGenerator jgen, SerializerProvider serializers)
+					throws IOException, JsonProcessingException {
+		        try {
+					jgen.writeRawValue(serializer.toString(value));
+				} catch (TException e) {
+					//FIXME
+					throw new RuntimeException(e);
+				} 
+				
+			}});
+		
+		objectMapper.registerModule(module); 
+		defaultViews.add(jackson2JsonView);
+		viewResolver.setDefaultViews(defaultViews);
+		return viewResolver;
+	}
 	
 //	@Bean
 //	public FreeMarkerConfigurer freeMarkerConfigurer(){
