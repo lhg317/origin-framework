@@ -28,6 +28,10 @@ public class ProxyResourceOperate extends ResourceOperate{
 		return operate.getOperateID();
 	}
 	public void setOperateID(Integer operateID) {
+		if(operateID == null){
+			operate.unsetOperateID();
+			return;
+		}
 		operate.setOperateID(operateID);
 	}
 	public String getOperateName() {
@@ -52,6 +56,10 @@ public class ProxyResourceOperate extends ResourceOperate{
 		return operate.getResourceID();
 	}
 	public void setResourceID(Integer resourceID) {
+		if(resourceID == null){
+			operate.unsetResourceID();
+			return;
+		}
 		operate.setResourceID(resourceID);
 	}
 	

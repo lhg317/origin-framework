@@ -1,7 +1,9 @@
 namespace java com.goldgov.origin.modules.resource.api
 
+typedef i32  Integer
+
 struct RpcResourceCategory {
-	1: i32 categoryID,
+	1: Integer categoryID,
 	2: string categoryName,
 	3: string dataPath,
 	4: string description,
@@ -69,5 +71,6 @@ service RpcResourceService{
 	RpcResource findResource(1:i32 id);
 	RpcResourceOperate findOperate(1:i32 id);
 	list<RpcResource> findResourceList(1:RpcResourceQuery query);
+	list<RpcResource> findAllResourceList();
 	list<RpcResourceOperate> findOperateList(1:RpcResourceQuery query);
 }

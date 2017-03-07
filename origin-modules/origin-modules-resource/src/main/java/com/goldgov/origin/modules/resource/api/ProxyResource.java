@@ -34,6 +34,11 @@ public class ProxyResource extends Resource{
 	}
 
 	public void setResourceID(Integer resourceID) {
+		if(resourceID == null){
+			resource.unsetResourceID();
+			return;
+		}
+		
 		resource.setResourceID(resourceID);
 	}
 

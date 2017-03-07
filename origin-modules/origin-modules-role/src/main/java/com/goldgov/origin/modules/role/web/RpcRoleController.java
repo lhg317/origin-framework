@@ -44,6 +44,11 @@ public class RpcRoleController {
 		return "forward:/role/findRoleList";
 	}
 	
+	@RequestMapping("/saveRoleResource")
+	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("operateCode")String[] operateCode) throws TException{
+		return "forward:/role/findRoleList";
+	}
+	
 	@RequestMapping("/deleteRole")
 	@ModuleOperating(name="Delete Role",type=OperateType.Delete)
 	public String deleteRole(@RequestParam("roleID") Integer[] ids) throws TException{

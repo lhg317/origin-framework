@@ -1,17 +1,20 @@
 package com.goldgov.origin.modules.resource.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.goldgov.origin.core.discovery.rpc.RpcService;
+import com.goldgov.origin.modules.resource.api.ProxyResource;
 import com.goldgov.origin.modules.resource.api.RpcResource;
 import com.goldgov.origin.modules.resource.api.RpcResourceCategory;
 import com.goldgov.origin.modules.resource.api.RpcResourceCategoryQuery;
 import com.goldgov.origin.modules.resource.api.RpcResourceOperate;
 import com.goldgov.origin.modules.resource.api.RpcResourceQuery;
 import com.goldgov.origin.modules.resource.api.RpcResourceService;
+import com.goldgov.origin.modules.resource.service.Resource;
 import com.goldgov.origin.modules.resource.service.ResourceService;
 
 @RpcService
@@ -19,7 +22,7 @@ public class RpcResourceServiceImpl implements RpcResourceService.Iface{
 
 	@Autowired
 	private ResourceService resourceService;
-	
+
 	@Override
 	public void addCategory(RpcResourceCategory category) throws TException {
 		// TODO Auto-generated method stub
@@ -99,9 +102,20 @@ public class RpcResourceServiceImpl implements RpcResourceService.Iface{
 	}
 
 	@Override
+	public List<RpcResource> findAllResourceList() throws TException {
+		List<Resource> allResourceList = resourceService.findAllResourceList();
+		List<RpcResource> allRpcResourceList = new ArrayList<>(allResourceList.size());
+		for (Resource resource : allResourceList) {
+			allRpcResourceList.add(new ProxyResource(resource).toRpcResource());
+		}
+		return allRpcResourceList;
+	}
+
+	@Override
 	public List<RpcResourceOperate> findOperateList(RpcResourceQuery query) throws TException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 }

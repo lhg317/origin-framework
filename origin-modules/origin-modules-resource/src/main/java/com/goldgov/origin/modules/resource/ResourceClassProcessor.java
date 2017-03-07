@@ -108,10 +108,10 @@ public class ResourceClassProcessor implements InitializingBean{
 				resource.setResourceCode(resourceAnno.code());
 			}
 			
-			if(requestMappingAnno != null){
-				//FIXME 
-				resource.setResourceCode(requestMappingAnno.value()[0]);
-			}
+//			if(requestMappingAnno != null){
+//				//FIXME 
+//				resource.setResourceCode(requestMappingAnno.value()[0]);
+//			}
 			
 			Method[] allDeclaredMethods = ReflectionUtils.getAllDeclaredMethods(clazz);
 			List<ResourceOperate> resourceOperateList = new ArrayList<ResourceOperate>();

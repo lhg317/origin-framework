@@ -21,7 +21,7 @@ import com.goldgov.origin.modules.user.api.RpcUserService;
 
 @Controller
 @RequestMapping("/user")
-@ModuleResource(name="User Manage")
+@ModuleResource(name="i18n:label.user+manage",code="user")
 public class RpcUserController {
 	
 	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/")+"/pages/";
@@ -38,20 +38,21 @@ public class RpcUserController {
 	
 	@RequestMapping("/addUser")
 	@WebToken(handle=TokenHandleType.VERIFY)
-	@ModuleOperating(name="Add User",type=OperateType.Save)
+	@ModuleOperating(name="i18n:label.user+add",type=OperateType.Save)
 	public String addUser(RpcUser user) throws TException{
 		userService.addUser(user);
 		return "forward:/user/findUserList";
 	}
 	
 	@RequestMapping("/deleteUser")
-	@ModuleOperating(name="Del User",type=OperateType.Delete)
+	@ModuleOperating(name="i18n:label.user+delete",type=OperateType.Delete)
 	public String deleteUser(@RequestParam("userID") Integer[] ids) throws TException{
 		userService.deleteUser(Arrays.asList(ids));
 		return "forward:/user/findUserList";
 	}
 	
 	@RequestMapping("/updateUser")
+	@ModuleOperating(name="i18n:label.user+update",type=OperateType.Update)
 	public String updateUser(RpcUser user) throws TException{
 		userService.updateUser(user);
 		return "forward:/user/findUserList";
