@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.goldgov.origin.core.web.annotation.ModuleOperating;
 import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.modules.resource.api.RpcResource;
 import com.goldgov.origin.modules.resource.api.RpcResourceService;
@@ -26,6 +27,7 @@ public class RpcResourceController {
 	
 	
 	@RequestMapping("/findResourceList")
+	@ModuleOperating(name="Find All Role")
 	public String findRoleList(Model model) throws TException{
 		List<RpcResource> allResourceList = roleService.findAllResourceList();
 		model.addAttribute("allResources", allResourceList);

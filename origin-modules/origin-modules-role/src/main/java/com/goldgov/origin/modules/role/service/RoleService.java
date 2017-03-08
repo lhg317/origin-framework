@@ -6,7 +6,9 @@ public interface RoleService {
 
 	public void addRole(Role role);
 	
-	public void addRoleResource(RoleResource roleResource);
+	public void saveRoleResource(Integer roleID,String[] resourceOperate);
+	
+	public void saveRoleObject(Integer roleID,String[] roleObject);
 	
 	public void updateRole(Role role);
 	
@@ -16,7 +18,7 @@ public interface RoleService {
 	
 	public Role findRole(Integer id);
 	
-	public List<Role> findRoleListByPage(RoleQuery roleQuery);
+	public List<Role> findRoleListByPage(RoleQuery<Role> roleQuery);
 	
 	public RoleResource findRoleResource(String code);
 

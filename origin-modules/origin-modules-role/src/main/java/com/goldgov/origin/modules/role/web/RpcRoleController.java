@@ -45,7 +45,14 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/saveRoleResource")
-	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("operateCode")String[] operateCode) throws TException{
+	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
+		roleService.saveRoleResource(roleID, Arrays.asList(resourceOperate));
+		return "forward:/role/findRoleList";
+	}
+	
+	@RequestMapping("/saveRoleObject")
+	public String saveRoleObject(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] roleObject) throws TException{
+		roleService.saveRoleObject(roleID, Arrays.asList(roleObject));
 		return "forward:/role/findRoleList";
 	}
 	
@@ -60,7 +67,7 @@ public class RpcRoleController {
 	@WebToken(handle=TokenHandleType.GENERATE)
 	@ModuleOperating(name="Find Role",type=OperateType.Find)
 	public String findRole(@RequestParam("roleID") Integer roleID,Model model) throws TException{
-		RpcRole role = roleService.findRoleByID(roleID);
+		RpcRole role = roleService.findRole(roleID);
 		model.addAttribute("role", role);
 		return PAGES_BASE_PATH + "form";
 	}

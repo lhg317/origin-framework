@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
@@ -23,8 +24,10 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public void addRoleResource(RoleResource roleResource) {
-		roleDao.addRoleResource(roleResource);
+	@Transactional
+	public void saveRoleResource(Integer roleID,String[] resourceOperate) {
+		roleDao.deleteRoleResourceByRoleID(roleID);
+		roleDao.addRoleResource(roleID,resourceOperate);
 	}
 	
 	@Override
@@ -48,7 +51,7 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public List<Role> findRoleListByPage(RoleQuery roleQuery) {
+	public List<Role> findRoleListByPage(RoleQuery<Role> roleQuery) {
 		return roleDao.findRoleListByPage(roleQuery);
 	}
 
@@ -60,5 +63,12 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public List<RoleResource> findRoleResourceList(String objectID) {
 		return roleDao.findRoleResourceList(objectID);
+	}
+
+	@Override
+	@Transactional
+	public void saveRoleObject(Integer roleID, String[] roleObject) {
+		roleDao.deleteRoleObjectByRoleID(roleID);
+		roleDao.addRoleObject(roleID, roleObject);
 	}
 }

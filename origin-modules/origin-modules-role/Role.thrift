@@ -37,5 +37,6 @@ service RpcRoleService{
 	void updateRole(1:RpcRole role),
 	RpcRole findRole(1:i32 roleID),
 	RpcRoleQuery findRoleList(1:RpcRoleQuery query),
-	
+	void saveRoleResource(1:i32 roleID,2:list<string> resourceOperate),
+	void saveRoleObject(1:i32 roleID,2:list<string> roleObject),
 } 

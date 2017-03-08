@@ -5,22 +5,22 @@
 <mapper namespace="com.goldgov.origin.modules.user.dao.UserDao">
 	<resultMap type="com.goldgov.origin.modules.user.service.User" id="user">
 		<id column="USER_ID" jdbcType="VARCHAR" property="userID"/>
-		<result column="LOGIN_ID" jdbcType="VARCHAR" property="loginID"/>
+		<result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginID"/>
 		<result column="EMAIL" jdbcType="VARCHAR" property="email"/>
 		<result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
 		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
 	</resultMap>
 
 	<select id="findUser" resultMap="user">
-		SELECT * FROM LHG_USER WHERE USER_ID=#{userID};
+		SELECT * FROM USER WHERE USER_ID=#{userID};
 	</select>
 	
 	<insert id="addUser" keyProperty="userID" useGeneratedKeys="true">
-		INSERT INTO LHG_USER (LOGIN_ID,USER_NAME,PASSWORD,EMAIL)VALUES(#{loginID},#{userName},#{password},#{email});
+		INSERT INTO USER (LOGIN_NAME,USER_NAME,PASSWORD,EMAIL)VALUES(#{loginID},#{userName},#{password},#{email});
 	</insert>
 	
 	<update id="updateUser">
-		update LHG_USER
+		update USER
 		<set>
 			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
 			<if test="password != null and password != ''">password=#{password},</if>
@@ -30,14 +30,14 @@
 	</update>
 	
 	<delete id="deleteUser">
-		delete from LHG_USER where USER_ID in
+		delete from USER where USER_ID in
 		<foreach item="id" index="index" collection="userIDs" open="(" separator="," close=")">
 		   #{id}
 		</foreach>
 	</delete>
 	
 	<select id="findUserListByPage" resultMap="user">
-		SELECT * FROM LHG_USER
+		SELECT * FROM USER
 	</select>
 	
 </mapper>

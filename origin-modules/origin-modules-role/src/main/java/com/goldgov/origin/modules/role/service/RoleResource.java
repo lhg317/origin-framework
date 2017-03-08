@@ -4,7 +4,7 @@ public class RoleResource {
 
 	private Integer roleResourceID;
 //	private Resource resource;
-	private Integer operateID;
+	private String resourceOperate;
 	private Integer roleID;
 	
 	public Integer getRoleResourceID() {
@@ -19,10 +19,11 @@ public class RoleResource {
 	public void setRoleID(Integer roleID) {
 		this.roleID = roleID;
 	}
-	public Integer getOperateID() {
-		return operateID;
+	public String getResourceOperate() {
+		return resourceOperate;
 	}
-	public void setOperateID(Integer operateID) {
-		this.operateID = operateID;
+	public void setResourceOperate(String resourceOperate) {
+		this.resourceOperate = resourceOperate;
 	}
+	
 }

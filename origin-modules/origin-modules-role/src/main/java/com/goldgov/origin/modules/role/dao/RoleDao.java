@@ -14,17 +14,21 @@ public interface RoleDao {
 
 	public void addRole(Role role);
 	
-	public void addRoleResource(RoleResource roleResource);
+	public void addRoleResource(@Param("roleID") Integer roleID,@Param("resourceOperate") String[] resourceOperate);
+	public void addRoleObject(@Param("roleID")Integer roleID, @Param("roleObject")String[] roleObject);
 	
 	public void updateRole(Role role);
 	
 	public void deleteRole(@Param("ids") Integer[] ids);
 	
 	public void deleteRoleResource(@Param("ids") Integer[] ids);
+	
+	public void deleteRoleResourceByRoleID(@Param("roleID") Integer roleID);
+	public void deleteRoleObjectByRoleID(@Param("roleID") Integer roleID);
 
 	public Role findRole(Integer id);
 	
-	public List<Role> findRoleListByPage(RoleQuery query);
+	public List<Role> findRoleListByPage(RoleQuery<Role> query);
 	
 	public RoleResource findRoleResource(String code);
 	

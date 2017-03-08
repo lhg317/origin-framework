@@ -41,11 +41,36 @@
 	</insert>
 	
 	<insert id="addRoleResource">
-		insert into role_resource (ROLE_RESOURCE_ID,OPERATE_ID,ROLE_ID)value(#{roleResourceID},#{operate},#{roleID});
+		insert into role_resource (ROLE_ID,RESOURCE_OPERATE)value
+		<foreach item="id" collection="resourceOperate" separator=",">
+		   (#{roleID},#{id})
+		</foreach>
 	</insert>
+	
+	<insert id="addRoleObject">
+		insert into role_object (ROLE_ID,ROLE_OBJECT)value
+		<foreach item="id" collection="roleObject" separator=",">
+		   (#{roleID},#{id})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteRoleResourceByRoleID">
+		delete from role_resource where ROLE_ID = #{roleID}
+	</delete>
+	
+	<delete id="deleteRoleObjectByRoleID">
+		delete from role_object where ROLE_ID = #{roleID}
+	</delete>
 	
 	<delete id="deleteRole">
 		delete from role where ROLE_ID in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		   #{id}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteRoleResource">
+		delete from role_resource where ROLE_RESOURCE_ID in
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
 		</foreach>
