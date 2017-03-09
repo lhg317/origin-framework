@@ -3,7 +3,9 @@ package com.goldgov.origin.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.ErrorPageFilter;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,10 +33,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //	@Value("${discovery.client.update-path}")
 //	private String updatePath;
 	
+	@Autowired
+	private AuthenticationProvider authenticationProvider;
+	
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(new CustomUserDetailsService());
-        auth.authenticationProvider(new CustomAuthenticationProvider());
+        auth.authenticationProvider(authenticationProvider);
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(AuthenticationProvider.class)
+    public AuthenticationProvider authenticationProvider(){
+    	return new CustomAuthenticationProvider();
     }
     
 //	public UserDetailsService getUserDetailsService() throws Exception {
@@ -107,6 +119,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 	    filterRegistrationBean.setEnabled(false);
 	    return filterRegistrationBean;
 	}
-	
-	
+
 }

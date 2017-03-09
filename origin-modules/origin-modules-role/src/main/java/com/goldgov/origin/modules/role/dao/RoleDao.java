@@ -32,7 +32,9 @@ public interface RoleDao {
 	
 	public RoleResource findRoleResource(String code);
 	
-	public List<RoleResource> findRoleResourceList(String objectID);
+	public List<RoleResource> findRoleResourceList(@Param("roleObject") String roleObject);
+
+	public List<Role> findRoleList(@Param("roleObject") String roleObject);
 
 
 }

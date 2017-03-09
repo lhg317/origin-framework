@@ -107,11 +107,13 @@ public class ResourceClassProcessor implements InitializingBean{
 			}else{
 				resource.setResourceCode(resourceAnno.code());
 			}
-			
-//			if(requestMappingAnno != null){
-//				//FIXME 
-//				resource.setResourceCode(requestMappingAnno.value()[0]);
-//			}
+			String basePath = null;
+			if(requestMappingAnno != null){
+				//FIXME 
+				basePath = requestMappingAnno.value()[0];
+			}else{
+				basePath = "";
+			}
 			
 			Method[] allDeclaredMethods = ReflectionUtils.getAllDeclaredMethods(clazz);
 			List<ResourceOperate> resourceOperateList = new ArrayList<ResourceOperate>();
@@ -128,9 +130,10 @@ public class ResourceClassProcessor implements InitializingBean{
 					}
 					resourceOperate.setOperateType(moduleOperating.type());
 					resourceOperateList.add(resourceOperate);
+					//FIXME
+					ResourceContext.addResource(basePath + actionRequestMapping.value()[0],resource.getResourceCode() + "_" + resourceOperate.getOperateCode());
 				}
 			}
-			
 			resource.setResourceOperateList(resourceOperateList);
 			ResourceContext.addResource(resource);
 		}

@@ -71,4 +71,10 @@ public class RpcUserController {
 		model.addAttribute("query", userQuery);
 		return PAGES_BASE_PATH + "list";
 	}
+	
+	@RequestMapping("/findUserSelectList")
+	public String findUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
+		findUserList(userQuery,model);
+		return PAGES_BASE_PATH + "select";
+	}
 }

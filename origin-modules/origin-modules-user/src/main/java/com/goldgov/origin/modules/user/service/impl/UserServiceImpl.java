@@ -41,4 +41,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.findUserListByPage(userQuery);
 	}
 
+	@Override
+	public User findUserByLoginName(String loginName) {
+		return userDao.findUserByLoginName(loginName);
+	}
+
 }

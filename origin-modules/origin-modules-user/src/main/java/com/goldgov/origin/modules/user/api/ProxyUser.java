@@ -16,7 +16,10 @@ public class ProxyUser extends User{
 	
 	public ProxyUser(User _user){
 		this();
-		if(_user == null){return;}
+		if(_user == null){
+			user = null;
+			return;
+		}
 		setUserID(_user.getUserID());
 		setLoginID(_user.getLoginID());
 		setUserName(_user.getUserName());

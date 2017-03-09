@@ -12,7 +12,7 @@ struct RpcRole {
 struct RpcRoleResource {
 	1: i32 roleResourceID,
 	2: i32 roleID,
-	3: i32 operateID,
+	3: string resourceOperate,
 }
 
 struct RpcRoleQuery {
@@ -28,7 +28,7 @@ struct RpcRoleQuery {
 struct RpcRoleObject{
 	1: i32 roleObjectID,
 	2: i32 roleID,
-	3: i32 objectID,
+	3: string roleObject,
 }
 
 service RpcRoleService{
@@ -39,4 +39,6 @@ service RpcRoleService{
 	RpcRoleQuery findRoleList(1:RpcRoleQuery query),
 	void saveRoleResource(1:i32 roleID,2:list<string> resourceOperate),
 	void saveRoleObject(1:i32 roleID,2:list<string> roleObject),
+	list<RpcRole> findRoleByObject(1:string roleObject),
+	list<RpcRoleResource> findRoleResourceByObject(1:string roleObject),
 } 

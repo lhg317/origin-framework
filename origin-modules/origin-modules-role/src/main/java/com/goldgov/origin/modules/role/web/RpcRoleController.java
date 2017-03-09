@@ -51,7 +51,7 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/saveRoleObject")
-	public String saveRoleObject(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] roleObject) throws TException{
+	public String saveRoleObject(@RequestParam("roleID")Integer roleID, @RequestParam("loginName")String[] roleObject) throws TException{
 		roleService.saveRoleObject(roleID, Arrays.asList(roleObject));
 		return "forward:/role/findRoleList";
 	}

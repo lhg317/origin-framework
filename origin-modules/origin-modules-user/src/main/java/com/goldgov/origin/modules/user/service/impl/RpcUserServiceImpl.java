@@ -53,4 +53,10 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 		return userQuery;
 	}
 
+	@Override
+	public RpcUser findUserByLoginName(String loginName) throws TException {
+		User user = userService.findUserByLoginName(loginName);
+		return new ProxyUser(user).toRpcUser();
+	}
+
 }

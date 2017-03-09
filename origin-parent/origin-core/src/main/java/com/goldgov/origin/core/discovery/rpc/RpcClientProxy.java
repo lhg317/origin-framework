@@ -1,11 +1,13 @@
 package com.goldgov.origin.core.discovery.rpc;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.thrift.TApplicationException;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TMultiplexedProtocol;
@@ -105,6 +107,15 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 			try {
 				return arg1.invoke(rpcClient, arg2);
 			}catch (Exception e) {
+				//处理返回值为null的情况
+				if(e instanceof InvocationTargetException){
+					InvocationTargetException ex = (InvocationTargetException)e;
+					Throwable targetException = ex.getTargetException();
+					if(targetException instanceof TApplicationException && targetException.toString().endsWith("unknown result")){
+						return null;
+					}
+				}
+				
 				logger.warn("The current service is not available:" + serviceName, e);
 				//FIXME 如果指定的服务再调用几次后仍然失败，则在socketProvider中注销该服务，如果socketProvider中没有其他同服务的节点了，则清除socketProvider中的该服务支持标记及对象池
 				int retry = 1;

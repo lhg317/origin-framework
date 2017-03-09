@@ -11,8 +11,10 @@ import com.goldgov.origin.modules.role.api.ProxyRole;
 import com.goldgov.origin.modules.role.api.ProxyRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
+import com.goldgov.origin.modules.role.api.RpcRoleResource;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.role.service.Role;
+import com.goldgov.origin.modules.role.service.RoleResource;
 import com.goldgov.origin.modules.role.service.RoleService;
 
 @RpcService
@@ -60,7 +62,31 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 
 	@Override
 	public void saveRoleObject(int roleID, List<String> roleObject) throws TException {
-		roleService.saveRoleResource(roleID, roleObject.toArray(new String[0]));
+		roleService.saveRoleObject(roleID, roleObject.toArray(new String[0]));
+	}
+
+	@Override
+	public List<RpcRole> findRoleByObject(String roleObject) throws TException {
+		List<Role> roleList = roleService.findRoleList(roleObject);
+		List<RpcRole> resultList = new ArrayList<>();
+		for (Role role : roleList) {
+			resultList.add(new ProxyRole(role).toRpcRole());
+		}
+		return resultList;
+	}
+
+	@Override
+	public List<RpcRoleResource> findRoleResourceByObject(String roleObject) throws TException {
+		List<RoleResource> roleResourceList = roleService.findRoleResourceList(roleObject);
+		List<RpcRoleResource> resultList = new ArrayList<>();
+		for (RoleResource roleResource : roleResourceList) {
+			RpcRoleResource rpcRoleResource = new RpcRoleResource();
+			rpcRoleResource.setRoleResourceID(roleResource.getRoleResourceID());
+			rpcRoleResource.setRoleID(roleResource.getRoleID());
+			rpcRoleResource.setResourceOperate(roleResource.getResourceOperate());
+			resultList.add(rpcRoleResource);
+		}
+		return resultList;
 	}
 
 }

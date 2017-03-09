@@ -24,5 +24,6 @@ service RpcUserService{
 	void updateUser(1:RpcUser user),
 	RpcUser findUserByID(1:i32 userID),
 	RpcUserQuery findUserList(1:RpcUserQuery userQuery),
+	RpcUser findUserByLoginName(1:string loginName),
 	
 } 

@@ -13,4 +13,6 @@ public interface UserService {
 	public User findUser(Integer userID);
 	
 	public List<User> findUserList(UserQuery userQuery);
+	
+	public User findUserByLoginName(String loginName);
 }

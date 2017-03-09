@@ -22,6 +22,7 @@
 	<update id="updateUser">
 		update USER
 		<set>
+			<if test="loginID != null and loginID != ''">LOGIN_NAME=#{loginID},</if>
 			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
 			<if test="password != null and password != ''">password=#{password},</if>
 			<if test="email != null and email != ''">email=#{email},</if>
@@ -38,6 +39,10 @@
 	
 	<select id="findUserListByPage" resultMap="user">
 		SELECT * FROM USER
+	</select>
+	
+	<select id="findUserByLoginName" resultMap="user">
+		SELECT * FROM USER WHERE LOGIN_NAME=#{loginName}
 	</select>
 	
 </mapper>

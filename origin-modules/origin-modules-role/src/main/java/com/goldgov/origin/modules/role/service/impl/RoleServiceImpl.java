@@ -61,14 +61,20 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public List<RoleResource> findRoleResourceList(String objectID) {
-		return roleDao.findRoleResourceList(objectID);
+	public List<RoleResource> findRoleResourceList(String roleObject) {
+		return roleDao.findRoleResourceList(roleObject);
 	}
 
+	@Override
+	public List<Role> findRoleList(String roleObject) {
+		return roleDao.findRoleList(roleObject);
+	}
+	
 	@Override
 	@Transactional
 	public void saveRoleObject(Integer roleID, String[] roleObject) {
 		roleDao.deleteRoleObjectByRoleID(roleID);
 		roleDao.addRoleObject(roleID, roleObject);
 	}
+
 }

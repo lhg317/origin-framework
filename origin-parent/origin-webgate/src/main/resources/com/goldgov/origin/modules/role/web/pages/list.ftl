@@ -27,7 +27,7 @@
 <tr>
 	<td>${role.roleName}</td>
 	<td>${role.roleCode}</td>
-	<td><a href="./findRole?roleID=${role.roleID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteRole?roleID=${role.roleID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../resource/findResourceList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】&nbsp;<a href="../resource/findResourceList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.resource"/>】</a></td>
+	<td><a href="./findRole?roleID=${role.roleID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteRole?roleID=${role.roleID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】&nbsp;<a href="../resource/findResourceList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.resource"/>】</a></td>
 </tr>
 </#escape>
 

@@ -1,7 +1,9 @@
 package com.goldgov.origin.modules.resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.cache.CacheHolder;
@@ -41,6 +43,11 @@ public abstract class ResourceContext {
 		return null;
 	}
 	
+	public static void addResource(String path,String code){
+		Map<String, String> allResourceMap = getAllResourceMap();
+		allResourceMap.put(path, code);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<Resource> getAllResource(){
 		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE)){
@@ -48,6 +55,17 @@ public abstract class ResourceContext {
 		}else{
 			List<Resource> resourceList = new ArrayList<Resource>();
 			CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE, resourceList);
+			return resourceList;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Map<String,String> getAllResourceMap(){
+		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING)){
+			return (Map<String,String>) CacheHolder.get(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING);
+		}else{
+			Map<String,String> resourceList = new HashMap<>();
+			CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, resourceList);
 			return resourceList;
 		}
 	}

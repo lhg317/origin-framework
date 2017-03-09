@@ -22,6 +22,7 @@ public interface RoleService {
 	
 	public RoleResource findRoleResource(String code);
 
-	public List<RoleResource> findRoleResourceList(String objectID);
+	public List<Role> findRoleList(String roleObject);
+	public List<RoleResource> findRoleResourceList(String roleObject);
 	
 }
