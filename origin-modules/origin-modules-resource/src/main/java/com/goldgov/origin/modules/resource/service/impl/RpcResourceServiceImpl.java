@@ -2,11 +2,13 @@ package com.goldgov.origin.modules.resource.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.goldgov.origin.core.discovery.rpc.RpcService;
+import com.goldgov.origin.modules.resource.ResourceContext;
 import com.goldgov.origin.modules.resource.api.ProxyResource;
 import com.goldgov.origin.modules.resource.api.RpcResource;
 import com.goldgov.origin.modules.resource.api.RpcResourceCategory;
@@ -101,8 +103,23 @@ public class RpcResourceServiceImpl implements RpcResourceService.Iface{
 		return null;
 	}
 
+//	@Override
+//	public List<RpcResource> getAllResource() throws TException {
+//		List<Resource> allResource = ResourceContext.getAllResource();
+//		List<RpcResource> resultList = new ArrayList<>();
+//		for (Resource resource : allResource) {
+//			resultList.add(new ProxyResource(resource).toRpcResource());
+//		}
+//		return resultList;
+//	}
+
 	@Override
-	public List<RpcResource> findAllResourceList() throws TException {
+	public Map<String, String> getAllResourceMap() throws TException {
+		return ResourceContext.getAllResourceMap();
+	}
+
+	@Override
+	public List<RpcResource> getAllResource() throws TException {
 		List<Resource> allResourceList = resourceService.findAllResourceList();
 		List<RpcResource> allRpcResourceList = new ArrayList<>(allResourceList.size());
 		for (Resource resource : allResourceList) {
@@ -111,11 +128,6 @@ public class RpcResourceServiceImpl implements RpcResourceService.Iface{
 		return allRpcResourceList;
 	}
 
-	@Override
-	public List<RpcResourceOperate> findOperateList(RpcResourceQuery query) throws TException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 
 }

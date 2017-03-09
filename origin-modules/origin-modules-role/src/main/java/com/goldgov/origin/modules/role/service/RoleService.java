@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.role.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleService {
 
@@ -24,5 +25,7 @@ public interface RoleService {
 
 	public List<Role> findRoleList(String roleObject);
 	public List<RoleResource> findRoleResourceList(String roleObject);
+	
+	public List<Map<String, String>> findRoleResourceMap();
 	
 }

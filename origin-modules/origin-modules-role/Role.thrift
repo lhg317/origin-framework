@@ -41,4 +41,5 @@ service RpcRoleService{
 	void saveRoleObject(1:i32 roleID,2:list<string> roleObject),
 	list<RpcRole> findRoleByObject(1:string roleObject),
 	list<RpcRoleResource> findRoleResourceByObject(1:string roleObject),
+	list<map<string,string>> findRoleResourceMap();
 } 

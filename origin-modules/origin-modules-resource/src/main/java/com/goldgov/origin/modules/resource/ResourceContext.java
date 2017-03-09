@@ -64,9 +64,9 @@ public abstract class ResourceContext {
 		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING)){
 			return (Map<String,String>) CacheHolder.get(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING);
 		}else{
-			Map<String,String> resourceList = new HashMap<>();
-			CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, resourceList);
-			return resourceList;
+			Map<String,String> resourceMap = new HashMap<>();
+			CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, resourceMap);
+			return resourceMap;
 		}
 	}
 }

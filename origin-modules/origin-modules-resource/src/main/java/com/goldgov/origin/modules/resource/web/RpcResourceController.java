@@ -29,7 +29,7 @@ public class RpcResourceController {
 	@RequestMapping("/findResourceList")
 	@ModuleOperating(name="Find All Role")
 	public String findRoleList(Model model) throws TException{
-		List<RpcResource> allResourceList = roleService.findAllResourceList();
+		List<RpcResource> allResourceList = roleService.getAllResource();
 		model.addAttribute("allResources", allResourceList);
 		return PAGES_BASE_PATH + "tree";
 	}

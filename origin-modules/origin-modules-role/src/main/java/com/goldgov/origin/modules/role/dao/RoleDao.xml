@@ -102,4 +102,8 @@
 		SELECT r.ROLE_ID,r.ROLE_NAME,r.ROLE_CODE FROM ROLE r,ROLE_OBJECT ro WHERE r.role_id=ro.role_id AND ro.ROLE_OBJECT=#{roleObject}
 	</select>
 	
+	<select id="findRoleResourceMap" resultType="map">
+		SELECT r.ROLE_CODE as "roleCode",res.RESOURCE_OPERATE as "resourceOperate" FROM ROLE r,ROLE_RESOURCE res WHERE r.role_id=res.role_id
+	</select>
+	
 </mapper>

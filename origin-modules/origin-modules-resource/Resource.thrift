@@ -71,6 +71,7 @@ service RpcResourceService{
 	RpcResource findResource(1:i32 id);
 	RpcResourceOperate findOperate(1:i32 id);
 	list<RpcResource> findResourceList(1:RpcResourceQuery query);
-	list<RpcResource> findAllResourceList();
-	list<RpcResourceOperate> findOperateList(1:RpcResourceQuery query);
+	//list<RpcResource> findAllResourceList();
+	list<RpcResource> getAllResource();
+	map<string,string> getAllResourceMap();
 }

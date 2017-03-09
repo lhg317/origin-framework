@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.role.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,6 +76,11 @@ public class RoleServiceImpl implements RoleService{
 	public void saveRoleObject(Integer roleID, String[] roleObject) {
 		roleDao.deleteRoleObjectByRoleID(roleID);
 		roleDao.addRoleObject(roleID, roleObject);
+	}
+
+	@Override
+	public List<Map<String, String>> findRoleResourceMap() {
+		return roleDao.findRoleResourceMap();
 	}
 
 }

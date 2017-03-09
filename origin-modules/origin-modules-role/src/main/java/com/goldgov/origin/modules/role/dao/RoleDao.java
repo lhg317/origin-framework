@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.role.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -35,6 +36,8 @@ public interface RoleDao {
 	public List<RoleResource> findRoleResourceList(@Param("roleObject") String roleObject);
 
 	public List<Role> findRoleList(@Param("roleObject") String roleObject);
+	
+	public List<Map<String,String>> findRoleResourceMap();
 
 
 }
