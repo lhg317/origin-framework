@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.resource.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,6 +95,11 @@ public class ResourceServiceImpl implements ResourceService{
 	public List<Resource> findAllResourceList() {
 		List<Resource> allResource = ResourceContext.getAllResource();
 		return allResource;
+	}
+
+	@Override
+	public Map<String, String> findAllResourceMap() {
+		return ResourceContext.getAllResourceMap();
 	}
 
 }

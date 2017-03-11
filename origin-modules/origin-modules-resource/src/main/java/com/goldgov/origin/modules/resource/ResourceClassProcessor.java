@@ -131,7 +131,7 @@ public class ResourceClassProcessor implements InitializingBean{
 					resourceOperate.setOperateType(moduleOperating.type());
 					resourceOperateList.add(resourceOperate);
 					//FIXME
-					ResourceContext.addResource(basePath + actionRequestMapping.value()[0],resource.getResourceCode() + "_" + resourceOperate.getOperateCode());
+					ResourceContext.addPathResource(basePath + actionRequestMapping.value()[0],resource.getResourceCode() + "_" + resourceOperate.getOperateCode());
 				}
 			}
 			resource.setResourceOperateList(resourceOperateList);

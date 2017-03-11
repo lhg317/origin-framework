@@ -29,6 +29,7 @@ public abstract class ResourceContext {
 		}else{
 			allResource.add(resource);
 		}
+		CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE, allResource);
 	}
 	
 	public static Resource getResource(String code){
@@ -43,9 +44,12 @@ public abstract class ResourceContext {
 		return null;
 	}
 	
-	public static void addResource(String path,String code){
+	public static void addPathResource(String path,String code){
+		path = path.startsWith("/")? path : "/" + path;
+		
 		Map<String, String> allResourceMap = getAllResourceMap();
 		allResourceMap.put(path, code);
+		CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, allResourceMap);
 	}
 	
 	@SuppressWarnings("unchecked")

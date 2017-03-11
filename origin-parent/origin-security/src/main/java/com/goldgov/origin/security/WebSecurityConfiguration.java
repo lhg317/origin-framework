@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,6 +37,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 	@Autowired
 	private AuthenticationProvider authenticationProvider;
 	
+	@Autowired(required=false)
+	private AccessDecisionManager accessDecisionManager;
+	
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(new CustomUserDetailsService());
@@ -45,8 +49,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     @Bean
     @ConditionalOnMissingBean(AuthenticationProvider.class)
     public AuthenticationProvider authenticationProvider(){
-    	return new CustomAuthenticationProvider();
+    	return new DefaultAuthenticationProvider();
     }
+    
+//    @Bean
+//    @ConditionalOnMissingBean(AccessDecisionManager.class)
+//    public AccessDecisionManager accessDecisionManager(){
+//    	return new DefaultAccessDecisionManager();
+//    }
     
 //	public UserDetailsService getUserDetailsService() throws Exception {
 //		Collection<UserDetails> users = new ArrayList<>();
@@ -67,8 +77,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     @Override  
     protected void configure(HttpSecurity http) throws Exception {  
 //    	http.csrf().disable()
-    	http.authorizeRequests().anyRequest().authenticated()
 //    	@formatter:off
+    	http.authorizeRequests().anyRequest().authenticated()
+//    			.accessDecisionManager(accessDecisionManager)
                 .and().formLogin().loginPage("/login")
                 .defaultSuccessUrl("/server/overview")
                 .failureUrl("/login?error")
@@ -86,7 +97,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //    	http.requestMatcher(new InternalRequestMatcher());
 
         http.authorizeRequests().antMatchers("/").permitAll();
-    	
+        http.authorizeRequests().accessDecisionManager(accessDecisionManager);
 //        http.formLogin().defaultSuccessUrl("/index.html");
 //        super.configure(http);
 

@@ -16,7 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  * @author LiuHG
  * @version 1.0
  */
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class DefaultAuthenticationProvider implements AuthenticationProvider {
 
 	
 	public Authentication authenticate(Authentication authentication)

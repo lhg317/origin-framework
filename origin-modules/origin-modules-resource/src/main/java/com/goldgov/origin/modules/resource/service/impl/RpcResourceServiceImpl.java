@@ -8,7 +8,6 @@ import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.goldgov.origin.core.discovery.rpc.RpcService;
-import com.goldgov.origin.modules.resource.ResourceContext;
 import com.goldgov.origin.modules.resource.api.ProxyResource;
 import com.goldgov.origin.modules.resource.api.RpcResource;
 import com.goldgov.origin.modules.resource.api.RpcResourceCategory;
@@ -115,7 +114,7 @@ public class RpcResourceServiceImpl implements RpcResourceService.Iface{
 
 	@Override
 	public Map<String, String> getAllResourceMap() throws TException {
-		return ResourceContext.getAllResourceMap();
+		return resourceService.findAllResourceMap();
 	}
 
 	@Override

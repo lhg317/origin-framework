@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.resource.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ResourceService {
 
@@ -34,4 +35,5 @@ public interface ResourceService {
 	
 	public List<ResourceOperate> findOperateList(ResourceQuery query);
 	
+	public Map<String,String> findAllResourceMap();
 }
