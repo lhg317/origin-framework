@@ -39,9 +39,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         
         try {
 			RpcUser user = userService.findUserByLoginName(loginName);
-			List<RpcRole> roleList = roleService.findRoleByObject(loginName);
-			if(user != null){
-				System.out.println(user.getUserName() + " role num:" + roleList.size());
+			
+			if(user == null || !password.equals(user.getPassword())){
+				throw new BadCredentialsException("认证失败：" + loginName);
 			}
 		} catch (TException e) {
 			// TODO Auto-generated catch block
@@ -51,14 +51,26 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_ANONYMOUSLY"));
 //        grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        grantedAuths.add(new SimpleGrantedAuthority("LHG"));
         
-        if(loginName.equals("liuhg") && password.equals("111111")){
-        	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginName, password, grantedAuths);
-        	return authenticationToken;
-        }
-
-        throw new BadCredentialsException("认证失败：" + loginName);
+		try {
+			List<RpcRole> roleList = roleService.findRoleByObject(loginName);
+	        for (RpcRole role : roleList) {
+	        	grantedAuths.add(new SimpleGrantedAuthority(role.getRoleCode()));
+			}
+		} catch (TException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginName, password, grantedAuths);
+		return authenticationToken;
+        
+//        if(loginName.equals("liuhg") && password.equals("111111")){
+//        	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginName, password, grantedAuths);
+//        	return authenticationToken;
+//        }
+//
+//        throw new BadCredentialsException("认证失败：" + loginName);
         
 	}
 

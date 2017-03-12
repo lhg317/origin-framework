@@ -1,6 +1,8 @@
 package com.goldgov.origin.modules.role.web;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.goldgov.origin.core.Keys;
+import com.goldgov.origin.core.cache.CacheHolder;
 import com.goldgov.origin.core.web.annotation.ModuleOperating;
 import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.annotation.OperateType;
@@ -45,8 +49,15 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/saveRoleResource")
-	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
+	public String saveRoleResource(@RequestParam("roleID")Integer roleID,@RequestParam("roleCode")Integer roleCode, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
 		roleService.saveRoleResource(roleID, Arrays.asList(resourceOperate));
+//		Map<String,List<String>> roleResourceMap = (Map<String,List<String>>)CacheHolder.get(Keys.CACHE_CODE_ROLE_RESOURCE_MAPPING);
+//		for (String _resourceOperate : roleResourceMap.keySet()) {
+//			List<String> roleList = roleResourceMap.get(_resourceOperate);
+//			for(String r: resourceOperate){
+//				roleList.remove(r);
+//			}
+//		}
 		return "forward:/role/findRoleList";
 	}
 	
