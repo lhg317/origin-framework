@@ -19,7 +19,7 @@ public @interface NotNull {
 	
 	public String fieldDesc() default "";
 	
-	public OperateType[] type() default OperateType.None;
+	public OperateType[] type() default OperateType.NONE;
 	
 	public String message() default "{fieldDesc}不能为空";
 }

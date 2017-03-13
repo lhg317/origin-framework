@@ -10,26 +10,26 @@ public enum OperateType {
 	/**
 	 * 保存（新增）操作
 	 */
-	Save,
+	ADD,
 	/**
 	 * 删除操作
 	 */
-	Delete,
+	DELETE,
 	/**
 	 * 更新操作
 	 */
-	Update,
+	UPDATE,
 	/**
 	 * 查看操作（只查询单条对象）
 	 */
-	Find,
+	FIND,
 	/**
 	 * 集合查询操作（查询多条对象）
 	 */
-	FindList,
+	FIND_LIST,
 	/**
 	 * 其他操作，一般用于非增删改查的操作。
 	 */
-	None;
+	NONE;
 	
 }

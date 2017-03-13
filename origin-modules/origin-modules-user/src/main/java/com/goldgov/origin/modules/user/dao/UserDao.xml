@@ -5,7 +5,7 @@
 <mapper namespace="com.goldgov.origin.modules.user.dao.UserDao">
 	<resultMap type="com.goldgov.origin.modules.user.service.User" id="user">
 		<id column="USER_ID" jdbcType="VARCHAR" property="userID"/>
-		<result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginID"/>
+		<result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
 		<result column="EMAIL" jdbcType="VARCHAR" property="email"/>
 		<result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
 		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
@@ -16,13 +16,13 @@
 	</select>
 	
 	<insert id="addUser" keyProperty="userID" useGeneratedKeys="true">
-		INSERT INTO USER (LOGIN_NAME,USER_NAME,PASSWORD,EMAIL)VALUES(#{loginID},#{userName},#{password},#{email});
+		INSERT INTO USER (LOGIN_NAME,USER_NAME,PASSWORD,EMAIL)VALUES(#{loginName},#{userName},#{password},#{email});
 	</insert>
 	
 	<update id="updateUser">
 		update USER
 		<set>
-			<if test="loginID != null and loginID != ''">LOGIN_NAME=#{loginID},</if>
+			<if test="loginName != null and loginName != ''">LOGIN_NAME=#{loginName},</if>
 			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
 			<if test="password != null and password != ''">password=#{password},</if>
 			<if test="email != null and email != ''">email=#{email},</if>
@@ -37,7 +37,7 @@
 		</foreach>
 	</delete>
 	
-	<select id="findUserListByPage" resultMap="user">
+	<select id="findUsers" resultMap="user">
 		SELECT * FROM USER
 	</select>
 	

@@ -22,7 +22,7 @@ public @interface Past {
 
 	public String fieldDesc() default "";
 	
-	public OperateType[] type() default OperateType.None;
+	public OperateType[] type() default OperateType.NONE;
 	
 	public String message() default "{fieldDesc}日期必须早于{dateTime}";
 	

@@ -29,7 +29,7 @@ public @interface ModuleOperating {
 	 * 模块操作类型，用于对需要限制到按钮及权限时使用
 	 * @return 该操作所属类型
 	 */
-	public OperateType type() default OperateType.None;
+	public OperateType type() default OperateType.NONE;
 	
 	/**
 	 * 是否需要认证后才可以访问

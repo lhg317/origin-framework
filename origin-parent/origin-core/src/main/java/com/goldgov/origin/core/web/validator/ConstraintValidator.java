@@ -18,7 +18,7 @@ public interface ConstraintValidator<A extends Annotation, T> {
 	public class Utils{
 		public static boolean operatingValidate(OperateType type,OperateType[] types){
 			for (OperateType type_ : types) {
-				if(type == OperateType.None || type_ == OperateType.None || type_ == type ){
+				if(type == OperateType.NONE || type_ == OperateType.NONE || type_ == type ){
 					return true;
 				}
 			}

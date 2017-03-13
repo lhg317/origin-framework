@@ -20,7 +20,7 @@ public @interface Custom {
 	
 	public String fieldDesc() default "";
 	
-	public OperateType[] type() default OperateType.None;
+	public OperateType[] type() default OperateType.NONE;
 	
 	public Class<? extends Validator> validator();
 	

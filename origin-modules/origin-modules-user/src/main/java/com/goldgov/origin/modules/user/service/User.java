@@ -1,9 +1,14 @@
 package com.goldgov.origin.modules.user.service;
 
+import com.goldgov.origin.core.web.annotation.OperateType;
+import com.goldgov.origin.core.web.validator.annotation.NotNull;
+
 public class User {
 
 	private Integer userID;
-	private String loginID;
+	@NotNull(type=OperateType.ADD)
+	private String loginName;
+	@NotNull
 	private String userName;
 	private String password;
 	private String email;
@@ -14,11 +19,11 @@ public class User {
 	public void setUserID(Integer userID) {
 		this.userID = userID;
 	}
-	public String getLoginID() {
-		return loginID;
+	public String getLoginName() {
+		return loginName;
 	}
-	public void setLoginID(String loginID) {
-		this.loginID = loginID;
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
 	}
 	public String getUserName() {
 		return userName;

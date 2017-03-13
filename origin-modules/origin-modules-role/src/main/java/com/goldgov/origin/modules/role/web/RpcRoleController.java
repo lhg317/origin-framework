@@ -42,7 +42,7 @@ public class RpcRoleController {
 	
 	@RequestMapping("/addRole")
 	@WebToken(handle=TokenHandleType.VERIFY)
-	@ModuleOperating(name="Add Role",type=OperateType.Save)
+	@ModuleOperating(name="Add Role",type=OperateType.ADD)
 	public String addRole(RpcRole role) throws TException{
 		roleService.addRole(role);
 		return "forward:/role/findRoleList";
@@ -68,7 +68,7 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/deleteRole")
-	@ModuleOperating(name="Delete Role",type=OperateType.Delete)
+	@ModuleOperating(name="Delete Role",type=OperateType.DELETE)
 	public String deleteRole(@RequestParam("roleID") Integer[] ids) throws TException{
 		roleService.deleteRole(Arrays.asList(ids));
 		return "forward:/role/findRoleList";
@@ -76,7 +76,7 @@ public class RpcRoleController {
 	
 	@RequestMapping("/findRole")
 	@WebToken(handle=TokenHandleType.GENERATE)
-	@ModuleOperating(name="Find Role",type=OperateType.Find)
+	@ModuleOperating(name="Find Role",type=OperateType.FIND)
 	public String findRole(@RequestParam("roleID") Integer roleID,Model model) throws TException{
 		RpcRole role = roleService.findRole(roleID);
 		model.addAttribute("role", role);
@@ -85,7 +85,7 @@ public class RpcRoleController {
 	
 	@RequestMapping("/updateRole")
 	@WebToken(handle=TokenHandleType.VERIFY)
-	@ModuleOperating(name="Update Role",type=OperateType.Update)
+	@ModuleOperating(name="Update Role",type=OperateType.UPDATE)
 	public String updateRole(RpcRole role) throws TException{
 		roleService.updateRole(role);
 		return "forward:/role/findRoleList";

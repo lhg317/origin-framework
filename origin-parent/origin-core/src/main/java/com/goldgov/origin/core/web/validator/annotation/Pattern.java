@@ -19,7 +19,7 @@ public @interface Pattern {
 	
 	public Flag[] flags() default {};
 	
-	public OperateType[] type() default OperateType.None;
+	public OperateType[] type() default OperateType.NONE;
 	public String message() default "不满足格式要求";
 	
 	

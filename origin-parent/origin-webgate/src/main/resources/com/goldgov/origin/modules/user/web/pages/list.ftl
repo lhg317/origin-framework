@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<form id="listForm" method="post" action="./findUserList">
+<form id="listForm" method="post" action="./findUsers">
 <select name="locale" onchange="javascript:listForm.submit()">
 	<option value="zh_CN" <#if (RequestParameters['locale']??) && (RequestParameters['locale']=="zh_CN")>selected</#if>>中</option>
 	<option value="en_US" <#if (RequestParameters['locale']??) && (RequestParameters['locale']=="en_US")>selected</#if>>英</option>
@@ -16,7 +16,7 @@
 
 <table border=1>
 <tr>
-	<td><@i18n code="label.loginID" /></td>
+	<td><@i18n code="label.loginName" /></td>
 	<td><@i18n code="label.userName" /></td>
 	<td><@i18n code="label.email" /></td>
 	<td><@i18n code="operate"/></td>
@@ -26,8 +26,8 @@
 
 <#escape user as user?html>
 <tr>
+	<td>${user.loginName}</td>
 	<td>${user.userName}</td>
-	<td>${user.loginID}</td>
 	<td>${user.email}</td>
 	<td><a href="./findUser?userID=${user.userID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteUser?userID=${user.userID}">【<@i18n code="delete"/>】</a></td>
 </tr>

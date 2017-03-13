@@ -8,19 +8,19 @@
 <#if (!user??) || (!user.userID??) >
 <form method="post" action="./addUser">
 </#if>
-<#if user?? && (user.userID??)>
+<#if user?? && (user.userID != 0)>
 <form method="post" action="./updateUser">
 <input type="hidden" name="userID" value="${(user.userID)!}">
 </#if>
 
 <@i18n code="label.userName" suffix="colon"/><input type="text" name="userName" value="${(user.userName)!}">
-<@i18n code="label.loginID" suffix="colon"/><input type="text" name="loginID" value="${(user.loginID)!}">
+<@i18n code="label.loginName" suffix="colon"/><input type="text" name="loginName" value="${(user.loginName)!}">
 <@i18n code="label.password" suffix="colon"/><input type="password" name="password" value="${(user.passwrd)!}">
 <@i18n code="label.email" suffix="colon"/><input type="text" name="email" value="${(user.email)!}">
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 ${webToken(true)}
 <br>
-<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./findUserList','_self')"/>
+<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./findUsers','_self')"/>
 
 </form>
 

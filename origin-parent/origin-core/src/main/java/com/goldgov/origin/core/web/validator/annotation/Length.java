@@ -16,6 +16,6 @@ import com.goldgov.origin.core.web.validator.impl.LengthValidator;
 public @interface Length {
 	public int min();
 	public int max();
-	public OperateType[] type() default OperateType.None;
+	public OperateType[] type() default OperateType.NONE;
 	public String message() default "{fieldDesc}长度最小{min}最大{max}";
 }

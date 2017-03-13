@@ -127,7 +127,11 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 						return arg1.invoke(rpcClient, arg2);
 					}catch(TTransportException ex){
 						retry--;
-					}//TODO 业务代码异常
+						//业务异常处理
+					}catch(InvocationTargetException ex){
+						Throwable targetException = ex.getTargetException();
+						throw targetException;
+					}
 				}
 				serviceCenter.deleteService(serviceName, socketProvider);
 				return invoke(arg0, arg1,arg2);

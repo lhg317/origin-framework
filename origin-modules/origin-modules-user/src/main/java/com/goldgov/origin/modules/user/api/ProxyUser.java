@@ -21,7 +21,7 @@ public class ProxyUser extends User{
 			return;
 		}
 		setUserID(_user.getUserID());
-		setLoginID(_user.getLoginID());
+		setLoginName(_user.getLoginName());
 		setUserName(_user.getUserName());
 		setPassword(_user.getPassword());
 		setEmail(_user.getEmail());
@@ -35,12 +35,12 @@ public class ProxyUser extends User{
 		user.setUserID(userID);
 	}
 
-	public String getLoginID() {
-		return user.getLoginID();
+	public String getLoginName() {
+		return user.getLoginName();
 	}
 
-	public void setLoginID(String loginID) {
-		user.setLoginID(loginID);
+	public void setLoginName(String loginID) {
+		user.setLoginName(loginID);
 	}
 
 	public String getUserName() {

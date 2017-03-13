@@ -20,7 +20,7 @@ public @interface Email {
 	
 	public String fieldDesc() default "";
 	
-	public OperateType[] type() default OperateType.None;
+	public OperateType[] type() default OperateType.NONE;
 	
 	public String message() default "{fieldDesc}邮件格式错误";
 }

@@ -85,7 +85,7 @@ public class ValidationHandler implements IRequestHandler{
 						ModuleOperating operatingAnno = method.getAnnotation(ModuleOperating.class);
 						OperateType optType = null;
 						if(operatingAnno == null){
-							optType = OperateType.None;
+							optType = OperateType.NONE;
 						}else{
 							optType = operatingAnno.type();
 						}
@@ -184,7 +184,7 @@ public class ValidationHandler implements IRequestHandler{
 							ModuleOperating operatingAnno = method.getAnnotation(ModuleOperating.class);
 							OperateType optType = null;
 							if(operatingAnno == null){
-								optType = OperateType.None;
+								optType = OperateType.NONE;
 							}else{
 								optType = operatingAnno.type();
 							}

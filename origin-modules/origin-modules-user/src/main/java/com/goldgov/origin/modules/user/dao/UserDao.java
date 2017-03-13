@@ -19,7 +19,7 @@ public interface UserDao {
 	
 	public User findUser(Integer userID);
 	
-	public List<User> findUserListByPage(UserQuery userQuery);
+	public List<User> findUsers(UserQuery userQuery);
 	
 	public User findUserByLoginName(@Param("loginName") String loginName);
 }
