@@ -8,7 +8,7 @@
 <table border=1>
 <tr>
 	<td><@i18n code="select" /></td>
-	<td><@i18n code="label.loginID" /></td>
+	<td><@i18n code="label.loginName" /></td>
 	<td><@i18n code="label.userName" /></td>
 	<td><@i18n code="label.email" /></td>
 </tr>
@@ -17,9 +17,9 @@
 
 <#escape user as user?html>
 <tr>
-	<td><input type="checkbox" name="loginName" value="${user.loginID}"></td>
+	<td><input type="checkbox" name="loginName" value="${user.loginName}"></td>
 	<td>${user.userName}</td>
-	<td>${user.loginID}</td>
+	<td>${user.loginName}</td>
 	<td>${user.email}</td>
 </tr>
 </#escape>

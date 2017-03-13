@@ -22,9 +22,9 @@
 	<update id="updateUser">
 		update USER
 		<set>
-			<if test="loginName != null and loginName != ''">LOGIN_NAME=#{loginName},</if>
+			<!-- <if test="loginName != null and loginName != ''">LOGIN_NAME=#{loginName},</if> -->
 			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
-			<if test="password != null and password != ''">password=#{password},</if>
+			<!-- <if test="password != null and password != ''">password=#{password},</if> -->
 			<if test="email != null and email != ''">email=#{email},</if>
 		</set>
 		where user_id=#{userID}

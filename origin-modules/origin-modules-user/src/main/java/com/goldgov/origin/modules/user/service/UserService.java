@@ -23,4 +23,6 @@ public interface UserService {
 	
 	public boolean checkUserName(String userName);
 	
+	public void updatePassword(String loginName, String oldPassword, String newPassword);
+	
 }

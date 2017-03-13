@@ -22,4 +22,6 @@ public interface UserDao {
 	public List<User> findUsers(UserQuery userQuery);
 	
 	public User findUserByLoginName(@Param("loginName") String loginName);
+	
+	public void updatePassword(@Param("loginName")String loginName,@Param("oldPassword") String oldPassword,@Param("newPassword") String newPassword);
 }
