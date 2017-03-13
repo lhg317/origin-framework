@@ -53,7 +53,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 //        grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         
 		try {
-			List<RpcRole> roleList = roleService.findRoleByObject(loginName);
+			List<RpcRole> roleList = roleService.findRolesByObject(loginName);
 	        for (RpcRole role : roleList) {
 	        	grantedAuths.add(new SimpleGrantedAuthority(role.getRoleCode()));
 			}

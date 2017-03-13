@@ -7,13 +7,13 @@ public interface RoleService {
 
 	public void addRole(Role role);
 	
-	public void saveRoleResource(Integer roleID,String[] resourceOperate);
+	public void saveRoleResources(Integer roleID,String[] resourceOperate);
 	
-	public void saveRoleObject(Integer roleID,String[] roleObject);
+	public void saveRoleObjects(Integer roleID,String[] roleObject);
 	
 	public void updateRole(Role role);
 	
-	public void deleteRole(Integer[] ids);
+	public void deleteRoles(Integer[] ids);
 	
 	public void deleteRoleResource(Integer[] ids);
 	

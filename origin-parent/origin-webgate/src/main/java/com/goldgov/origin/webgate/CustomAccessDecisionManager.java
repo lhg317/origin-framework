@@ -114,7 +114,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		// 将角色编码与资源编码进行Map对象组装，key为资源编码，value为角色，角色可能会多个（角色资源配置重复的情况下）
 		Map<String,List<String>> roleResourceMap = new HashMap<>();
 		try {
-			List<Map<String, String>> roleResourceMapList = roleService.findRoleResourceMap();
+			List<Map<String, String>> roleResourceMapList = roleService.getRoleResourcesMap();
 			for (Map<String, String> map : roleResourceMapList) {
 				String roleCode = map.get("roleCode");
 				String resourceOperate = map.get("resourceOperate");

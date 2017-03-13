@@ -33,13 +33,13 @@ struct RpcRoleObject{
 
 service RpcRoleService{
 	void addRole(1:RpcRole user),
-	void deleteRole(1:list<i32> ids),
+	void deleteRoles(1:list<i32> ids),
 	void updateRole(1:RpcRole role),
 	RpcRole findRole(1:i32 roleID),
-	RpcRoleQuery findRoleList(1:RpcRoleQuery query),
-	void saveRoleResource(1:i32 roleID,2:list<string> resourceOperate),
-	void saveRoleObject(1:i32 roleID,2:list<string> roleObject),
-	list<RpcRole> findRoleByObject(1:string roleObject),
-	list<RpcRoleResource> findRoleResourceByObject(1:string roleObject),
-	list<map<string,string>> findRoleResourceMap();
+	RpcRoleQuery findRoles(1:RpcRoleQuery query),
+	void saveRoleResources(1:i32 roleID,2:list<string> resourceOperate),
+	void saveRoleObjects(1:i32 roleID,2:list<string> roleObject),
+	list<RpcRole> findRolesByObject(1:string roleObject),
+	list<RpcRoleResource> findRoleResourcesByObject(1:string roleObject),
+	list<map<string,string>> getRoleResourcesMap();
 } 

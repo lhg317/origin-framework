@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	@Transactional
-	public void saveRoleResource(Integer roleID,String[] resourceOperate) {
+	public void saveRoleResources(Integer roleID,String[] resourceOperate) {
 		roleDao.deleteRoleResourceByRoleID(roleID);
 		roleDao.addRoleResource(roleID,resourceOperate);
 	}
@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public void deleteRole(Integer[] ids) {
+	public void deleteRoles(Integer[] ids) {
 		roleDao.deleteRole(ids);
 	}
 
@@ -73,7 +73,7 @@ public class RoleServiceImpl implements RoleService{
 	
 	@Override
 	@Transactional
-	public void saveRoleObject(Integer roleID, String[] roleObject) {
+	public void saveRoleObjects(Integer roleID, String[] roleObject) {
 		roleDao.deleteRoleObjectByRoleID(roleID);
 		roleDao.addRoleObject(roleID, roleObject);
 	}
