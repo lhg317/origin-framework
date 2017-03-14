@@ -45,7 +45,7 @@ import com.goldgov.origin.core.web.interceptor.handler.impl.ValidationHandler;
 import com.goldgov.origin.core.web.messages.ClassPathMessageSource;
 
 @Configuration
-public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{
+public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{//,ApplicationListener<EmbeddedServletContainerInitializedEvent> {
 
 	@Value("${server.welcome-page:}")
 	private String welcomePage;
@@ -192,7 +192,15 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 		viewResolver.setDefaultViews(defaultViews);
 		return viewResolver;
 	}
-	
+
+//@Override
+//public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
+//	TomcatEmbeddedServletContainer tomcatContainer = ((TomcatEmbeddedServletContainer)event.getEmbeddedServletContainer());
+//	Tomcat tomcat = tomcatContainer.getTomcat();
+//	tomcat.addUser("liuhg", "1111111");
+//	tomcat.addRole("liuhg", "ACTUATOR");
+//}
+
 //	@Bean
 //	public FreeMarkerConfigurer freeMarkerConfigurer(){
 //		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
