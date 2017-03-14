@@ -1,5 +1,7 @@
 package com.goldgov.origin.modules.role.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goldgov.origin.core.Keys;
+import com.goldgov.origin.core.cache.CacheHolder;
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
 import com.goldgov.origin.modules.role.service.RoleQuery;
@@ -26,9 +30,11 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	@Transactional
-	public void saveRoleResources(Integer roleID,String[] resourceOperate) {
+	public void saveRoleResources(Integer roleID,String[] resourceOperates) {
 		roleDao.deleteRoleResourceByRoleID(roleID);
-		roleDao.addRoleResource(roleID,resourceOperate);
+		roleDao.addRoleResource(roleID,resourceOperates);
+		
+		initRoleResourcesMap();
 	}
 	
 	@Override
@@ -78,9 +84,28 @@ public class RoleServiceImpl implements RoleService{
 		roleDao.addRoleObject(roleID, roleObject);
 	}
 
+//	@Override
+//	public List<Map<String, String>> getRoleResourcesMap() {
+//		return roleDao.getRoleResourcesMap();
+//	}
+
 	@Override
-	public List<Map<String, String>> getRoleResourcesMap() {
-		return roleDao.getRoleResourcesMap();
+	public void initRoleResourcesMap() {
+		Map<String,List<String>> roleResourceMap = new HashMap<>();
+		List<Map<String, String>> roleResourceMapList = roleDao.getRoleResourcesMap();
+		for (Map<String, String> map : roleResourceMapList) {
+			String roleCode = map.get("roleCode");
+			String resourceOperate = map.get("resourceOperate");
+			List<String> roleCodeList;
+			if(roleResourceMap.containsKey(resourceOperate)){
+				roleCodeList = roleResourceMap.get(resourceOperate);
+			}else{
+				roleCodeList= new ArrayList<>();
+				roleResourceMap.put(resourceOperate, roleCodeList);
+			}
+			roleCodeList.add(roleCode);
+		}
+		CacheHolder.put(Keys.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
 	}
 
 }

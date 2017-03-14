@@ -64,12 +64,14 @@ public class RpcUserController {
 	
 	@RequestMapping("/updateUser")
 	@ModuleOperating(name="i18n:label.user+update",type=OperateType.UPDATE)
+	@WebToken(handle=TokenHandleType.VERIFY)
 	public String updateUser(RpcUser user) throws TException{
 		userService.updateUser(user);
 		return "forward:/user/findUsers";
 	}
 	
 	@RequestMapping("/findUser")
+	@WebToken(handle=TokenHandleType.GENERATE)
 	public String findUserByID(@RequestParam("userID") int userID,Model model) throws TException{
 		RpcUser user = userService.findUserByID(userID);
 		model.addAttribute("user", user);

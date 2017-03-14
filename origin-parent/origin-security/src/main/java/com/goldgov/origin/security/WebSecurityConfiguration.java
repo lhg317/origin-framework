@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.ErrorPageFilter;
@@ -39,6 +40,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 	
 	@Autowired(required=false)
 	private AccessDecisionManager accessDecisionManager;
+	
+	@Value("${security.http.default-success-url:/main}")
+	private String defaultSuccessUrl;
+	
+	@Value("${security.http.failure-url:/login?error}")
+	private String failureUrl;
+	
+	@Value("${security.http.default-success-url.always-use:true}")
+	private boolean alwaysUse;
 	
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -81,8 +91,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     	http.authorizeRequests().anyRequest().authenticated()
 //    			.accessDecisionManager(accessDecisionManager)
                 .and().formLogin().loginPage("/login")
-                .defaultSuccessUrl("/server/overview")
-                .failureUrl("/login?error")
+                .defaultSuccessUrl(defaultSuccessUrl,alwaysUse)
+                .failureUrl(failureUrl)
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
@@ -96,11 +106,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //    	http.authorizeRequests().antMatchers("/**").access("ROLE_ANONYMOUS");
 //    	http.requestMatcher(new InternalRequestMatcher());
 
-        http.authorizeRequests().antMatchers("/").permitAll();
-        http.authorizeRequests().accessDecisionManager(accessDecisionManager);
-//        http.formLogin().defaultSuccessUrl("/index.html");
-//        super.configure(http);
-
+//        http.authorizeRequests().antMatchers("/").permitAll();
+        if(accessDecisionManager != null){
+        	http.authorizeRequests().accessDecisionManager(accessDecisionManager);
+        }
     }
 
 	@Bean

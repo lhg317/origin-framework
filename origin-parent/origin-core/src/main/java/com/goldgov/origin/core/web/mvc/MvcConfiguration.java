@@ -9,6 +9,7 @@ import org.apache.thrift.TException;
 import org.apache.thrift.TSerializer;
 import org.apache.thrift.protocol.TSimpleJSONProtocol;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,8 @@ import com.goldgov.origin.core.web.messages.ClassPathMessageSource;
 @Configuration
 public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{
 
+	@Value("${server.welcome-page:}")
+	private String welcomePage;
 //	@Override
 //	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 ////		System.out.println(converters.size());
@@ -106,6 +109,9 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/logout").setViewName("logout");
 		registry.addViewController("/main").setViewName("main");
+		if(!"".equals(welcomePage)){
+			registry.addViewController("/").setViewName(welcomePage);
+		}
 		registry.addViewController("/error").setViewName("error");
 	}
 
@@ -138,6 +144,11 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 		localeResolver.setCookiePath("/");
 //		localeResolver.setDefaultLocale("zh_CN");
 		return localeResolver;
+	}
+	
+	@Bean
+	public ExceptionHandler exceptionHandler(){
+		return new ExceptionHandler();
 	}
 
 	

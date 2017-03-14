@@ -50,13 +50,6 @@ public class RpcRoleController {
 	@RequestMapping("/saveRoleResource")
 	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
 		roleService.saveRoleResources(roleID, Arrays.asList(resourceOperate));
-//		Map<String,List<String>> roleResourceMap = (Map<String,List<String>>)CacheHolder.get(Keys.CACHE_CODE_ROLE_RESOURCE_MAPPING);
-//		for (String _resourceOperate : roleResourceMap.keySet()) {
-//			List<String> roleList = roleResourceMap.get(_resourceOperate);
-//			for(String r: resourceOperate){
-//				roleList.remove(r);
-//			}
-//		}
 		return "forward:/role/findRoles";
 	}
 	

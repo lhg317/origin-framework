@@ -30,7 +30,7 @@ public class RpcRoleService {
 
     public java.util.List<RpcRoleResource> findRoleResourcesByObject(java.lang.String roleObject) throws org.apache.thrift.TException;
 
-    public java.util.List<java.util.Map<java.lang.String,java.lang.String>> getRoleResourcesMap() throws org.apache.thrift.TException;
+    public void initRoleResourcesMap() throws org.apache.thrift.TException;
 
   }
 
@@ -54,7 +54,7 @@ public class RpcRoleService {
 
     public void findRoleResourcesByObject(java.lang.String roleObject, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcRoleResource>> resultHandler) throws org.apache.thrift.TException;
 
-    public void getRoleResourcesMap(org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.util.Map<java.lang.String,java.lang.String>>> resultHandler) throws org.apache.thrift.TException;
+    public void initRoleResourcesMap(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -272,26 +272,23 @@ public class RpcRoleService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "findRoleResourcesByObject failed: unknown result");
     }
 
-    public java.util.List<java.util.Map<java.lang.String,java.lang.String>> getRoleResourcesMap() throws org.apache.thrift.TException
+    public void initRoleResourcesMap() throws org.apache.thrift.TException
     {
-      send_getRoleResourcesMap();
-      return recv_getRoleResourcesMap();
+      send_initRoleResourcesMap();
+      recv_initRoleResourcesMap();
     }
 
-    public void send_getRoleResourcesMap() throws org.apache.thrift.TException
+    public void send_initRoleResourcesMap() throws org.apache.thrift.TException
     {
-      getRoleResourcesMap_args args = new getRoleResourcesMap_args();
-      sendBase("getRoleResourcesMap", args);
+      initRoleResourcesMap_args args = new initRoleResourcesMap_args();
+      sendBase("initRoleResourcesMap", args);
     }
 
-    public java.util.List<java.util.Map<java.lang.String,java.lang.String>> recv_getRoleResourcesMap() throws org.apache.thrift.TException
+    public void recv_initRoleResourcesMap() throws org.apache.thrift.TException
     {
-      getRoleResourcesMap_result result = new getRoleResourcesMap_result();
-      receiveBase(result, "getRoleResourcesMap");
-      if (result.isSetSuccess()) {
-        return result.success;
-      }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getRoleResourcesMap failed: unknown result");
+      initRoleResourcesMap_result result = new initRoleResourcesMap_result();
+      receiveBase(result, "initRoleResourcesMap");
+      return;
     }
 
   }
@@ -606,32 +603,32 @@ public class RpcRoleService {
       }
     }
 
-    public void getRoleResourcesMap(org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.util.Map<java.lang.String,java.lang.String>>> resultHandler) throws org.apache.thrift.TException {
+    public void initRoleResourcesMap(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getRoleResourcesMap_call method_call = new getRoleResourcesMap_call(resultHandler, this, ___protocolFactory, ___transport);
+      initRoleResourcesMap_call method_call = new initRoleResourcesMap_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class getRoleResourcesMap_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<java.util.Map<java.lang.String,java.lang.String>>> {
-      public getRoleResourcesMap_call(org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.util.Map<java.lang.String,java.lang.String>>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class initRoleResourcesMap_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      public initRoleResourcesMap_call(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRoleResourcesMap", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        getRoleResourcesMap_args args = new getRoleResourcesMap_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("initRoleResourcesMap", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        initRoleResourcesMap_args args = new initRoleResourcesMap_args();
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public java.util.List<java.util.Map<java.lang.String,java.lang.String>> getResult() throws org.apache.thrift.TException {
+      public Void getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_getRoleResourcesMap();
+        return null;
       }
     }
 
@@ -657,7 +654,7 @@ public class RpcRoleService {
       processMap.put("saveRoleObjects", new saveRoleObjects());
       processMap.put("findRolesByObject", new findRolesByObject());
       processMap.put("findRoleResourcesByObject", new findRoleResourcesByObject());
-      processMap.put("getRoleResourcesMap", new getRoleResourcesMap());
+      processMap.put("initRoleResourcesMap", new initRoleResourcesMap());
       return processMap;
     }
 
@@ -841,22 +838,22 @@ public class RpcRoleService {
       }
     }
 
-    public static class getRoleResourcesMap<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getRoleResourcesMap_args> {
-      public getRoleResourcesMap() {
-        super("getRoleResourcesMap");
+    public static class initRoleResourcesMap<I extends Iface> extends org.apache.thrift.ProcessFunction<I, initRoleResourcesMap_args> {
+      public initRoleResourcesMap() {
+        super("initRoleResourcesMap");
       }
 
-      public getRoleResourcesMap_args getEmptyArgsInstance() {
-        return new getRoleResourcesMap_args();
+      public initRoleResourcesMap_args getEmptyArgsInstance() {
+        return new initRoleResourcesMap_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public getRoleResourcesMap_result getResult(I iface, getRoleResourcesMap_args args) throws org.apache.thrift.TException {
-        getRoleResourcesMap_result result = new getRoleResourcesMap_result();
-        result.success = iface.getRoleResourcesMap();
+      public initRoleResourcesMap_result getResult(I iface, initRoleResourcesMap_args args) throws org.apache.thrift.TException {
+        initRoleResourcesMap_result result = new initRoleResourcesMap_result();
+        iface.initRoleResourcesMap();
         return result;
       }
     }
@@ -883,7 +880,7 @@ public class RpcRoleService {
       processMap.put("saveRoleObjects", new saveRoleObjects());
       processMap.put("findRolesByObject", new findRolesByObject());
       processMap.put("findRoleResourcesByObject", new findRoleResourcesByObject());
-      processMap.put("getRoleResourcesMap", new getRoleResourcesMap());
+      processMap.put("initRoleResourcesMap", new initRoleResourcesMap());
       return processMap;
     }
 
@@ -1431,21 +1428,20 @@ public class RpcRoleService {
       }
     }
 
-    public static class getRoleResourcesMap<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getRoleResourcesMap_args, java.util.List<java.util.Map<java.lang.String,java.lang.String>>> {
-      public getRoleResourcesMap() {
-        super("getRoleResourcesMap");
+    public static class initRoleResourcesMap<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, initRoleResourcesMap_args, Void> {
+      public initRoleResourcesMap() {
+        super("initRoleResourcesMap");
       }
 
-      public getRoleResourcesMap_args getEmptyArgsInstance() {
-        return new getRoleResourcesMap_args();
+      public initRoleResourcesMap_args getEmptyArgsInstance() {
+        return new initRoleResourcesMap_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.util.Map<java.lang.String,java.lang.String>>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.util.Map<java.lang.String,java.lang.String>>>() { 
-          public void onComplete(java.util.List<java.util.Map<java.lang.String,java.lang.String>> o) {
-            getRoleResourcesMap_result result = new getRoleResourcesMap_result();
-            result.success = o;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+            initRoleResourcesMap_result result = new initRoleResourcesMap_result();
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
             } catch (org.apache.thrift.transport.TTransportException e) {
@@ -1459,7 +1455,7 @@ public class RpcRoleService {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            getRoleResourcesMap_result result = new getRoleResourcesMap_result();
+            initRoleResourcesMap_result result = new initRoleResourcesMap_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -1487,8 +1483,8 @@ public class RpcRoleService {
         return false;
       }
 
-      public void start(I iface, getRoleResourcesMap_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.util.Map<java.lang.String,java.lang.String>>> resultHandler) throws org.apache.thrift.TException {
-        iface.getRoleResourcesMap(resultHandler);
+      public void start(I iface, initRoleResourcesMap_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.initRoleResourcesMap(resultHandler);
       }
     }
 
@@ -7875,12 +7871,12 @@ public class RpcRoleService {
     }
   }
 
-  public static class getRoleResourcesMap_args implements org.apache.thrift.TBase<getRoleResourcesMap_args, getRoleResourcesMap_args._Fields>, java.io.Serializable, Cloneable, Comparable<getRoleResourcesMap_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRoleResourcesMap_args");
+  public static class initRoleResourcesMap_args implements org.apache.thrift.TBase<initRoleResourcesMap_args, initRoleResourcesMap_args._Fields>, java.io.Serializable, Cloneable, Comparable<initRoleResourcesMap_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("initRoleResourcesMap_args");
 
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getRoleResourcesMap_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getRoleResourcesMap_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new initRoleResourcesMap_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new initRoleResourcesMap_argsTupleSchemeFactory();
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -7942,20 +7938,20 @@ public class RpcRoleService {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRoleResourcesMap_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(initRoleResourcesMap_args.class, metaDataMap);
     }
 
-    public getRoleResourcesMap_args() {
+    public initRoleResourcesMap_args() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public getRoleResourcesMap_args(getRoleResourcesMap_args other) {
+    public initRoleResourcesMap_args(initRoleResourcesMap_args other) {
     }
 
-    public getRoleResourcesMap_args deepCopy() {
-      return new getRoleResourcesMap_args(this);
+    public initRoleResourcesMap_args deepCopy() {
+      return new initRoleResourcesMap_args(this);
     }
 
     @Override
@@ -7988,12 +7984,12 @@ public class RpcRoleService {
     public boolean equals(java.lang.Object that) {
       if (that == null)
         return false;
-      if (that instanceof getRoleResourcesMap_args)
-        return this.equals((getRoleResourcesMap_args)that);
+      if (that instanceof initRoleResourcesMap_args)
+        return this.equals((initRoleResourcesMap_args)that);
       return false;
     }
 
-    public boolean equals(getRoleResourcesMap_args that) {
+    public boolean equals(initRoleResourcesMap_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -8010,7 +8006,7 @@ public class RpcRoleService {
     }
 
     @Override
-    public int compareTo(getRoleResourcesMap_args other) {
+    public int compareTo(initRoleResourcesMap_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -8034,7 +8030,7 @@ public class RpcRoleService {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("getRoleResourcesMap_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("initRoleResourcesMap_args(");
       boolean first = true;
 
       sb.append(")");
@@ -8062,15 +8058,15 @@ public class RpcRoleService {
       }
     }
 
-    private static class getRoleResourcesMap_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRoleResourcesMap_argsStandardScheme getScheme() {
-        return new getRoleResourcesMap_argsStandardScheme();
+    private static class initRoleResourcesMap_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public initRoleResourcesMap_argsStandardScheme getScheme() {
+        return new initRoleResourcesMap_argsStandardScheme();
       }
     }
 
-    private static class getRoleResourcesMap_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<getRoleResourcesMap_args> {
+    private static class initRoleResourcesMap_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<initRoleResourcesMap_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, getRoleResourcesMap_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, initRoleResourcesMap_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -8089,7 +8085,7 @@ public class RpcRoleService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, getRoleResourcesMap_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, initRoleResourcesMap_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -8099,21 +8095,21 @@ public class RpcRoleService {
 
     }
 
-    private static class getRoleResourcesMap_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRoleResourcesMap_argsTupleScheme getScheme() {
-        return new getRoleResourcesMap_argsTupleScheme();
+    private static class initRoleResourcesMap_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public initRoleResourcesMap_argsTupleScheme getScheme() {
+        return new initRoleResourcesMap_argsTupleScheme();
       }
     }
 
-    private static class getRoleResourcesMap_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<getRoleResourcesMap_args> {
+    private static class initRoleResourcesMap_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<initRoleResourcesMap_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, getRoleResourcesMap_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, initRoleResourcesMap_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, getRoleResourcesMap_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, initRoleResourcesMap_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
@@ -8123,19 +8119,17 @@ public class RpcRoleService {
     }
   }
 
-  public static class getRoleResourcesMap_result implements org.apache.thrift.TBase<getRoleResourcesMap_result, getRoleResourcesMap_result._Fields>, java.io.Serializable, Cloneable, Comparable<getRoleResourcesMap_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRoleResourcesMap_result");
+  public static class initRoleResourcesMap_result implements org.apache.thrift.TBase<initRoleResourcesMap_result, initRoleResourcesMap_result._Fields>, java.io.Serializable, Cloneable, Comparable<initRoleResourcesMap_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("initRoleResourcesMap_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getRoleResourcesMap_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getRoleResourcesMap_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new initRoleResourcesMap_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new initRoleResourcesMap_resultTupleSchemeFactory();
 
-    private java.util.List<java.util.Map<java.lang.String,java.lang.String>> success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+;
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -8150,8 +8144,6 @@ public class RpcRoleService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 0: // SUCCESS
-            return SUCCESS;
           default:
             return null;
         }
@@ -8190,109 +8182,37 @@ public class RpcRoleService {
         return _fieldName;
       }
     }
-
-    // isset id assignments
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
-                  new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
-                  new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)))));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRoleResourcesMap_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(initRoleResourcesMap_result.class, metaDataMap);
     }
 
-    public getRoleResourcesMap_result() {
-    }
-
-    public getRoleResourcesMap_result(
-      java.util.List<java.util.Map<java.lang.String,java.lang.String>> success)
-    {
-      this();
-      this.success = success;
+    public initRoleResourcesMap_result() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public getRoleResourcesMap_result(getRoleResourcesMap_result other) {
-      if (other.isSetSuccess()) {
-        java.util.List<java.util.Map<java.lang.String,java.lang.String>> __this__success = new java.util.ArrayList<java.util.Map<java.lang.String,java.lang.String>>(other.success.size());
-        for (java.util.Map<java.lang.String,java.lang.String> other_element : other.success) {
-          java.util.Map<java.lang.String,java.lang.String> __this__success_copy = new java.util.HashMap<java.lang.String,java.lang.String>(other_element);
-          __this__success.add(__this__success_copy);
-        }
-        this.success = __this__success;
-      }
+    public initRoleResourcesMap_result(initRoleResourcesMap_result other) {
     }
 
-    public getRoleResourcesMap_result deepCopy() {
-      return new getRoleResourcesMap_result(this);
+    public initRoleResourcesMap_result deepCopy() {
+      return new initRoleResourcesMap_result(this);
     }
 
     @Override
     public void clear() {
-      this.success = null;
-    }
-
-    public int getSuccessSize() {
-      return (this.success == null) ? 0 : this.success.size();
-    }
-
-    public java.util.Iterator<java.util.Map<java.lang.String,java.lang.String>> getSuccessIterator() {
-      return (this.success == null) ? null : this.success.iterator();
-    }
-
-    public void addToSuccess(java.util.Map<java.lang.String,java.lang.String> elem) {
-      if (this.success == null) {
-        this.success = new java.util.ArrayList<java.util.Map<java.lang.String,java.lang.String>>();
-      }
-      this.success.add(elem);
-    }
-
-    public java.util.List<java.util.Map<java.lang.String,java.lang.String>> getSuccess() {
-      return this.success;
-    }
-
-    public void setSuccess(java.util.List<java.util.Map<java.lang.String,java.lang.String>> success) {
-      this.success = success;
-    }
-
-    public void unsetSuccess() {
-      this.success = null;
-    }
-
-    /** Returns true if field success is set (has been assigned a value) and false otherwise */
-    public boolean isSetSuccess() {
-      return this.success != null;
-    }
-
-    public void setSuccessIsSet(boolean value) {
-      if (!value) {
-        this.success = null;
-      }
     }
 
     public void setFieldValue(_Fields field, java.lang.Object value) {
       switch (field) {
-      case SUCCESS:
-        if (value == null) {
-          unsetSuccess();
-        } else {
-          setSuccess((java.util.List<java.util.Map<java.lang.String,java.lang.String>>)value);
-        }
-        break;
-
       }
     }
 
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case SUCCESS:
-        return getSuccess();
-
       }
       throw new java.lang.IllegalStateException();
     }
@@ -8304,8 +8224,6 @@ public class RpcRoleService {
       }
 
       switch (field) {
-      case SUCCESS:
-        return isSetSuccess();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -8314,25 +8232,16 @@ public class RpcRoleService {
     public boolean equals(java.lang.Object that) {
       if (that == null)
         return false;
-      if (that instanceof getRoleResourcesMap_result)
-        return this.equals((getRoleResourcesMap_result)that);
+      if (that instanceof initRoleResourcesMap_result)
+        return this.equals((initRoleResourcesMap_result)that);
       return false;
     }
 
-    public boolean equals(getRoleResourcesMap_result that) {
+    public boolean equals(initRoleResourcesMap_result that) {
       if (that == null)
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
-      if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
-          return false;
-        if (!this.success.equals(that.success))
-          return false;
-      }
 
       return true;
     }
@@ -8341,31 +8250,17 @@ public class RpcRoleService {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
-      if (isSetSuccess())
-        hashCode = hashCode * 8191 + success.hashCode();
-
       return hashCode;
     }
 
     @Override
-    public int compareTo(getRoleResourcesMap_result other) {
+    public int compareTo(initRoleResourcesMap_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       return 0;
     }
 
@@ -8383,16 +8278,9 @@ public class RpcRoleService {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("getRoleResourcesMap_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("initRoleResourcesMap_result(");
       boolean first = true;
 
-      sb.append("success:");
-      if (this.success == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.success);
-      }
-      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -8418,15 +8306,15 @@ public class RpcRoleService {
       }
     }
 
-    private static class getRoleResourcesMap_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRoleResourcesMap_resultStandardScheme getScheme() {
-        return new getRoleResourcesMap_resultStandardScheme();
+    private static class initRoleResourcesMap_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public initRoleResourcesMap_resultStandardScheme getScheme() {
+        return new initRoleResourcesMap_resultStandardScheme();
       }
     }
 
-    private static class getRoleResourcesMap_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<getRoleResourcesMap_result> {
+    private static class initRoleResourcesMap_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<initRoleResourcesMap_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, getRoleResourcesMap_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, initRoleResourcesMap_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -8436,36 +8324,6 @@ public class RpcRoleService {
             break;
           }
           switch (schemeField.id) {
-            case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-                {
-                  org.apache.thrift.protocol.TList _list48 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<java.util.Map<java.lang.String,java.lang.String>>(_list48.size);
-                  java.util.Map<java.lang.String,java.lang.String> _elem49;
-                  for (int _i50 = 0; _i50 < _list48.size; ++_i50)
-                  {
-                    {
-                      org.apache.thrift.protocol.TMap _map51 = iprot.readMapBegin();
-                      _elem49 = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map51.size);
-                      java.lang.String _key52;
-                      java.lang.String _val53;
-                      for (int _i54 = 0; _i54 < _map51.size; ++_i54)
-                      {
-                        _key52 = iprot.readString();
-                        _val53 = iprot.readString();
-                        _elem49.put(_key52, _val53);
-                      }
-                      iprot.readMapEnd();
-                    }
-                    struct.success.add(_elem49);
-                  }
-                  iprot.readListEnd();
-                }
-                struct.setSuccessIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -8475,98 +8333,32 @@ public class RpcRoleService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, getRoleResourcesMap_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, initRoleResourcesMap_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, struct.success.size()));
-            for (java.util.Map<java.lang.String,java.lang.String> _iter55 : struct.success)
-            {
-              {
-                oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, _iter55.size()));
-                for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter56 : _iter55.entrySet())
-                {
-                  oprot.writeString(_iter56.getKey());
-                  oprot.writeString(_iter56.getValue());
-                }
-                oprot.writeMapEnd();
-              }
-            }
-            oprot.writeListEnd();
-          }
-          oprot.writeFieldEnd();
-        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class getRoleResourcesMap_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRoleResourcesMap_resultTupleScheme getScheme() {
-        return new getRoleResourcesMap_resultTupleScheme();
+    private static class initRoleResourcesMap_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public initRoleResourcesMap_resultTupleScheme getScheme() {
+        return new initRoleResourcesMap_resultTupleScheme();
       }
     }
 
-    private static class getRoleResourcesMap_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<getRoleResourcesMap_result> {
+    private static class initRoleResourcesMap_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<initRoleResourcesMap_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, getRoleResourcesMap_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, initRoleResourcesMap_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetSuccess()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetSuccess()) {
-          {
-            oprot.writeI32(struct.success.size());
-            for (java.util.Map<java.lang.String,java.lang.String> _iter57 : struct.success)
-            {
-              {
-                oprot.writeI32(_iter57.size());
-                for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter58 : _iter57.entrySet())
-                {
-                  oprot.writeString(_iter58.getKey());
-                  oprot.writeString(_iter58.getValue());
-                }
-              }
-            }
-          }
-        }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, getRoleResourcesMap_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, initRoleResourcesMap_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          {
-            org.apache.thrift.protocol.TList _list59 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, iprot.readI32());
-            struct.success = new java.util.ArrayList<java.util.Map<java.lang.String,java.lang.String>>(_list59.size);
-            java.util.Map<java.lang.String,java.lang.String> _elem60;
-            for (int _i61 = 0; _i61 < _list59.size; ++_i61)
-            {
-              {
-                org.apache.thrift.protocol.TMap _map62 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-                _elem60 = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map62.size);
-                java.lang.String _key63;
-                java.lang.String _val64;
-                for (int _i65 = 0; _i65 < _map62.size; ++_i65)
-                {
-                  _key63 = iprot.readString();
-                  _val64 = iprot.readString();
-                  _elem60.put(_key63, _val64);
-                }
-              }
-              struct.success.add(_elem60);
-            }
-          }
-          struct.setSuccessIsSet(true);
-        }
       }
     }
 
