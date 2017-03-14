@@ -15,17 +15,17 @@ public interface RoleService {
 	
 	public void deleteRoles(Integer[] ids);
 	
-	public void deleteRoleResource(Integer[] ids);
+	public void deleteRoleResources(Integer[] ids);
 	
-	public Role findRole(Integer id);
+	public Role findRoleByID(Integer id);
 	
-	public List<Role> findRoleListByPage(RoleQuery<Role> roleQuery);
+	public List<Role> findRoles(RoleQuery<Role> roleQuery);
 	
-	public RoleResource findRoleResource(String code);
+	public RoleResource findRoleResourceByCode(String code);
 
-	public List<Role> findRoleList(String roleObject);
-	public List<RoleResource> findRoleResourceList(String roleObject);
+	public List<Role> findRolesByObject(String roleObject);
+	public List<RoleResource> findRoleResourcesByObject(String roleObject);
 	
-	public List<Map<String, String>> findRoleResourceMap();
+	public List<Map<String, String>> getRoleResourcesMap();
 	
 }

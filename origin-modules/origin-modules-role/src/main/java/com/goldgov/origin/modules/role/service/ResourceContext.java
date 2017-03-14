@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.resource;
+package com.goldgov.origin.modules.role.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,14 +7,13 @@ import java.util.Map;
 
 import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.cache.CacheHolder;
-import com.goldgov.origin.modules.resource.service.Resource;
 
 public abstract class ResourceContext {
 
 	private ResourceContext(){}
 	
 	public static void addResource(Resource resource){
-		List<Resource> allResource = getAllResource();
+		List<Resource> allResource = getAllResources();
 		int existIndex = -1;
 		for (int i = 0;i < allResource.size() ; i++) {
 			Resource _resource = allResource.get(i);
@@ -33,7 +32,7 @@ public abstract class ResourceContext {
 	}
 	
 	public static Resource getResource(String code){
-		List<Resource> allResource = getAllResource();
+		List<Resource> allResource = getAllResources();
 		for (int i = 0;i < allResource.size() ; i++) {
 			Resource _resource = allResource.get(i);
 			if(_resource.getResourceCode().equals(code)){
@@ -47,13 +46,13 @@ public abstract class ResourceContext {
 	public static void addPathResource(String path,String code){
 		path = path.startsWith("/")? path : "/" + path;
 		
-		Map<String, String> allResourceMap = getAllResourceMap();
+		Map<String, String> allResourceMap = getAllResourcesMap();
 		allResourceMap.put(path, code);
 		CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, allResourceMap);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<Resource> getAllResource(){
+	public static List<Resource> getAllResources(){
 		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE)){
 			return (List<Resource>) CacheHolder.get(Keys.CACHE_CODE_PROTECTED_RESOURCE);
 		}else{
@@ -64,7 +63,7 @@ public abstract class ResourceContext {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static Map<String,String> getAllResourceMap(){
+	public static Map<String,String> getAllResourcesMap(){
 		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING)){
 			return (Map<String,String>) CacheHolder.get(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING);
 		}else{

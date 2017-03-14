@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.resource;
+package com.goldgov.origin.modules.role.service;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -25,7 +25,6 @@ import com.goldgov.origin.core.cache.Cache;
 import com.goldgov.origin.core.cache.CacheHolder;
 import com.goldgov.origin.core.web.annotation.ModuleOperating;
 import com.goldgov.origin.core.web.annotation.ModuleResource;
-import com.goldgov.origin.modules.resource.service.ResourceOperate;
 
 @Component
 public class ResourceClassProcessor implements InitializingBean{
@@ -100,7 +99,7 @@ public class ResourceClassProcessor implements InitializingBean{
 		Controller controller = clazz.getAnnotation(Controller.class);
 		RequestMapping requestMappingAnno = clazz.getAnnotation(RequestMapping.class);
 		if(resourceAnno != null && controller != null){
-			com.goldgov.origin.modules.resource.service.Resource resource = new com.goldgov.origin.modules.resource.service.Resource();
+			com.goldgov.origin.modules.role.service.Resource resource = new com.goldgov.origin.modules.role.service.Resource();
 			resource.setResourceName(resourceAnno.name());
 			if("".equals(resourceAnno.code())){
 				resource.setResourceCode(clazz.getName());

@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.resource.service;
+package com.goldgov.origin.modules.role.service;
 
 import com.goldgov.origin.core.web.annotation.OperateType;
 

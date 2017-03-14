@@ -20,24 +20,24 @@ public interface RoleDao {
 	
 	public void updateRole(Role role);
 	
-	public void deleteRole(@Param("ids") Integer[] ids);
+	public void deleteRoles(@Param("ids") Integer[] ids);
 	
-	public void deleteRoleResource(@Param("ids") Integer[] ids);
+	public void deleteRoleResources(@Param("ids") Integer[] ids);
 	
 	public void deleteRoleResourceByRoleID(@Param("roleID") Integer roleID);
 	public void deleteRoleObjectByRoleID(@Param("roleID") Integer roleID);
 
-	public Role findRole(Integer id);
+	public Role findRoleByID(Integer id);
 	
-	public List<Role> findRoleListByPage(RoleQuery<Role> query);
+	public List<Role> findRoles(RoleQuery<Role> query);
 	
 	public RoleResource findRoleResource(String code);
 	
-	public List<RoleResource> findRoleResourceList(@Param("roleObject") String roleObject);
+	public List<RoleResource> findRoleResourcesByObject(@Param("roleObject") String roleObject);
 
-	public List<Role> findRoleList(@Param("roleObject") String roleObject);
+	public List<Role> findRolesByObject(@Param("roleObject") String roleObject);
 	
-	public List<Map<String,String>> findRoleResourceMap();
+	public List<Map<String,String>> getRoleResourcesMap();
 
 
 }

@@ -38,37 +38,37 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public void deleteRoles(Integer[] ids) {
-		roleDao.deleteRole(ids);
+		roleDao.deleteRoles(ids);
 	}
 
 	@Override
-	public void deleteRoleResource(Integer[] ids) {
-		roleDao.deleteRoleResource(ids);
+	public void deleteRoleResources(Integer[] ids) {
+		roleDao.deleteRoleResources(ids);
 	}
 	
 	@Override
-	public Role findRole(Integer id) {
-		return roleDao.findRole(id);
+	public Role findRoleByID(Integer id) {
+		return roleDao.findRoleByID(id);
 	}
 
 	@Override
-	public List<Role> findRoleListByPage(RoleQuery<Role> roleQuery) {
-		return roleDao.findRoleListByPage(roleQuery);
+	public List<Role> findRoles(RoleQuery<Role> roleQuery) {
+		return roleDao.findRoles(roleQuery);
 	}
 
 	@Override
-	public RoleResource findRoleResource(String code) {
+	public RoleResource findRoleResourceByCode(String code) {
 		return roleDao.findRoleResource(code);
 	}
 
 	@Override
-	public List<RoleResource> findRoleResourceList(String roleObject) {
-		return roleDao.findRoleResourceList(roleObject);
+	public List<RoleResource> findRoleResourcesByObject(String roleObject) {
+		return roleDao.findRoleResourcesByObject(roleObject);
 	}
 
 	@Override
-	public List<Role> findRoleList(String roleObject) {
-		return roleDao.findRoleList(roleObject);
+	public List<Role> findRolesByObject(String roleObject) {
+		return roleDao.findRolesByObject(roleObject);
 	}
 	
 	@Override
@@ -79,8 +79,8 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public List<Map<String, String>> findRoleResourceMap() {
-		return roleDao.findRoleResourceMap();
+	public List<Map<String, String>> getRoleResourcesMap() {
+		return roleDao.getRoleResourcesMap();
 	}
 
 }

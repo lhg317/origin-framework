@@ -40,14 +40,14 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	}
 
 	@Override
-	public RpcRole findRole(int roleID) throws TException {
-		Role role = roleService.findRole(roleID);
+	public RpcRole findRoleByID(int roleID) throws TException {
+		Role role = roleService.findRoleByID(roleID);
 		return new ProxyRole(role).toRpcRole();
 	}
 
 	@Override
 	public RpcRoleQuery findRoles(RpcRoleQuery query) throws TException {
-		List<Role> roleList = roleService.findRoleListByPage(new ProxyRoleQuery(query));
+		List<Role> roleList = roleService.findRoles(new ProxyRoleQuery(query));
 		List<RpcRole> resultList = new ArrayList<>();
 		for (Role role : roleList) {
 			resultList.add(new ProxyRole(role).toRpcRole());
@@ -68,7 +68,7 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 
 	@Override
 	public List<RpcRole> findRolesByObject(String roleObject) throws TException {
-		List<Role> roleList = roleService.findRoleList(roleObject);
+		List<Role> roleList = roleService.findRolesByObject(roleObject);
 		List<RpcRole> resultList = new ArrayList<>();
 		for (Role role : roleList) {
 			resultList.add(new ProxyRole(role).toRpcRole());
@@ -78,7 +78,7 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 
 	@Override
 	public List<RpcRoleResource> findRoleResourcesByObject(String roleObject) throws TException {
-		List<RoleResource> roleResourceList = roleService.findRoleResourceList(roleObject);
+		List<RoleResource> roleResourceList = roleService.findRoleResourcesByObject(roleObject);
 		List<RpcRoleResource> resultList = new ArrayList<>();
 		for (RoleResource roleResource : roleResourceList) {
 			RpcRoleResource rpcRoleResource = new RpcRoleResource();
@@ -92,7 +92,7 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 
 	@Override
 	public List<Map<String, String>> getRoleResourcesMap() throws TException {
-		return roleService.findRoleResourceMap();
+		return roleService.getRoleResourcesMap();
 	}
 
 }

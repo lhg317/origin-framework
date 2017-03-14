@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.resource.service;
+package com.goldgov.origin.modules.role.service;
 
 import java.util.List;
 
@@ -7,8 +7,6 @@ public class Resource {
 	private Integer resourceID;
 	private String resourceName;
 	private String resourceCode;
-	
-	private ResourceCategory resourceCategory;
 	
 	private List<ResourceOperate> resourceOperateList;
 
@@ -34,15 +32,6 @@ public class Resource {
 
 	public void setResourceCode(String resourceCode) {
 		this.resourceCode = resourceCode;
-	}
-
-
-	public ResourceCategory getResourceCategory() {
-		return resourceCategory;
-	}
-
-	public void setResourceCategory(ResourceCategory resourceCategory) {
-		this.resourceCategory = resourceCategory;
 	}
 
 	public List<ResourceOperate> getResourceOperateList() {

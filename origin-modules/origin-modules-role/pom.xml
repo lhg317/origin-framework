@@ -20,10 +20,6 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-modules-resource</artifactId>
-    </dependency>
   </dependencies>
   <build>
 		<resources>

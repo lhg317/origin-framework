@@ -62,14 +62,14 @@
 		delete from role_object where ROLE_ID = #{roleID}
 	</delete>
 	
-	<delete id="deleteRole">
+	<delete id="deleteRoles">
 		delete from role where ROLE_ID in
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
 		</foreach>
 	</delete>
 	
-	<delete id="deleteRoleResource">
+	<delete id="deleteRoleResources">
 		delete from role_resource where ROLE_RESOURCE_ID in
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
@@ -86,23 +86,23 @@
 		where ROLE_ID = #{roleID}
 	</update>
 	
-	<select id="findRole" resultMap="role">
+	<select id="findRoleByID" resultMap="role">
 		SELECT <include refid="roleFields" /> FROM role WHERE ROLE_ID=#{roleID}
 	</select>
 	
-	<select id="findRoleListByPage" resultMap="role">
+	<select id="findRoles" resultMap="role">
 		SELECT <include refid="roleFields" /> from role
 	</select>
 	
-	<select id="findRoleResourceList" resultMap="roleResource">
+	<select id="findRoleResourcesByObject" resultMap="roleResource">
 		SELECT res.ROLE_RESOURCE_ID,res.ROLE_ID,res.RESOURCE_OPERATE FROM ROLE r,ROLE_RESOURCE res,ROLE_OBJECT ro WHERE r.role_id=res.role_id AND r.role_id=ro.role_id AND ro.ROLE_OBJECT=#{roleObject}
 	</select>
 	
-	<select id="findRoleList" resultMap="role">
+	<select id="findRolesByObject" resultMap="role">
 		SELECT r.ROLE_ID,r.ROLE_NAME,r.ROLE_CODE FROM ROLE r,ROLE_OBJECT ro WHERE r.role_id=ro.role_id AND ro.ROLE_OBJECT=#{roleObject}
 	</select>
 	
-	<select id="findRoleResourceMap" resultType="map">
+	<select id="getRoleResourcesMap" resultType="map">
 		SELECT r.ROLE_CODE as "roleCode",res.RESOURCE_OPERATE as "resourceOperate" FROM ROLE r,ROLE_RESOURCE res WHERE r.role_id=res.role_id
 	</select>
 	

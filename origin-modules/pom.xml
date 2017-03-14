@@ -52,11 +52,6 @@
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
-				<artifactId>origin-modules-resource</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.goldgov</groupId>
 				<artifactId>origin-modules-role</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -65,7 +60,6 @@
 	<modules>
 		<module>origin-modules-user</module>
 		<module>origin-modules-role</module>
-		<module>origin-modules-resource</module>
 	</modules>
 
 	<build>

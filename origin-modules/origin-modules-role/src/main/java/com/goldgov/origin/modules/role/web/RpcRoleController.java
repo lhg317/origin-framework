@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.role.web;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
+import com.goldgov.origin.modules.role.service.Resource;
+import com.goldgov.origin.modules.role.service.ResourceContext;
 
 @Controller
 @RequestMapping("role")
@@ -45,7 +48,7 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/saveRoleResource")
-	public String saveRoleResource(@RequestParam("roleID")Integer roleID,@RequestParam("roleCode")Integer roleCode, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
+	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
 		roleService.saveRoleResources(roleID, Arrays.asList(resourceOperate));
 //		Map<String,List<String>> roleResourceMap = (Map<String,List<String>>)CacheHolder.get(Keys.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 //		for (String _resourceOperate : roleResourceMap.keySet()) {
@@ -74,7 +77,7 @@ public class RpcRoleController {
 	@WebToken(handle=TokenHandleType.GENERATE)
 	@ModuleOperating(name="Find Role",type=OperateType.FIND)
 	public String findRole(@RequestParam("roleID") Integer roleID,Model model) throws TException{
-		RpcRole role = roleService.findRole(roleID);
+		RpcRole role = roleService.findRoleByID(roleID);
 		model.addAttribute("role", role);
 		return PAGES_BASE_PATH + "form";
 	}
@@ -92,5 +95,14 @@ public class RpcRoleController {
 		query = roleService.findRoles(query);
 		model.addAttribute("query", query);
 		return PAGES_BASE_PATH + "list";
+	}
+	
+	@RequestMapping("/getResources")
+	public String getResources(@RequestParam("roleID") String roleID,Model model) throws TException{
+		List<Resource> allResources = ResourceContext.getAllResources();
+
+		model.addAttribute("allResources", allResources);
+		return PAGES_BASE_PATH + "tree";
+
 	}
 }

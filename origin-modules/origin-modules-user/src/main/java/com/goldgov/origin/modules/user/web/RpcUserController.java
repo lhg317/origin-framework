@@ -21,7 +21,6 @@ import com.goldgov.origin.modules.user.api.RpcUserExistException;
 import com.goldgov.origin.modules.user.api.RpcUserNameCheckFailException;
 import com.goldgov.origin.modules.user.api.RpcUserQuery;
 import com.goldgov.origin.modules.user.api.RpcUserService;
-import com.goldgov.origin.modules.user.exception.UserExistException;
 
 @Controller
 @RequestMapping("/user")

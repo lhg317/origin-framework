@@ -41,7 +41,7 @@ service RpcUserService {
 
 /*
 * API定义规范：
-* 添加方法以add开头，更新方法以update开头，删除方法以delete开头，查询方法find以开头（无参数的查询以get开头），其余方法以“动名”词的方式进行命名
+* 添加方法以add开头，更新方法以update开头，删除方法以delete开头，保存更新方法以save开头，查询方法find以开头（无参数的查询以get开头），其余方法以“动名”词的方式进行命名
 * 批量操作，方法名以名次复数为名（不是单纯的加s），不要以List为方法名。正确：findUsers，错误：findUserList
 * 条件查询的方法不使用“ByXXX”的形式命名。（一些特殊情况，MyBatis的Dao不遵循此条规则）
 * 为与一般业务对象区分，API对象命名以Rpc开头
