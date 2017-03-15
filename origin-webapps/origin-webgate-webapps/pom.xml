@@ -9,9 +9,7 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.goldgov</groupId>
   <artifactId>origin-webgate-webapps</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
 
   <name>origin-webgate-webapps</name>
   <url>http://maven.apache.org</url>
@@ -62,7 +60,7 @@
       <resource>  
                 <directory>src/main/java</directory>
                 <filtering>false</filtering>
-                <includes>  
+                <includes>
                     <include>**/*.ftl</include>  
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>

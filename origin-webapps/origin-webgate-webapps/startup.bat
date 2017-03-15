@@ -1,4 +1,4 @@
 cd target
-java -jar origin-webgate-1.0.0-SNAPSHOT.jar
+java -jar origin-webgate-webapps-1.0.0-SNAPSHOT.jar
 
 pause
