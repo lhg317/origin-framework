@@ -142,7 +142,6 @@
 		<module>origin-client</module>
 		<module>origin-config</module>
 		<module>origin-monitor</module>
-		<module>origin-webgate</module>
 		<module>origin-security</module>
 	</modules>
 
