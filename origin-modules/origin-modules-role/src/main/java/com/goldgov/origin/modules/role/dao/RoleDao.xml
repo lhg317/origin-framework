@@ -36,18 +36,18 @@
 		OPERATE_ID as "operateID"
 	</sql>
 	
-	<insert id="addRole">
-		insert into role (ROLE_ID,ROLE_NAME,ROLE_CODE,DESCRIPTION)value(#{roleID},#{roleName},#{roleCode},#{description});
+	<insert id="addRole" keyProperty="roleID">
+		insert into role (ROLE_NAME,ROLE_CODE,DESCRIPTION)value(#{roleName},#{roleCode},#{description});
 	</insert>
 	
-	<insert id="addRoleResource">
+	<insert id="addRoleResource" keyProperty="roleResourceID">
 		insert into role_resource (ROLE_ID,RESOURCE_OPERATE)value
 		<foreach item="id" collection="resourceOperate" separator=",">
 		   (#{roleID},#{id})
 		</foreach>
 	</insert>
 	
-	<insert id="addRoleObject">
+	<insert id="addRoleObject" keyProperty="roleObjectID">
 		insert into role_object (ROLE_ID,ROLE_OBJECT)value
 		<foreach item="id" collection="roleObject" separator=",">
 		   (#{roleID},#{id})

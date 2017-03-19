@@ -97,7 +97,7 @@ public class ProxyUserQuery extends UserQuery {
 		userQuery.setResultList(rpcObjectList);
 	}
 	
-	public RpcUserQuery toRpcUserQuery(){
+	public RpcUserQuery toRpcQuery(){
 		return userQuery;
 	}
 	

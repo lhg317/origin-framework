@@ -97,7 +97,7 @@ public class ProxyRoleQuery extends RoleQuery<Role> {
 		roleQuery.setResultList(rpcObjectList);
 	}
 	
-	public RpcRoleQuery toRpcRoleQuery(){
+	public RpcRoleQuery toRpcQuery(){
 		return roleQuery;
 	}
 	
