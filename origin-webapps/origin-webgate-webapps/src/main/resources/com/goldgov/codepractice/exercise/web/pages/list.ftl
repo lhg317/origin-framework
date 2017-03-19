@@ -31,7 +31,7 @@
 	<td>${data.publishDate}</td>
 	<td>${data.timeLimit}</td>
 	<td>${data.scorePoint}</td>
-	<td><a href="./find?id=${data.exerciseID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./delete?ids=${data.exerciseID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?exerciseID=${data.exerciseID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】</td>
+	<td><a href="./find?id=${data.exerciseID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./delete?ids=${data.exerciseID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?exerciseID=${data.exerciseID}" target="_blank">【<@i18n code="label.testCase"/>】</td>
 </tr>
 </#escape>
 

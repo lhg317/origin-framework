@@ -52,7 +52,11 @@
 	}
 </script>
 <body>
-	登录成功
+	<h2>登录成功</h2><p>
+	<a href="./user/findUsers">用户管理</a><br>
+	<a href="./role/findRoles">角色管理</a><br>
+	<hr>
+	<a href="./exercise/findList">习题管理</a><br>
 <br>
 <@security.authorize access="hasRole('ROLE_ADMIN')">
 	1 ROLE_ADMIN
