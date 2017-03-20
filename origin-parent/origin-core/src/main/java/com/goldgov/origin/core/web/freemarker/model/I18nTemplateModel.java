@@ -34,7 +34,7 @@ public class I18nTemplateModel implements TemplateDirectiveModel {
 		
 		Object args = params.get("args");
 		
-//		Object defaultMessage = params.get("defaultMessage");
+		Object index = params.get("index");
 		
 		String message = null;
 		if(args != null){
@@ -48,26 +48,16 @@ public class I18nTemplateModel implements TemplateDirectiveModel {
 			}
 		}
 		
+		if(index != null){
+			String[] splitValues = message.split("[,;]");
+			Number _index = (Number)objectWrapper.unwrap((TemplateModel) index);
+			message = splitValues[_index.intValue()];
+		}
+		
 		Object suffix = params.get("suffix");
 		if(suffix != null){
 			message = message + MessagesHolder.getMessage((String)objectWrapper.unwrap((TemplateModel) suffix));
 		}
-		
-//		int num = 0;
-//		List<Object> arrayList = new ArrayList<Object>();
-//		while(true){
-//			Object value = params.get("args"+num);
-//			if(value == null){
-//				break;
-//			}
-//			arrayList.add(value);
-//			num++;
-//		}
-//		if(arrayList.size() > 0){
-//			message = requestContext.getMessage((String)objectWrapper.unwrap((TemplateModel) code),arrayList.toArray());
-//		}else{
-//			message = requestContext.getMessage((String)objectWrapper.unwrap((TemplateModel) code));
-//		}
 		
 		Writer out = env.getOut();
 		if(body != null){

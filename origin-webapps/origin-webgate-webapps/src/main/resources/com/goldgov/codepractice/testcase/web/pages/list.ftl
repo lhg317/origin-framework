@@ -4,10 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<form id="listForm" method="post" action="./findList">
+<form id="listForm" method="post" action="./add">
 
-<input type="button" value="<@i18n code="add"/>" onclick="javascript:window.open('./preAdd','_self')"/>
+<button type="submit" ><@i18n code="add"/></button>
+<button type="button" onclick="window.open('../exercise/findList','_self')"><@i18n code="back"/></button><p>
 
+<@i18n code="label.paramValues" suffix="colon"/><input type="text" name="paramValues">
+<@i18n code="label.paramValues" suffix="colon"/><input type="text" name="returnValue">
 <table border=1>
 <tr>
 	<td><@i18n code="label.paramValues" /></td>
@@ -15,21 +18,21 @@
 	<td><@i18n code="operate" /></td>
 </tr>
 
-<#list query.resultList as data>
+<#list testCaseList as data>
 
 <#escape data as data?html>
 <tr>
 	<td>${data.paramValues}</td>
 	<td>${data.returnValue}</td>
-	<td><a href="./delete?ids=${data.testCaseID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?exerciseID=${data.testCaseID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】</td>
+	<td><a href="./delete?ids=${data.testCaseID}&exerciseID=${RequestParameters['exerciseID']}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?exerciseID=${data.testCaseID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】</td>
 </tr>
 </#escape>
 
 </#list>
 </table>
-${query.count}
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
-<input type="hidden" name="exerciseID" value="${RequestParameters['exerciseID'].token}"/>
+<input type="hidden" name="exerciseID" value="${RequestParameters['exerciseID']}"/>
+${webToken(true)}
 </form>
 
 </body>

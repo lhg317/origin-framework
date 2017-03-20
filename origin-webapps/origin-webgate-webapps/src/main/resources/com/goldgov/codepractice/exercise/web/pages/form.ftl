@@ -27,7 +27,7 @@
 	<option value="9" <#if (exercise.category)?? && exercise.category == 9 >selected</#if>>Recursion</option>
 	<option value="10" <#if (exercise.category)?? && exercise.category == 10 >selected</#if>>Search</option>
 	<option value="11" <#if (exercise.category)?? && exercise.category == 11 >selected</#if>>Simple Math</option>
-	<option value="12" <#if (exercise.category)?? && exercise.category == 12 >selected</#if>>Simple Search, Iteration</option>
+	<option value="12" <#if (exercise.category)?? && exercise.category == 12 >selected</#if>>Simple Search/Iteration</option>
 	<option value="13" <#if (exercise.category)?? && exercise.category == 13 >selected</#if>>Simulation</option>
 	<option value="14" <#if (exercise.category)?? && exercise.category == 14 >selected</#if>>Sorting</option>
 	<option value="15" <#if (exercise.category)?? && exercise.category == 15 >selected</#if>>String Manipulation</option>

@@ -21,17 +21,17 @@
 </tr>
 
 <#list query.resultList as data>
-
+<#-- <#setting datetime_format="yyyy-MM-dd HH:mm:ss"/> -->
 <#escape data as data?html>
 <tr>
 	<td>${data.title}</td>
-	<td>${data.category}</td>
+	<td><@i18n code="text.category" index=(data.category-1)/></td>
 	<td>${data.definitionClass}</td>
-	<td>${data.difficulty}</td>
-	<td>${data.publishDate}</td>
-	<td>${data.timeLimit}</td>
+	<td><@i18n code="text.difficulty" index=(data.difficulty-1)/></td>
+	<td>${data.publishDate?number_to_datetime?string("yyyy-MM-dd HH:mm:ss")}</td>
+	<td>${data.timeLimit}<@i18n code="time_minute" /></td>
 	<td>${data.scorePoint}</td>
-	<td><a href="./find?id=${data.exerciseID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./delete?ids=${data.exerciseID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?exerciseID=${data.exerciseID}" target="_blank">【<@i18n code="label.testCase"/>】</td>
+	<td><a href="./find?id=${data.exerciseID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./delete?ids=${data.exerciseID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../testcase/findList?exerciseID=${data.exerciseID}" target="_self">【<@i18n code="label.testCase"/>】</td>
 </tr>
 </#escape>
 
