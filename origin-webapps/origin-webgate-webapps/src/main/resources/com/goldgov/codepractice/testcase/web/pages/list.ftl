@@ -24,7 +24,7 @@
 <tr>
 	<td>${data.paramValues}</td>
 	<td>${data.returnValue}</td>
-	<td><a href="./delete?ids=${data.testCaseID}&exerciseID=${RequestParameters['exerciseID']}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?exerciseID=${data.testCaseID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】</td>
+	<td><a href="./delete?ids=${data.testCaseID}&exerciseID=${RequestParameters['exerciseID']}">【<@i18n code="delete"/>】</a></td>
 </tr>
 </#escape>
 
