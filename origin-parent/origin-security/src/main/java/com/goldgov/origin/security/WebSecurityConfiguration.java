@@ -62,6 +62,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     	return new DefaultAuthenticationProvider();
     }
     
+    
 //    @Bean
 //    @ConditionalOnMissingBean(AccessDecisionManager.class)
 //    public AccessDecisionManager accessDecisionManager(){
@@ -125,6 +126,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     	List<String> tldPaths = new ArrayList<>();
     	tldPaths.add("/META-INF/security.tld");
     	bean.getTaglibFactory().setClasspathTlds(tldPaths);
+    	
 	}
 	
 	@Bean

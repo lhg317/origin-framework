@@ -19,6 +19,7 @@ import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserService;
+import com.goldgov.origin.security.UserToken;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -62,7 +63,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			e.printStackTrace();
 		}
 		
-		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginName, password, grantedAuths);
+		UserToken authenticationToken = new UserToken(loginName, password, grantedAuths);
+		authenticationToken.setUserName("测试用户");
 		return authenticationToken;
         
 //        if(loginName.equals("liuhg") && password.equals("111111")){

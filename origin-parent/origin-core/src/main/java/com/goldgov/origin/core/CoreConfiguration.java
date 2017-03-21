@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 import com.goldgov.origin.core.cache.Cache;
 import com.goldgov.origin.core.cache.impl.MapCacheImpl;
 import com.goldgov.origin.core.dao.MyBatisConfiguration;
+import com.goldgov.origin.core.service.proxy.ProxyServiceConfigurer;
 
 @Configurable
 @Import(MyBatisConfiguration.class)
@@ -16,5 +17,10 @@ public class CoreConfiguration {
 	public Cache cache(){
 		Cache cache = new MapCacheImpl();
 		return cache;
+	}
+	
+	@Bean
+	public ProxyServiceConfigurer proxyServiceConfigurer(){
+		return new ProxyServiceConfigurer();
 	}
 }
