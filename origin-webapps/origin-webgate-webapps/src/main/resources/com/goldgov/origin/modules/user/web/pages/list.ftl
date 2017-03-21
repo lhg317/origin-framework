@@ -1,3 +1,4 @@
+<#assign authorize = "com.goldgov.origin.security.freemarker.model.AuthorizeTemplateModel"?new()>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,7 +30,11 @@
 	<td>${user.loginName}</td>
 	<td>${user.userName}</td>
 	<td>${user.email}</td>
-	<td><a href="./findUser?userID=${user.userID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteUser?userID=${user.userID}">【<@i18n code="delete"/>】</a></td>
+	<td><a href="./findUser?userID=${user.userID}">【<@i18n code="edit"/>】</a>&nbsp;
+	<@authorize code="user_deleteUsers">
+	<a href="./deleteUser?userID=${user.userID}">【<@i18n code="delete"/>】</a>
+	</@authorize>
+	</td>
 </tr>
 </#escape>
 

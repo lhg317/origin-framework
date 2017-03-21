@@ -6,6 +6,7 @@ public interface UserDelegate {
 	public void setLoginName(String loginName);
 	public String getUserName();
 	public void setUserName(String userName);
-	
+	public String[] getRoles();
+	public void setRoles(String[] roles);
 	
 }

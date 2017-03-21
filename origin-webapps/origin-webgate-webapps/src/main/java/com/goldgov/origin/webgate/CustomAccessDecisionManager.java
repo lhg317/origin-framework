@@ -60,12 +60,15 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		
 		String requestURI = httpRequest.getRequestURI();
 		
+		//根据请求的uri得到对应的资源编码
 		String resourceCode = pathMapping.get(requestURI);
+		//根据得到的资源编码获取到允许的角色编码集合
 		List<String> roleCodeList = null;
 		if(resourceCode != null){
 			roleCodeList = roleResourceMapping.get(resourceCode);
 		}
 		System.out.println("路径：" + requestURI + ",resourceCode：" + resourceCode + ",roleCode：" + roleCodeList);
+		//检查当前用户是否含有资源访问的角色编码
 		for(GrantedAuthority authority : (Collection<GrantedAuthority>)authentication.getAuthorities()){
 			if("ROLE_ANONYMOUS".equals(authority.getAuthority())){
 				throw new AccessDeniedException("访问ROLE_ANONYMOUS拒绝："+filterInvocation.getFullRequestUrl());

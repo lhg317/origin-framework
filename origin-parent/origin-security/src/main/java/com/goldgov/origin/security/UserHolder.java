@@ -13,7 +13,7 @@ public abstract class UserHolder {
 	public static UserDelegate getUser(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null){
-			return (UserDelegate) authentication.getPrincipal();
+			return (UserDelegate) authentication;
 		}else{
 			HttpServletRequest request = RequestHolder.getRequest();
 			return  (UserDelegate)request.getSession().getAttribute(Keys.CURRENT_USER);
