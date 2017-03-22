@@ -12,6 +12,8 @@ import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 @JsonIgnoreProperties(ignoreUnknown = true) 
 public class ServiceServer {
 
+	private String applicationName;
+	
 	private String serverIP;
 	private int serverPort;
 	
