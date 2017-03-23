@@ -16,24 +16,22 @@ public class Keys {
 	public static final String DEFAULT_LOCALE = "$DEFAULT_LOCALE$";
 	public static final String VALIDATION_ERROR = "$VALIDATION_ERROR$";
 	
-	public static final String CURRENT_USER = "PUZZLE_CURRENT_USER";
+//	public static final String REMOTE_INFO_HEADER_NAME = "Puzzle-Remote-Info";
 	
-	public static final String REMOTE_INFO_HEADER_NAME = "Puzzle-Remote-Info";
+//	public static final String REMOTE_CALL_HEADER_NAME = "Puzzle-Remote-Call";
+//	public static final String REMOTE_CALL_CONTEXT_NAME = "Puzzle-Remote-ContextName";
+//	public static final String REMOTE_CALL_FROM = "Puzzle-Remote-From";
+//	public static final String REMOTE_CALL_USER = "Puzzle-Remote-User";
 	
-	public static final String REMOTE_CALL_HEADER_NAME = "Puzzle-Remote-Call";
-	public static final String REMOTE_CALL_CONTEXT_NAME = "Puzzle-Remote-ContextName";
-	public static final String REMOTE_CALL_FROM = "Puzzle-Remote-From";
-	public static final String REMOTE_CALL_USER = "Puzzle-Remote-User";
-	
-	public static final String REMOTE_CALL_PARAM_SEPARATOR = "$";
+//	public static final String REMOTE_CALL_PARAM_SEPARATOR = "$";
 	
 	/*
 	 * 缓存Key
 	 */
 	public static final String CACHE_CODE_CONFIG_DEPOSITORY = "CACHE_CODE_CONFIG_DEPOSITORY";
-	public static final String CACHE_CODE_PROTECTED_RESOURCE = "CACHE_CODE_PROTECTED_RESOURCE";
-	public static final String CACHE_CODE_PROTECTED_RESOURCE_MAPPING = "CACHE_CODE_PROTECTED_RESOURCE_MAPPING";
-	public static final String CACHE_CODE_ROLE_RESOURCE_MAPPING = "CACHE_CODE_ROLE_RESOURCE_MAPPING";
-	public static final String CACHE_CODE_PATH_RESOURCE_MAPPING = "CACHE_CODE_PATH_RESOURCE_MAPPING";
+//	public static final String CACHE_CODE_PROTECTED_RESOURCE = "CACHE_CODE_PROTECTED_RESOURCE";
+//	public static final String CACHE_CODE_PROTECTED_RESOURCE_MAPPING = "CACHE_CODE_PROTECTED_RESOURCE_MAPPING";
+//	public static final String CACHE_CODE_ROLE_RESOURCE_MAPPING = "CACHE_CODE_ROLE_RESOURCE_MAPPING";
+//	public static final String CACHE_CODE_PATH_RESOURCE_MAPPING = "CACHE_CODE_PATH_RESOURCE_MAPPING";
 	
 }

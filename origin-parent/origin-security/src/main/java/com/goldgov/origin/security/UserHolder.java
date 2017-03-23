@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler.RequestHolder;
 
 public abstract class UserHolder {
@@ -16,7 +15,7 @@ public abstract class UserHolder {
 			return (UserDelegate) authentication;
 		}else{
 			HttpServletRequest request = RequestHolder.getRequest();
-			return  (UserDelegate)request.getSession().getAttribute(Keys.CURRENT_USER);
+			return  (UserDelegate)request.getSession().getAttribute(SecurityConstants.CURRENT_USER);
 		}	
 	}
 }

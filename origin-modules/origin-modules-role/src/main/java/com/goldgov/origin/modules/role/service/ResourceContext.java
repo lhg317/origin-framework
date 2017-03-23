@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.cache.CacheHolder;
+import com.goldgov.origin.modules.role.RoleConstants;
 
 public abstract class ResourceContext {
 
@@ -28,7 +28,7 @@ public abstract class ResourceContext {
 		}else{
 			allResource.add(resource);
 		}
-		CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE, allResource);
+		CacheHolder.put(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE, allResource);
 	}
 	
 	public static Resource getResource(String code){
@@ -48,27 +48,27 @@ public abstract class ResourceContext {
 		
 		Map<String, String> allResourceMap = getAllResourcesMap();
 		allResourceMap.put(path, code);
-		CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, allResourceMap);
+		CacheHolder.put(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, allResourceMap);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static List<Resource> getAllResources(){
-		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE)){
-			return (List<Resource>) CacheHolder.get(Keys.CACHE_CODE_PROTECTED_RESOURCE);
+		if(CacheHolder.exist(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE)){
+			return (List<Resource>) CacheHolder.get(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE);
 		}else{
 			List<Resource> resourceList = new ArrayList<Resource>();
-			CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE, resourceList);
+			CacheHolder.put(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE, resourceList);
 			return resourceList;
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static Map<String,String> getAllResourcesMap(){
-		if(CacheHolder.exist(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING)){
-			return (Map<String,String>) CacheHolder.get(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING);
+		if(CacheHolder.exist(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE_MAPPING)){
+			return (Map<String,String>) CacheHolder.get(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE_MAPPING);
 		}else{
 			Map<String,String> resourceMap = new HashMap<>();
-			CacheHolder.put(Keys.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, resourceMap);
+			CacheHolder.put(RoleConstants.CACHE_CODE_PROTECTED_RESOURCE_MAPPING, resourceMap);
 			return resourceMap;
 		}
 	}

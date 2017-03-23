@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.cache.CacheHolder;
+import com.goldgov.origin.modules.role.RoleConstants;
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
 import com.goldgov.origin.modules.role.service.RoleQuery;
@@ -105,7 +105,7 @@ public class RoleServiceImpl implements RoleService{
 			}
 			roleCodeList.add(roleCode);
 		}
-		CacheHolder.put(Keys.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
+		CacheHolder.put(RoleConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
 	}
 
 }

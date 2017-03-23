@@ -19,8 +19,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Component;
 
-import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.cache.CacheHolder;
+import com.goldgov.origin.modules.role.RoleConstants;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.role.service.ResourceContext;
 
@@ -55,8 +55,8 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		HttpServletRequest httpRequest = filterInvocation.getHttpRequest();
 //		HttpServletResponse httpResponse = filterInvocation.getHttpResponse();
 		
-		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(Keys.CACHE_CODE_PATH_RESOURCE_MAPPING);
-		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(Keys.CACHE_CODE_ROLE_RESOURCE_MAPPING);
+		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(WebGateConstants.CACHE_CODE_PATH_RESOURCE_MAPPING);
+		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(RoleConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 		
 		String requestURI = httpRequest.getRequestURI();
 		
@@ -102,7 +102,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		 * 资源路径与资源编码的映射
 		 */
 		Map<String,String> allResourceMapping = ResourceContext.getAllResourcesMap();
-		CacheHolder.put(Keys.CACHE_CODE_PATH_RESOURCE_MAPPING, allResourceMapping);
+		CacheHolder.put(WebGateConstants.CACHE_CODE_PATH_RESOURCE_MAPPING, allResourceMapping);
 		
 		// 将角色编码与资源编码进行Map对象组装，key为资源编码，value为角色，角色可能会多个（角色资源配置重复的情况下）
 		try {
