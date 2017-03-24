@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.role.service;
+package com.goldgov.origin.security.resource;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -99,7 +99,7 @@ public class ResourceClassProcessor implements InitializingBean{
 		Controller controller = clazz.getAnnotation(Controller.class);
 		RequestMapping requestMappingAnno = clazz.getAnnotation(RequestMapping.class);
 		if(resourceAnno != null && controller != null){
-			com.goldgov.origin.modules.role.service.Resource resource = new com.goldgov.origin.modules.role.service.Resource();
+			com.goldgov.origin.security.resource.Resource resource = new com.goldgov.origin.security.resource.Resource();
 			resource.setResourceName(resourceAnno.name());
 			if("".equals(resourceAnno.code())){
 				resource.setResourceCode(clazz.getName());

@@ -1,5 +1,6 @@
-package com.goldgov.origin.modules.user.api;
+package com.goldgov.origin.modules.user.service.impl;
 
+import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.service.User;
 
 public class ProxyUser extends User{

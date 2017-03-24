@@ -1,8 +1,11 @@
-package com.goldgov.origin.modules.role.service;
+package com.goldgov.origin.security.resource;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Resource {
+public class Resource implements Serializable{
+
+	private static final long serialVersionUID = -2919977030445383820L;
 
 	private Integer resourceID;
 	private String resourceName;

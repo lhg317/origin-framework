@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.goldgov.origin.core.cache.CacheHolder;
-import com.goldgov.origin.modules.role.RoleConstants;
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.service.Role;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 import com.goldgov.origin.modules.role.service.RoleResource;
 import com.goldgov.origin.modules.role.service.RoleService;
+import com.goldgov.origin.security.resource.ResourceConstants;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService{
@@ -84,15 +84,15 @@ public class RoleServiceImpl implements RoleService{
 		roleDao.addRoleObject(roleID, roleObject);
 	}
 
-//	@Override
-//	public List<Map<String, String>> getRoleResourcesMap() {
-//		return roleDao.getRoleResourcesMap();
-//	}
+	@Override
+	public List<Map<String, String>> getRoleResourcesMap() {
+		return roleDao.getRoleResourcesMap();
+	}
 
 	@Override
 	public void initRoleResourcesMap() {
 		Map<String,List<String>> roleResourceMap = new HashMap<>();
-		List<Map<String, String>> roleResourceMapList = roleDao.getRoleResourcesMap();
+		List<Map<String, String>> roleResourceMapList = getRoleResourcesMap();
 		for (Map<String, String> map : roleResourceMapList) {
 			String roleCode = map.get("roleCode");
 			String resourceOperate = map.get("resourceOperate");
@@ -105,7 +105,7 @@ public class RoleServiceImpl implements RoleService{
 			}
 			roleCodeList.add(roleCode);
 		}
-		CacheHolder.put(RoleConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
+		CacheHolder.put(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
 	}
 
 }

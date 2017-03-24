@@ -1,0 +1,6 @@
+FROM java
+
+RUN mkdir /data/
+ADD ./origin-webgate-webapps.jar /data/origin-webgate-webapps.jar
+EXPOSE 8080
+CMD ["java","-jar", "/data/origin-webgate-webapps.jar"]

@@ -42,4 +42,5 @@ service RpcRoleService{
 	list<RpcRole> findRolesByObject(1:string roleObject),
 	list<RpcRoleResource> findRoleResourcesByObject(1:string roleObject),
 	void initRoleResourcesMap();
+	list<map<string, string>> getRoleResourcesMap();
 } 

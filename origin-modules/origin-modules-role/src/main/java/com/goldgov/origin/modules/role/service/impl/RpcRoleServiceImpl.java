@@ -2,13 +2,12 @@ package com.goldgov.origin.modules.role.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.goldgov.origin.core.discovery.rpc.RpcService;
-import com.goldgov.origin.modules.role.api.ProxyRole;
-import com.goldgov.origin.modules.role.api.ProxyRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleResource;
@@ -94,5 +93,9 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 		roleService.initRoleResourcesMap();
 	}
 
+	@Override
+	public List<Map<String, String>> getRoleResourcesMap() throws TException {
+		return roleService.getRoleResourcesMap();
+	}
 
 }

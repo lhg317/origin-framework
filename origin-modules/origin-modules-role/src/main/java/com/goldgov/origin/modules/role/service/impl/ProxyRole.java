@@ -1,5 +1,6 @@
-package com.goldgov.origin.modules.role.api;
+package com.goldgov.origin.modules.role.service.impl;
 
+import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.service.Role;
 
 public class ProxyRole extends Role{

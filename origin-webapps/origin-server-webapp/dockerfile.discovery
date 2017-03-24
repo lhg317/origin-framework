@@ -1,0 +1,7 @@
+FROM java
+
+RUN mkdir /data/
+ADD ./origin-server-webapp.jar /data/origin-server-webapp.jar
+EXPOSE 8000
+EXPOSE 7771
+CMD ["java","-jar", "/data/origin-server-webapp.jar"]

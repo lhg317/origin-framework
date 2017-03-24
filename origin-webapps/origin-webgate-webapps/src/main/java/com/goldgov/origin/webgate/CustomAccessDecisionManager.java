@@ -1,6 +1,8 @@
 package com.goldgov.origin.webgate;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +22,9 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Component;
 
 import com.goldgov.origin.core.cache.CacheHolder;
-import com.goldgov.origin.modules.role.RoleConstants;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
-import com.goldgov.origin.modules.role.service.ResourceContext;
+import com.goldgov.origin.security.resource.ResourceConstants;
+import com.goldgov.origin.security.resource.ResourceContext;
 
 @Component
 public class CustomAccessDecisionManager implements AccessDecisionManager{
@@ -56,7 +58,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 //		HttpServletResponse httpResponse = filterInvocation.getHttpResponse();
 		
 		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(WebGateConstants.CACHE_CODE_PATH_RESOURCE_MAPPING);
-		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(RoleConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
+		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 		
 		String requestURI = httpRequest.getRequestURI();
 		
@@ -106,7 +108,22 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		
 		// 将角色编码与资源编码进行Map对象组装，key为资源编码，value为角色，角色可能会多个（角色资源配置重复的情况下）
 		try {
-			roleService.initRoleResourcesMap();
+//			roleService.initRoleResourcesMap();
+			Map<String,List<String>> roleResourceMap = new HashMap<>();
+			List<Map<String, String>> roleResourceMapList = roleService.getRoleResourcesMap();
+			for (Map<String, String> map : roleResourceMapList) {
+				String roleCode = map.get("roleCode");
+				String resourceOperate = map.get("resourceOperate");
+				List<String> roleCodeList;
+				if(roleResourceMap.containsKey(resourceOperate)){
+					roleCodeList = roleResourceMap.get(resourceOperate);
+				}else{
+					roleCodeList= new ArrayList<>();
+					roleResourceMap.put(resourceOperate, roleCodeList);
+				}
+				roleCodeList.add(roleCode);
+			}
+			CacheHolder.put(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
 		} catch (TException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

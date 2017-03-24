@@ -7,8 +7,6 @@ import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.goldgov.origin.core.discovery.rpc.RpcService;
-import com.goldgov.origin.modules.user.api.ProxyUser;
-import com.goldgov.origin.modules.user.api.ProxyUserQuery;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserExistException;
 import com.goldgov.origin.modules.user.api.RpcUserNameCheckFailException;

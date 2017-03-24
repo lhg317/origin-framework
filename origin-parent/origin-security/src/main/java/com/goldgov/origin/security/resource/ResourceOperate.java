@@ -1,8 +1,12 @@
-package com.goldgov.origin.modules.role.service;
+package com.goldgov.origin.security.resource;
+
+import java.io.Serializable;
 
 import com.goldgov.origin.core.web.annotation.OperateType;
 
-public class ResourceOperate {
+public class ResourceOperate implements Serializable{
+
+	private static final long serialVersionUID = -1424245690433943626L;
 
 	private Integer operateID;
 

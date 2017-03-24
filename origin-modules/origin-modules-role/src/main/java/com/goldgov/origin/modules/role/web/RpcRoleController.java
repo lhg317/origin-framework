@@ -1,7 +1,6 @@
 package com.goldgov.origin.modules.role.web;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
-import com.goldgov.origin.modules.role.service.Resource;
-import com.goldgov.origin.modules.role.service.ResourceContext;
 
 @Controller
 @RequestMapping("role")
@@ -90,12 +87,12 @@ public class RpcRoleController {
 		return PAGES_BASE_PATH + "list";
 	}
 	
-	@RequestMapping("/getResources")
-	public String getResources(@RequestParam("roleID") String roleID,Model model) throws TException{
-		List<Resource> allResources = ResourceContext.getAllResources();
-
-		model.addAttribute("allResources", allResources);
-		return PAGES_BASE_PATH + "tree";
-
-	}
+//	@RequestMapping("/getResources")
+//	public String getResources(@RequestParam("roleID") String roleID,Model model) throws TException{
+//		List<Resource> allResources = ResourceContext.getAllResources();
+//
+//		model.addAttribute("allResources", allResources);
+//		return PAGES_BASE_PATH + "tree";
+//
+//	}
 }

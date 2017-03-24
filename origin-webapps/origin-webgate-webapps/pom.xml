@@ -25,10 +25,10 @@
       <groupId>com.goldgov</groupId>
       <artifactId>origin-security</artifactId>
     </dependency>
-    <dependency>
+    <!-- <dependency>
       <groupId>com.goldgov</groupId>
       <artifactId>origin-server</artifactId>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>com.goldgov</groupId>
       <artifactId>origin-client</artifactId>
@@ -37,7 +37,7 @@
       <groupId>com.goldgov</groupId>
       <artifactId>origin-modules-user</artifactId>
       <version>1.0.0-SNAPSHOT</version>
-      <!-- <classifier>API</classifier> -->
+     <!--  <classifier>API</classifier> -->
     </dependency>
     <dependency>
       <groupId>com.goldgov</groupId>
@@ -47,8 +47,16 @@
     </dependency>
     <!-- <dependency>
       <groupId>com.goldgov</groupId>
-      <artifactId>code-practice</artifactId>
+      <artifactId>origin-modules-user</artifactId>
       <version>1.0.0-SNAPSHOT</version>
+      <classifier>WEB</classifier>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.goldgov</groupId>
+      <artifactId>origin-modules-role</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <classifier>WEB</classifier>
     </dependency> -->
     <dependency>
       <groupId>junit</groupId>

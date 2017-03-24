@@ -1,8 +1,10 @@
-package com.goldgov.origin.modules.user.api;
+package com.goldgov.origin.modules.user.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.goldgov.origin.modules.user.api.RpcUser;
+import com.goldgov.origin.modules.user.api.RpcUserQuery;
 import com.goldgov.origin.modules.user.service.User;
 import com.goldgov.origin.modules.user.service.UserQuery;
 

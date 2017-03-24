@@ -1,8 +1,10 @@
-package com.goldgov.origin.modules.role.api;
+package com.goldgov.origin.modules.role.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.goldgov.origin.modules.role.api.RpcRole;
+import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.service.Role;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 
