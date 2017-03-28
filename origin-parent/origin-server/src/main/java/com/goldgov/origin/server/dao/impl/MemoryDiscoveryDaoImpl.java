@@ -44,8 +44,11 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 			}else{
 				serviceList = new ArrayList<>();
 			}
-			serviceList.add(serviceObject);
-			serviceMap.put(serviceName, serviceList);
+			boolean hasService = serviceIsExist(serviceObject, serviceList);
+			if(!hasService){
+				serviceList.add(serviceObject);
+				serviceMap.put(serviceName, serviceList);
+			}
 		}
 		
 		if(!clientMapping.containsKey(serviceObject.getServiceServer().getRpcServerAddress())){
@@ -57,20 +60,19 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 //		return isNew;
 		
 	}
-	
-//	private boolean processExistService(ServiceObject serviceObject, List<ServiceObject> services) {
-//		int index = 0;
-//		for (ServiceObject _serviceInfo : services) {
-//			if(_serviceInfo.getRpcServerAddress().equals(serviceObject.getRpcServerAddress())){
-//				services.set(index, serviceObject);
-//				return false;
-//			}
-//			index++;
-//		}
-//		
-//		services.add(serviceObject);
-//		return true;
-//	}
+
+	private boolean serviceIsExist(RpcServiceInstance serviceObject, List<RpcServiceInstance> serviceList) {
+		boolean hasService = false;
+		for(RpcServiceInstance serviceInstance : serviceList){
+			String address1 = serviceInstance.getServiceServer().getRpcServerAddress();
+			String address2 = serviceObject.getServiceServer().getRpcServerAddress();
+			if(address1.equals(address2)){
+				hasService = true;
+				break;
+			}
+		}
+		return hasService;
+	}
 	
 	@Override
 	public void updateService(String serviceName,RpcServiceInstance serviceObject) {

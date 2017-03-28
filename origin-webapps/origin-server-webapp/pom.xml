@@ -29,7 +29,30 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<server.port>8000</server.port>
+				<datasource.url>jdbc:mysql://127.0.0.1:3306/train</datasource.url>
+				<logging.level>ERROR</logging.level>
+			</properties>
+		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<server.port>8000</server.port>
+				<datasource.url>jdbc:mysql://docker_mysql:3306/train</datasource.url>
+				<logging.level>INFO</logging.level>
+			</properties>
+		</profile>
+		
+	</profiles>
 	<build>
+		<finalName>origin-discovery-server</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
