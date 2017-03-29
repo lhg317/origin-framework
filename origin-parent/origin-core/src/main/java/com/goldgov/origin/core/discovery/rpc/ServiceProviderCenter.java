@@ -40,6 +40,9 @@ public class ServiceProviderCenter{
 	@Value("${discovery.client.discovery-server}")
 	private String discoveryServer;
 	
+	@Value("${rpc.connect.timeout:3000}")
+	private int rpcTimeout;
+	
 	
 	public void clearServerCache(){
 		serviceMap.clear();
@@ -135,13 +138,15 @@ public class ServiceProviderCenter{
 		}
 		RpcServiceInstance service = rule.choose(serviceList,serviceName);
 		
-		System.out.println(serviceName +":" + serviceList.size() + " at " + service.getServiceServer().getRpcServerAddress());//TODO DELETE
+		if(logger.isDebugEnabled()){
+			logger.debug(serviceName +":(" + serviceList.size() + ") at " + service.getServiceServer().getRpcServerAddress());
+		}
 		
 		SocketProvider socketProvider = socketProviderMap.get(service);
 		if(socketProvider == null){
 			synchronized (this) {
-				//FIXME 3000秒超时设置
-				socketProvider = new SocketProviderImpl(service,3000);
+				//秒超时设置
+				socketProvider = new SocketProviderImpl(service,rpcTimeout);
 				socketProviderMap.put(service, socketProvider);
 			}
 		}

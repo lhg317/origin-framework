@@ -31,7 +31,7 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>dev</id>
+			<id>default</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -49,7 +49,6 @@
 				<logging.level>INFO</logging.level>
 			</properties>
 		</profile>
-		
 	</profiles>
 	<build>
 		<finalName>origin-discovery-server</finalName>
