@@ -1,90 +1,107 @@
 <?xml version="1.0"?>
 <project
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.goldgov</groupId>
-    <artifactId>origin-webapps</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.goldgov</groupId>
+		<artifactId>origin-webapps</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
-  <artifactId>origin-webgate-webapps</artifactId>
+	<artifactId>origin-webgate-webapps</artifactId>
 
-  <name>origin-webgate-webapps</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-security</artifactId>
-    </dependency>
-    <!-- <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-server</artifactId>
-    </dependency> -->
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-modules-user</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-     <!--  <classifier>API</classifier> -->
-    </dependency>
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-modules-role</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <!-- <classifier>API</classifier> -->
-    </dependency>
-    <!-- <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-modules-user</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <classifier>WEB</classifier>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.goldgov</groupId>
-      <artifactId>origin-modules-role</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <classifier>WEB</classifier>
-    </dependency> -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <build>
-    <resources>
-      <resource>  
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-      <resource>  
-                <directory>src/main/java</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*.ftl</include>  
-                    <include>**/*.xml</include>
-                    <include>**/*.properties</include>
-                </includes>  
-            </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+	<name>origin-webgate-webapps</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-security</artifactId>
+		</dependency>
+		<!-- <dependency> <groupId>com.goldgov</groupId> <artifactId>origin-server</artifactId> 
+			</dependency> -->
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-modules-user</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<!-- <classifier>API</classifier> -->
+		</dependency>
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-modules-role</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<!-- <classifier>API</classifier> -->
+		</dependency>
+		<!-- <dependency> <groupId>com.goldgov</groupId> <artifactId>origin-modules-user</artifactId> 
+			<version>1.0.0-SNAPSHOT</version> <classifier>WEB</classifier> </dependency> 
+			<dependency> <groupId>com.goldgov</groupId> <artifactId>origin-modules-role</artifactId> 
+			<version>1.0.0-SNAPSHOT</version> <classifier>WEB</classifier> </dependency> -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<server.port>80</server.port>
+				<discovery.url>http://127.0.0.1:80/server/discovery</discovery.url>
+				<datasource.url>jdbc:mysql://127.0.0.1:3306/train</datasource.url>
+				<redis.host>192.168.10.120</redis.host>
+				<redis.password>gang317</redis.password>
+				<logging.level>ERROR</logging.level>
+			</properties>
+		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<server.port>80</server.port>
+				<discovery.url>http://docker_discovery:8000/server/discovery</discovery.url>
+				<datasource.url>jdbc:mysql://docker_mysql:3306/train</datasource.url>
+				<redis.host>docker_redis</redis.host>
+				<redis.password></redis.password>
+				<logging.level>INFO</logging.level>
+			</properties>
+		</profile>
+	</profiles>
+	<build>
+		<finalName>webgate-server</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.ftl</include>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>

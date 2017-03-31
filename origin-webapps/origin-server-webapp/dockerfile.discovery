@@ -1,7 +1,7 @@
 FROM java
 
 RUN mkdir /data/
-ADD ./origin-discovery-server.jar /data/origin-discovery-server.jar
+ADD ./discovery-server.jar /data/discovery-server.jar
 EXPOSE 8000
 EXPOSE 7771
-CMD ["java","-jar", "/data/origin-discovery-server.jar"]
+CMD ["java","-jar", "/data/discovery-server.jar"]

@@ -51,7 +51,7 @@
 		</profile>
 	</profiles>
 	<build>
-		<finalName>origin-discovery-server</finalName>
+		<finalName>discovery-server</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
