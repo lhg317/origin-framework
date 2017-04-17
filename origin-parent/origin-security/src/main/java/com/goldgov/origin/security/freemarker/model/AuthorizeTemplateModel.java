@@ -1,4 +1,4 @@
-package com.goldgov.origin.webgate.freemarker.model;
+package com.goldgov.origin.security.freemarker.model;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -11,6 +11,9 @@ import com.goldgov.origin.security.UserHolder;
 import com.goldgov.origin.security.resource.ResourceConstants;
 
 import freemarker.core.Environment;
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.ext.beans.BeansWrapperBuilder;
+import freemarker.template.Configuration;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
@@ -18,7 +21,7 @@ import freemarker.template.TemplateModel;
 
 public class AuthorizeTemplateModel implements TemplateDirectiveModel{
 
-//	private DefaultObjectWrapper objectWrapper = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25).build();
+	private BeansWrapper beansWrapper = new BeansWrapperBuilder(Configuration.VERSION_2_3_25).build();
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -27,22 +30,29 @@ public class AuthorizeTemplateModel implements TemplateDirectiveModel{
 		Object resourceCode = params.get("code");
 		UserDelegate user = UserHolder.getUser();
 		
-		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
-		List<String> roleCodeList = roleResourceMapping.get(resourceCode.toString());
-		
-		Writer out = env.getOut();
-		
-		if(roleCodeList == null){
+		if(user == null){
 			return;
 		}
 		
-		for (String roleCode : user.getRoles()) {
-			if(roleCodeList.contains(roleCode)){
-				body.render(out);
+		env.setVariable("userToken", beansWrapper.wrap(user));
+		Writer out = env.getOut();
+		
+		if(resourceCode == null){
+			body.render(out);
+		}else{
+			Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
+			List<String> roleCodeList = roleResourceMapping.get(resourceCode.toString());
+			
+			if(roleCodeList == null){
 				return;
 			}
+			
+			for (String roleCode : user.getRoles()) {
+				if(roleCodeList.contains(roleCode)){
+					body.render(out);
+					return;
+				}
+			}
 		}
-		
 	}
-	
 }

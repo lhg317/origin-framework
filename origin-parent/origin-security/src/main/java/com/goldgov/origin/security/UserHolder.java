@@ -7,7 +7,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler.RequestHolder;
 
-public abstract class UserHolder {
+/**
+ * 获取当前用户信息的工具类
+ * @author LiuHG
+ *
+ */
+public final class UserHolder {
+	
+	private UserHolder(){}
 
 	public static UserDelegate getUser(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

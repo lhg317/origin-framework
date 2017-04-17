@@ -1,3 +1,4 @@
+<#assign authorize = "com.goldgov.origin.security.freemarker.model.AuthorizeTemplateModel"?new()>
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <!DOCTYPE html>
 <html>
@@ -52,6 +53,9 @@
 	}
 </script>
 <body>
+<@authorize >
+	欢迎，${userToken.userName}
+</@authorize>
 	<h2>登录成功</h2><p>
 	<a href="./user/findUsers">用户管理</a><br>
 	<a href="./role/findRoles">角色管理</a><br>
