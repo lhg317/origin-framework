@@ -1,7 +1,7 @@
 namespace java com.goldgov.origin.modules.user.api
 
 struct RpcUser {
-	1: i32 userID;
+	1: string userID;
 	2: string userName;
 	3: string loginName;
 	4: string password;
@@ -29,11 +29,11 @@ exception RpcUserNameCheckFailException{
 
 service RpcUserService {
 	void addUser(1:RpcUser user) throws (1:RpcUserExistException e1,2: RpcUserNameCheckFailException e2);
-	void deleteUsers(1:list<i32> ids);
+	void deleteUser(1:list<string> ids);
 	void updateUser(1:RpcUser user);
-	RpcUser findUserByID(1:i32 userID);
-	RpcUser findUserByLoginName(1:string loginName);
-	RpcUserQuery findUsers(1:RpcUserQuery userQuery);
+	RpcUser getUser(1:string userID);
+	RpcUser getUserByLoginName(1:string loginName);
+	RpcUserQuery listUser(1:RpcUserQuery userQuery);
 	bool existUser(1:string loginName);
 	bool updatePassword(1:string loginName,2:string oldPassword,3:string newPassword);
 	bool checkUserName(1:string userName);

@@ -11,12 +11,15 @@
 		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
 	</resultMap>
 
-	<select id="findUser" resultMap="user">
+	<select id="getUser" resultMap="user">
 		SELECT * FROM USER WHERE USER_ID=#{userID};
 	</select>
 	
-	<insert id="addUser" keyProperty="userID" useGeneratedKeys="true">
-		INSERT INTO USER (LOGIN_NAME,USER_NAME,PASSWORD,EMAIL)VALUES(#{loginName},#{userName},#{password},#{email});
+	<insert id="addUser">
+		<selectKey keyProperty="userID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		INSERT INTO USER (USER_ID,LOGIN_NAME,USER_NAME,PASSWORD,EMAIL)VALUES(#{userID},#{loginName},#{userName},#{password},#{email});
 	</insert>
 	
 	<update id="updateUser">
@@ -24,7 +27,6 @@
 		<set>
 			<!-- <if test="loginName != null and loginName != ''">LOGIN_NAME=#{loginName},</if> -->
 			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
-			<!-- <if test="password != null and password != ''">password=#{password},</if> -->
 			<if test="email != null and email != ''">email=#{email},</if>
 		</set>
 		where user_id=#{userID}
@@ -32,16 +34,16 @@
 	
 	<delete id="deleteUser">
 		delete from USER where USER_ID in
-		<foreach item="id" index="index" collection="userIDs" open="(" separator="," close=")">
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
 		</foreach>
 	</delete>
 	
-	<select id="findUsers" resultMap="user">
+	<select id="listUser" resultMap="user">
 		SELECT * FROM USER
 	</select>
 	
-	<select id="findUserByLoginName" resultMap="user">
+	<select id="getUserByLoginName" resultMap="user">
 		SELECT * FROM USER WHERE LOGIN_NAME=#{loginName}
 	</select>
 	

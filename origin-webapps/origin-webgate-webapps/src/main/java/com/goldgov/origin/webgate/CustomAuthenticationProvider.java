@@ -39,7 +39,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = (String)authentication.getCredentials();
         
         try {
-			RpcUser user = userService.findUserByLoginName(loginName);
+			RpcUser user = userService.getUserByLoginName(loginName);
 			
 			if(user == null || !password.equals(user.getPassword())){
 				throw new BadCredentialsException("认证失败：" + loginName);

@@ -9,15 +9,15 @@ public interface UserService {
 
 	public void addUser(User user) throws UserExistException, UserNameCheckFailException;
 	
-	public void deleteUsers(Integer[] ids);
+	public void deleteUser(String[] ids);
 	
 	public void updateUser(User user);
 	
-	public User findUserByID(Integer userID);
+	public User getUser(String userID);
 	
-	public User findUserByLoginName(String loginName);
+	public User getUserByLoginName(String loginName);
 
-	public List<User> findUsers(UserQuery userQuery);
+	public List<User> listUser(UserQuery userQuery);
 
 	public boolean existUser(String loginName);
 	
@@ -26,3 +26,4 @@ public interface UserService {
 	public void updatePassword(String loginName, String oldPassword, String newPassword);
 	
 }
+

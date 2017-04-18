@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
 		if(existUser(user.getLoginName())){
 			throw new UserExistException(user.getLoginName());
 		}
-		if(userNameChecker != null && !userNameChecker.doCheck(user.getUserName())){
+		if(!checkUserName(user.getUserName())){
 			throw new UserNameCheckFailException(user.getLoginName());
 		}
 		
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public void deleteUsers(Integer[] ids) {
+	public void deleteUser(String[] ids) {
 		userDao.deleteUser(ids);
 	}
 
@@ -61,30 +61,33 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User findUserByID(Integer userID) {
-		return userDao.findUser(userID);
+	public User getUser(String userID) {
+		return userDao.getUser(userID);
 	}
 	
 	@Override
-	public List<User> findUsers(UserQuery userQuery) {
-		return userDao.findUsers(userQuery);
+	public List<User> listUser(UserQuery userQuery) {
+		return userDao.listUser(userQuery);
 	}
 
 	@Override
-	public User findUserByLoginName(String loginName) {
-		return userDao.findUserByLoginName(loginName);
+	public User getUserByLoginName(String loginName) {
+		return userDao.getUserByLoginName(loginName);
 	}
 
 	@Override
 	public boolean existUser(String loginName) {
-		User user = findUserByLoginName(loginName);
+		User user = getUserByLoginName(loginName);
 		return user != null;
 	}
 
 	@Override
 	public boolean checkUserName(String userName) {
-		// TODO Auto-generated method stub
-		return true;
+		if(userNameChecker == null){
+			return true;
+		}else{
+			return userNameChecker.doCheck(userName);
+		}
 	}
 	
 	private void processBeforeEvent(Class<? extends UserEvent> eventClass,User obj) {

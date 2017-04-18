@@ -5,10 +5,10 @@
 </head>
 <body>
 
-<#if (!user??) || (!user.userID??) >
+<#if (!user??) || (user.userID=="") >
 <form method="post" action="./addUser">
 </#if>
-<#if user?? && (user.userID != 0)>
+<#if user?? && user.userID!="">
 <form method="post" action="./updateUser">
 <input type="hidden" name="userID" value="${(user.userID)!}">
 </#if>
@@ -20,7 +20,7 @@
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 ${webToken(true)}
 <br>
-<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./findUsers','_self')"/>
+<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listUser','_self')"/>
 
 </form>
 

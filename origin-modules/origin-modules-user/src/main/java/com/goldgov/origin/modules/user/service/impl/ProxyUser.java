@@ -28,11 +28,11 @@ public class ProxyUser extends User{
 		setEmail(_user.getEmail());
 	}
 
-	public Integer getUserID() {
+	public String getUserID() {
 		return user.getUserID();
 	}
 
-	public void setUserID(Integer userID) {
+	public void setUserID(String userID) {
 		user.setUserID(userID);
 	}
 

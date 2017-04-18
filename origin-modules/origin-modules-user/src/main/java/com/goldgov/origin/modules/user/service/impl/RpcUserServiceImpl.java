@@ -35,8 +35,8 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	}
 
 	@Override
-	public void deleteUsers(List<Integer> ids) throws TException {
-		userService.deleteUsers(ids.toArray(new Integer[0]));
+	public void deleteUser(List<String> ids) throws TException {
+		userService.deleteUser(ids.toArray(new String[0]));
 	}
 
 	@Override
@@ -45,14 +45,14 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	}
 
 	@Override
-	public RpcUser findUserByID(int userID) throws TException {
-		User user = userService.findUserByID(userID);
+	public RpcUser getUser(String userID) throws TException {
+		User user = userService.getUser(userID);
 		return new ProxyUser(user).toRpcUser();
 	}
 
 	@Override
-	public RpcUserQuery findUsers(RpcUserQuery userQuery) throws TException {
-		List<User> findUserList = userService.findUsers(new ProxyUserQuery(userQuery));
+	public RpcUserQuery listUser(RpcUserQuery userQuery) throws TException {
+		List<User> findUserList = userService.listUser(new ProxyUserQuery(userQuery));
 		List<RpcUser> resultList = new ArrayList<>();
 		for (User user : findUserList) {
 			resultList.add(new ProxyUser(user).toRpcUser());
@@ -62,8 +62,8 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	}
 
 	@Override
-	public RpcUser findUserByLoginName(String loginName) throws TException {
-		User user = userService.findUserByLoginName(loginName);
+	public RpcUser getUserByLoginName(String loginName) throws TException {
+		User user = userService.getUserByLoginName(loginName);
 		return new ProxyUser(user).toRpcUser();
 	}
 

@@ -2,6 +2,8 @@ package com.goldgov.origin.security.freemarker.model;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +29,8 @@ public class AuthorizeTemplateModel implements TemplateDirectiveModel{
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
 			throws TemplateException, IOException {
-		Object resourceCode = params.get("code");
+		Object resourceCodeArgs = params.get("code");
+		Object roleCodeArg = params.get("role");
 		UserDelegate user = UserHolder.getUser();
 		
 		if(user == null){
@@ -37,18 +40,28 @@ public class AuthorizeTemplateModel implements TemplateDirectiveModel{
 		env.setVariable("userToken", beansWrapper.wrap(user));
 		Writer out = env.getOut();
 		
-		if(resourceCode == null){
+		if(resourceCodeArgs == null && roleCodeArg == null){
 			body.render(out);
 		}else{
 			Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
-			List<String> roleCodeList = roleResourceMapping.get(resourceCode.toString());
+			List<String> roleCodeList = null;
+			if(resourceCodeArgs != null){
+				roleCodeList = roleResourceMapping.get(resourceCodeArgs.toString());
+			}
+			
+			if(roleCodeArg != null){
+				String[] roles = roleCodeArg.toString().split("[,;]");
+				roleCodeList = roleCodeList == null ? new ArrayList<String>():roleCodeList;
+				roleCodeList.addAll(Arrays.asList(roles));
+			}
+			
 			
 			if(roleCodeList == null){
 				return;
 			}
 			
-			for (String roleCode : user.getRoles()) {
-				if(roleCodeList.contains(roleCode)){
+			for (String rCode : user.getRoles()) {
+				if(roleCodeList.contains(rCode)){
 					body.render(out);
 					return;
 				}

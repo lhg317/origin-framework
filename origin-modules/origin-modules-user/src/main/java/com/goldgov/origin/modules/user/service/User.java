@@ -5,7 +5,7 @@ import com.goldgov.origin.core.web.validator.annotation.NotNull;
 
 public class User {
 
-	private Integer userID;
+	private String userID;
 	@NotNull(type=OperateType.ADD)
 	private String loginName;
 	@NotNull
@@ -13,10 +13,10 @@ public class User {
 	private String password;
 	private String email;
 	
-	public Integer getUserID() {
+	public String getUserID() {
 		return userID;
 	}
-	public void setUserID(Integer userID) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 	public String getLoginName() {

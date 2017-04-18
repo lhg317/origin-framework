@@ -52,14 +52,14 @@ public class RpcUserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "forward:/user/findUsers";
+		return "forward:/user/listUser";
 	}
 	
 	@RequestMapping("/deleteUser")
 	@ModuleOperating(name="i18n:label.user+delete",type=OperateType.DELETE)
-	public String deleteUsers(@RequestParam("userID") Integer[] ids) throws TException{
-		userService.deleteUsers(Arrays.asList(ids));
-		return "forward:/user/findUsers";
+	public String deleteUser(@RequestParam("userID") String[] ids) throws TException{
+		userService.deleteUser(Arrays.asList(ids));
+		return "forward:/user/listUser";
 	}
 	
 	@RequestMapping("/updateUser")
@@ -67,27 +67,27 @@ public class RpcUserController {
 	@WebToken(handle=TokenHandleType.VERIFY)
 	public String updateUser(RpcUser user) throws TException{
 		userService.updateUser(user);
-		return "forward:/user/findUsers";
+		return "forward:/user/listUser";
 	}
 	
-	@RequestMapping("/findUser")
+	@RequestMapping("/getUser")
 	@WebToken(handle=TokenHandleType.GENERATE)
-	public String findUserByID(@RequestParam("userID") int userID,Model model) throws TException{
-		RpcUser user = userService.findUserByID(userID);
+	public String getUser(@RequestParam("userID") String userID,Model model) throws TException{
+		RpcUser user = userService.getUser(userID);
 		model.addAttribute("user", user);
 		return PAGES_BASE_PATH + "form";
 	}
 	
-	@RequestMapping("/findUsers")
-	public String findUsers(RpcUserQuery userQuery,Model model) throws TException{
-		userQuery = userService.findUsers(userQuery);
+	@RequestMapping("/listUser")
+	public String listUser(RpcUserQuery userQuery,Model model) throws TException{
+		userQuery = userService.listUser(userQuery);
 		model.addAttribute("query", userQuery);
 		return PAGES_BASE_PATH + "list";
 	}
 	
 	@RequestMapping("/findUserSelectList")
-	public String findUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
-		findUsers(userQuery,model);
+	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
+		listUser(userQuery,model);
 		return PAGES_BASE_PATH + "select";
 	}
 	

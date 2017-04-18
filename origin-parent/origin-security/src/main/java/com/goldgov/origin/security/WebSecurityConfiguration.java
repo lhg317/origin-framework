@@ -104,7 +104,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
                 .permitAll();
 //    	@formatter:on
     	
-//    	http.authorizeRequests().antMatchers("/**").access("ROLE_ANONYMOUS");
+    	http.authorizeRequests().antMatchers("/**").access("IS_AUTHENTICATED_ANONYMOUSLY");
 //    	http.requestMatcher(new InternalRequestMatcher());
 
 //        http.authorizeRequests().antMatchers("/").permitAll();
