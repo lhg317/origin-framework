@@ -41,7 +41,12 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 
 	@Override
 	public void updateUser(RpcUser user) throws TException {
-		userService.updateUser(new ProxyUser(user));
+		try {
+			userService.updateUser(new ProxyUser(user));
+		} catch (UserNameCheckFailException e) {
+			throw new RpcUserNameCheckFailException(user.getUserName());
+		}
+		
 	}
 
 	@Override

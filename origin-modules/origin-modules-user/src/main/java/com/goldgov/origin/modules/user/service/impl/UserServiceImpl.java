@@ -54,7 +54,10 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public void updateUser(User user) throws UserNameCheckFailException {
+		if(!checkUserName(user.getUserName())){
+			throw new UserNameCheckFailException(user.getLoginName());
+		}
 		processBeforeEvent(UpdateUserEvent.class,user);
 		userDao.updateUser(user);
 		processAfterEvent(UpdateUserEvent.class,user);
