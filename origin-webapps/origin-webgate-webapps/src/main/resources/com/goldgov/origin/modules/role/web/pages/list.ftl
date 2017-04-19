@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<form id="listForm" method="post" action="./findRoles">
+<form id="listForm" method="post" action="./listRole">
 <select name="locale" onchange="javascript:listForm.submit()">
 	<option value="zh_CN" <#if (RequestParameters['locale']??) && (RequestParameters['locale']=="zh_CN")>selected</#if>>中</option>
 	<option value="en_US" <#if (RequestParameters['locale']??) && (RequestParameters['locale']=="en_US")>selected</#if>>英</option>
@@ -27,7 +27,7 @@
 <tr>
 	<td>${role.roleName}</td>
 	<td>${role.roleCode}</td>
-	<td><a href="./findRole?roleID=${role.roleID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteRole?roleID=${role.roleID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="../user/findUserSelectList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】&nbsp;<a href="../resources/list?roleID=${role.roleID}" target="_self">【<@i18n code="i18n:select+label.resource"/>】</a></td>
+	<td><a href="./getRole?roleID=${role.roleID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteRole?roleID=${role.roleID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="./findUserSelectList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】&nbsp;<a href="./listResource?roleID=${role.roleID}" target="_self">【<@i18n code="i18n:select+label.resource"/>】</a></td>
 </tr>
 </#escape>
 

@@ -30,7 +30,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	@Transactional
-	public void saveRoleResources(Integer roleID,String[] resourceOperates) {
+	public void saveRoleResource(String roleID,String[] resourceOperates) {
 		roleDao.deleteRoleResourceByRoleID(roleID);
 		roleDao.addRoleResource(roleID,resourceOperates);
 		
@@ -43,56 +43,52 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public void deleteRoles(Integer[] ids) {
+	public void deleteRole(String[] ids) {
 		roleDao.deleteRoles(ids);
 	}
 
 	@Override
-	public void deleteRoleResources(Integer[] ids) {
-		roleDao.deleteRoleResources(ids);
+	public void deleteRoleResource(String[] ids) {
+		roleDao.deleteRoleResource(ids);
 	}
 	
 	@Override
-	public Role findRoleByID(Integer id) {
-		return roleDao.findRoleByID(id);
+	public Role getRole(String id) {
+		return roleDao.getRole(id);
 	}
 
 	@Override
-	public List<Role> findRoles(RoleQuery<Role> roleQuery) {
-		return roleDao.findRoles(roleQuery);
+	public List<Role> listRole(RoleQuery<Role> roleQuery) {
+		return roleDao.listRole(roleQuery);
+	}
+
+
+	@Override
+	public List<RoleResource> listRoleResourceByObject(String roleObject) {
+		return roleDao.listRoleResourceByObject(roleObject);
 	}
 
 	@Override
-	public RoleResource findRoleResourceByCode(String code) {
-		return roleDao.findRoleResource(code);
-	}
-
-	@Override
-	public List<RoleResource> findRoleResourcesByObject(String roleObject) {
-		return roleDao.findRoleResourcesByObject(roleObject);
-	}
-
-	@Override
-	public List<Role> findRolesByObject(String roleObject) {
-		return roleDao.findRolesByObject(roleObject);
+	public List<Role> listRoleByObject(String roleObject) {
+		return roleDao.listRoleByObject(roleObject);
 	}
 	
 	@Override
 	@Transactional
-	public void saveRoleObjects(Integer roleID, String[] roleObject) {
+	public void saveRoleObject(String roleID, String[] roleObject) {
 		roleDao.deleteRoleObjectByRoleID(roleID);
 		roleDao.addRoleObject(roleID, roleObject);
 	}
 
 	@Override
-	public List<Map<String, String>> getRoleResourcesMap() {
-		return roleDao.getRoleResourcesMap();
+	public List<Map<String, String>> listRoleResourceMap() {
+		return roleDao.listRoleResourceMap();
 	}
 
 	@Override
 	public void initRoleResourcesMap() {
 		Map<String,List<String>> roleResourceMap = new HashMap<>();
-		List<Map<String, String>> roleResourceMapList = getRoleResourcesMap();
+		List<Map<String, String>> roleResourceMapList = listRoleResourceMap();
 		for (Map<String, String> map : roleResourceMapList) {
 			String roleCode = map.get("roleCode");
 			String resourceOperate = map.get("resourceOperate");

@@ -24,10 +24,10 @@ public class ProxyRole extends Role{
 		setDescription(_role.getDescription());
 	}
 	
-	public Integer getRoleID() {
+	public String getRoleID() {
 		return role.getRoleID();
 	}
-	public void setRoleID(Integer roleID) {
+	public void setRoleID(String roleID) {
 		role.setRoleID(roleID);
 	}
 	public String getRoleName() {

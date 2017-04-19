@@ -7,27 +7,26 @@ public interface RoleService {
 
 	public void addRole(Role role);
 	
-	void saveRoleResources(Integer roleID,String[] resourceOperate);
+	void saveRoleResource(String roleID,String[] resourceOperate);
 	
-	void saveRoleObjects(Integer roleID,String[] roleObject);
+	void saveRoleObject(String roleID,String[] roleObject);
 	
 	void updateRole(Role role);
 	
-	void deleteRoles(Integer[] ids);
+	void deleteRole(String[] ids);
 	
-	void deleteRoleResources(Integer[] ids);
+	void deleteRoleResource(String[] ids);
 	
-	Role findRoleByID(Integer id);
+	Role getRole(String id);
 	
-	List<Role> findRoles(RoleQuery<Role> roleQuery);
+	List<Role> listRole(RoleQuery<Role> roleQuery);
 	
-	RoleResource findRoleResourceByCode(String code);
+	List<RoleResource> listRoleResourceByObject(String roleObject);
 
-	List<Role> findRolesByObject(String roleObject);
-	List<RoleResource> findRoleResourcesByObject(String roleObject);
+	List<Role> listRoleByObject(String roleObject);
+	List<Map<String, String>> listRoleResourceMap();
 	
 	void initRoleResourcesMap();
 
-	List<Map<String, String>> getRoleResourcesMap();
 	
 }

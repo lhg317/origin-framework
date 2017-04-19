@@ -2,21 +2,21 @@ package com.goldgov.origin.modules.role.service;
 
 public class RoleResource {
 
-	private Integer roleResourceID;
+	private String roleResourceID;
 //	private Resource resource;
 	private String resourceOperate;
-	private Integer roleID;
+	private String roleID;
 	
-	public Integer getRoleResourceID() {
+	public String getRoleResourceID() {
 		return roleResourceID;
 	}
-	public void setRoleResourceID(Integer roleResourceID) {
+	public void setRoleResourceID(String roleResourceID) {
 		this.roleResourceID = roleResourceID;
 	}
-	public Integer getRoleID() {
+	public String getRoleID() {
 		return roleID;
 	}
-	public void setRoleID(Integer roleID) {
+	public void setRoleID(String roleID) {
 		this.roleID = roleID;
 	}
 	public String getResourceOperate() {

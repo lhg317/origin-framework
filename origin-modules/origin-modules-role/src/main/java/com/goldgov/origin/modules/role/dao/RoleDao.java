@@ -15,29 +15,27 @@ public interface RoleDao {
 
 	public void addRole(Role role);
 	
-	public void addRoleResource(@Param("roleID") Integer roleID,@Param("resourceOperate") String[] resourceOperate);
-	public void addRoleObject(@Param("roleID")Integer roleID, @Param("roleObject")String[] roleObject);
+	public void addRoleResource(@Param("roleID") String roleID,@Param("resourceOperate") String[] resourceOperate);
+	public void addRoleObject(@Param("roleID")String roleID, @Param("roleObject")String[] roleObject);
 	
 	public void updateRole(Role role);
 	
-	public void deleteRoles(@Param("ids") Integer[] ids);
+	public void deleteRoles(@Param("ids") String[] ids);
 	
-	public void deleteRoleResources(@Param("ids") Integer[] ids);
+	public void deleteRoleResource(@Param("ids") String[] ids);
 	
-	public void deleteRoleResourceByRoleID(@Param("roleID") Integer roleID);
-	public void deleteRoleObjectByRoleID(@Param("roleID") Integer roleID);
+	public void deleteRoleResourceByRoleID(@Param("roleID") String roleID);
+	public void deleteRoleObjectByRoleID(@Param("roleID") String roleID);
 
-	public Role findRoleByID(Integer id);
+	public Role getRole(String id);
 	
-	public List<Role> findRoles(RoleQuery<Role> query);
+	public List<Role> listRole(RoleQuery<Role> query);
 	
-	public RoleResource findRoleResource(String code);
-	
-	public List<RoleResource> findRoleResourcesByObject(@Param("roleObject") String roleObject);
+	public List<RoleResource> listRoleResourceByObject(@Param("roleObject") String roleObject);
 
-	public List<Role> findRolesByObject(@Param("roleObject") String roleObject);
+	public List<Role> listRoleByObject(@Param("roleObject") String roleObject);
 	
-	public List<Map<String,String>> getRoleResourcesMap();
+	public List<Map<String,String>> listRoleResourceMap();
 
 
 }

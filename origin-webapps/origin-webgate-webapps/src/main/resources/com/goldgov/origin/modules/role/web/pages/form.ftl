@@ -5,10 +5,10 @@
 </head>
 <body>
 
-<#if (!role??) || (!role.roleID??) >
+<#if (!role??) || (role.roleID=="") >
 <form method="post" action="./addRole">
 </#if>
-<#if role?? && (role.roleID??)>
+<#if role?? && role.roleID!="">
 <form method="post" action="./updateRole">
 <input type="hidden" name="roleID" value="${(role.roleID)!}">
 </#if>
@@ -19,7 +19,7 @@
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 ${webToken(true)}
 <br>
-<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./findRoles')"/>
+<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listRole')"/>
 
 </form>
 

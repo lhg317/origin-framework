@@ -1,6 +1,7 @@
 package com.goldgov.origin.modules.role.web;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
+import com.goldgov.origin.modules.user.api.RpcUserQuery;
+import com.goldgov.origin.modules.user.api.RpcUserService;
+import com.goldgov.origin.security.resource.Resource;
+import com.goldgov.origin.security.resource.ResourceContext;
 
 @Controller
 @RequestMapping("role")
@@ -30,6 +35,10 @@ public class RpcRoleController {
 	@Qualifier("rpcRoleService.Client")
 	private RpcRoleService.Iface roleService;
 	
+	@Autowired
+	@Qualifier("rpcUserService.Client")
+	private RpcUserService.Iface userService;
+	
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	public String preAdd() throws TException{
@@ -41,33 +50,33 @@ public class RpcRoleController {
 	@ModuleOperating(name="Add Role",type=OperateType.ADD)
 	public String addRole(RpcRole role) throws TException{
 		roleService.addRole(role);
-		return "forward:/role/findRoles";
+		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/saveRoleResource")
-	public String saveRoleResource(@RequestParam("roleID")Integer roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
-		roleService.saveRoleResources(roleID, Arrays.asList(resourceOperate));
-		return "forward:/role/findRoles";
+	public String saveRoleResource(@RequestParam("roleID")String roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
+		roleService.saveRoleResource(roleID, Arrays.asList(resourceOperate));
+		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/saveRoleObject")
-	public String saveRoleObject(@RequestParam("roleID")Integer roleID, @RequestParam("loginName")String[] roleObject) throws TException{
-		roleService.saveRoleObjects(roleID, Arrays.asList(roleObject));
-		return "forward:/role/findRoles";
+	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("loginName")String[] roleObject) throws TException{
+		roleService.saveRoleObject(roleID, Arrays.asList(roleObject));
+		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/deleteRole")
 	@ModuleOperating(name="Delete Role",type=OperateType.DELETE)
-	public String deleteRole(@RequestParam("roleID") Integer[] ids) throws TException{
-		roleService.deleteRoles(Arrays.asList(ids));
-		return "forward:/role/findRoles";
+	public String deleteRole(@RequestParam("roleID") String[] ids) throws TException{
+		roleService.deleteRole(Arrays.asList(ids));
+		return "forward:/role/listRole";
 	}
 	
-	@RequestMapping("/findRole")
+	@RequestMapping("/getRole")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	@ModuleOperating(name="Find Role",type=OperateType.FIND)
-	public String findRole(@RequestParam("roleID") Integer roleID,Model model) throws TException{
-		RpcRole role = roleService.findRoleByID(roleID);
+	public String getRole(@RequestParam("roleID") String roleID,Model model) throws TException{
+		RpcRole role = roleService.getRole(roleID);
 		model.addAttribute("role", role);
 		return PAGES_BASE_PATH + "form";
 	}
@@ -77,22 +86,30 @@ public class RpcRoleController {
 	@ModuleOperating(name="Update Role",type=OperateType.UPDATE)
 	public String updateRole(RpcRole role) throws TException{
 		roleService.updateRole(role);
-		return "forward:/role/findRoles";
+		return "forward:/role/listRole";
 	}
 	
-	@RequestMapping("/findRoles")
-	public String findRoles(RpcRoleQuery query,Model model) throws TException{
-		query = roleService.findRoles(query);
+	@RequestMapping("/listRole")
+	public String listRole(RpcRoleQuery query,Model model) throws TException{
+		query = roleService.listRole(query);
 		model.addAttribute("query", query);
 		return PAGES_BASE_PATH + "list";
 	}
 	
-//	@RequestMapping("/getResources")
-//	public String getResources(@RequestParam("roleID") String roleID,Model model) throws TException{
-//		List<Resource> allResources = ResourceContext.getAllResources();
-//
-//		model.addAttribute("allResources", allResources);
-//		return PAGES_BASE_PATH + "tree";
-//
-//	}
+	@RequestMapping("/listResource")
+	public String getResources(Model model) throws TException{
+		List<Resource> allResources = ResourceContext.getAllResources();
+
+		model.addAttribute("allResources", allResources);
+		return PAGES_BASE_PATH + "tree";
+
+	}
+	
+	@RequestMapping("/findUserSelectList")
+	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
+		userQuery = userService.listUser(userQuery);
+		model.addAttribute("query", userQuery);
+		return PAGES_BASE_PATH + "select";
+	}
+	
 }

@@ -3,15 +3,15 @@
 namespace java com.goldgov.origin.modules.role.api
 
 struct RpcRole {
-	1: i32 roleID,
+	1: string roleID,
 	2: string roleName,
 	3: string roleCode,
 	4: string description,
 }
 
 struct RpcRoleResource {
-	1: i32 roleResourceID,
-	2: i32 roleID,
+	1: string roleResourceID,
+	2: string roleID,
 	3: string resourceOperate,
 }
 
@@ -26,21 +26,21 @@ struct RpcRoleQuery {
 }
 
 struct RpcRoleObject{
-	1: i32 roleObjectID,
-	2: i32 roleID,
+	1: string roleObjectID,
+	2: string roleID,
 	3: string roleObject,
 }
 
 service RpcRoleService{
 	void addRole(1:RpcRole user),
-	void deleteRoles(1:list<i32> ids),
+	void deleteRole(1:list<string> ids),
 	void updateRole(1:RpcRole role),
-	RpcRole findRoleByID(1:i32 roleID),
-	RpcRoleQuery findRoles(1:RpcRoleQuery query),
-	void saveRoleResources(1:i32 roleID,2:list<string> resourceOperate),
-	void saveRoleObjects(1:i32 roleID,2:list<string> roleObject),
-	list<RpcRole> findRolesByObject(1:string roleObject),
-	list<RpcRoleResource> findRoleResourcesByObject(1:string roleObject),
+	RpcRole getRole(1:string roleID),
+	RpcRoleQuery listRole(1:RpcRoleQuery query),
+	void saveRoleResource(1:string roleID,2:list<string> resourceOperate),
+	void saveRoleObject(1:string roleID,2:list<string> roleObject),
+	list<RpcRole> listRoleByObject(1:string roleObject),
+	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject),
 	void initRoleResourcesMap();
-	list<map<string, string>> getRoleResourcesMap();
+	list<map<string, string>> listRoleResourceMap();
 } 

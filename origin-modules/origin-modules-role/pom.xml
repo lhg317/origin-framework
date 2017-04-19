@@ -20,6 +20,12 @@
 			<artifactId>origin-security</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-modules-user</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<classifier>API</classifier>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<form id="listForm" method="post" action="../role/saveRoleObject">
+<form id="listForm" method="post" action="./saveRoleObject">
 <table border=1>
 <tr>
 	<td><@i18n code="select" /></td>
@@ -20,7 +20,7 @@
 	<td><input type="checkbox" name="loginName" value="${user.loginName}"></td>
 	<td>${user.userName}</td>
 	<td>${user.loginName}</td>
-	<td>${user.email}</td>
+	<td>${user.email!}</td>
 </tr>
 </#escape>
 

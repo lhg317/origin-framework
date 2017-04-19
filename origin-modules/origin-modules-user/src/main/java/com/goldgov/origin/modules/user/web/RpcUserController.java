@@ -85,11 +85,11 @@ public class RpcUserController {
 		return PAGES_BASE_PATH + "list";
 	}
 	
-	@RequestMapping("/findUserSelectList")
-	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
-		listUser(userQuery,model);
-		return PAGES_BASE_PATH + "select";
-	}
+//	@RequestMapping("/findUserSelectList")
+//	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
+//		listUser(userQuery,model);
+//		return PAGES_BASE_PATH + "select";
+//	}
 	
 	@RequestMapping("/existUser")
 	public @ResponseBody String existUser(@RequestParam("loginName") String loginName,Model model) throws TException{
