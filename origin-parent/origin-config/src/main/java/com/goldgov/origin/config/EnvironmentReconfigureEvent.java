@@ -1,6 +1,6 @@
 package com.goldgov.origin.config;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,15 +16,22 @@ import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.GetRequest;
 
+/**
+ * 从配置中心统一获取配置项（如果配置中心有注册的配置服务），此功能主要避免相同服务的配置在发生改动时需要频繁的修改所有相关节点，
+ * 但也不是所有的配置都可以通过本类统一调整，本类是依赖Spring环境的，因此在Spring容器加载前获取的配置项的位置，可能无法替换。
+ * @author LiuHG
+ *
+ */
 public class EnvironmentReconfigureEvent implements ApplicationListener<ApplicationEnvironmentPreparedEvent>{
 
 	private final Log logger = LogFactory.getLog(getClass());
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
 		ConfigurableEnvironment environment = event.getEnvironment();
 		String discoveryServer = environment.getProperty("discovery.client.discovery-server");
-		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceType.ProducerService);//ConfigurationService);
+		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceType.ConfigurationService);//ConfigurationService);
 		HttpRequestClient httpClient = new HttpRequestClient();
 		ServiceServer[] serviceServers = null;
 		try {
@@ -38,15 +45,43 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 		}
 		
 		//从远程配置中心获取配置更新当前应用中的配置。
-		System.out.println((serviceServers == null ? 0:serviceServers.length));
-		HashMap<String, Object> hashMap = new HashMap<String,Object>();
-//		hashMap.put("datasource.c3p0.url", "1122334rfv");
-//		hashMap.put("server.port", "8080");
-//		hashMap.put("rpc.server.port", "6666");
-		PropertySource<?> propertySource = new MapPropertySource("configServiceServer", hashMap);
+		if(serviceServers == null || serviceServers.length == 0){
+			return;
+		}
+		request = new GetRequest(serviceServers[0].getConfigPath());
+		httpClient = new HttpRequestClient();
+		
+		Map<String,Object> configValueMap = null;
+		try {
+			Response sendRequest = httpClient.sendRequest(request);
+			if(sendRequest.isSuccess()){
+				configValueMap = sendRequest.toObject(Map.class);
+			}else{
+				logger.error("从配置中心获取配置信息出错: " + serviceServers[0].getConfigPath() + ",status code : " + sendRequest.getStatusCode() + ",return content : " + sendRequest.toString());
+			}
+		} catch (Exception e) {
+			logger.error("从配置中心获取配置信息出错: " + serviceServers[0].getConfigPath(),e);
+		}finally{
+			httpClient.close();
+		}
+		PropertySource<?> propertySource = new MapPropertySource("configServiceServer", configValueMap);
 		environment.getPropertySources().addFirst(propertySource);//.getPropertySources().replace("datasource.c3p0.url", mapPropertySource);
 		environment.getPropertySources().get("applicationConfigurationProperties");
-		System.out.println(environment.getProperty("rpc.server.port"));
 	}
+	
+//	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+////		GetRequest request = new GetRequest("http://127.0.0.1:80/server/discovery?serviceType=" + ServiceType.ConfigurationService);//ConfigurationService);
+////		HttpRequestClient httpClient = new HttpRequestClient();
+////		ServiceServer[] serviceServers = null;
+////		try {
+////			Response sendRequest = httpClient.sendRequest(request);
+////			serviceServers = sendRequest.toObject(ServiceServer[].class);
+////		} catch (Exception e) {
+////			e.printStackTrace();
+////		}finally{
+////			httpClient.close();
+////		}
+////		System.out.println(serviceServers);
+//	}
 
 }

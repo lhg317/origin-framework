@@ -56,6 +56,13 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	@Value("${discovery.client.health-path:}")
 	private String healthPath;
 	
+	@Value("${application.name:}")
+	private String applicationName;
+	
+	@Value("${discovery.config.config-path:}")
+	private String configPath;
+	
+	
 	public void register(){
 		final String discoveryServer = clientConfig.getDiscoveryServer();
 		Assert.hasText(discoveryServer,"discovery server is not specified.");
@@ -82,6 +89,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 				}
 				localService.setHealthPath(healthPath);
 				localService.setUpdatePath(updatePath);
+				localService.setConfigPath(configPath);
 				
 				for (RpcServiceProxy rpcServiceObject : rpcServiceList) {
 					RpcServiceInstance registeredService = new RpcServiceInstance(rpcServiceObject.getServiceName(),localService);
@@ -98,6 +106,10 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 				}
 				
 				localService.setServiceType(getServiceType());
+				if(applicationName != null && !"".equals(applicationName)){
+					localService.setApplicationName(applicationName);
+				}
+				
 				
 				boolean registerSuccess = false;
 				
@@ -183,6 +195,12 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 //				}
 //			}
 //		}
+		
+		//判断是否为注册发现服务
+		try {
+			Class.forName("com.goldgov.origin.config.ConfigConfiguration");
+			serviceTypeList.add(ServiceType.ConfigurationService);
+		} catch (ClassNotFoundException e) {}
 		
 		//TODO 更多服务的判断方式
 		
