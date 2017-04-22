@@ -17,15 +17,16 @@ import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.GetRequest;
 
 /**
- * 从配置中心统一获取配置项（如果配置中心有注册的配置服务），此功能主要避免相同服务的配置在发生改动时需要频繁的修改所有相关节点，
- * 但也不是所有的配置都可以通过本类统一调整，本类是依赖Spring环境的，因此在Spring容器加载前获取配置项的情况，可能无法替换。<p>
+ * 从配置中心统一获取配置项（如果配置中心有注册的配置服务），注册文件的获取，依据application.properties文件中的application.name
+ * 决定，即相同application.name被认为是同一服务，在配置中心根据此名称获取配置文件并更新。此功能主要避免相同服务的配置在发生改动时
+ * 需要频繁的修改所有相关节点， 但也不是所有的配置都可以通过本类统一调整，本类是依赖Spring环境的，因此在Spring容器加载前获取配置项
+ * 的情况，可能无法替换，例如日志等相关配置。<p>
  * 一般发现服务不会使用本事件类来更新配置文件，因为配置服务是依赖发现服务。如果发现服务和本事件同时存在，则配置服务不会生效，因为
  * 启动中发现服务还未准备好，因此配置服务无法找到发现服务，所以无法更新自己的配置文件。<p>
- * 如果发现服务中未有注册配置服务，则使用各个服务的本地配置文件。
- * 
+ * 如果发现服务中未有注册配置服务，则使用各个服务的本地配置文件。统一配置只在启动时获取一次配置，运行时无法热修改<p>
  * 
  * @author LiuHG
- *
+ * @since 1.0
  */
 public class EnvironmentReconfigureEvent implements ApplicationListener<ApplicationEnvironmentPreparedEvent>{
 
@@ -36,7 +37,7 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 	public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
 		ConfigurableEnvironment environment = event.getEnvironment();
 		String discoveryServer = environment.getProperty("discovery.client.discovery-server");
-		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceType.ConfigurationService);//ConfigurationService);
+		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceType.ConfigurationService);
 		HttpRequestClient httpClient = new HttpRequestClient();
 		ServiceServer[] serviceServers = null;
 		try {
@@ -53,7 +54,9 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 		if(serviceServers == null || serviceServers.length == 0){
 			return;
 		}
-		request = new GetRequest(serviceServers[0].getConfigPath());
+		String applicationName = environment.getProperty("application.name");
+//		String securityCode = environment.getProperty("discovery.config.security-code");
+		request = new GetRequest(serviceServers[0].getConfigPath() + "?applicationName=" + applicationName);
 		httpClient = new HttpRequestClient();
 		
 		Map<String,Object> configValueMap = null;
