@@ -13,14 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import com.goldgov.origin.config.service.ConfigService;
+import com.goldgov.origin.core.cache.CacheHolder;
 
 @Service
 public class ConfigServiceImpl implements ConfigService{
 
 	private final Log logger = LogFactory.getLog(getClass());
-	
-//	@Value("${discovery.client.discovery-server}")
-//	private String discoveryServer;
 	
 	@Value("${config.location:}")
 	private String configLocation;
@@ -42,6 +40,22 @@ public class ConfigServiceImpl implements ConfigService{
 		}
 		
 		return properties;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<Object, Object> getConfig(String applicationName,boolean cached) {
+		Map<Object, Object> returnValue = null;
+		if(cached){
+			returnValue = (Map<Object, Object>) CacheHolder.get(this.getClass().getName());
+		}
+		
+		if(returnValue == null){
+			returnValue = getConfig(applicationName);
+			CacheHolder.put(this.getClass().getName(), returnValue);
+		}
+		
+		return returnValue;
 	}
 
 }

@@ -6,4 +6,6 @@ public interface ConfigService {
 
 	Map<Object, Object> getConfig(String applicationName);
 	
+	Map<Object, Object> getConfig(String applicationName,boolean cached);
+	
 }

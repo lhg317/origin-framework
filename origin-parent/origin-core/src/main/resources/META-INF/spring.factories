@@ -1,2 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.goldgov.origin.core.web.mvc.MvcConfiguration
+
+org.springframework.context.ApplicationListener=\
+com.goldgov.origin.core.config.EnvironmentReconfigureEvent
