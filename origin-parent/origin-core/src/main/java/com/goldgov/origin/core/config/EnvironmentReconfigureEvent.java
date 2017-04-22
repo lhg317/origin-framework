@@ -1,4 +1,4 @@
-package com.goldgov.origin.config;
+package com.goldgov.origin.core.config;
 
 import java.util.Map;
 
@@ -18,7 +18,12 @@ import com.goldgov.origin.core.discovery.http.request.GetRequest;
 
 /**
  * 从配置中心统一获取配置项（如果配置中心有注册的配置服务），此功能主要避免相同服务的配置在发生改动时需要频繁的修改所有相关节点，
- * 但也不是所有的配置都可以通过本类统一调整，本类是依赖Spring环境的，因此在Spring容器加载前获取的配置项的位置，可能无法替换。
+ * 但也不是所有的配置都可以通过本类统一调整，本类是依赖Spring环境的，因此在Spring容器加载前获取配置项的情况，可能无法替换。<p>
+ * 一般发现服务不会使用本事件类来更新配置文件，因为配置服务是依赖发现服务。如果发现服务和本事件同时存在，则配置服务不会生效，因为
+ * 启动中发现服务还未准备好，因此配置服务无法找到发现服务，所以无法更新自己的配置文件。<p>
+ * 如果发现服务中未有注册配置服务，则使用各个服务的本地配置文件。
+ * 
+ * 
  * @author LiuHG
  *
  */
@@ -69,19 +74,4 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 		environment.getPropertySources().get("applicationConfigurationProperties");
 	}
 	
-//	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
-////		GetRequest request = new GetRequest("http://127.0.0.1:80/server/discovery?serviceType=" + ServiceType.ConfigurationService);//ConfigurationService);
-////		HttpRequestClient httpClient = new HttpRequestClient();
-////		ServiceServer[] serviceServers = null;
-////		try {
-////			Response sendRequest = httpClient.sendRequest(request);
-////			serviceServers = sendRequest.toObject(ServiceServer[].class);
-////		} catch (Exception e) {
-////			e.printStackTrace();
-////		}finally{
-////			httpClient.close();
-////		}
-////		System.out.println(serviceServers);
-//	}
-
 }
