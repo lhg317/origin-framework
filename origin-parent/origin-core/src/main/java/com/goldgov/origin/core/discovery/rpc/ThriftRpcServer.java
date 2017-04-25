@@ -9,6 +9,8 @@ import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
+import org.apache.thrift.transport.TSSLTransportFactory;
+import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.springframework.beans.factory.DisposableBean;
@@ -22,6 +24,9 @@ public class ThriftRpcServer implements InitializingBean,DisposableBean {
 	
 	@Value("${rpc.server.port:7777}")
 	private int port;
+	
+	@Value("${rpc.security.server.password:}")
+	private String secPwd;
 	
 	@Autowired(required = false)
 	private List<RpcServiceProxy> rpcServiceList;
@@ -40,7 +45,14 @@ public class ThriftRpcServer implements InitializingBean,DisposableBean {
 			@Override
 			public void run() {
 				try {
-		            TServerTransport serverTransport = new TServerSocket(port);
+		            TServerTransport serverTransport = null;
+		            if(!"".equals(secPwd)){
+						TSSLTransportParameters params = new TSSLTransportParameters();
+						params.setKeyStore("META-INF/.keystore", secPwd, null, null);
+						serverTransport = TSSLTransportFactory.getServerSocket(port, 0, null, params);
+					}else{
+						serverTransport = new TServerSocket(port);
+					}
 //					TNonblockingServerSocket serverTransport = new TNonblockingServerSocket(port);
 		            TMultiplexedProcessor processor = new TMultiplexedProcessor();
 		            for (RpcServiceProxy rpcService : rpcServiceList) {

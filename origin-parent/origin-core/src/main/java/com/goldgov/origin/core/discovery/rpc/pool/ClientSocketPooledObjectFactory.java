@@ -1,13 +1,20 @@
 package com.goldgov.origin.core.discovery.rpc.pool;
 
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.thrift.transport.TSSLTransportFactory;
+import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
 public class ClientSocketPooledObjectFactory extends BasePooledObjectFactory<TTransport>{
 
+	private ResourceBundle config = ResourceBundle.getBundle("application");
+	
     private String serviceIP;
     private int servicePort;
     private int timeout;
@@ -22,9 +29,19 @@ public class ClientSocketPooledObjectFactory extends BasePooledObjectFactory<TTr
 	@Override
 	public TTransport create() throws Exception {
 		try {
-			TTransport transport = new TSocket(this.serviceIP, this.servicePort, this.timeout);
-//            TTransport transport = new TFramedTransport(new TSocket(this.serviceIP, this.servicePort, this.timeout));
-            transport.open();
+			TTransport transport = null;
+			try {
+				String secPwd = config.getString("rpc.security.client.password");
+				TSSLTransportParameters params = new TSSLTransportParameters();
+				params.setTrustStore("META-INF/.truststore", secPwd, "SunX509", "JKS");
+				transport = TSSLTransportFactory.getClientSocket(serviceIP, servicePort, timeout, params);
+//				transport = new TFramedTransport(transport);
+			} catch (MissingResourceException e) {
+				transport = new TSocket(this.serviceIP, this.servicePort, this.timeout);
+				transport.open();
+//				transport = new TFramedTransport(new TSocket(this.serviceIP, this.servicePort, this.timeout));
+			}
+			
             return transport;
         } catch (Exception e) {
             throw new RuntimeException(e);
