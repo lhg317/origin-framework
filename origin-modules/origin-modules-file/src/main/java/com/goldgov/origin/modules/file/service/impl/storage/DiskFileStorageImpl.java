@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.PathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
@@ -19,6 +20,7 @@ public class DiskFileStorageImpl implements FileStorage {
 
 	private Log logger = LogFactory.getLog(getClass());
 	
+	@Value("modules.file.base-path")
 	private String basePath;
 	
 	private File basePathDirectory;
