@@ -59,7 +59,7 @@
 	<modules>
 		<module>origin-modules-user</module>
 		<module>origin-modules-role</module>
-    <module>origin-modules-file</module>
+    	<module>origin-modules-file</module>
   </modules>
 
 	<build>

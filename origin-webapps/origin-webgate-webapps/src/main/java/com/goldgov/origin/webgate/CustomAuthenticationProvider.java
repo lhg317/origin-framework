@@ -3,6 +3,7 @@ package com.goldgov.origin.webgate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +42,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         try {
 			RpcUser user = userService.getUserByLoginName(loginName);
 			
+			password = DigestUtils.md5Hex(password);
 			if(user == null || !password.equals(user.getPassword())){
 				throw new BadCredentialsException("认证失败：" + loginName);
 			}

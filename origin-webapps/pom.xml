@@ -34,7 +34,7 @@
 	</dependencies>
 	<modules>
 		<module>origin-server-webapp</module>
-    <module>origin-webgate-webapps</module>
+    	<module>origin-webgate-webapps</module>
   </modules>
 	<dependencyManagement>
 		<dependencies>

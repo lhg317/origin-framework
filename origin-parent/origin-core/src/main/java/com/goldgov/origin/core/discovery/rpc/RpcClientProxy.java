@@ -111,7 +111,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 				if(e instanceof InvocationTargetException){
 					InvocationTargetException ex = (InvocationTargetException)e;
 					Throwable targetException = ex.getTargetException();
-					if(targetException instanceof TApplicationException && ((TApplicationException) e).getType() == TApplicationException.MISSING_RESULT){
+					if(targetException instanceof TApplicationException && ((TApplicationException) targetException).getType() == TApplicationException.MISSING_RESULT){
 						return null;
 					}
 				}

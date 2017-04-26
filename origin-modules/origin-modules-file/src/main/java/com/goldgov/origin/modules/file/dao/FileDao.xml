@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goldgov.origin.modules.file.dao.FileDao">
+
+	<resultMap type="com.goldgov.origin.modules.file.service.File" id="file">
+		<id column="ROLE_ID" jdbcType="INTEGER" property="roleID"/>
+		<result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
+		<result column="ROLE_CODE" jdbcType="VARCHAR" property="roleCode"/>
+		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+	</resultMap>
+
+	<sql id="roleFields">
+		ROLE_ID as "roleID",
+		ROLE_NAME as "roleName",
+		ROLE_CODE as "roleCode",
+		DESCRIPTION as "description"
+	</sql>
+	
+	<sql id="resourceFields">
+		ROLE_RESOURCE_ID as "roleResourceID",
+		ROLE_CODE as "roleCode",
+		OPERATE_ID as "operateID"
+	</sql>
+	
+	<insert id="addFile">
+		<selectKey keyProperty="roleID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		insert into role (ROLE_ID,ROLE_NAME,ROLE_CODE,DESCRIPTION)value(#{roleID},#{roleName},#{roleCode},#{description});
+	</insert>
+	
+	<delete id="deleteFile">
+		delete from role_resource where ROLE_ID = #{roleID}
+	</delete>
+	
+	<select id="getFile" resultMap="file">
+		SELECT <include refid="roleFields" /> FROM role WHERE ROLE_ID=#{roleID}
+	</select>
+	
+	<select id="listFile" resultMap="file">
+		SELECT <include refid="roleFields" /> from role
+	</select>
+	
+</mapper>

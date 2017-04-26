@@ -9,9 +9,9 @@ struct RpcFile {
 }
 
 service RpcFileService {
-	void addFile(1:RpcFile file,2:binary bytes);
-	void deleteFile(1:list<string> ids);
-	RpcFile getFile(1:string fileID);
-	binary getFileContent(1:string fileID);
-	list<RpcFile> listFile(1:string relationID);
+	void addFile(1:string serviceName,2:RpcFile file,3:binary bytes);
+	void deleteFile(1:string serviceName,2:list<string> ids);
+	RpcFile getFile(1:string serviceName,2:string fileID);
+	binary getFileContent(1:string serviceName,2:string fileID);
+	list<RpcFile> listFile(1:string serviceName,2:string relationID);
 }

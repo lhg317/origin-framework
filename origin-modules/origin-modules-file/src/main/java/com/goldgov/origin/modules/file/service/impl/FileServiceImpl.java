@@ -27,8 +27,8 @@ public class FileServiceImpl implements FileService{
 	
 	@Override
 	public void addFile(String serviceName,File fileMeta, InputStream content) {
-		fileDao.addFile(fileMeta);
-		FileStorage fileStorage = getFileStorage(serviceName);
+//		fileDao.addFile(fileMeta);
+		FileStorage fileStorage = getFileStorage("DiskFileStorage");
 		fileStorage.saveFile(fileMeta.getFileID(), content);
 	}
 

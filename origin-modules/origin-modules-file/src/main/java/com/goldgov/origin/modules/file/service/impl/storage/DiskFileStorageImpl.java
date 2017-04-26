@@ -11,16 +11,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.PathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 
 import com.goldgov.origin.modules.file.service.FileStorage;
 
+@Component("DiskFileStorage")
 public class DiskFileStorageImpl implements FileStorage {
 
 	private Log logger = LogFactory.getLog(getClass());
 	
-	@Value("modules.file.base-path")
+	@Value("${modules.file.base-path:}")
 	private String basePath;
 	
 	private File basePathDirectory;
@@ -62,7 +64,7 @@ public class DiskFileStorageImpl implements FileStorage {
 		if(basePathDirectory == null){
 			try {
 				PathResource pathResource = new PathResource(ResourceUtils.getFile(basePath).getPath());
-				basePathDirectory = pathResource.getFile();
+				basePathDirectory = new File(pathResource.getURL().getFile());
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
