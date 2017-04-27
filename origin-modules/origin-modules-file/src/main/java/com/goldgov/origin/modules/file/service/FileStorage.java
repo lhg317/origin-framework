@@ -4,7 +4,8 @@ import java.io.InputStream;
 
 public interface FileStorage {
 
-	public void saveFile(String fileID,InputStream fileStream);
-	public InputStream loadFile(String fileID);
-	public void deleteFile(String[] fileIDs);
+	void saveFile(String fileID,InputStream fileStream);
+	InputStream loadFile(String fileID);
+	void deleteFile(String[] fileIDs);
+	
 }

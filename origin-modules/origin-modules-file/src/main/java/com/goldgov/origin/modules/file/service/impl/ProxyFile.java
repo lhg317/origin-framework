@@ -1,5 +1,7 @@
 package com.goldgov.origin.modules.file.service.impl;
 
+import java.util.Date;
+
 import com.goldgov.origin.modules.file.api.RpcFile;
 import com.goldgov.origin.modules.file.service.File;
 
@@ -22,6 +24,8 @@ public class ProxyFile extends File{
 		setFileName(_file.getFileName());
 		setFileSize(_file.getFileSize());
 		setFileType(_file.getFileType());
+		setDownloadNum(_file.getDownloadNum());
+		setCreateDate(_file.getCreateDate());
 	}
 	
 	public String getFileID() {
@@ -53,6 +57,18 @@ public class ProxyFile extends File{
 	}
 	public void setRelationID(String relationID) {
 		file.setRelationID(relationID);
+	}
+	public Long getDownloadNum() {
+		return file.getDownloadNum();
+	}
+	public void setDownloadNum(Long downloadNum) {
+		file.setDownloadNum(downloadNum);
+	}
+	public Date getCreateDate() {
+		return new Date(file.getCreateDate());
+	}
+	public void setCreateDate(Date createDate) {
+		file.setCreateDate(createDate.getTime());
 	}
 	
 	public RpcFile toRpcFile(){

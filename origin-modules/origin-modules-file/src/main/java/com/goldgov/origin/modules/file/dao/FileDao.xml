@@ -5,42 +5,51 @@
 <mapper namespace="com.goldgov.origin.modules.file.dao.FileDao">
 
 	<resultMap type="com.goldgov.origin.modules.file.service.File" id="file">
-		<id column="ROLE_ID" jdbcType="INTEGER" property="roleID"/>
-		<result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
-		<result column="ROLE_CODE" jdbcType="VARCHAR" property="roleCode"/>
-		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+		<id column="FILE_ID" jdbcType="INTEGER" property="fileID"/>
+		<result column="FILE_NAME" jdbcType="VARCHAR" property="fileName"/>
+		<result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType"/>
+		<result column="FILE_SIZE" jdbcType="INTEGER" property="fileSize"/>
+		<result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="RELATION_ID" jdbcType="VARCHAR" property="relationID"/>
 	</resultMap>
 
-	<sql id="roleFields">
-		ROLE_ID as "roleID",
-		ROLE_NAME as "roleName",
-		ROLE_CODE as "roleCode",
-		DESCRIPTION as "description"
-	</sql>
-	
-	<sql id="resourceFields">
-		ROLE_RESOURCE_ID as "roleResourceID",
-		ROLE_CODE as "roleCode",
-		OPERATE_ID as "operateID"
+	<sql id="fileFields">
+		FILE_ID as "fileID",
+		FILE_NAME as "fileName",
+		FILE_TYPE as "fileType",
+		FILE_SIZE as "fileSize",
+		CREATE_DATE as "createDate",
+		RELATION_ID as "relationID"
 	</sql>
 	
 	<insert id="addFile">
-		<selectKey keyProperty="roleID" resultType="String" order="BEFORE">
+		<selectKey keyProperty="fileID" resultType="String" order="BEFORE">
 		    select uuid() from dual
 		</selectKey>
-		insert into role (ROLE_ID,ROLE_NAME,ROLE_CODE,DESCRIPTION)value(#{roleID},#{roleName},#{roleCode},#{description});
+		insert into FILE_STORAGE (FILE_ID,FILE_NAME,FILE_TYPE,FILE_SIZE,CREATE_DATE,RELATION_ID)
+		value(#{fileID},#{fileName},#{fileType},#{fileSize},#{createDate},#{relationID});
 	</insert>
 	
 	<delete id="deleteFile">
-		delete from role_resource where ROLE_ID = #{roleID}
+		delete from FILE_STORAGE where FILE_ID IN
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		   #{id}
+		</foreach>
 	</delete>
 	
 	<select id="getFile" resultMap="file">
-		SELECT <include refid="roleFields" /> FROM role WHERE ROLE_ID=#{roleID}
+		SELECT <include refid="fileFields" /> FROM FILE_STORAGE WHERE FILE_ID=#{fileID}
 	</select>
 	
 	<select id="listFile" resultMap="file">
-		SELECT <include refid="roleFields" /> from role
+		SELECT <include refid="fileFields" /> FROM FILE_STORAGE WHERE RELATION_ID=#{relationID}
 	</select>
+	
+	<update id="upldateRelationID" >
+		UPDATE FILE_STORAGE SET RELATION_ID =#{relationID} WHERE FILE_ID IN
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		   #{id}
+		</foreach>
+	</update>
 	
 </mapper>

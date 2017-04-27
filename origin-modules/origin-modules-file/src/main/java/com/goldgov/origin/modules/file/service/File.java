@@ -1,5 +1,7 @@
 package com.goldgov.origin.modules.file.service;
 
+import java.util.Date;
+
 public class File {
 
 	private String fileID;
@@ -8,7 +10,7 @@ public class File {
 	private String fileType;
 	private String relationID;
 	private Long downloadNum;
-	
+	private Date createDate;
 	
 	public String getFileID() {
 		return fileID;
@@ -45,6 +47,12 @@ public class File {
 	}
 	public void setDownloadNum(Long downloadNum) {
 		this.downloadNum = downloadNum;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	
 }

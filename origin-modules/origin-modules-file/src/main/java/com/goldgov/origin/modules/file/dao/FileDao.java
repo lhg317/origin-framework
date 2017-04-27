@@ -2,17 +2,21 @@ package com.goldgov.origin.modules.file.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.goldgov.origin.core.dao.Mapper;
 import com.goldgov.origin.modules.file.service.File;
 
 @Mapper
 public interface FileDao {
 
-	public void addFile(File fileMeta);
+	void addFile(File fileMeta);
 	
-	public void deleteFile(String[] ids);
+	void deleteFile(@Param("ids") String[] ids);
 	
-	public File getFile(String fileID);
+	File getFile(@Param("fileID") String fileID);
 	
-	public List<File> listFile(String relationID);
+	List<File> listFile(@Param("relationID") String relationID);
+	
+	void upldateRelationID(@Param("relationID") String relationID, @Param("ids") String[] fileIDs);
 }
