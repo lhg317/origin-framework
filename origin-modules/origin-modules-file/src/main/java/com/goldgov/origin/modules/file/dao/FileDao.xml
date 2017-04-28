@@ -46,7 +46,7 @@
 	</select>
 	
 	<update id="upldateRelationID" >
-		UPDATE FILE_STORAGE SET RELATION_ID =#{relationID} WHERE FILE_ID IN
+		UPDATE FILE_STORAGE SET RELATION_ID = #{relationID} WHERE FILE_ID IN
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
 		</foreach>

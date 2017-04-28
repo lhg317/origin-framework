@@ -85,6 +85,7 @@
 
 <form method="post"  enctype="multipart/form-data" action="./file/uploadFile">
 	<input type="file" name="testFile" />
+	<input type="file" name="testFile2" />
 	<button type="submit" >上传</button>
 	<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 </form>

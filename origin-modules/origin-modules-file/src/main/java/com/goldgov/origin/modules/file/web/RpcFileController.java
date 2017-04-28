@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -79,18 +80,18 @@ public class RpcFileController {
 	            		String fileID = fileService.addFile(rpcFile,byteBuffer);
 	            		resultFileIDs.add(fileID);
 	            		
-	            		
-	            		byteBuffer = ByteBuffer.allocate(1);
-	            		byteBuffer.put((byte)1);
-	            		byteBuffer.flip();
-	            		fileID = fileService.createFileFragment(rpcFile, 5, byteBuffer);
-	            		for (int i = 1; i < 5; i++) {
-	            			byteBuffer = ByteBuffer.allocate(1);
-		            		byteBuffer.put((byte)(1+i));
-		            		byteBuffer.flip();
-		            		fileService.addFileFragment(fileID, i, byteBuffer);
-						}
-	            		fileService.completeFileFragment(fileID,5);
+//	            		文件分片上传示例，此处可用FileSplitUtils工具类
+//	            		byteBuffer = ByteBuffer.allocate(1);
+//	            		byteBuffer.put((byte)1);
+//	            		byteBuffer.flip();
+//	            		fileID = fileService.createFileFragment(rpcFile, 5, byteBuffer);
+//	            		for (int i = 1; i < 5; i++) {
+//	            			byteBuffer = ByteBuffer.allocate(1);
+//		            		byteBuffer.put((byte)(1+i));
+//		            		byteBuffer.flip();
+//		            		fileService.addFileFragment(fileID, i, byteBuffer);
+//						}
+//	            		fileService.completeFileFragment(fileID,5);
 	                }
 			 }
         }
@@ -113,8 +114,8 @@ public class RpcFileController {
 	}
 
 	@RequestMapping("/downloadFile")
-	public @ResponseBody String downloadFile() throws TException{
-		ByteBuffer fileContent = fileService.getFileContent("lhg");
+	public @ResponseBody String downloadFile(@RequestParam("fileID") String fileID) throws TException{
+		ByteBuffer fileContent = fileService.getFileContent(fileID);
 		
 		return new String(fileContent.array());
 	}

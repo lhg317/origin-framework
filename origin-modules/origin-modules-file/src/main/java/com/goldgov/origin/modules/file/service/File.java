@@ -4,6 +4,10 @@ import java.util.Date;
 
 public class File {
 
+	public static final int FILE_STATE_INIT = 1;
+	public static final int FILE_STATE_COMPLETE = 2;
+	public static final int FILE_STATE_ASSOCIATED = 3;
+	
 	private String fileID;
 	private String fileName;
 	private Long fileSize;

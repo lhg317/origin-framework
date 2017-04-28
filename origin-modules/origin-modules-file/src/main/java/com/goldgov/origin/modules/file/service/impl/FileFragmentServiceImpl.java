@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 
 import com.goldgov.origin.modules.file.dao.FileDao;
@@ -40,11 +41,12 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 	@Override
 	public String createFileFragment(File fileMeta,int fragmentTotal) {
 		fileDao.addFile(fileMeta);
-		addFileFragment(fileMeta.getFileID(),0,new byte[0]);
+//		addFileFragment(fileMeta.getFileID(),0,new byte[0]);
 		return fileMeta.getFileID();
 	}
 
 	@Override
+	@Transactional
 	public String createFileFragment(File fileMeta,int fragmentTotal, byte[] bytes) {
 		fileDao.addFile(fileMeta);
 		addFileFragment(fileMeta.getFileID(),0,bytes);
@@ -118,21 +120,19 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
+	@Transactional
 	public void addFile(File fileMeta, InputStream content) {
 		fileDao.addFile(fileMeta);
-		FileStorage fileStorage = getFileStorage();
-		fileStorage.saveFile(fileMeta.getFileID(), content);
+		getFileStorage().saveFile(fileMeta.getFileID(), content);
 	}
 
 	@Override
 	public void deleteFile(String[] ids) {
 		fileDao.deleteFile(ids);
-		FileStorage fileStorage = getFileStorage();
-		fileStorage.deleteFile(ids);
+		getFileStorage().deleteFile(ids);
 	}
 
 	@Override
