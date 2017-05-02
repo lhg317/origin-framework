@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 
+import com.goldgov.origin.modules.file.api.utils.FileSplitUtils;
 import com.goldgov.origin.modules.file.dao.FileDao;
 import com.goldgov.origin.modules.file.service.File;
 import com.goldgov.origin.modules.file.service.FileFragmentService;
@@ -172,6 +173,22 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
+	}
+
+	@Override
+	public byte[] getFileFragmentContent(String fileID,long startIndex) {
+		InputStream fileContent = getFileContent(fileID);
+		try {
+			fileContent.skip(startIndex);
+			byte[] fileSplit = FileSplitUtils.fileSplit(fileContent,1048576);
+			if(fileSplit.length > 0){
+				return fileSplit;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -28,4 +28,6 @@ public interface FileFragmentService extends FileService{
 	
 	void completeFileFragment(String fileID,int fragmentTotal);
 	
+	byte[] getFileFragmentContent(String fileID,long startIndex);
+	
 }

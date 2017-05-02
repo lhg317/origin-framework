@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
@@ -118,6 +120,33 @@ public class RpcFileController {
 		ByteBuffer fileContent = fileService.getFileContent(fileID);
 		
 		return new String(fileContent.array());
+	}
+	
+	@RequestMapping("/downloadFileFragment")
+	public @ResponseBody String downloadFileFragment(@RequestParam("fileID") String fileID,HttpServletResponse response) throws TException{
+		RpcFile file = fileService.getFile(fileID);
+		byte[] fileFragmentBytes = getFileFragmentContent(fileID,0);
+		long currentSize = 0;
+		
+//		response.setHeader(name, value);
+		try {
+			ServletOutputStream outputStream = response.getOutputStream();
+			while (fileFragmentBytes != null) {
+				outputStream.write(fileFragmentBytes);
+				currentSize += fileFragmentBytes.length;
+				fileFragmentBytes = getFileFragmentContent(fileID,currentSize);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return "success";
+	}
+	
+	private byte[] getFileFragmentContent(String fileID,long startIndex) {
+		return null;
 	}
 	
 	private UploadConfig getUploadConfig(HttpServletRequest request){
