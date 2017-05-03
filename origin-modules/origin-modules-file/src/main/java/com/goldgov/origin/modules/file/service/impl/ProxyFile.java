@@ -58,12 +58,12 @@ public class ProxyFile extends File{
 	public void setRelationID(String relationID) {
 		file.setRelationID(relationID);
 	}
-	public Long getDownloadNum() {
-		return file.getDownloadNum();
-	}
-	public void setDownloadNum(Long downloadNum) {
-		file.setDownloadNum(downloadNum);
-	}
+//	public Long getDownloadNum() {
+//		return file.getDownloadNum();
+//	}
+//	public void setDownloadNum(Long downloadNum) {
+//		file.setDownloadNum(downloadNum);
+//	}
 	public Date getCreateDate() {
 		return new Date(file.getCreateDate());
 	}

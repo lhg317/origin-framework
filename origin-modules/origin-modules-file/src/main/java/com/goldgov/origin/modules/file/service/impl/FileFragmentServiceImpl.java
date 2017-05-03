@@ -179,7 +179,7 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 	public byte[] getFileFragmentContent(String fileID,long startIndex) {
 		InputStream fileContent = getFileContent(fileID);
 		try {
-			fileContent.skip(startIndex);
+			System.out.println(fileContent.skip(startIndex));
 			byte[] fileSplit = FileSplitUtils.fileSplit(fileContent,1048576);
 			if(fileSplit.length > 0){
 				return fileSplit;
@@ -187,6 +187,10 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				fileContent.close();
+			} catch (IOException e) {}
 		}
 		return null;
 	}

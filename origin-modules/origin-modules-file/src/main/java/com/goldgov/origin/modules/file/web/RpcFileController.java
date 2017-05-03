@@ -116,25 +116,46 @@ public class RpcFileController {
 	}
 
 	@RequestMapping("/downloadFile")
-	public @ResponseBody String downloadFile(@RequestParam("fileID") String fileID) throws TException{
+	public @ResponseBody String downloadFile(@RequestParam("fileID") String fileID,HttpServletResponse response) throws TException{
+		RpcFile file = fileService.getFile(fileID);
+		if(file == null){
+			//TODO 文件不存在
+		}
 		ByteBuffer fileContent = fileService.getFileContent(fileID);
+		response.setContentType(file.getFileType());
+		response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getFileName() +"\"");
+		
+		byte[] fileFragmentBytes = fileContent.array(); 
+		try {
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(fileFragmentBytes);
+			fileContent.clear();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return new String(fileContent.array());
 	}
 	
 	@RequestMapping("/downloadFileFragment")
-	public @ResponseBody String downloadFileFragment(@RequestParam("fileID") String fileID,HttpServletResponse response) throws TException{
+	public void downloadFileFragment(@RequestParam("fileID") String fileID,HttpServletResponse response) throws TException{
 		RpcFile file = fileService.getFile(fileID);
-		byte[] fileFragmentBytes = getFileFragmentContent(fileID,0);
+		if(file == null){
+			//TODO 文件不存在
+		}
+		ByteBuffer byteBuffer = fileService.getFileFragmentContent(fileID,0);
 		long currentSize = 0;
+		response.setContentType(file.getFileType());
+		response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getFileName() +"\"");
 		
-//		response.setHeader(name, value);
 		try {
 			ServletOutputStream outputStream = response.getOutputStream();
-			while (fileFragmentBytes != null) {
+			while (byteBuffer != null) {
+				byte[] fileFragmentBytes = byteBuffer.array(); 
 				outputStream.write(fileFragmentBytes);
 				currentSize += fileFragmentBytes.length;
-				fileFragmentBytes = getFileFragmentContent(fileID,currentSize);
+				byteBuffer = fileService.getFileFragmentContent(fileID,currentSize);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -142,11 +163,6 @@ public class RpcFileController {
 		}
 		
 		
-		return "success";
-	}
-	
-	private byte[] getFileFragmentContent(String fileID,long startIndex) {
-		return null;
 	}
 	
 	private UploadConfig getUploadConfig(HttpServletRequest request){

@@ -89,6 +89,18 @@ public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
 	public void completeFileFragment(String fileID,int fragmentTotal) throws TException {
 		fileService.completeFileFragment(fileID,fragmentTotal);
 	}
+
+	@Override
+	public ByteBuffer getFileFragmentContent(String fileID, long startIndex) throws TException {
+		byte[] fragmentContent = fileService.getFileFragmentContent(fileID, startIndex);
+		if(fragmentContent == null){
+			return null;
+		}
+		ByteBuffer byteBuffer = ByteBuffer.allocate(fragmentContent.length);
+		byteBuffer.put(fragmentContent);
+		byteBuffer.flip();
+		return byteBuffer;
+	}
 	
 
 }

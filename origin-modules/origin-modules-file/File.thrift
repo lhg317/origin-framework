@@ -23,5 +23,6 @@ service RpcFileFragmentService extends RpcFileService{
 	string createFileFragment(1:RpcFile file,2:i32 fragmentTotal,3:binary bytes);
 	void addFileFragment(1:string fileID,2:i32 fragment,3:binary bytes);
 	void completeFileFragment(1:string fileID,2:i32 fragmentTotal);
+	binary getFileFragmentContent(1:string fileID,2:i64 startIndex);
 }
 
