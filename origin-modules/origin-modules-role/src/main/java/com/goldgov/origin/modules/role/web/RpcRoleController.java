@@ -29,7 +29,7 @@ import com.goldgov.origin.security.resource.ResourceContext;
 @ModuleResource(name="Role Manage")
 public class RpcRoleController {
 	
-	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/")+"/pages/";
+	private final String PAGE_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/")+"/pages/";
 
 	@Autowired
 	@Qualifier("rpcRoleService.Client")
@@ -42,7 +42,7 @@ public class RpcRoleController {
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	public String preAdd() throws TException{
-		return PAGES_BASE_PATH + "form";
+		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/addRole")
@@ -78,7 +78,7 @@ public class RpcRoleController {
 	public String getRole(@RequestParam("roleID") String roleID,Model model) throws TException{
 		RpcRole role = roleService.getRole(roleID);
 		model.addAttribute("role", role);
-		return PAGES_BASE_PATH + "form";
+		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/updateRole")
@@ -93,7 +93,7 @@ public class RpcRoleController {
 	public String listRole(RpcRoleQuery query,Model model) throws TException{
 		query = roleService.listRole(query);
 		model.addAttribute("query", query);
-		return PAGES_BASE_PATH + "list";
+		return PAGE_BASE_PATH + "list";
 	}
 	
 	@RequestMapping("/listResource")
@@ -101,7 +101,7 @@ public class RpcRoleController {
 		List<Resource> allResources = ResourceContext.getAllResources();
 
 		model.addAttribute("allResources", allResources);
-		return PAGES_BASE_PATH + "tree";
+		return PAGE_BASE_PATH + "tree";
 
 	}
 	
@@ -109,7 +109,7 @@ public class RpcRoleController {
 	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
 		userQuery = userService.listUser(userQuery);
 		model.addAttribute("query", userQuery);
-		return PAGES_BASE_PATH + "select";
+		return PAGE_BASE_PATH + "select";
 	}
 	
 }

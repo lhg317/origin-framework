@@ -16,7 +16,6 @@ import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
-import com.goldgov.origin.core.web.validator.Valid;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserExistException;
 import com.goldgov.origin.modules.user.api.RpcUserNameCheckFailException;
@@ -28,7 +27,7 @@ import com.goldgov.origin.modules.user.api.RpcUserService;
 @ModuleResource(name="i18n:label.user+manage",code="user")
 public class RpcUserController {
 	
-	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/")+"/pages/";
+	private final String PAGE_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/")+"/pages/";
 
 	@Autowired
 	@Qualifier("rpcUserService.Client")
@@ -37,7 +36,7 @@ public class RpcUserController {
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	public String preAdd() throws TException{
-		return PAGES_BASE_PATH + "form";
+		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/addUser")
@@ -76,14 +75,14 @@ public class RpcUserController {
 	public String getUser(@RequestParam("userID") String userID,Model model) throws TException{
 		RpcUser user = userService.getUser(userID);
 		model.addAttribute("user", user);
-		return PAGES_BASE_PATH + "form";
+		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/listUser")
 	public String listUser(RpcUserQuery userQuery,Model model) throws TException{
 		userQuery = userService.listUser(userQuery);
 		model.addAttribute("query", userQuery);
-		return PAGES_BASE_PATH + "list";
+		return PAGE_BASE_PATH + "list";
 	}
 	
 //	@RequestMapping("/findUserSelectList")
