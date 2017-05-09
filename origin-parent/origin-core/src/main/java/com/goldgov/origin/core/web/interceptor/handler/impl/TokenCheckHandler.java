@@ -1,7 +1,9 @@
 package com.goldgov.origin.core.web.interceptor.handler.impl;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -53,6 +55,15 @@ public class TokenCheckHandler implements IRequestHandler{
 						return true;
 					}else{
 //						request.getHeader("Referer")//http://127.0.0.1:8081/user/preAdd
+						if(!token.forward().equals("")){
+							try {
+								request.getRequestDispatcher(token.forward()).forward(request, response);
+							} catch (ServletException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							return false;
+						}
 						throw new TokenValidException(request.getRequestURI());
 					}
 				}

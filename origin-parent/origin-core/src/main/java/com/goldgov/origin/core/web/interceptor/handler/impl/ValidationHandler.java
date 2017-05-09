@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,12 +38,19 @@ import com.goldgov.origin.core.web.validator.annotation.Email;
 import com.goldgov.origin.core.web.validator.annotation.FieldDescription;
 import com.goldgov.origin.core.web.validator.annotation.Future;
 import com.goldgov.origin.core.web.validator.annotation.Length;
+import com.goldgov.origin.core.web.validator.annotation.Max;
+import com.goldgov.origin.core.web.validator.annotation.Min;
 import com.goldgov.origin.core.web.validator.annotation.NotContain;
 import com.goldgov.origin.core.web.validator.annotation.NotNull;
 import com.goldgov.origin.core.web.validator.annotation.Null;
 import com.goldgov.origin.core.web.validator.annotation.Past;
 import com.goldgov.origin.core.web.validator.annotation.Pattern;
 
+/**
+ * 
+ * @author LiuHG
+ * @version 1.0
+ */
 public class ValidationHandler implements IRequestHandler{
 
 	private static List<Class<? extends Annotation>> validatorList = new ArrayList<Class<? extends Annotation>>();
@@ -60,6 +68,8 @@ public class ValidationHandler implements IRequestHandler{
 		validatorList.add(Past.class);
 		validatorList.add(Null.class);
 		validatorList.add(NotContain.class);
+		validatorList.add(Max.class);
+		validatorList.add(Min.class);
 		validatorList.add(Custom.class);
 	}
 	
@@ -144,8 +154,12 @@ public class ValidationHandler implements IRequestHandler{
 									validator.initialize(annotation);
 									boolean pass = validator.isValid(paramName,paramValue,field, optType,request,response);
 									if(!pass){
+										//Properties不能够获取非String类型的值，因此不能直接用putAll
 										Properties properties = new Properties();
-										properties.putAll(annoAtt);
+										for (Entry<String, Object> entry : annoAtt.entrySet()) {
+											properties.setProperty(entry.getKey(),String.valueOf(entry.getValue()));
+										}
+										
 										if(paramValue != null){
 											properties.put("value", paramValue);
 										}

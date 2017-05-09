@@ -34,7 +34,7 @@ public class ProxyServiceConfigurer implements BeanDefinitionRegistryPostProcess
 		
 		//FIXME basePackage
 		ResourceBundle bundle = ResourceBundle.getBundle("application");
-		scanner.scan(StringUtils.tokenizeToStringArray(bundle.getString("rpc.server.base-package"), ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+		scanner.scan(StringUtils.tokenizeToStringArray(bundle.getString("scan-base-package"), ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
 	}
 
 }

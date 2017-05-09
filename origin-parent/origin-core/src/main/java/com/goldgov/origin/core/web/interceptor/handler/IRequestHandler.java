@@ -5,6 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 
+ * @author LiuHG
+ * @version 1.0
+ */
 public interface IRequestHandler {
 
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response,Object handler)throws Exception;

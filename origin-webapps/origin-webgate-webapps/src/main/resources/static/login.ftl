@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action='/login' method='POST'>
+<form action='./login' method='POST'>
 <table>
 	<tr><td><@i18n code="label.loginName" suffix="colon"/></td><td><input type='text' name='username' value=''></td></tr>
 	<tr><td><@i18n code="label.password" suffix="colon"/></td><td><input type='password' name='password'/></td></tr>

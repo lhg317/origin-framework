@@ -20,6 +20,13 @@ public @interface WebToken {
 	public TokenHandleType handle();
 	
 	/**
+	 * 当验证失败后跳转到的地址，默认不进行跳转，而是抛出令牌验证失败的异常{@link TokenValidException}。
+	 * 也就是在handle为VERIFY时才可能会使用到此值。
+	 * @return
+	 */
+	public String forward() default "";
+	
+	/**
 	 * Token处理类型：生成、校验
 	 * @author LiuHG
 	 * @version 1.0
@@ -27,7 +34,7 @@ public @interface WebToken {
 	public enum TokenHandleType{
 		
 		/**
-		 * 生成Token令牌，对于RPC请求来说，使用该类型不会有任何效果。因为RPC的Token是通过独立的请求单独获取的，一般使用表单组件{@link com.goldgov.orchid.core.web.client.smartgwt.widgets.form.fields.OWebTokenItem OWebTokenItem}来自动获取Token
+		 * 生成Token令牌
 		 */
 		GENERATE,
 		/**

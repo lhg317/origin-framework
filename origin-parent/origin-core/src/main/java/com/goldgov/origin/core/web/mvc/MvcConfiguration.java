@@ -37,7 +37,6 @@ import com.goldgov.origin.core.web.freemarker.PuzzleFreeMarkerView;
 import com.goldgov.origin.core.web.interceptor.WebInterceptor;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.AuditRecordHandler;
-import com.goldgov.origin.core.web.interceptor.handler.impl.FreemarkModelHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.LocaleChangeHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.TokenCheckHandler;
@@ -90,7 +89,7 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 		requestHadnler.add(new RequestHolderHandler());
 		requestHadnler.add(new LocaleChangeHandler());
 		requestHadnler.add(new AuditRecordHandler());
-		requestHadnler.add(new FreemarkModelHandler());
+//		requestHadnler.add(new FreemarkModelHandler());
 		requestHadnler.add(new TokenCheckHandler());
 		requestHadnler.add(new ValidationHandler());
 		
@@ -162,6 +161,7 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	
 
 	
+	@SuppressWarnings("rawtypes")
 	@Bean
 	public ContentNegotiatingViewResolver contentNegotiatingViewResolver(ContentNegotiationManager contentNegotiationManager){
 		ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();

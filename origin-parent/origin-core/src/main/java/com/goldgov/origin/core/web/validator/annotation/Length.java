@@ -14,8 +14,12 @@ import com.goldgov.origin.core.web.validator.impl.LengthValidator;
 @Retention(RUNTIME)
 @Constraint(validatedBy = LengthValidator.class)
 public @interface Length {
-	public int min();
-	public int max();
+	
+	public String fieldName() default "";
+	public String fieldDesc() default "";
+	
+	public long min();
+	public long max();
 	public OperateType[] type() default OperateType.NONE;
 	public String message() default "{fieldDesc}长度最小{min}最大{max}";
 }

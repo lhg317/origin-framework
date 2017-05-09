@@ -8,51 +8,44 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.validator.ConstraintValidator;
-import com.goldgov.origin.core.web.validator.annotation.Length;
+import com.goldgov.origin.core.web.validator.annotation.Min;
 
-public class LengthValidator implements ConstraintValidator<Length,String>{
-
+public class MinValidator implements ConstraintValidator<Min,String>{
+	
 	private long min;
-	private long max;
-
 	private OperateType[] types;
 	
 	@Override
-	public void initialize(Length constraintAnnotation) {
-		types = constraintAnnotation.type();
-		
+	public void initialize(Min constraintAnnotation) {
 		min = constraintAnnotation.min();
-		max = constraintAnnotation.max();
+		types = constraintAnnotation.type();
 	}
 
 	@Override
-	public boolean isValid(String name,String value, Field field, OperateType type,HttpServletRequest request,HttpServletResponse response) {
+	public boolean isValid(String name, String value, Field field, OperateType type, HttpServletRequest request,
+			HttpServletResponse response) {
 		if(Utils.operatingValidate(type, types)){
 			if(value == null){
 				return true;
 			}
 			
-			if ( max < min ) {
-				throw new IllegalArgumentException( "The length cannot be negative." );
-			}
-			
 			if(field.getType() == String.class){
-				if(value.length() >= min && value.length() <= max){
+				if(value.length() >= min){
 					return true;
 				}
 			}else if(field.getType() == Integer.class){
 				Integer intValue = Integer.valueOf(value);
-				if(intValue >= min && intValue <= max){
+				if(intValue >= min){
 					return true;
 				}
 			}else if(field.getType() == Double.class){
 				Double doubleValue = Double.valueOf(value);
-				if(doubleValue >= min && doubleValue <= max){
+				if(doubleValue >= min){
 					return true;
 				}
 			}else if(field.getType() == Long.class){
 				Long longValue = Long.valueOf(value);
-				if(longValue >= min && longValue <= max){
+				if(longValue >= min){
 					return true;
 				}
 			}else if(field.getType() == Date.class){
@@ -65,6 +58,5 @@ public class LengthValidator implements ConstraintValidator<Length,String>{
 		}
 		return true;
 	}
-	
 
 }

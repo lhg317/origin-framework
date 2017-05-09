@@ -56,7 +56,7 @@ public class RpcFileController {
 			 while(iter.hasNext()) {
 	            
 	                MultipartFile file = multiRequest.getFile(iter.next().toString());
-	                if(file!=null)
+	                if(file!=null && file.getSize() > 0)
 	                {
 	                	if(isLimited(uploadConfig,file,fileNum)){
 	            			throw new UploadLimitException(uploadConfig.toString());

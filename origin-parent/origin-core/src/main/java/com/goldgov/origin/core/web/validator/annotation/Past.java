@@ -29,4 +29,6 @@ public @interface Past {
 	public String pattern() default "yyyy-MM-dd HH:mm:ss";
 	
 	public String dateTime() default "";
+	
+	public String fieldName() default "";
 }

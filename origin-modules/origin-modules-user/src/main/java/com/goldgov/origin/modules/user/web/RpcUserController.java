@@ -16,6 +16,7 @@ import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
+import com.goldgov.origin.core.web.validator.Valid;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserExistException;
 import com.goldgov.origin.modules.user.api.RpcUserNameCheckFailException;
@@ -40,7 +41,7 @@ public class RpcUserController {
 	}
 	
 	@RequestMapping("/addUser")
-	@WebToken(handle=TokenHandleType.VERIFY)
+	@WebToken(handle=TokenHandleType.VERIFY,forward="/user/listUser")
 	@ModuleOperating(name="i18n:label.user+add",type=OperateType.ADD)
 	public String addUser(RpcUser user) throws TException{
 		try {

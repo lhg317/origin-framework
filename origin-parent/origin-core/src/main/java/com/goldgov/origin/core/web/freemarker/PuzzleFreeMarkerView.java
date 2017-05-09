@@ -4,12 +4,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
-import com.goldgov.origin.core.Keys;
 import com.goldgov.origin.core.web.freemarker.model.I18nTemplateModel;
 import com.goldgov.origin.core.web.freemarker.model.WebTokenTemplateModel;
 
@@ -23,11 +20,11 @@ public class PuzzleFreeMarkerView extends FreeMarkerView{
 		SimpleHash templateModel = super.buildTemplateModel(model, request, response);
 		templateModel.put("webToken", new WebTokenTemplateModel(request));
 		
-		HttpSession session = request.getSession();
-		Object locale = session.getAttribute(Keys.DEFAULT_LOCALE);
-		if(locale != null){
-			locale = RequestContextUtils.getLocale(request);
-		}
+//		HttpSession session = request.getSession();
+//		Object locale = session.getAttribute(Keys.DEFAULT_LOCALE);
+//		if(locale != null){
+//			locale = RequestContextUtils.getLocale(request);
+//		}
 		templateModel.put("i18n", new I18nTemplateModel());
 		
 //		templateModel.put("localContextPath", request.getContextPath());
