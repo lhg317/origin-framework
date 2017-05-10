@@ -9,6 +9,8 @@ public interface FileService {
 	
 	void deleteFile(String[] ids);
 	
+	void deleteFileByRelationID(String relationID);
+	
 	File getFile(String fileID);
 	
 	InputStream getFileContent(String fileID);

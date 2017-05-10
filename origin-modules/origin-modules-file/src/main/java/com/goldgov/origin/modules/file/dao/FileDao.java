@@ -14,6 +14,8 @@ public interface FileDao {
 	
 	void deleteFile(@Param("ids") String[] ids);
 	
+	void deleteFileByRelationID(@Param("relationID") String id);
+	
 	File getFile(@Param("fileID") String fileID);
 	
 	List<File> listFile(@Param("relationID") String relationID);

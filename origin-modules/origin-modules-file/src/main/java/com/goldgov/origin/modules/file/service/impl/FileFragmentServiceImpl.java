@@ -135,6 +135,17 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 		fileDao.deleteFile(ids);
 		getFileStorage().deleteFile(ids);
 	}
+	
+	@Override
+	public void deleteFileByRelationID(String relationID) {
+		List<File> listFile = fileDao.listFile(relationID);
+		fileDao.deleteFileByRelationID(relationID);
+		String[] ids = new String[listFile.size()];
+		for (int i = 0; i < listFile.size(); i++) {
+			ids[i] = listFile.get(i).getFileID();
+		}
+		getFileStorage().deleteFile(ids);
+	}
 
 	@Override
 	public File getFile(String fileID) {

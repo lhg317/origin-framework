@@ -37,6 +37,10 @@
 		</foreach>
 	</delete>
 	
+	<delete id="deleteFileByRelationID">
+		DELETE FROM FILE_STORAGE WHERE RELATION_ID = #{relationID}
+	</delete>
+	
 	<select id="getFile" resultMap="file">
 		SELECT <include refid="fileFields" /> FROM FILE_STORAGE WHERE FILE_ID=#{fileID}
 	</select>
