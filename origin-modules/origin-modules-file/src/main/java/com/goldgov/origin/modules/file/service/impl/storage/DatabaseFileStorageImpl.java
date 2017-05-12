@@ -43,13 +43,18 @@ public class DatabaseFileStorageImpl implements FileStorage {
 	@Override
 	public InputStream loadFile(String fileID) {
 		// TODO Auto-generated method stub
+		if(findScript == null || "".equals(deleteScript)){
+			findScript = "SELECT t." + blobFieldName + " from FILE_CONTENT t WHERE t.FILE_ID = ? ";
+		}
 		return null;
 	}
 
 	@Override
 	public void deleteFile(String[] fileID) {
 		// TODO Auto-generated method stub
-		
+		if(deleteScript == null || "".equals(deleteScript)){
+			deleteScript = "DELETE FROM FILE_CONTENT t WHERE t.FILE_ID = ?";
+		}
 	}
 
 	public String getFindScript() {

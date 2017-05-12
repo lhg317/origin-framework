@@ -1,7 +1,10 @@
 package com.goldgov.origin.client;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
@@ -20,6 +25,7 @@ import com.goldgov.origin.core.discovery.rpc.RpcClientProxy;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceProxy;
 import com.goldgov.origin.core.discovery.rpc.ThriftRpcServer;
+import com.goldgov.origin.core.utils.ArrayUtils;
 /**
  * 本地服务注册器，负责将本地含有的服务注册到服务中心。如果注册失败则默认等待5秒后继续尝试，直到成功为止。
  * 注册服务是以Http方式注册到服务中心，因此本注册服务保证了注册行为在容器启动之后执行。当本地服务注册成功后，
@@ -72,6 +78,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 //			logger.debug("当前应用不包含任何rpc服务，不发起服务注册请求");
 //			return;
 //		}
+		final String[] optional = getOptionalModules();
 		
 		new Thread("ServiceRegister"){
 
@@ -100,7 +107,11 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 				if(rpcClientList != null){
 					for (RpcClientProxy rpcServiceProxy : rpcClientList) {
 						if(!isServiceSelf(rpcServiceProxy.getServiceName())){
-							localService.addRequiredServerName(rpcServiceProxy.getServiceName());
+							if(ArrayUtils.contain(optional,rpcServiceProxy.getServiceName()) != -1){
+								localService.addOptionalServerName(rpcServiceProxy.getServiceName());
+							}else{
+								localService.addRequiredServerName(rpcServiceProxy.getServiceName());
+							}
 						}
 					}
 				}
@@ -146,6 +157,23 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			
 		}.start();
 		
+	}
+
+	private String[] getOptionalModules() {
+		InputStream resourceStream = this.getClass().getResourceAsStream("/META-INF/rpc");
+		if(resourceStream != null){
+			Properties properties = new Properties();
+			try {
+				properties.load(resourceStream);
+				String property = properties.getProperty("optional.modules");
+				return StringUtils.tokenizeToStringArray(property, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+			} catch (IOException e) {
+				throw new RuntimeException("获取可选模块时发生IO错误",e);
+			}
+
+		}else{
+			return new String[0];
+		}
 	}
 	
 	private boolean isServiceSelf(String serviceName){

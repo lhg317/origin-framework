@@ -33,6 +33,7 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 	private DiscoveryDao discoveryDao;
 	
 	private Map<String,List<String>> requiredServiceNameMap = new ConcurrentHashMap<>();
+	private Map<String,List<String>> optionalServiceNameMap = new ConcurrentHashMap<>();
 	
 	@Override
 	public void addService(ServiceServer serviceServer) {
@@ -191,6 +192,17 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 	public Map<String,List<String>> getAllRequiredServiceName(){
 		return requiredServiceNameMap;
 	}
+	
+	@Override
+	public void addOptionalServiceName(String clientAddress, List<String> serviceName) {
+		optionalServiceNameMap.put(clientAddress, serviceName);
+	}
+	
+	@Override
+	public Map<String,List<String>> getAllOptionalServiceName(){
+		return optionalServiceNameMap;
+	}
+	
 	
 	@Override
 	public Map<String,List<RpcServiceInstance>> getAllServices(){

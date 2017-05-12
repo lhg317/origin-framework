@@ -30,6 +30,7 @@ public class ServiceServer {
 	private List<RpcServiceInstance> serviceList = new ArrayList<>();
 	
 	private List<String> requiredServerNames = new ArrayList<>();
+	private List<String> optionalServerNames = new ArrayList<>();
 	
 	public RpcServiceInstance getService(String serviceName){
 		for (RpcServiceInstance serviceInstance : serviceList) {
@@ -46,6 +47,10 @@ public class ServiceServer {
 	
 	public void addRequiredServerName(String serviceName){
 		requiredServerNames.add(serviceName);
+	}
+	
+	public void addOptionalServerName(String serviceName){
+		optionalServerNames.add(serviceName);
 	}
 
 	public String getServerIP() {
@@ -96,6 +101,10 @@ public class ServiceServer {
 		return requiredServerNames;
 	}
 	
+	public List<String> getOptionalServerNames() {
+		return optionalServerNames;
+	}
+
 	public ServiceType[] getServiceType() {
 		return serviceType;
 	}

@@ -22,9 +22,13 @@ public interface DiscoveryServerService {
 	
 	public void addRequiredServiceName(String clientAddress,List<String> serviceName);
 	
+	public void addOptionalServiceName(String clientAddress, List<String> serviceName);
+	
 	public void deleteRequiredServiceName(String clientAddress);
 	
 	public Map<String,List<String>> getAllRequiredServiceName();
+	
+	public Map<String,List<String>> getAllOptionalServiceName();
 	
 	/**
 	 * 根据服务名获取所有的服务对象

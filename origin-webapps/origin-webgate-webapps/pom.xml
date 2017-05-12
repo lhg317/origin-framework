@@ -109,6 +109,7 @@
 					<include>**/*.properties</include>
 					<include>META-INF/.keystore</include>
 					<include>META-INF/.truststore</include>
+					<include>META-INF/rpc</include>
 				</includes>
 			</resource>
 		</resources>

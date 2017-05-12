@@ -62,6 +62,7 @@ public class DiscoveryServerController {
 		serviceObject.setRegisterDate(new Date());
 		
 		discoveryService.addRequiredServiceName(serviceObject.getRpcServerAddress(), serviceObject.getRequiredServerNames());
+		discoveryService.addOptionalServiceName(serviceObject.getRpcServerAddress(), serviceObject.getOptionalServerNames());
 		
 		discoveryService.addService(serviceObject);
 		return "SUCCESS";
@@ -88,17 +89,22 @@ public class DiscoveryServerController {
 	public String serviceInfoOverview(Model model){
 		
 		Map<String, List<String>> allRequiredServics = discoveryService.getAllRequiredServiceName();
+		Map<String, List<String>> allOptionalServics = discoveryService.getAllOptionalServiceName();
 		Map<String, ServiceServer> clientMapping = discoveryService.getClientMapping();
 		
 		Set<String> clientAddressSet = allRequiredServics.keySet();
 		ClientHealth clientHealth = new ClientHealth();
 		for (String clientAddress : clientAddressSet) {
 			ServiceServer serviceServer = clientMapping.get(clientAddress);
-			List<String> serviceNames = allRequiredServics.get(clientAddress);
+			List<String> requiredServiceNames = allRequiredServics.get(clientAddress);
+			List<String> optionalServiceNames = allOptionalServics.get(clientAddress);
 			List<ServiceHealth> healthList = new ArrayList<>();
-			for (String serviceName : serviceNames) {
+			for (String serviceName : requiredServiceNames) {
 				List<RpcServiceInstance> serviceList = discoveryService.getServices(serviceName);
 				healthList.add(new ServiceHealth(serviceName, serviceList.size() > 0 ? HealthState.UP : HealthState.DOWN));
+			}
+			for (String serviceName : optionalServiceNames) {
+				healthList.add(new ServiceHealth(serviceName, HealthState.MAYBE));
 			}
 			clientHealth.addHealthState(serviceServer, healthList);
 		}
@@ -194,7 +200,7 @@ public class DiscoveryServerController {
 	}
 	
 	public enum HealthState{
-		UP,DOWN;
+		UP,DOWN,MAYBE;
 	}
 	
 }
