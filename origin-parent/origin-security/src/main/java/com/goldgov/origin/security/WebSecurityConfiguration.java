@@ -91,12 +91,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //    	@formatter:off
     	http.authorizeRequests().anyRequest().authenticated()
 //    			.accessDecisionManager(accessDecisionManager)
-                .and().formLogin().loginPage("/login")
+                .and().formLogin()
+                .loginPage("/login")
+                /*** 在这设置successHandler不生效 ***/
+//                .successHandler(new SaveAuthenticationSessionSuccessHandler())//如果要替换此SuccessHandler，必须创建其子类来替换，不得使用直接实现AuthenticationSuccessHandler接口的类来替换
                 .defaultSuccessUrl(defaultSuccessUrl,alwaysUse)
                 .failureUrl(failureUrl)
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .permitAll()
+                .permitAll().successHandler(new SaveAuthenticationSessionSuccessHandler())//如果要替换此SuccessHandler，必须创建其子类来替换，不得使用直接实现AuthenticationSuccessHandler接口的类来替换
                 
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))//因为启用了scrf，因此默认必须post提交才可以登出，本行设置是以GET方式也可以实现登出
@@ -108,6 +111,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //    	http.requestMatcher(new InternalRequestMatcher());
 
 //        http.authorizeRequests().antMatchers("/").permitAll();
+    	
         if(accessDecisionManager != null){
         	http.authorizeRequests().accessDecisionManager(accessDecisionManager);
         }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component("SpringBeanUtils")
 @SuppressWarnings("unchecked")
-public class SpringBeanUtils implements ApplicationContextAware{
+public abstract class SpringBeanUtils implements ApplicationContextAware{
 
 	private static ApplicationContext cxt = null;
 

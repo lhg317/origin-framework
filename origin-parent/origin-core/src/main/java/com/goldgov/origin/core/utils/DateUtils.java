@@ -9,9 +9,13 @@ import java.util.Date;
  * @author LiuHG
  * @version 1.0
  */
-public class DateUtils {
+public abstract class DateUtils {
 
+	public static final String DATE_PATTERN = "yyyy-MM-dd";
+	
 	public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	
+	public static final String TIME_PATTERN = "HH:mm:ss";
 
 	private static final SimpleDateFormat dataFormat = new SimpleDateFormat();
 	

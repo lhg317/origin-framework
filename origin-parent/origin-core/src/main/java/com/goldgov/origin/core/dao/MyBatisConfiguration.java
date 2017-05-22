@@ -1,6 +1,7 @@
 package com.goldgov.origin.core.dao;
 
 import java.beans.Introspector;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,7 @@ import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -19,12 +21,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ClassUtils;
 
-import com.goldgov.origin.core.dao.mybatis.PagingInterceptor;
+import com.goldgov.origin.core.dao.mybatis.InterceptorHandler;
+import com.goldgov.origin.core.dao.mybatis.StatementHandlerInterceptor;
 
 @Configurable
 //@Import(C3p0DataSourceConfig.class)
 public class MyBatisConfiguration {
-
+	
 	@Bean("mapperScannerConfigurer")
 	public MapperScannerConfigurer mapperScannerConfigurer(){
 		MapperScannerConfigurer scannerConfig = new MapperScannerConfigurer();
@@ -38,12 +41,12 @@ public class MyBatisConfiguration {
 	}
 	
 	@Bean("sqlSessionFactoryBean")
-	public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dataSource") DataSource dataSource,VendorDatabaseIdProvider provider){
+	public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dataSource") DataSource dataSource,VendorDatabaseIdProvider provider,Interceptor interceptor){
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDatabaseIdProvider(provider);
 		sessionFactory.setDataSource(dataSource);
 		
-		sessionFactory.setPlugins(new Interceptor[]{new PagingInterceptor()});
+		sessionFactory.setPlugins(new Interceptor[]{interceptor});
 		
 //		/*此时SqlSessionFactoryBean尚未进行afterPropertiesSet()方法，因此无法进行setResultMap的设置*/
 //		try {
@@ -60,6 +63,13 @@ public class MyBatisConfiguration {
 //		}
 		
 		return sessionFactory;
+	}
+	
+	@Bean
+	public StatementHandlerInterceptor statementHandlerInterceptor(@Autowired(required=false) List<InterceptorHandler> handlers){
+		StatementHandlerInterceptor statementHandlerInterceptor = new StatementHandlerInterceptor();
+		statementHandlerInterceptor.setHandlers(handlers);
+		return statementHandlerInterceptor;
 	}
 	
 	@Bean("vendorDatabaseIdProvider")

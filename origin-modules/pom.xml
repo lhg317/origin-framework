@@ -60,6 +60,7 @@
 		<module>origin-modules-user</module>
 		<module>origin-modules-role</module>
     	<module>origin-modules-file</module>
+    <module>origin-modules-node</module>
   </modules>
 
 	<build>

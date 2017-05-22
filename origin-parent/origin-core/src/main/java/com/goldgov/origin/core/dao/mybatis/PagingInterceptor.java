@@ -22,6 +22,7 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import com.goldgov.origin.core.dao.DatabaseDialect;
 import com.goldgov.origin.core.service.Query;
 
+@Deprecated
 @Intercepts({@Signature(type=StatementHandler.class,method="prepare",args={Connection.class,Integer.class})})
 public class PagingInterceptor implements Interceptor{
 
