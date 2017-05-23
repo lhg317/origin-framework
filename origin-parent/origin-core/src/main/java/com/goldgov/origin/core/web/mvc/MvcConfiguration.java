@@ -2,13 +2,16 @@ package com.goldgov.origin.core.web.mvc;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.thrift.TBase;
 import org.apache.thrift.TException;
 import org.apache.thrift.TSerializer;
 import org.apache.thrift.protocol.TSimpleJSONProtocol;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.MessageSource;
@@ -33,6 +36,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.goldgov.origin.core.web.freemarker.FreeMarkerAttribute;
 import com.goldgov.origin.core.web.freemarker.PuzzleFreeMarkerView;
 import com.goldgov.origin.core.web.interceptor.WebInterceptor;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
@@ -48,6 +52,10 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 
 	@Value("${server.welcome-page:}")
 	private String welcomePage;
+	
+	@Autowired(required=false)
+	private List<FreeMarkerAttribute> freeMarkerAttributes;
+	
 //	@Override
 //	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 ////		System.out.println(converters.size());
@@ -119,6 +127,18 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 		if(arg0 instanceof FreeMarkerViewResolver){
 			FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver)arg0;
 			viewResolver.setViewClass(PuzzleFreeMarkerView.class);
+			
+			
+			if(freeMarkerAttributes != null){
+				Map<String,Object> attributes = new HashMap<>();
+				for (FreeMarkerAttribute freeMarkerAttribute : freeMarkerAttributes) {
+					freeMarkerAttribute.attributesMap(attributes);
+				}
+				if(attributes.size() > 0){
+					viewResolver.setAttributesMap(attributes);
+				}
+			}
+			
 		}
 		return arg0;
 	}

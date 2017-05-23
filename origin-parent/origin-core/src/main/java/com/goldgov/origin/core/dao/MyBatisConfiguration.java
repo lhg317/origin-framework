@@ -48,6 +48,8 @@ public class MyBatisConfiguration {
 		
 		sessionFactory.setPlugins(new Interceptor[]{interceptor});
 		
+//		sessionFactory.setConfigurationProperties(properties);
+		
 //		/*此时SqlSessionFactoryBean尚未进行afterPropertiesSet()方法，因此无法进行setResultMap的设置*/
 //		try {
 //			Configuration configuration = sessionFactory.getObject().getConfiguration();

@@ -17,7 +17,7 @@
 <@i18n code="label.loginName" suffix="colon"/><input type="text" name="loginName" value="${(user.loginName)!}">
 <@i18n code="label.password" suffix="colon"/><input type="password" name="password" value="${(user.passwrd)!}">
 <@i18n code="label.email" suffix="colon"/><input type="text" name="email" value="${(user.email)!}">
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+${csrfToken(true)}
 ${webToken(true)}
 <br>
 <input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listUser','_self')"/>

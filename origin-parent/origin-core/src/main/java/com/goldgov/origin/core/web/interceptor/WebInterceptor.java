@@ -65,6 +65,15 @@ public class WebInterceptor extends HandlerInterceptorAdapter{
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
+		if(requestHandlers != null){
+			for (int i = 0; i < requestHandlers.size(); i++) {
+				IRequestHandler requestHandler = requestHandlers.get(i);
+				requestHandler.completion(request, response, requestHandler, ex);
+				if(logger.isDebugEnabled()){
+					logger.debug("[COMPLETION]拦截器"+requestHandler.getClass());
+				}
+			}
+		}
 	}
 
 	public List<IRequestHandler> getRequestHandlers() {

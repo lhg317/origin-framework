@@ -84,4 +84,9 @@ public class TokenCheckHandler implements IRequestHandler{
 		this.tokenGenerator = tokenGenerator;
 	}
 
+	@Override
+	public void completion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+	}
+
 }

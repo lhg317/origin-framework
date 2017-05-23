@@ -15,8 +15,8 @@ import com.goldgov.origin.core.dao.mybatis.InterceptorHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler.RequestHolder;
 import com.goldgov.origin.modules.node.service.Node;
 
-@Component
-@Order(Ordered.LOWEST_PRECEDENCE - 10)
+//@Component
+//@Order(Ordered.LOWEST_PRECEDENCE - 10)
 public class NodeParameterHandler implements InterceptorHandler{
 
 	@Override

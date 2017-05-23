@@ -65,6 +65,12 @@ public class AuditRecordHandler implements IRequestHandler{
 		}
 		return true;
 	}
+
+	@Override
+	public void completion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		
+	}
 	
 //	public String getMessage(String str){
 //		String[] nameValue = str.split("[:]");

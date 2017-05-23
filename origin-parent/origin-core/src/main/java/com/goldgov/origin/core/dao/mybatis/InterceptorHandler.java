@@ -9,5 +9,6 @@ public interface InterceptorHandler {
 
 	void doHandle(BoundSql boundSql,MetaObject metaObject,Connection connection) throws Throwable;
 	
-	public boolean supports(BoundSql boundSql) throws Throwable;
+	boolean supports(BoundSql boundSql) throws Throwable;
+	
 }

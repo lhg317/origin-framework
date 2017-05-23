@@ -20,6 +20,8 @@ import com.goldgov.origin.core.service.Query;
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class PagingHandler implements InterceptorHandler{
 
+	private DatabaseDialect currentDbDialect;
+	
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void doHandle(BoundSql boundSql, MetaObject metaObject, Connection connection) throws Throwable{
@@ -40,7 +42,7 @@ public class PagingHandler implements InterceptorHandler{
 		
 		if(query != null){
 			String sql = boundSql.getSql();
-			String countSql = "select count(*) from (" + sql + ") t";
+			String countSql = "select count(*) from (" + sql + ") _t";
 			PreparedStatement countStatement = connection.prepareStatement(countSql);
 			ParameterHandler parameterHandler = (ParameterHandler)metaObject.getValue("delegate.parameterHandler");
 			parameterHandler.setParameters(countStatement);
@@ -50,18 +52,19 @@ public class PagingHandler implements InterceptorHandler{
 				query.calculate(executeQuery.getLong(1));
 			}
 			
-			String dbName = connection.getMetaData().getDatabaseProductName();
-			
-			DatabaseDialect[] values = DatabaseDialect.values();
-			DatabaseDialect currentDbDialect = null;
-			for (DatabaseDialect databaseDialect : values) {
-				if(databaseDialect.getProductName().equals(dbName)){
-					currentDbDialect = databaseDialect;
-					break;
-				}
-			}
 			if(currentDbDialect == null){
-				throw new RuntimeException("不支持的数据库类型：" + dbName);
+				String dbName = connection.getMetaData().getDatabaseProductName();
+				
+				DatabaseDialect[] values = DatabaseDialect.values();
+				for (DatabaseDialect databaseDialect : values) {
+					if(databaseDialect.getProductName().equals(dbName)){
+						currentDbDialect = databaseDialect;
+						break;
+					}
+				}
+				if(currentDbDialect == null){
+					throw new RuntimeException("不支持的数据库类型：" + dbName);
+				}
 			}
 			String pagingSql = currentDbDialect.pagingSql(sql, query.getFirstResult(), query.getPageSize());
 			metaObject.setValue("delegate.boundSql.sql", pagingSql);

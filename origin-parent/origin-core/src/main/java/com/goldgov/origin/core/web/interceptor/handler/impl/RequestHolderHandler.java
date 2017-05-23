@@ -25,8 +25,14 @@ public class RequestHolderHandler implements IRequestHandler{
 	public boolean postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) {
-		RequestHolder.resetRequest();
 		return true;
+	}
+	
+
+	@Override
+	public void completion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		RequestHolder.resetRequest();
 	}
 
 	public abstract static class RequestHolder {
@@ -49,5 +55,4 @@ public class RequestHolderHandler implements IRequestHandler{
 			return httpServletRequest;
 		}
 	}
-	
 }

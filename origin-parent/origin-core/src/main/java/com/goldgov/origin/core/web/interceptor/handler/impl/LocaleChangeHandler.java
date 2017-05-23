@@ -141,5 +141,10 @@ public class LocaleChangeHandler implements IRequestHandler{
 		}
 	}
 
+	@Override
+	public void completion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+	}
+
 
 }
