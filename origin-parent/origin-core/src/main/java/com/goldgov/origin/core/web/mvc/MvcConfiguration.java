@@ -18,6 +18,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -46,6 +47,7 @@ import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler
 import com.goldgov.origin.core.web.interceptor.handler.impl.TokenCheckHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.ValidationHandler;
 import com.goldgov.origin.core.web.messages.ClassPathMessageSource;
+import com.goldgov.origin.core.web.resolver.ModelQueryResolver;
 
 @Configuration
 public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{//,ApplicationListener<EmbeddedServletContainerInitializedEvent> {
@@ -89,6 +91,11 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 //		configurer.favorPathExtension(true);
 //		TransactionProxyFactoryBean a;
+	}
+	
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(new ModelQueryResolver());
 	}
 	
 	@Override
