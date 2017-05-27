@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import com.goldgov.origin.core.web.freemarker.model.I18nTemplateModel;
+import com.goldgov.origin.core.web.freemarker.model.ResourceTemplateModel;
 import com.goldgov.origin.core.web.freemarker.model.WebTokenTemplateModel;
 
 import freemarker.template.SimpleHash;
@@ -26,6 +27,7 @@ public class PuzzleFreeMarkerView extends FreeMarkerView{
 //			locale = RequestContextUtils.getLocale(request);
 //		}
 		templateModel.put("i18n", new I18nTemplateModel());
+		templateModel.put("res", new ResourceTemplateModel(request));
 		
 //		templateModel.put("localContextPath", request.getContextPath());
 		
