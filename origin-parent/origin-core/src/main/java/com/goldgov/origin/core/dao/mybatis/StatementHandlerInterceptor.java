@@ -15,6 +15,14 @@ import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
+/**
+ * MyBatis基于{@link org.apache.ibatis.executor.statement.StatementHandler StatementHandler}接口的拦截器，
+ * 拦截接口的prepare方法，在此拦截切点上可以配置多个处理器，处理器需要实现{@link com.goldgov.origin.core.dao.mybatis.InterceptorHandler InterceptorHandler}
+ * 接口。
+ * 
+ * @author LiuHG
+ * @version 1.0
+ */
 @Intercepts({@Signature(type=StatementHandler.class,method="prepare",args={Connection.class,Integer.class})})
 public class StatementHandlerInterceptor implements Interceptor{
 	

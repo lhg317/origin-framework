@@ -15,7 +15,7 @@ public interface IRule {
 	 * 服务选择策略
 	 * @param servers 当前可用服务实例
 	 * @param key 服务标识名，此处为服务标识名
-	 * @return
+	 * @return 根据负载策略计算后的服务实例
 	 */
 	public RpcServiceInstance choose(List<RpcServiceInstance> servers,Object key);
 

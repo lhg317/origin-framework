@@ -9,6 +9,11 @@ import org.slf4j.LoggerFactory;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 import com.goldgov.origin.core.discovery.rpc.loadbalancer.IRule;
 
+/**
+ * 循环负载规则
+ * @author LiuHG
+ * @version 1.0
+ */
 public class RoundRobinRule implements IRule {
 
 	private static Logger log = LoggerFactory.getLogger(RoundRobinRule.class);

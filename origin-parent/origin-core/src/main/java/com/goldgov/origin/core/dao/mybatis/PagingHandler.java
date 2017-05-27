@@ -16,6 +16,14 @@ import org.springframework.stereotype.Component;
 import com.goldgov.origin.core.dao.DatabaseDialect;
 import com.goldgov.origin.core.service.Query;
 
+/**
+ * MyBatis分页拦截器处理器，当查询操作且查询方法参数中含有{@link com.goldgov.origin.core.service.Query Query}
+ * 对象时，在执行查询前会将查询语句包装成count形式，然后查询出满足条件的总数，并进行页码计算，将页码结果信息赋值回{@link com.goldgov.origin.core.service.Query Query}
+ * 对象中，随后根据{@link com.goldgov.origin.core.service.Query Query}中的分页信息对查询语句包装为限制条数的SQL语句，
+ * 最后进行真正的数据查询。
+ * @author LiuHG
+ * @version 1.0
+ */
 @Component
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class PagingHandler implements InterceptorHandler{

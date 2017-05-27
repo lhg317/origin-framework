@@ -9,6 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 
+/**
+ * 服务端对象信息
+ * @author LiuHG
+ * @version 1.0
+ */
 @JsonIgnoreProperties(ignoreUnknown = true) 
 public class ServiceServer {
 
