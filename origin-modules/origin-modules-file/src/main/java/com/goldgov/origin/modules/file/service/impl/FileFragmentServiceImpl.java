@@ -190,7 +190,7 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 	public byte[] getFileFragmentContent(String fileID,long startIndex) {
 		InputStream fileContent = getFileContent(fileID);
 		try {
-			System.out.println(fileContent.skip(startIndex));
+			fileContent.skip(startIndex);
 			byte[] fileSplit = FileSplitUtils.fileSplit(fileContent,1048576);
 			if(fileSplit.length > 0){
 				return fileSplit;

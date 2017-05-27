@@ -2,6 +2,11 @@ package com.goldgov.origin.modules.file.service;
 
 import java.util.Arrays;
 
+/**
+ * 默认的上传配置，默认配置允许上传任何格式的文件，限制单个文件大小不得超过5MB
+ * @author LiuHG
+ * @version 1.0
+ */
 public class UploadConfig {
 
 	private String[] fileExtension = {"*"};//允许的文件类型，例如：new String[]{"jpg","gif","png","bmp"}，new String[]{"*"}为所有文件。

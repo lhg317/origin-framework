@@ -1,7 +1,7 @@
 package com.goldgov.origin.modules.file.web;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,10 +25,17 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.goldgov.origin.modules.file.api.RpcFile;
 import com.goldgov.origin.modules.file.api.RpcFileFragmentService;
+import com.goldgov.origin.modules.file.exception.NoPermissionException;
 import com.goldgov.origin.modules.file.exception.UploadLimitException;
 import com.goldgov.origin.modules.file.service.UploadConfig;
 import com.goldgov.origin.modules.file.service.UploadConfigService;
 
+/**
+ * 文件上传及下载基础控制器类，业务模块应该如果有上传和下载服务的功能应继承本类，
+ * 而不是直接使用，这样便于做请求授权管理。
+ * @author LiuHG
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/file")
 public class RpcFileController {
@@ -39,14 +45,17 @@ public class RpcFileController {
 	@Autowired(required=false)
 	private UploadConfigService uploadConfigService;
 	
-	
 	@Autowired
 	@Qualifier("rpcFileFragmentService.Client")
 	private RpcFileFragmentService.Iface fileService;
 	
 	@RequestMapping("/uploadFile")
-	public @ResponseBody String[] uploadFile(HttpServletRequest request) throws TException{
+	public @ResponseBody String[] uploadFile(HttpServletRequest request) throws Exception{
 		UploadConfig uploadConfig = getUploadConfig(request);
+		
+		if(!allowUpload(uploadConfig,request)){
+			throw new NoPermissionException();
+		}
 		
 		List<String> resultFileIDs = new ArrayList<>();
 		if(ServletFileUpload.isMultipartContent(request)){
@@ -63,13 +72,7 @@ public class RpcFileController {
 	            		}
 	                	
 	                	ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	            		int copyCount = 0;
-	            		try {
-	            			copyCount = FileCopyUtils.copy(file.getInputStream(), byteArrayOutputStream);
-	            		} catch (IOException e) {
-	            			// TODO Auto-generated catch block
-	            			e.printStackTrace();
-	            		}
+	            		int copyCount = FileCopyUtils.copy(file.getInputStream(), byteArrayOutputStream);
 	            		ByteBuffer byteBuffer = ByteBuffer.allocate(copyCount);
 	            		byteBuffer.put(byteArrayOutputStream.toByteArray());
 	            		byteBuffer.flip();
@@ -101,7 +104,7 @@ public class RpcFileController {
 		return resultFileIDs.toArray(new String[0]);
 	}
 	
-	private boolean isLimited(UploadConfig uploadConfig, MultipartFile file,int fileNum) {
+	protected boolean isLimited(UploadConfig uploadConfig, MultipartFile file,int fileNum) {
 		if(file.getSize() > uploadConfig.getSizeMax()){//附件大小超出限制
 			return true;
 		}
@@ -116,62 +119,66 @@ public class RpcFileController {
 	}
 
 	@RequestMapping("/downloadFile")
-	public @ResponseBody String downloadFile(@RequestParam("fileID") String fileID,HttpServletResponse response) throws TException{
+	public @ResponseBody String downloadFile(@RequestParam("fileID") String fileID,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		if(!allowDownload(request)){
+			throw new NoPermissionException();
+		}
+		
 		RpcFile file = fileService.getFile(fileID);
 		if(file == null){
-			//TODO 文件不存在
+			throw new FileNotFoundException(fileID);
 		}
 		ByteBuffer fileContent = fileService.getFileContent(fileID);
 		response.setContentType(file.getFileType());
 		response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getFileName() +"\"");
 		
 		byte[] fileFragmentBytes = fileContent.array(); 
-		try {
-			ServletOutputStream outputStream = response.getOutputStream();
-			outputStream.write(fileFragmentBytes);
-			fileContent.clear();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ServletOutputStream outputStream = response.getOutputStream();
+		outputStream.write(fileFragmentBytes);
+		fileContent.clear();
 		
 		return new String(fileContent.array());
 	}
 	
 	@RequestMapping("/downloadFileFragment")
-	public void downloadFileFragment(@RequestParam("fileID") String fileID,HttpServletResponse response) throws TException{
+	public void downloadFileFragment(@RequestParam("fileID") String fileID,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		if(!allowDownload(request)){
+			throw new NoPermissionException();
+		}
+		
 		RpcFile file = fileService.getFile(fileID);
 		if(file == null){
-			//TODO 文件不存在
+			throw new FileNotFoundException(fileID);
 		}
 		ByteBuffer byteBuffer = fileService.getFileFragmentContent(fileID,0);
 		long currentSize = 0;
 		response.setContentType(file.getFileType());
 		response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getFileName() +"\"");
 		
-		try {
-			ServletOutputStream outputStream = response.getOutputStream();
-			while (byteBuffer != null) {
-				byte[] fileFragmentBytes = byteBuffer.array(); 
-				outputStream.write(fileFragmentBytes);
-				currentSize += fileFragmentBytes.length;
-				byteBuffer = fileService.getFileFragmentContent(fileID,currentSize);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ServletOutputStream outputStream = response.getOutputStream();
+		while (byteBuffer != null) {
+			byte[] fileFragmentBytes = byteBuffer.array(); 
+			outputStream.write(fileFragmentBytes);
+			currentSize += fileFragmentBytes.length;
+			byteBuffer = fileService.getFileFragmentContent(fileID,currentSize);
 		}
-		
 		
 	}
 	
-	private UploadConfig getUploadConfig(HttpServletRequest request){
+	protected UploadConfig getUploadConfig(HttpServletRequest request){
 		if(uploadConfigService == null){
 			return DEFAULT_UPLOAD_CONFIG;
 		}
 		return uploadConfigService.getUploadConfig(request);
 	}
 	
+	protected boolean allowUpload(UploadConfig uploadConfig, HttpServletRequest request){
+		return true;
+	}
+	
+	protected boolean allowDownload(HttpServletRequest request){
+		return true;
+	}
 	
 	/**
 	 * 检查指定字符串在数组中是否存在
