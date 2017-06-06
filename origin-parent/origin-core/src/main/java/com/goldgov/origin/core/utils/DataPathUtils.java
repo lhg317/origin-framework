@@ -1,9 +1,33 @@
 package com.goldgov.origin.core.utils;
 
+/**
+ * 数据路径拼装工具类
+ * @author LiuHG
+ * @version 1.0
+ */
 public abstract class DataPathUtils {
 	
 	public static final char PATH_SEPARATOR = '/';
 
+	/**
+	 * 拼装数据路径，返回的路径以“/”开头，但不以“/”结尾的字符串，如果传入的参数均为空字符串，则返回“/”
+	 * <pre>
+	 * 例如：
+	 * appendPath("/a/b/c/d", "/e")	-&gt; /a/b/c/d/e
+	 * appendPath("a/b/c/d/", "/e")	-&gt; /a/b/c/d/e
+	 * appendPath("/a/b/c/d/", "e")	-&gt; /a/b/c/d/e
+	 * appendPath("a/b/c/d", "e")		-&gt; /a/b/c/d/e
+	 * appendPath("a/b/c/d", "e/f")	-&gt; /a/b/c/d/e/f
+	 * appendPath("a/b/c/d", "/e/f")	-&gt; /a/b/c/d/e/f
+	 * appendPath("a/b/c/d/", "/e/f")	-&gt; /a/b/c/d/e/f
+	 * appendPath("", "e")		-&gt; /e
+	 * appendPath("a/b/c/d", "")		-&gt; /a/b/c/d
+	 * appendPath("", ""))		-&gt; /
+	 * </pre>
+	 * @param dataPath
+	 * @param data
+	 * @return
+	 */
 	public static String appendPath(String dataPath,String data){
 		if(dataPath.length() == 0 && data.length() == 0){
 			return "" + PATH_SEPARATOR;

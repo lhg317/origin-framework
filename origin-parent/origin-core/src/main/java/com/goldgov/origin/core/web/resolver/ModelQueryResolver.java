@@ -17,6 +17,8 @@ import com.goldgov.origin.core.service.Query;
 import com.goldgov.origin.core.web.annotation.ModelQuery;
 
 /**
+ * 
+ * - NOT USE -
  * ModelQuery注解解释器。
  * 
  * @author LiuHG

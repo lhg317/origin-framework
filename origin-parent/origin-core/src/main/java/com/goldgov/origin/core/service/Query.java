@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 查询对象，用于存放分页信息及查询结果。一般分页查询的条件对象都需要继承本类，否则框架无法自动进行分页操作。
+ * @author LiuHG
+ * @version 1.0
+ * @param <T>
+ */
 public class Query<T>  {
 
 	public static final String QUERY_PREFIX = "query";

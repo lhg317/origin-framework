@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 
+ * 日期格式化工具类
  * @author LiuHG
  * @version 1.0
  */

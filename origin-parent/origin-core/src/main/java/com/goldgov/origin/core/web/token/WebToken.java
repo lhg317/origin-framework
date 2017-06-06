@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 提交合法性验证注解，用于注解在方法上，可用于Token的生成和校验。
+ * 注意：如果同一用户同时打开两个含有令牌的表单页面，会导致前一个表单页的令牌失效。
  * 默认Token名称为：WEB_TOKEN
  * @author LiuHG
  * @version 1.0

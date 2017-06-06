@@ -95,7 +95,7 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		argumentResolvers.add(new ModelQueryResolver());
+//		argumentResolvers.add(new ModelQueryResolver());
 	}
 	
 	@Override

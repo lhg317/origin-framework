@@ -102,7 +102,7 @@ public final class TimedFile {
 		}
 	}
 	
-	public class FileEntity extends File{
+	class FileEntity extends File{
 
 		private static final long serialVersionUID = 834909444145610083L;
 
