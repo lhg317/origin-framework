@@ -18,7 +18,7 @@ import com.goldgov.origin.modules.file.api.RpcFileFragmentService;
 import com.goldgov.origin.modules.file.service.File;
 import com.goldgov.origin.modules.file.service.FileFragmentService;
 
-@RpcService
+@RpcService("RpcFileService")
 public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
 
 	@Autowired

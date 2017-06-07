@@ -23,5 +23,5 @@ public class DiscoveryClientController {
 		discoveryClientService.clearServerCache();
 		return "SUCCESS";
 	}
-
+	
 }
