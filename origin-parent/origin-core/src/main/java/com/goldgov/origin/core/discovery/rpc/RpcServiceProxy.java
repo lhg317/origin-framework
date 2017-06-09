@@ -19,7 +19,7 @@ public class RpcServiceProxy implements FactoryBean,ApplicationContextAware{
 
 	private ApplicationContext applicationContext;
 	
-	public RpcServiceProxy(Class rpcClass){
+	public RpcServiceProxy(Class rpcClass,ServiceNameGenerator serviceNameGenerator){
 		this.rpcClass = rpcClass;
 		Class<?>[] interfaces = rpcClass.getInterfaces();
 		for (Class<?> iface : interfaces) {
@@ -27,8 +27,7 @@ public class RpcServiceProxy implements FactoryBean,ApplicationContextAware{
 				Class<?> declaringClass = iface.getDeclaringClass();
 				
 				if(rpcClass == null) continue;
-				
-				serviceName = declaringClass.getName();
+				serviceName = serviceNameGenerator.generateServiceName(declaringClass);
 				break;
 			}
 		}

@@ -64,6 +64,7 @@ public class RpcDefinitionScanner extends ClassPathBeanDefinitionScanner{
 	
 	protected void processServerDefinitions(GenericBeanDefinition definition,Class<?> rpcClass){
 		definition.getConstructorArgumentValues().addGenericArgumentValue(rpcClass);
+		definition.getConstructorArgumentValues().addGenericArgumentValue(new RuntimeBeanReference("serviceNameGenerator"));
 	    definition.setBeanClass(RpcServiceProxy.class);
 	    
 	}
@@ -73,6 +74,7 @@ public class RpcDefinitionScanner extends ClassPathBeanDefinitionScanner{
 	     definition.getConstructorArgumentValues().addGenericArgumentValue(rpcClass);
 //	     definition.getConstructorArgumentValues().addGenericArgumentValue(new RuntimeBeanReference("socketProvider"));
 	     definition.getConstructorArgumentValues().addGenericArgumentValue(new RuntimeBeanReference("rpcServiceProviderCenter"));
+	     definition.getConstructorArgumentValues().addGenericArgumentValue(new RuntimeBeanReference("serviceNameGenerator"));
 	     definition.setBeanClass(RpcClientProxy.class);
 	     definition.setDependsOn("rpcServer");
 	}

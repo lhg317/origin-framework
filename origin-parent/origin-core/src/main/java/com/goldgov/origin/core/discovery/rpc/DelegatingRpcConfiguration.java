@@ -1,5 +1,6 @@
 package com.goldgov.origin.core.discovery.rpc;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.type.AnnotationMetadata;
@@ -25,6 +26,13 @@ public class DelegatingRpcConfiguration implements ImportAware{
 	public RpcServiceEndPoint rpcServiceEndPoint(){
 		RpcServiceEndPoint rpcServiceEndPoint = new RpcServiceEndPoint();
 		return rpcServiceEndPoint;
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean(name="serviceNameGenerator")
+	public ServiceNameGenerator serviceNameGenerator(){
+		ServiceNameGenerator serviceNameGenerator = new ClassServiceNameGeneratorImpl();
+		return serviceNameGenerator;
 	}
 	
 	@Bean

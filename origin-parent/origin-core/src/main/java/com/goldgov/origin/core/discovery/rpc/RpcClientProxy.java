@@ -31,9 +31,12 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 	private Class<?> ifaceClass;
 	
 	private ReconnectingThriftClient<T> reconnectingThriftClient;
+
+	private ServiceNameGenerator serviceNameGenerator;
 	
-	RpcClientProxy(Class<T> clientClass,ServiceProviderCenter serviceCenter){
+	RpcClientProxy(Class<T> clientClass,ServiceProviderCenter serviceCenter,ServiceNameGenerator serviceNameGenerator){
 		this.clientClass = clientClass;
+		this.serviceNameGenerator = serviceNameGenerator;
 //		this.serviceCenter = serviceCenter;
 		Class<?>[] interfaces = clientClass.getInterfaces();
 		for (Class<?> iface : interfaces) {
@@ -42,7 +45,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 				break;
 			}
 		}
-		 reconnectingThriftClient = new ReconnectingThriftClient<T>(clientClass,serviceCenter);
+		 reconnectingThriftClient = new ReconnectingThriftClient<T>(clientClass,serviceCenter,serviceNameGenerator);
 	}
 	
 	@Override
@@ -59,7 +62,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 	}
 	
 	public String getServiceName(){
-		return ifaceClass.getDeclaringClass().getName();
+		return serviceNameGenerator.generateServiceName(ifaceClass.getDeclaringClass());
 	}
 
 	@Override
@@ -74,15 +77,18 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 		
 		private ServiceProviderCenter serviceCenter;
 		private Class<T> clientClass;
+
+		private ServiceNameGenerator serviceNameGenerator;
 		
-		public ReconnectingThriftClient(Class<T> clientClass,ServiceProviderCenter serviceCenter){
+		public ReconnectingThriftClient(Class<T> clientClass,ServiceProviderCenter serviceCenter, ServiceNameGenerator serviceNameGenerator){
 			this.clientClass = clientClass;
 			this.serviceCenter = serviceCenter;
+			this.serviceNameGenerator = serviceNameGenerator;
 		}
 		
 		@Override
 		public Object invoke(Object arg0, Method arg1, Object[] arg2) throws Throwable {
-			String serviceName = clientClass.getDeclaringClass().getName();
+			String serviceName = serviceNameGenerator.generateServiceName(clientClass.getDeclaringClass());
 			SocketProvider socketProvider = serviceCenter.getSocketProvider(serviceName);
 
 			if(logger.isTraceEnabled()){
