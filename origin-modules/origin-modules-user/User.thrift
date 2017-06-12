@@ -1,5 +1,7 @@
 namespace java com.goldgov.origin.modules.user.api
 
+include "RpcQuery.thrift"
+
 struct RpcUser {
 	1: string userID;
 	2: string userName;
@@ -9,13 +11,16 @@ struct RpcUser {
 }
 
 struct RpcUserQuery {
-	1: i32 pageSize = 15;
+	/*1: i32 pageSize = 15;
 	2: i32 currentPage;
 	3: i64 count;
 	4: i32 maxPage;
 	5: i32 minPage = 1;
 	6: i32 firstResult = 0;
 	7: list<RpcUser> resultList;
+	*/
+	1: RpcQuery.RpcPagingInfo pagingInfo
+	2: list<RpcUser> resultList;
 }
 
 exception RpcUserExistException{

@@ -27,6 +27,8 @@ import com.goldgov.origin.security.resource.ResourceContext;
 @Component
 public class CustomAccessDecisionManager implements AccessDecisionManager{
 
+	public static final String CACHE_CODE_PATH_RESOURCE_MAPPING = "CACHE_CODE_PATH_RESOURCE_MAPPING";
+
 	@Autowired
 	@Qualifier("rpcRoleService.Client")
 	private RpcRoleService.Iface roleService;
@@ -56,7 +58,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		HttpServletRequest httpRequest = filterInvocation.getHttpRequest();
 //		HttpServletResponse httpResponse = filterInvocation.getHttpResponse();
 		
-		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(WebGateConstants.CACHE_CODE_PATH_RESOURCE_MAPPING);
+		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(CACHE_CODE_PATH_RESOURCE_MAPPING);
 		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 		
 		String requestURI = httpRequest.getRequestURI();
@@ -103,7 +105,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		 * 资源路径与资源编码的映射
 		 */
 		Map<String,String> allResourceMapping = ResourceContext.getAllResourcesMap();
-		CacheHolder.put(WebGateConstants.CACHE_CODE_PATH_RESOURCE_MAPPING, allResourceMapping);
+		CacheHolder.put(CACHE_CODE_PATH_RESOURCE_MAPPING, allResourceMapping);
 		
 		// 将角色编码与资源编码进行Map对象组装，key为资源编码，value为角色，角色可能会多个（角色资源配置重复的情况下）
 		try {

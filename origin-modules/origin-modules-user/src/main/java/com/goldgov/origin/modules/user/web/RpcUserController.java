@@ -2,7 +2,6 @@ package com.goldgov.origin.modules.user.web;
 
 import java.util.Arrays;
 
-import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,14 +34,14 @@ public class RpcUserController {
 	
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
-	public String preAdd() throws TException{
+	public String preAdd() throws Exception{
 		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/addUser")
 	@WebToken(handle=TokenHandleType.VERIFY,forward="/user/listUser")
 	@ModuleOperating(name="i18n:label.user+add",type=OperateType.ADD)
-	public String addUser(RpcUser user) throws TException{
+	public String addUser(RpcUser user) throws Exception{
 		try {
 			userService.addUser(user);
 		} catch (RpcUserExistException e) {
@@ -57,7 +56,7 @@ public class RpcUserController {
 	
 	@RequestMapping("/deleteUser")
 	@ModuleOperating(name="i18n:label.user+delete",type=OperateType.DELETE)
-	public String deleteUser(@RequestParam("userID") String[] ids) throws TException{
+	public String deleteUser(@RequestParam("userID") String[] ids) throws Exception{
 		userService.deleteUser(Arrays.asList(ids));
 		return "forward:/user/listUser";
 	}
@@ -65,21 +64,21 @@ public class RpcUserController {
 	@RequestMapping("/updateUser")
 	@ModuleOperating(name="i18n:label.user+update",type=OperateType.UPDATE)
 	@WebToken(handle=TokenHandleType.VERIFY)
-	public String updateUser(RpcUser user) throws TException{
+	public String updateUser(RpcUser user) throws Exception{
 		userService.updateUser(user);
 		return "forward:/user/listUser";
 	}
 	
 	@RequestMapping("/getUser")
 	@WebToken(handle=TokenHandleType.GENERATE)
-	public String getUser(@RequestParam("userID") String userID,Model model) throws TException{
+	public String getUser(@RequestParam("userID") String userID,Model model) throws Exception{
 		RpcUser user = userService.getUser(userID);
 		model.addAttribute("user", user);
 		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/listUser")
-	public String listUser(RpcUserQuery userQuery,Model model) throws TException{
+	public String listUser(RpcUserQuery userQuery,Model model) throws Exception{
 		userQuery = userService.listUser(userQuery);
 		model.addAttribute("query", userQuery);
 		return PAGE_BASE_PATH + "list";
@@ -92,13 +91,13 @@ public class RpcUserController {
 //	}
 	
 	@RequestMapping("/existUser")
-	public @ResponseBody String existUser(@RequestParam("loginName") String loginName,Model model) throws TException{
+	public @ResponseBody String existUser(@RequestParam("loginName") String loginName,Model model) throws Exception{
 		boolean existUser = userService.existUser(loginName);
 		return existUser?"exist":"not exist";
 	}
 	
 	@RequestMapping("/checkUserName")
-	public @ResponseBody String checkUserName(@RequestParam("userName") String userName,Model model) throws TException{
+	public @ResponseBody String checkUserName(@RequestParam("userName") String userName,Model model) throws Exception{
 		boolean existUser = userService.checkUserName(userName);
 		return existUser?"pass":"fail";
 	}

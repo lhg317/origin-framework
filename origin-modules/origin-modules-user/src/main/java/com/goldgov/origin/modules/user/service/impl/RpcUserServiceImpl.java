@@ -1,11 +1,11 @@
 package com.goldgov.origin.modules.user.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.goldgov.origin.core.discovery.rpc.ResultSetUtils;
 import com.goldgov.origin.core.discovery.rpc.RpcService;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserExistException;
@@ -23,10 +23,12 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	@Autowired
 	private UserService userService;
 	
+	private UserConverter userConverter = new UserConverter();
+	
 	@Override
 	public void addUser(RpcUser user) throws TException {
 		try {
-			userService.addUser(new ProxyUser(user));
+			userService.addUser(userConverter.fromRpcObject(user));
 		} catch (UserExistException e) {
 			throw new RpcUserExistException(user.getLoginName());
 		} catch (UserNameCheckFailException e) {
@@ -42,7 +44,7 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	@Override
 	public void updateUser(RpcUser user) throws TException {
 		try {
-			userService.updateUser(new ProxyUser(user));
+			userService.updateUser(userConverter.fromRpcObject(user));
 		} catch (UserNameCheckFailException e) {
 			throw new RpcUserNameCheckFailException(user.getUserName());
 		}
@@ -52,24 +54,20 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	@Override
 	public RpcUser getUser(String userID) throws TException {
 		User user = userService.getUser(userID);
-		return new ProxyUser(user).toRpcUser();
+		return userConverter.toRpcObject(user);
 	}
 
 	@Override
 	public RpcUserQuery listUser(RpcUserQuery userQuery) throws TException {
 		List<User> findUserList = userService.listUser(new ProxyUserQuery(userQuery));
-		List<RpcUser> resultList = new ArrayList<>();
-		for (User user : findUserList) {
-			resultList.add(new ProxyUser(user).toRpcUser());
-		}
-		userQuery.setResultList(resultList);
+		userQuery.setResultList(ResultSetUtils.convertToRpc(findUserList, userConverter));
 		return userQuery;
 	}
 
 	@Override
 	public RpcUser getUserByLoginName(String loginName) throws TException {
 		User user = userService.getUserByLoginName(loginName);
-		return new ProxyUser(user).toRpcUser();
+		return userConverter.toRpcObject(user);
 	}
 
 	@Override

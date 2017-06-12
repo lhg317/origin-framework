@@ -32,13 +32,13 @@ public class TestWebSocketMessageHandler implements WebSocketMessage{
 
 	@Override
 	public void onConnection(WebSocketMessageSession session) throws Exception {
-		System.out.println("success!!!!");
+//		System.out.println("success!!!!");
 		session.sendBroadcast("欢迎"+session.getRemoteAddress().getHostName()+"的加入，当前用户数：" + session.getCount());
 	}
 
 	@Override
 	public void onMessage(WebSocketMessageSession session, String message) {
-		System.out.println(message);
+//		System.out.println(message);
 		session.sendBroadcast(session.getRemoteAddress().getHostName() + "&nbsp;say：" + message);
 	}
 

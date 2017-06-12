@@ -39,7 +39,7 @@
 
 </#list>
 </table>
-${query.count}
+${query.pagingInfo.count}
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 
 </form>
