@@ -42,6 +42,8 @@
 ${query.pagingInfo.count}
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 
+<input type="text" name="pagingInfo.currentPage" value="${query.pagingInfo.currentPage}"/>
+
 </form>
 
 </body>

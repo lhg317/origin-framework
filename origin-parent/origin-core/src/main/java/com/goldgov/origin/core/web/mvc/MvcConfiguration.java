@@ -47,7 +47,6 @@ import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler
 import com.goldgov.origin.core.web.interceptor.handler.impl.TokenCheckHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.ValidationHandler;
 import com.goldgov.origin.core.web.messages.ClassPathMessageSource;
-import com.goldgov.origin.core.web.resolver.ModelQueryResolver;
 
 @Configuration
 public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{//,ApplicationListener<EmbeddedServletContainerInitializedEvent> {

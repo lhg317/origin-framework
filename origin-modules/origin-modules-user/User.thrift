@@ -19,7 +19,7 @@ struct RpcUserQuery {
 	6: i32 firstResult = 0;
 	7: list<RpcUser> resultList;
 	*/
-	1: RpcQuery.RpcPagingInfo pagingInfo
+	1: RpcQuery.RpcPagingInfo pagingInfo;
 	2: list<RpcUser> resultList;
 }
 

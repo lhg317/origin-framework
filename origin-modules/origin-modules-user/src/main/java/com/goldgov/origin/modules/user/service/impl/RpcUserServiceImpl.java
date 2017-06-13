@@ -82,8 +82,8 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 
 	@Override
 	public boolean updatePassword(String loginName, String oldPassword, String newPassword) throws TException {
-		// TODO Auto-generated method stub
-		return false;
+		userService.updatePassword(loginName, oldPassword, newPassword);
+		return true;
 	}
 
 }

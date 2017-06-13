@@ -90,15 +90,18 @@ public class Query<T>  {
 	public void calculate(long count){
 		setCount(count);
 //		if(pageSize <= 0 )pageSize = PAGE_SIZE;
+		int pageSize = getPageSize();
+		int minPage = getMinPage();
 		maxPage = (int)Math.max((count + pageSize - 1) / pageSize,1);
 		setMaxPage(maxPage);
+		int currentPage = getCurrentPage();
 		if(currentPage > maxPage) {
 		    currentPage = maxPage;
 		}else if(currentPage < minPage) {
 			currentPage = minPage;
 		}
 		
-		firstResult = (currentPage - 1)*pageSize;
+		setFirstResult((currentPage - 1)*pageSize);
 	}
 	
 	public List<T> getResultList() {
