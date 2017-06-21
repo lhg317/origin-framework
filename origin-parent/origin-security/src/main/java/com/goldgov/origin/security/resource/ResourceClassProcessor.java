@@ -90,9 +90,9 @@ public class ResourceClassProcessor implements InitializingBean{
 		Class<? extends Object> clazz;
 		try {
 			clazz = Class.forName(classMetadata.getClassName());
-		} catch (ClassNotFoundException e) {
+		} catch (Throwable e) {
 			//TODO i18n
-			throw new RuntimeException("类未找到："+classMetadata.getClassName(), e);
+			throw new RuntimeException("类不存在或无法实例化（比如依赖的import类文件不存在）："+classMetadata.getClassName(), e);
 		}
 		
 		ModuleResource resourceAnno = clazz.getAnnotation(ModuleResource.class);
