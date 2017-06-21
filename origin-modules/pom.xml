@@ -100,7 +100,7 @@
 							<configuration>
 								<classifier>API</classifier>
 								<includes>
-									<include>**/api/*</include>
+									<include>**/api/**</include>
 								</includes>
 							</configuration>
 						</execution>
@@ -113,7 +113,7 @@
 							<configuration>
 								<classifier>WEB</classifier>
 								<includes>
-									<include>**/api/*</include>
+									<include>**/api/**</include>
 									<include>**/web/**/*</include>
 								</includes>
 							</configuration>

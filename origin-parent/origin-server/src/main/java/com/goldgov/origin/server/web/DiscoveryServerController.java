@@ -59,6 +59,7 @@ public class DiscoveryServerController {
 		properties.put("serverIP", remoteHost);
 		serviceObject.setHealthPath(processPlaceholder(serviceObject.getHealthPath(),properties));
 		serviceObject.setUpdatePath(processPlaceholder(serviceObject.getUpdatePath(),properties));
+		serviceObject.setConfigPath(processPlaceholder(serviceObject.getConfigPath(),properties));
 		serviceObject.setRegisterDate(new Date());
 		
 		discoveryService.addRequiredServiceName(serviceObject.getRpcServerAddress(), serviceObject.getRequiredServerNames());

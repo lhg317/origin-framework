@@ -25,10 +25,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.goldgov.origin.modules.file.api.RpcFile;
 import com.goldgov.origin.modules.file.api.RpcFileFragmentService;
-import com.goldgov.origin.modules.file.exception.NoPermissionException;
-import com.goldgov.origin.modules.file.exception.UploadLimitException;
-import com.goldgov.origin.modules.file.service.UploadConfig;
-import com.goldgov.origin.modules.file.service.UploadConfigService;
+import com.goldgov.origin.modules.file.api.UploadConfig;
+import com.goldgov.origin.modules.file.api.UploadConfigService;
+import com.goldgov.origin.modules.file.api.exception.NoPermissionException;
+import com.goldgov.origin.modules.file.api.exception.UploadLimitException;
 
 /**
  * 文件上传及下载基础控制器类，业务模块应该如果有上传和下载服务的功能应继承本类，

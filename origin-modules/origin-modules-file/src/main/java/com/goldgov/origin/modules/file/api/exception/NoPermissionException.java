@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.file.exception;
+package com.goldgov.origin.modules.file.api.exception;
 
 public class NoPermissionException extends Exception{
 

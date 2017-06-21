@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.file.service;
+package com.goldgov.origin.modules.file.api;
 
 import javax.servlet.http.HttpServletRequest;
 
