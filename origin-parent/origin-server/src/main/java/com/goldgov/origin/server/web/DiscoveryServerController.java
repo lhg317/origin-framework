@@ -134,16 +134,17 @@ public class DiscoveryServerController {
 		public ClientHealth(){}
 		
 		public void addHealthState(ServiceServer serviceServer,List<ServiceHealth> arg1) {
-			 String clientAddress = serviceServer.getRpcServerAddress();
-			 serviceHealthMap.put(clientAddress, arg1);
-			 clientHealthMap.put(clientAddress, HealthState.UP);
-			 serviceServerMap.put(clientAddress, serviceServer);
+//			 String clientAddress = serviceServer.getRpcServerAddress();
+			 String healthPath = serviceServer.getHealthPath();
+			 serviceHealthMap.put(healthPath, arg1);
+			 clientHealthMap.put(healthPath, HealthState.UP);
+			 serviceServerMap.put(healthPath, serviceServer);
 			 if(arg1 == null || arg1.size() == 0){
 				 return;
 			 }
 			 for (ServiceHealth serviceHealth : arg1) {
 				if(serviceHealth.getState() == HealthState.DOWN){
-					clientHealthMap.put(clientAddress, HealthState.DOWN);
+					clientHealthMap.put(healthPath, HealthState.DOWN);
 					break;
 				}
 			}

@@ -69,9 +69,10 @@ public class DiskFileStorageImpl implements FileStorage {
 				throw new RuntimeException(e);
 			}
 			
-			if(!basePathDirectory.exists()){
-				basePathDirectory.mkdirs();
-			}
+		}
+		
+		if(!basePathDirectory.exists()){
+			basePathDirectory.mkdirs();
 		}
 		return basePathDirectory;
 	}
