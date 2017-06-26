@@ -11,6 +11,7 @@ import com.goldgov.origin.modules.user.event.UpdateUserEvent;
 import com.goldgov.origin.modules.user.event.UserEvent;
 import com.goldgov.origin.modules.user.exception.UserExistException;
 import com.goldgov.origin.modules.user.exception.UserNameCheckFailException;
+import com.goldgov.origin.modules.user.service.Group;
 import com.goldgov.origin.modules.user.service.PasswordEncoder;
 import com.goldgov.origin.modules.user.service.User;
 import com.goldgov.origin.modules.user.service.UserNameChecker;
@@ -127,6 +128,30 @@ public class UserServiceImpl implements UserService{
 		PasswordEncoder encoder = getPasswordEncoder();
 		userDao.updatePassword(loginName, encoder.encode(oldPassword), encoder.encode(newPassword));
 	}
-	
+
+	@Override
+	public void addGroup(Group group) {
+		userDao.addGroup(group);
+	}
+
+	@Override
+	public void addUser(User user, String groupID) {
+		userDao.addUser(user,groupID);
+	}
+
+	@Override
+	public void moveUser(List<User> userList, String groupID) {
+		userDao.moveUser(userList, groupID);
+	}
+
+	@Override
+	public void deleteGroup(String[] ids) {
+		userDao.deleteGroup(ids);
+	}
+
+	@Override
+	public void updateGroupName(String id, String groupName) {
+		userDao.updateGroupName(id, groupName);
+	}
 
 }

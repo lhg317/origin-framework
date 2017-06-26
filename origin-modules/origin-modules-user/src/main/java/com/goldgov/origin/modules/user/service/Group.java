@@ -1,6 +1,6 @@
 package com.goldgov.origin.modules.user.service;
 
-public class UserGroup {
+public class Group {
 
 	private String groupID;
 	private String code;

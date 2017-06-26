@@ -38,5 +38,15 @@ public interface UserService {
 	
 	public void updatePassword(String loginName, String oldPassword, String newPassword);
 	
+	public void addGroup(Group group);
+	
+	public void addUser(User user,String groupID);
+	
+	public void moveUser(List<User> userList,String groupID);
+	
+	public void deleteGroup(String[] ids);
+	
+	public void updateGroupName(String id,String groupName);
+	
 }
 
