@@ -7,6 +7,11 @@ import java.util.Map;
 
 import com.goldgov.origin.core.cache.CacheHolder;
 
+/**
+ * 
+ * @author LiuHG
+ * @version 1.0
+ */
 public abstract class ResourceContext {
 
 	private ResourceContext(){}

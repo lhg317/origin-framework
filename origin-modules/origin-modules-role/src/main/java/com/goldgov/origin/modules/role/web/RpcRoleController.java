@@ -3,7 +3,6 @@ package com.goldgov.origin.modules.role.web;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,6 @@ import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
-import com.goldgov.origin.modules.user.api.RpcUserQuery;
-import com.goldgov.origin.modules.user.api.RpcUserService;
 import com.goldgov.origin.security.resource.Resource;
 import com.goldgov.origin.security.resource.ResourceContext;
 
@@ -35,39 +32,39 @@ public class RpcRoleController {
 	@Qualifier("rpcRoleService.Client")
 	private RpcRoleService.Iface roleService;
 	
-	@Autowired
-	@Qualifier("rpcUserService.Client")
-	private RpcUserService.Iface userService;
+//	@Autowired
+//	@Qualifier("rpcUserService.Client")
+//	private RpcUserService.Iface userService;
 	
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
-	public String preAdd() throws TException{
+	public String preAdd() throws Exception{
 		return PAGE_BASE_PATH + "form";
 	}
 	
 	@RequestMapping("/addRole")
 	@WebToken(handle=TokenHandleType.VERIFY)
 	@ModuleOperating(name="Add Role",type=OperateType.ADD)
-	public String addRole(RpcRole role) throws TException{
+	public String addRole(RpcRole role) throws Exception{
 		roleService.addRole(role);
 		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/saveRoleResource")
-	public String saveRoleResource(@RequestParam("roleID")String roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws TException{
+	public String saveRoleResource(@RequestParam("roleID")String roleID, @RequestParam("resourceOperate")String[] resourceOperate) throws Exception{
 		roleService.saveRoleResource(roleID, Arrays.asList(resourceOperate));
 		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/saveRoleObject")
-	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("loginName")String[] roleObject) throws TException{
+	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("loginName")String[] roleObject) throws Exception{
 		roleService.saveRoleObject(roleID, Arrays.asList(roleObject));
 		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/deleteRole")
 	@ModuleOperating(name="Delete Role",type=OperateType.DELETE)
-	public String deleteRole(@RequestParam("roleID") String[] ids) throws TException{
+	public String deleteRole(@RequestParam("roleID") String[] ids) throws Exception{
 		roleService.deleteRole(Arrays.asList(ids));
 		return "forward:/role/listRole";
 	}
@@ -75,7 +72,7 @@ public class RpcRoleController {
 	@RequestMapping("/getRole")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	@ModuleOperating(name="Find Role",type=OperateType.FIND)
-	public String getRole(@RequestParam("roleID") String roleID,Model model) throws TException{
+	public String getRole(@RequestParam("roleID") String roleID,Model model) throws Exception{
 		RpcRole role = roleService.getRole(roleID);
 		model.addAttribute("role", role);
 		return PAGE_BASE_PATH + "form";
@@ -84,32 +81,34 @@ public class RpcRoleController {
 	@RequestMapping("/updateRole")
 	@WebToken(handle=TokenHandleType.VERIFY)
 	@ModuleOperating(name="Update Role",type=OperateType.UPDATE)
-	public String updateRole(RpcRole role) throws TException{
+	public String updateRole(RpcRole role) throws Exception{
 		roleService.updateRole(role);
 		return "forward:/role/listRole";
 	}
 	
 	@RequestMapping("/listRole")
-	public String listRole(RpcRoleQuery query,Model model) throws TException{
+	public String listRole(RpcRoleQuery query,Model model) throws Exception{
 		query = roleService.listRole(query);
 		model.addAttribute("query", query);
 		return PAGE_BASE_PATH + "list";
 	}
 	
+	/**
+	 * 获取所有受保护的资源对象，并放置到名称为“allResources”的属性中便于界面直接使用。
+	 * allResources为List&lt;{@link com.goldgov.origin.security.resource.Resource Resource}&gt;对象
+	 */
 	@RequestMapping("/listResource")
-	public String getResources(Model model) throws TException{
+	public String getResources(Model model) throws Exception{
 		List<Resource> allResources = ResourceContext.getAllResources();
-
 		model.addAttribute("allResources", allResources);
 		return PAGE_BASE_PATH + "tree";
-
 	}
 	
-	@RequestMapping("/findUserSelectList")
-	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws TException{
-		userQuery = userService.listUser(userQuery);
-		model.addAttribute("query", userQuery);
-		return PAGE_BASE_PATH + "select";
-	}
+//	@RequestMapping("/findUserSelectList")
+//	public String listUserSelectList(RpcUserQuery userQuery,Model model) throws Exception{
+//		userQuery = userService.listUser(userQuery);
+//		model.addAttribute("query", userQuery);
+//		return PAGE_BASE_PATH + "select";
+//	}
 	
 }

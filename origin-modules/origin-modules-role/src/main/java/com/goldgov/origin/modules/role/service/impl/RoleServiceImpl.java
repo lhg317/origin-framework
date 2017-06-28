@@ -34,7 +34,7 @@ public class RoleServiceImpl implements RoleService{
 		roleDao.deleteRoleResourceByRoleID(roleID);
 		roleDao.addRoleResource(roleID,resourceOperates);
 		
-		initRoleResourcesMap();
+		refreshRoleResourceCache();
 	}
 	
 	@Override
@@ -81,14 +81,9 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public List<Map<String, String>> listRoleResourceMap() {
-		return roleDao.listRoleResourceMap();
-	}
-
-	@Override
-	public void initRoleResourcesMap() {
+	public Map<String,List<String>> getRoleResourceMap() {
+		List<Map<String, String>> roleResourceMapList = roleDao.listRoleResourceMap();
 		Map<String,List<String>> roleResourceMap = new HashMap<>();
-		List<Map<String, String>> roleResourceMapList = listRoleResourceMap();
 		for (Map<String, String> map : roleResourceMapList) {
 			String roleCode = map.get("roleCode");
 			String resourceOperate = map.get("resourceOperate");
@@ -101,6 +96,12 @@ public class RoleServiceImpl implements RoleService{
 			}
 			roleCodeList.add(roleCode);
 		}
+		return roleResourceMap;
+	}
+
+	@Override
+	public void refreshRoleResourceCache() {
+		Map<String, List<String>> roleResourceMap = getRoleResourceMap();
 		CacheHolder.put(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
 	}
 

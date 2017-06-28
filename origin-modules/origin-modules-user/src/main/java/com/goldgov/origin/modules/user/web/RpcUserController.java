@@ -93,12 +93,12 @@ public class RpcUserController {
 	@RequestMapping("/existUser")
 	public @ResponseBody String existUser(@RequestParam("loginName") String loginName,Model model) throws Exception{
 		boolean existUser = userService.existUser(loginName);
-		return existUser?"exist":"not exist";
+		return existUser?"true":"false";
 	}
 	
 	@RequestMapping("/checkUserName")
 	public @ResponseBody String checkUserName(@RequestParam("userName") String userName,Model model) throws Exception{
-		boolean existUser = userService.checkUserName(userName);
-		return existUser?"pass":"fail";
+		boolean checkResult = userService.checkUserName(userName);
+		return checkResult?"success":"fail";
 	}
 }
