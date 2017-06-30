@@ -89,7 +89,7 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	}
 
 	@Override
-	public void initRoleResourcesMap() throws TException {
+	public void refreshRoleResourceCache() throws TException {
 		roleService.refreshRoleResourceCache();
 	}
 

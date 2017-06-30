@@ -73,7 +73,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 //        	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginName, password, grantedAuths);
 //        	return authenticationToken;
 //        }
-//
 //        throw new BadCredentialsException("认证失败：" + loginName);
         
 	}

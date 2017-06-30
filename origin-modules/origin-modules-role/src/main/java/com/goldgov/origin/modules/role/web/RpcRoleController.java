@@ -3,6 +3,8 @@ package com.goldgov.origin.modules.role.web;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
+import com.goldgov.origin.modules.role.api.ResourceObjectHandler;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
@@ -35,6 +38,9 @@ public class RpcRoleController {
 //	@Autowired
 //	@Qualifier("rpcUserService.Client")
 //	private RpcUserService.Iface userService;
+	
+	@Autowired(required=false)
+	private ResourceObjectHandler resourceObjectHandler;
 	
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
@@ -57,7 +63,7 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/saveRoleObject")
-	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("loginName")String[] roleObject) throws Exception{
+	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("roleObject")String[] roleObject) throws Exception{
 		roleService.saveRoleObject(roleID, Arrays.asList(roleObject));
 		return "forward:/role/listRole";
 	}
@@ -102,6 +108,14 @@ public class RpcRoleController {
 		List<Resource> allResources = ResourceContext.getAllResources();
 		model.addAttribute("allResources", allResources);
 		return PAGE_BASE_PATH + "tree";
+	}
+	
+	@RequestMapping("/listObject")
+	public String listObject(@RequestParam("roleID") String roleID,HttpServletRequest request,Model model) throws Exception{
+		if(resourceObjectHandler == null){
+			throw new IllegalArgumentException("当前Spring上下文中没有ResourceObjectHandler的实例，无法执行该请求");
+		}
+		return resourceObjectHandler.doHandle(roleID,request, model);
 	}
 	
 //	@RequestMapping("/findUserSelectList")

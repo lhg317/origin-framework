@@ -27,14 +27,16 @@
 <tr>
 	<td>${role.roleName}</td>
 	<td>${role.roleCode}</td>
-	<td><a href="./getRole?roleID=${role.roleID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteRole?roleID=${role.roleID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="./findUserSelectList?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】&nbsp;<a href="./listResource?roleID=${role.roleID}" target="_self">【<@i18n code="i18n:select+label.resource"/>】</a></td>
+	<td><a href="./getRole?roleID=${role.roleID}">【<@i18n code="edit"/>】</a>&nbsp;<a href="./deleteRole?roleID=${role.roleID}">【<@i18n code="delete"/>】</a>&nbsp;<a href="./listObject?roleID=${role.roleID}" target="_blank">【<@i18n code="i18n:select+label.user"/>】&nbsp;<a href="./listResource?roleID=${role.roleID}" target="_self">【<@i18n code="i18n:select+label.resource"/>】</a></td>
 </tr>
 </#escape>
 
 </#list>
 </table>
-${query.count}
+${query.pagingInfo.count}
 <input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+
+<input type="text" name="pagingInfo.currentPage" value="${query.pagingInfo.currentPage}"/>
 
 </form>
 

@@ -3,6 +3,7 @@ package com.goldgov.origin.modules.role.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.goldgov.origin.core.service.rpc.RpcPagingInfo;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.service.Role;
@@ -22,62 +23,62 @@ public class ProxyRoleQuery extends RoleQuery<Role> {
 
 	@Override
 	public int getPageSize() {
-		return roleQuery.getPageSize();
+		return getPagingInfo().getPageSize();
 	}
 
 	@Override
 	public void setPageSize(int pageSize) {
-		roleQuery.setPageSize(pageSize);
+		getPagingInfo().setPageSize(pageSize);
 	}
 
 	@Override
 	public int getCurrentPage() {
-		return roleQuery.getCurrentPage();
+		return getPagingInfo().getCurrentPage();
 	}
 
 	@Override
 	public void setCurrentPage(int currentPage) {
-		roleQuery.setCurrentPage(currentPage);
+		getPagingInfo().setCurrentPage(currentPage);
 	}
 
 	@Override
 	public long getCount() {
-		return roleQuery.getCount();
+		return getPagingInfo().getCount();
 	}
 
 	@Override
 	public void setCount(long count) {
-		roleQuery.setCount(count);
+		getPagingInfo().setCount(count);
 	}
 
 	@Override
 	public int getMaxPage() {
-		return roleQuery.getMaxPage();
+		return getPagingInfo().getMaxPage();
 	}
 
 	@Override
 	public void setMaxPage(int maxPage) {
-		roleQuery.setMaxPage(maxPage);
+		getPagingInfo().setMaxPage(maxPage);
 	}
 
 	@Override
 	public void setFirstResult(int firstResult) {
-		roleQuery.setFirstResult(firstResult);
+		getPagingInfo().setFirstResult(firstResult);
 	}
 
 	@Override
 	public int getFirstResult() {
-		return roleQuery.getFirstResult();
+		return getPagingInfo().getFirstResult();
 	}
 
 	@Override
 	public int getMinPage() {
-		return roleQuery.getMinPage();
+		return getPagingInfo().getMinPage();
 	}
 
 	@Override
 	public void setMinPage(int minPage) {
-		roleQuery.setMinPage(minPage);
+		getPagingInfo().setMinPage(minPage);
 	}
 
 	@Override
@@ -97,6 +98,15 @@ public class ProxyRoleQuery extends RoleQuery<Role> {
 			rpcObjectList.add(new ProxyRole(user).toRpcRole());
 		}
 		roleQuery.setResultList(rpcObjectList);
+	}
+	
+	private RpcPagingInfo getPagingInfo(){
+		RpcPagingInfo pagingInfo = roleQuery.getPagingInfo();
+		if(pagingInfo == null){
+			pagingInfo = new RpcPagingInfo();
+			roleQuery.setPagingInfo(pagingInfo);
+		}
+		return pagingInfo;
 	}
 	
 	public RpcRoleQuery toRpcQuery(){

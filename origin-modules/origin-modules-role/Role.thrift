@@ -1,6 +1,6 @@
-#include "Resource.thrift"
-
 namespace java com.goldgov.origin.modules.role.api
+
+include "RpcQuery.thrift"
 
 struct RpcRole {
 	1: string roleID,
@@ -16,12 +16,7 @@ struct RpcRoleResource {
 }
 
 struct RpcRoleQuery {
-	1: i32 pageSize = 15;
-	2: i32 currentPage;
-	3: i64 count;
-	4: i32 maxPage;
-	5: i32 minPage = 1;
-	6: i32 firstResult = 0;
+	1: RpcQuery.RpcPagingInfo pagingInfo;
 	7: list<RpcRole> resultList;
 }
 
@@ -41,6 +36,6 @@ service RpcRoleService{
 	void saveRoleObject(1:string roleID,2:list<string> roleObject),
 	list<RpcRole> listRoleByObject(1:string roleObject),
 	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject),
-	void initRoleResourcesMap();
+	void refreshRoleResourceCache();
 	map<string,list<string>> getRoleResourceMap();
 } 
