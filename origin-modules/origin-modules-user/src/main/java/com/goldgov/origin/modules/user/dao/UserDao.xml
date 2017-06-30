@@ -10,7 +10,7 @@
 		<result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
 		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
 	</resultMap>
-
+	
 	<select id="getUser" resultMap="user">
 		SELECT * FROM USER WHERE USER_ID=#{userID};
 	</select>
@@ -40,7 +40,7 @@
 	</delete>
 	
 	<select id="listUser" resultMap="user">
-		SELECT * FROM USER
+		SELECT USER_ID,LOGIN_NAME,USER_NAME,EMAIL FROM USER
 	</select>
 	
 	<select id="getUserByLoginName" resultMap="user">
