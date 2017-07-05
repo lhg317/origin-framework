@@ -25,7 +25,7 @@ public class ServiceServer {
 	private String healthPath;
 	private String updatePath;
 	private String configPath;
-
+	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date registerDate;
 	
@@ -141,8 +141,6 @@ public class ServiceServer {
 	public void setConfigPath(String configPath) {
 		this.configPath = configPath;
 	}
-
-
 
 	public enum ServiceType{
 		ProducerService,//生产者服务

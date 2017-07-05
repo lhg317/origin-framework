@@ -50,6 +50,19 @@ public class ServiceProviderCenter{
 		ruleMap.clear();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void changeLoadBalancerStrategy(String serviceName,String strategyClass){
+		Class<IRule> forName;
+		try {
+			forName = (Class<IRule>) Class.forName(strategyClass);
+			ruleMap.put(serviceName, forName.newInstance());
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("负载策略类文件不存在：" + strategyClass,e);
+		} catch (Exception e) {
+			throw new RuntimeException("实例化负载策略类失败，请保证无参构造器：" + strategyClass,e);
+		}
+	}
+	
 	public synchronized void registerService(String serviceName,RpcServiceInstance service){
 		if(serviceMap.containsKey(serviceName)){
 			List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);

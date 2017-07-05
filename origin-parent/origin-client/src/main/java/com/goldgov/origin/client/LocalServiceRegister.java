@@ -132,7 +132,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 						if(response.getStatusCode() == 200){
 							String result = response.toString();
 							if(result.equals("SUCCESS")){
-								logger.debug("register success:" + discoveryServer + ",service num:" + rpcServiceList.size());
+								logger.info("register success:" + discoveryServer + ",service num:" + rpcServiceList.size());
 								registerSuccess = true;
 							}else{
 								logger.error("注册失败：" + localService + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");

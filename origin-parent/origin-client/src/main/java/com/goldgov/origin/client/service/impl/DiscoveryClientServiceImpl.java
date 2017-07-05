@@ -47,4 +47,9 @@ public class DiscoveryClientServiceImpl implements DiscoveryClientService{
 		}
 		return false;
 	}
+
+	@Override
+	public void changeLoadBalancerStrategy(String serviceName, String strategyClass) {
+		serviceProviderCenter.changeLoadBalancerStrategy(serviceName, strategyClass);
+	}
 }
