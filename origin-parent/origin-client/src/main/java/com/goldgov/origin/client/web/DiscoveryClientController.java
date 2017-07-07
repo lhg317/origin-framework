@@ -25,15 +25,15 @@ public class DiscoveryClientController {
 		return "SUCCESS";
 	}
 	
-	@RequestMapping(path="/update",method=RequestMethod.PUT)
+	@RequestMapping(path="/update",method=RequestMethod.PUT,params={"serviceName","HttpServletRequest","!weighted"})
 	public @ResponseBody String changeLoadBalancerStrategy(String serviceName,String strategyClass,HttpServletRequest request){
 		discoveryClientService.changeLoadBalancerStrategy(serviceName, strategyClass);
 		return "SUCCESS";
 	}
 	
-	@RequestMapping(path="/update",method=RequestMethod.PUT)
+	@RequestMapping(path="/update",method=RequestMethod.PUT,params={"serviceName","weighted","!strategyClass"})
 	public @ResponseBody String changeLoadBalancerStrategy(@RequestParam("serviceName") String serviceName,@RequestParam("weighted") Double weighted,HttpServletRequest request){
-		//IRule增加子接口，带权重的IRule
+		//TODO 
 		return "SUCCESS";
 	}
 	

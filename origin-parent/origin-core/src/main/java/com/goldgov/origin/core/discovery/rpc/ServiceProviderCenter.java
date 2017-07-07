@@ -17,7 +17,7 @@ import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.GetRequest;
 import com.goldgov.origin.core.discovery.rpc.loadbalancer.IRule;
-import com.goldgov.origin.core.discovery.rpc.loadbalancer.impl.RoundRobinRule;
+import com.goldgov.origin.core.discovery.rpc.loadbalancer.impl.WeightedRoundRobinRule;
 import com.goldgov.origin.core.discovery.rpc.pool.SocketProvider;
 import com.goldgov.origin.core.discovery.rpc.pool.SocketProviderImpl;
 
@@ -146,7 +146,7 @@ public class ServiceProviderCenter{
 		IRule rule = ruleMap.get(serviceName);
 		if(rule == null){
 			//FIXME 负载策略
-			rule = new RoundRobinRule();
+			rule = new WeightedRoundRobinRule();
 			ruleMap.put(serviceName, rule);
 		}
 		RpcServiceInstance service = rule.choose(serviceList,serviceName);

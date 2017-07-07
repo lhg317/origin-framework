@@ -20,6 +20,7 @@ public class ServiceServer {
 	private String applicationName;
 	
 	private String serverIP;
+	private String serverName;
 	private int serverPort;
 	
 	private String healthPath;
@@ -30,6 +31,8 @@ public class ServiceServer {
 	private Date registerDate;
 	
 	private ServiceType[] serviceType;
+	
+	private double weights;//服务权重
 	
 	@JsonManagedReference
 	private List<RpcServiceInstance> serviceList = new ArrayList<>();
@@ -140,6 +143,22 @@ public class ServiceServer {
 
 	public void setConfigPath(String configPath) {
 		this.configPath = configPath;
+	}
+	
+	public double getWeights() {
+		return weights;
+	}
+
+	public void setWeights(double weights) {
+		this.weights = weights;
+	}
+	
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
 	}
 
 	public enum ServiceType{

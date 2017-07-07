@@ -19,9 +19,6 @@ public class RpcServiceInstance implements Serializable{
 	private String serviceName;
 	private String displayName;
 	
-	private double weights;//服务权重
-	
-	
 	//由于对象循环嵌套，JSON无法支持，会变成 无限嵌套
 	@JsonBackReference
 	private ServiceServer serviceServer;
@@ -66,14 +63,6 @@ public class RpcServiceInstance implements Serializable{
 		this.serviceName = serviceName;
 	}
 
-	public double getWeights() {
-		return weights;
-	}
-
-	public void setWeights(double weights) {
-		this.weights = weights;
-	}
-	
 	public String getDisplayName() {
 		if(displayName == null){
 			return serviceName;

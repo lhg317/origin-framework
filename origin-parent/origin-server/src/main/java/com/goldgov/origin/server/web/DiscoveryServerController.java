@@ -54,6 +54,7 @@ public class DiscoveryServerController {
 		
 		//FIX IP或域名？
 		serviceObject.setServerIP(request.getRemoteAddr());
+		serviceObject.setServerName(request.getRemoteHost());
 		
 		Properties properties = new Properties();
 		properties.put("serverIP", remoteHost);

@@ -21,7 +21,8 @@ import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
  * 41----100(D服务器权重期间) 60%的服务几率<br>
  * <p>
  * 如果所有端的最大权重为0，则采用循环负载策略。
- * @author LIUHG
+ * @author LiuHG
+ * @version 1.0
  *
  */
 public class WeightedRoundRobinRule extends RoundRobinRule{
@@ -59,7 +60,7 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
             if(allServers.size() > 0){
             	sortByWeight(allServers);
             	RpcServiceInstance maxWeightService = allServers.get(allServers.size() - 1);
-            	maxTotalWeight = maxWeightService.getWeights();
+            	maxTotalWeight = maxWeightService.getServiceServer().getWeights();
             }
             
             if (maxTotalWeight < 0.001d) {
@@ -73,7 +74,7 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
                 // 基于随机数权重取出对应的RPC服务索引号
                 int n = 0;
                 for (RpcServiceInstance service : allServers) {
-                    if (service.getWeights() >= randomWeight) {
+                    if (service.getServiceServer().getWeights() >= randomWeight) {
                         serverIndex = n;
                     } else {
                         n++;
@@ -110,7 +111,7 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
 
 		@Override
 		public int compare(RpcServiceInstance arg0, RpcServiceInstance arg1) {
-			return arg0.getWeights()>arg1.getWeights() ? 1 : 0;
+			return arg0.getServiceServer().getWeights()>arg1.getServiceServer().getWeights() ? 1 : 0;
 		}
 		
 	}

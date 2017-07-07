@@ -70,7 +70,7 @@
 			<properties>
 				<server.port>80</server.port>
 				<discovery.url>http://127.0.0.1:80/server/discovery</discovery.url>
-				<datasource.url>jdbc:mysql://192.168.10.101:3306/origin</datasource.url>
+				<datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url>
 				<memory.cache.enabled>true</memory.cache.enabled>
 				<redis.host>192.168.10.120</redis.host>
 				<redis.password>gang317</redis.password>
