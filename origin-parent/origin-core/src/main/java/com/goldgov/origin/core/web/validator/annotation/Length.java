@@ -21,5 +21,5 @@ public @interface Length {
 	public long min();
 	public long max();
 	public OperateType[] type() default OperateType.NONE;
-	public String message() default "{fieldDesc}长度最小{min}最大{max}";
+	public String message() default "{fieldDesc}长度最小{min}，最大{max}";
 }

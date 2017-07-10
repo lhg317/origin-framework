@@ -15,6 +15,7 @@ import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
+import com.goldgov.origin.core.web.validator.Valid;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserExistException;
 import com.goldgov.origin.modules.user.api.RpcUserNameCheckFailException;
@@ -41,15 +42,13 @@ public class RpcUserController {
 	@RequestMapping("/addUser")
 	@WebToken(handle=TokenHandleType.VERIFY,forward="/user/listUser")
 	@ModuleOperating(name="i18n:label.user+add",type=OperateType.ADD)
-	public String addUser(RpcUser user) throws Exception{
+	public String addUser(@Valid RpcUser user) throws Exception{
 		try {
 			userService.addUser(user);
 		} catch (RpcUserExistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException("登录名重复："+user.getLoginName(),e);
 		} catch (RpcUserNameCheckFailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException("用户名检查失败："+user.getUserName(),e);
 		}
 		return "forward:/user/listUser";
 	}

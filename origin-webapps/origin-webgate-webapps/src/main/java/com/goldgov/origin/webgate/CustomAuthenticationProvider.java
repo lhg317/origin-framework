@@ -39,41 +39,36 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String loginName = (String) authentication.getPrincipal();
         String password = (String)authentication.getCredentials();
         
+        RpcUser user = null;
         try {
-			RpcUser user = userService.getUserByLoginName(loginName);
+			user = userService.getUserByLoginName(loginName);
 			
 			password = DigestUtils.md5Hex(password);
 			if(user == null || !password.equals(user.getPassword())){
 				throw new BadCredentialsException("认证失败：" + loginName);
 			}
 		} catch (TException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException("获取用户信息时出现错误：" + loginName,e);
 		}
         
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_ANONYMOUSLY"));
-//        grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         
 		try {
 			List<RpcRole> roleList = roleService.listRoleByObject(loginName);
 	        for (RpcRole role : roleList) {
 	        	grantedAuths.add(new SimpleGrantedAuthority(role.getRoleCode()));
 			}
-		} catch (TException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
 		}
 		
 		UserToken authenticationToken = new UserToken(loginName, password, grantedAuths);
-		authenticationToken.setUserName("测试用户");
+		if(user != null){
+			authenticationToken.setUserName(user.getUserName());
+		}
+		
 		return authenticationToken;
-        
-//        if(loginName.equals("liuhg") && password.equals("111111")){
-//        	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginName, password, grantedAuths);
-//        	return authenticationToken;
-//        }
-//        throw new BadCredentialsException("认证失败：" + loginName);
         
 	}
 

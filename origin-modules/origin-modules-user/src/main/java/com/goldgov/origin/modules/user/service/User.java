@@ -1,14 +1,9 @@
 package com.goldgov.origin.modules.user.service;
 
-import com.goldgov.origin.core.web.annotation.OperateType;
-import com.goldgov.origin.core.web.validator.annotation.NotNull;
-
 public class User {
 
 	private String userID;
-	@NotNull(type=OperateType.ADD)
 	private String loginName;
-	@NotNull
 	private String userName;
 	private String password;
 	private String email;

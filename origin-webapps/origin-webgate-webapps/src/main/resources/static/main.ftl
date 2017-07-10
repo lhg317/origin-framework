@@ -90,7 +90,7 @@
 	<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 </form>
 
-<div id="message" style="border:1px solid #00F; width:400px; height:400px; overflow-y: scroll;"></div>
+<div id="message" style="border:1px solid #00F; width:400px; height:300px; overflow-y: scroll;"></div>
 <input type="text" id="str" style="width: 300px" onkeypress="sendByKey()">&nbsp;<input type="button" value="Send" onclick="send();">
 </body>
 </html>

@@ -157,7 +157,13 @@ public class ValidationHandler implements IRequestHandler{
 										//Properties不能够获取非String类型的值，因此不能直接用putAll
 										Properties properties = new Properties();
 										for (Entry<String, Object> entry : annoAtt.entrySet()) {
-											properties.setProperty(entry.getKey(),String.valueOf(entry.getValue()));
+											String name = entry.getKey();
+											String value = String.valueOf(entry.getValue());
+											if("fieldName".equals(name) || "fieldDesc".equals(name)){
+												properties.setProperty(name,MessagesHolder.getMessageByPrefix(value));
+											}else{
+												properties.setProperty(name,value);
+											}
 										}
 										
 										if(paramValue != null){
@@ -171,7 +177,7 @@ public class ValidationHandler implements IRequestHandler{
 											properties.put("fieldDesc",paramName);
 										}
 										
-										String message = propertyPlaceholderHelper.replacePlaceholders(annoAtt.get("message").toString(), properties);
+										String message = propertyPlaceholderHelper.replacePlaceholders(MessagesHolder.getMessageByPrefix(annoAtt.get("message").toString()), properties);
 										errorList.add(new ValidationError(MessagesHolder.getMessageByPrefix(properties.getProperty("fieldDesc")),message));
 										
 //										throw new ValidationException(message);
