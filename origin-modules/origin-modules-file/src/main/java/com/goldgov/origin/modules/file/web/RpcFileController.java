@@ -2,6 +2,7 @@ package com.goldgov.origin.modules.file.web;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -119,7 +120,7 @@ public class RpcFileController {
 	}
 
 	@RequestMapping("/downloadFile")
-	public @ResponseBody String downloadFile(@RequestParam("fileID") String fileID,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public void downloadFile(@RequestParam("fileID") String fileID,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		if(!allowDownload(request)){
 			throw new NoPermissionException();
 		}
@@ -129,15 +130,17 @@ public class RpcFileController {
 			throw new FileNotFoundException(fileID);
 		}
 		ByteBuffer fileContent = fileService.getFileContent(fileID);
+		
+		String fileName = file.getFileName(); 
+		
 		response.setContentType(file.getFileType());
-		response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getFileName() +"\"");
+		response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes(),"ISO-8859-1") +"\"");
 		
 		byte[] fileFragmentBytes = fileContent.array(); 
 		ServletOutputStream outputStream = response.getOutputStream();
 		outputStream.write(fileFragmentBytes);
 		fileContent.clear();
 		
-		return new String(fileContent.array());
 	}
 	
 	@RequestMapping("/downloadFileFragment")
