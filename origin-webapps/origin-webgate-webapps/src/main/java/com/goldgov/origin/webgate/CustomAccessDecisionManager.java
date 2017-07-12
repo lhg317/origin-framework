@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,13 +50,17 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		Iterator<ConfigAttribute> iterator = configAttributes.iterator();
 		while(iterator.hasNext()){
 			ConfigAttribute cfgAttribute = iterator.next();
-			if(!cfgAttribute.toString().equals("authenticated")){
+			if(!cfgAttribute.toString().equals("authenticated")){//在ExpressionUrlAuthorizationConfigurer中定义的
 				return;//不需要授权的请求，直接返回
 			}
 		}
 		
 		FilterInvocation filterInvocation = (FilterInvocation)object;
 		HttpServletRequest httpRequest = filterInvocation.getHttpRequest();
+		
+		if(authentication instanceof AnonymousAuthenticationToken){
+			throw new AccessDeniedException("拒绝以匿名身份访问："+filterInvocation.getFullRequestUrl());
+		}
 		
 		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(CACHE_CODE_PATH_RESOURCE_MAPPING);
 		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);

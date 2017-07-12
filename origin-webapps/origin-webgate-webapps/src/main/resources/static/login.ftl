@@ -12,7 +12,7 @@
 	<tr><td> <input type="checkbox" name="remember-me" value="true">记住我</td></tr>
 	<tr><td colspan='2'><button type="submit" ><@i18n code="login"/></button></td></tr>
 </table>
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+${csrfToken(true)}
 </form>
 </body>
 </html>

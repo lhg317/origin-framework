@@ -55,6 +55,9 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	@Value("${server.welcome-page:}")
 	private String welcomePage;
 	
+	@Value("${url.error:/error}")
+	private String urlError;
+	
 	@Autowired(required=false)
 	private List<FreeMarkerAttribute> freeMarkerAttributes;
 	
@@ -125,8 +128,8 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/logout").setViewName("logout");
-		registry.addViewController("/main").setViewName("main");
-		registry.addViewController("/error").setViewName("error");
+		registry.addViewController(welcomePage).setViewName("main");
+		registry.addViewController(urlError).setViewName("error");
 		
 		if(!"".equals(welcomePage)){
 			registry.addViewController("/").setViewName(welcomePage);
