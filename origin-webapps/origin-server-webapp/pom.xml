@@ -37,7 +37,7 @@
 			</activation>
 			<properties>
 				<server.port>8000</server.port>
-				<datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url>
+				<!-- <datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url> -->
 				<logging.level>ERROR</logging.level>
 			</properties>
 		</profile>
@@ -45,7 +45,7 @@
 			<id>docker</id>
 			<properties>
 				<server.port>8000</server.port>
-				<datasource.url>jdbc:mysql://docker_mysql:3306/origin</datasource.url>
+				<!-- <datasource.url>jdbc:mysql://docker_mysql:3306/origin</datasource.url> -->
 				<logging.level>INFO</logging.level>
 			</properties>
 		</profile>
