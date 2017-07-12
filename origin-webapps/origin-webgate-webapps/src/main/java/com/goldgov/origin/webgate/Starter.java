@@ -12,7 +12,7 @@ import com.goldgov.origin.core.discovery.rpc.EnableRpcConfiguration;
 
 @SpringBootApplication
 @EnableRpcConfiguration
-@ComponentScan({"com/goldgov/origin","com/goldgov/codepractice"})
+@ComponentScan({"com/goldgov/origin"})
 public class Starter extends SpringBootServletInitializer implements WebApplicationInitializer{
 	
 	@Override

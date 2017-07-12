@@ -63,11 +63,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
 		}
 		
-		UserToken authenticationToken = new UserToken(loginName, password, grantedAuths);
-		if(user != null){
-			authenticationToken.setUserName(user.getUserName());
-		}
-		
+		UserToken userToken = new UserToken(loginName, password, user.getUserName(), grantedAuths);
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userToken, password, grantedAuths);
 		return authenticationToken;
         
 	}

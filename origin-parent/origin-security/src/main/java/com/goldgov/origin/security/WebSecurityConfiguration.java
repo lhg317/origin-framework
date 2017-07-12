@@ -50,10 +50,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 	@Value("${security.http.default-success-url.always-use:true}")
 	private boolean alwaysUse;
 	
+	@Autowired(required=false)
+	private RememberMeUserDetailsService rememberMeUserDetailsService;
+	
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(new CustomUserDetailsService());
         auth.authenticationProvider(authenticationProvider);
+//      auth.eraseCredentials(false);
     }
     
     @Bean
@@ -114,6 +118,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     	
         if(accessDecisionManager != null){
         	http.authorizeRequests().accessDecisionManager(accessDecisionManager);
+        }
+        if(rememberMeUserDetailsService != null){
+        	http.rememberMe()
+        	.rememberMeParameter("remember-me")//页面提交的参数名
+//        	.tokenValiditySeconds(tokenValiditySeconds)//记住我的有效秒数，默认为2周，即14天
+        	.userDetailsService(rememberMeUserDetailsService);
         }
     }
 

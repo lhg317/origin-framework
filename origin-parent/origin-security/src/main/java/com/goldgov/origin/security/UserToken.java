@@ -1,42 +1,46 @@
 package com.goldgov.origin.security;
 
-import java.util.Collection;
+import java.util.List;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-public class UserToken extends UsernamePasswordAuthenticationToken implements UserDelegate{
+/**
+ * 用户表示对象，对象中可以获取用户名，登录名及角色编码。<p>
+ * <b>说明：由于该对象继承了Spring Security的{@link org.springframework.security.core.userdetails.User User}对象，该对象中
+ * 存在getUsername()方法用于获取登录名，而本类中提供的getUserName()方法（一个字母大小写之差）是用来获取用户显示名，本类中使用
+ * getLoginName()方法来获取登录名。在使用时请注意</b>
+ * @author LiuHG
+ * @version 1.0
+ */
+public class UserToken extends User implements UserDelegate{
 
 	private static final long serialVersionUID = 3512951721391711866L;
 	
-	private String loginName;
-	private String userName;
+	private final String loginName;
+	private final String userName;
 	
-	private String[] roles;
+	private final String[] roles;
 	
-	public UserToken(Object principal, Object credentials) {
-		super(principal, credentials);
-		loginName = principal.toString();
+	public UserToken(String loginName, String password,String userName) {
+		super(loginName, password,null);
+		this.loginName = loginName;
+		this.userName = userName;
 		roles = new String[0];
 	}
 	
-	public UserToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-		super(principal, credentials, authorities);
-		loginName = principal.toString();
+	public UserToken(String loginName, String password,String userName,  List<GrantedAuthority> authorities) {
+		super(loginName, password,authorities);
+		this.loginName = loginName;
+		this.userName = userName;
 		roles = new String[authorities.size()];
-		int i = 0;
-		for (GrantedAuthority grantedAuthority : authorities) {
-			roles[i] = grantedAuthority.getAuthority();
-			i++;
+		for (int i = 0; i < authorities.size(); i++) {
+			roles[i] = authorities.get(i).getAuthority();
 		}
 	}
 
 	public String getUserName() {
 		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	@Override
@@ -45,17 +49,8 @@ public class UserToken extends UsernamePasswordAuthenticationToken implements Us
 	}
 
 	@Override
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-
-	@Override
 	public String[] getRoles() {
 		return roles;
 	}
 
-	@Override
-	public void setRoles(String[] roles) {
-		this.roles = roles;
-	}
 }

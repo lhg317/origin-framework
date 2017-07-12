@@ -47,6 +47,7 @@ import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler
 import com.goldgov.origin.core.web.interceptor.handler.impl.TokenCheckHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.ValidationHandler;
 import com.goldgov.origin.core.web.messages.ClassPathMessageSource;
+import com.goldgov.origin.core.web.mvc.ViewController.ViewMapping;
 
 @Configuration
 public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{//,ApplicationListener<EmbeddedServletContainerInitializedEvent> {
@@ -56,6 +57,9 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	
 	@Autowired(required=false)
 	private List<FreeMarkerAttribute> freeMarkerAttributes;
+	
+	@Autowired(required=false)
+	private ViewController viewController;
 	
 //	@Override
 //	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -122,10 +126,20 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/logout").setViewName("logout");
 		registry.addViewController("/main").setViewName("main");
+		registry.addViewController("/error").setViewName("error");
+		
 		if(!"".equals(welcomePage)){
 			registry.addViewController("/").setViewName(welcomePage);
 		}
-		registry.addViewController("/error").setViewName("error");
+		
+		if(viewController != null){
+			List<ViewMapping> mappingViews = viewController.mappingView();
+			if(mappingViews != null){
+				for (ViewMapping viewMapping : mappingViews) {
+					registry.addViewController(viewMapping.getMappingPath()).setViewName(viewMapping.getViewName());
+				}
+			}
+		}
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public final class UserHolder {
 	public static UserDelegate getUser(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null){
-			return (UserDelegate) authentication;
+			return (UserDelegate) authentication.getPrincipal();
 		}else{
 			HttpServletRequest request = RequestHolder.getRequest();
 			return  (UserDelegate)request.getSession().getAttribute(SecurityConstants.CURRENT_USER);

@@ -1,8 +1,11 @@
 package com.goldgov.origin.webgate;
 
 
+import java.security.Principal;
+
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.goldgov.origin.core.web.websocket.WebSocketMessage;
@@ -33,22 +36,32 @@ public class TestWebSocketMessageHandler implements WebSocketMessage{
 
 	@Override
 	public void onConnection(WebSocketMessageSession session) throws Exception {
-		session.sendBroadcast("欢迎"+((UserToken)session.getPrincipal()).getUserName()+"("+session.getRemoteAddress().getHostName()+")的加入，当前用户数：" + session.getCount());
+		Principal principal = session.getPrincipal();
+		session.sendBroadcast("欢迎"+(getUserToken(principal)).getUserName()+"("+session.getRemoteAddress().getHostName()+")的加入，当前用户数：" + session.getCount());
 	}
 
 	@Override
 	public void onMessage(WebSocketMessageSession session, String message) {
-		session.sendBroadcast(((UserToken)session.getPrincipal()).getUserName() + "&nbsp;say：" + message);
+		Principal principal = session.getPrincipal();
+		session.sendBroadcast((getUserToken(principal)).getUserName() + "&nbsp;say：" + message);
 	}
 
 	@Override
 	public void onDisconnection(WebSocketMessageSession session)
 			throws Exception {
-		session.sendBroadcast(((UserToken)session.getPrincipal()).getUserName()+"("+session.getRemoteAddress().getHostName()+")退出了，当前用户数：" + session.getCount());
+		Principal principal = session.getPrincipal();
+		session.sendBroadcast(getUserToken(principal).getUserName()+"("+session.getRemoteAddress().getHostName()+")退出了，当前用户数：" + session.getCount());
 	}
 
 	@Override
 	public String getSessionID(ServerHttpRequest request) {
+		return null;
+	}
+	
+	public UserToken getUserToken(Principal principal){
+		if(principal instanceof Authentication){
+			return (UserToken)((Authentication) principal).getPrincipal();
+		}
 		return null;
 	}
 

@@ -55,10 +55,9 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider,Ini
             	grantedAuths.add(new SimpleGrantedAuthority(roleCode));
 			}
             
-        	UserToken authenticationToken = new UserToken(loginName, password, grantedAuths);
-        	authenticationToken.setUserName(displayName);
-        	
-        	return authenticationToken;
+        	UserToken userToken = new UserToken(loginName, password, displayName,grantedAuths);
+        	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userToken, password, grantedAuths);
+    		return authenticationToken;
         }
 
         throw new BadCredentialsException("认证失败：" + loginName);
