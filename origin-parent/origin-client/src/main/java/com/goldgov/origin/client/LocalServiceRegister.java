@@ -62,8 +62,11 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	@Value("${discovery.client.health-path:}")
 	private String healthPath;
 	
-	@Value("${application.name:}")
+	@Value("${application.name:Unspecified}")
 	private String applicationName;
+	
+	@Value("${server.display-name:Unspecified}")
+	private String displayName;
 	
 	@Value("${discovery.config.config-path:}")
 	private String configPath;
@@ -120,6 +123,9 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 				if(applicationName != null && !"".equals(applicationName)){
 					localService.setApplicationName(applicationName);
 				}
+				if(displayName != null && !"".equals(displayName)){
+					localService.setDisplayName(displayName);
+				}
 				
 				
 				boolean registerSuccess = false;
@@ -134,6 +140,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 							if(result.equals("SUCCESS")){
 								logger.info("register success:" + discoveryServer + ",service num:" + rpcServiceList.size());
 								registerSuccess = true;
+								return;
 							}else{
 								logger.error("注册失败：" + localService + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");
 							}

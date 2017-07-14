@@ -18,6 +18,7 @@ import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 public class ServiceServer {
 
 	private String applicationName;
+	private String displayName;	
 	
 	private String serverIP;
 	private String serverName;
@@ -159,6 +160,14 @@ public class ServiceServer {
 
 	public void setServerName(String serverName) {
 		this.serverName = serverName;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	public enum ServiceType{

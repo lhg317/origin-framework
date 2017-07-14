@@ -131,11 +131,14 @@ public class DiscoveryServerController {
 		private Map<String,List<ServiceHealth>> serviceHealthMap = new HashMap<>();
 		
 		private Map<String,ServiceServer> serviceServerMap = new HashMap<>();
+
+		private ServiceServer serviceServer;
 		
 		public ClientHealth(){}
 		
 		public void addHealthState(ServiceServer serviceServer,List<ServiceHealth> arg1) {
-//			 String clientAddress = serviceServer.getRpcServerAddress();
+			//			 String clientAddress = serviceServer.getRpcServerAddress();
+			 this.serviceServer = serviceServer;
 			 String healthPath = serviceServer.getHealthPath();
 			 serviceHealthMap.put(healthPath, arg1);
 			 clientHealthMap.put(healthPath, HealthState.UP);
@@ -163,6 +166,10 @@ public class DiscoveryServerController {
 			return serviceServerMap;
 		}
 		
+		public ServiceServer getServer() {
+			return serviceServer;
+		}
+
 		public int getClientNum(){
 			return clientHealthMap.size();
 		}

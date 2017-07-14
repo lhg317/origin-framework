@@ -60,7 +60,6 @@
 	<a href="./user/listUser">用户管理</a><br>
 	<a href="./role/listRole">角色管理</a><br>
 	<hr>
-	<a href="./exercise/findList">习题管理</a><br>
 <br>
 <@security.authorize access="hasRole('ROLE_ADMIN')">
 	1 ROLE_ADMIN
@@ -90,7 +89,7 @@
 	<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 </form>
 
-<div id="message" style="border:1px solid #00F; width:400px; height:300px; overflow-y: scroll;"></div>
+<div id="message" style="border:1px solid #00F; width:400px; height:200px; overflow-y: scroll;"></div>
 <input type="text" id="str" style="width: 300px" onkeypress="sendByKey()">&nbsp;<input type="button" value="Send" onclick="send();">
 </body>
 </html>

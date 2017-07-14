@@ -51,7 +51,7 @@
 	<#list clientHealth.clientHealthMap?keys as key>
 	<tr>
 		<td rowspan="${(clientHealth.serviceHealthMap[key]?size > 0)?string(clientHealth.serviceHealthMap[key]?size,1)}">
-			${key} <br> 服务类型： <#list clientHealth.serviceServerMap[key].serviceType as serviceType>${serviceType};</#list>
+			${key}（${clientHealth.server.displayName!}：${clientHealth.server.applicationName!}）<br> 服务类型： <#list clientHealth.serviceServerMap[key].serviceType as serviceType>${serviceType};</#list>
 		</td>
 		<td rowspan="${(clientHealth.serviceHealthMap[key]?size > 0)?string(clientHealth.serviceHealthMap[key]?size,1)}" style="text-align:center">
 			${clientHealth.clientHealthMap[key]}
