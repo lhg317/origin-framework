@@ -1,4 +1,3 @@
-<#assign authorize = "com.goldgov.origin.security.freemarker.model.AuthorizeTemplateModel"?new()>
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <!DOCTYPE html>
 <html>
@@ -6,8 +5,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script type="text/javascript"
-	src="./sockjs.js"></script>
+<@res tag="script" src="/sockjs.js"/>
+<@res tag="script" src="/webjars/jquery/3.2.1/jquery.min.js"/>
+<!-- <script type="text/javascript" src="/sockjs.js"></script>
+<script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script> -->	
 <script>
 	var websocket;
 	var testUrl = window.location.host+"/myHandler";

@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.web.servlet.resource.ResourceUrlProvider;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import com.goldgov.origin.core.web.freemarker.model.I18nTemplateModel;
@@ -26,8 +28,11 @@ public class PuzzleFreeMarkerView extends FreeMarkerView{
 //		if(locale != null){
 //			locale = RequestContextUtils.getLocale(request);
 //		}
+		
+		ResourceUrlProvider resourceUrlProvider = BeanFactoryUtils.beanOfTypeIncludingAncestors(getApplicationContext(), ResourceUrlProvider.class, true, false);
+		
 		templateModel.put("i18n", new I18nTemplateModel());
-		templateModel.put("res", new ResourceTemplateModel(request));
+		templateModel.put("res", new ResourceTemplateModel(request,resourceUrlProvider));
 		
 //		templateModel.put("localContextPath", request.getContextPath());
 		

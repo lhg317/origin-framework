@@ -30,7 +30,7 @@
 	<td>${user.userName}</td>
 	<td>${user.email!}</td>
 	<td><a href="./getUser?userID=${user.userID}">【<@i18n code="edit"/>】</a>&nbsp;
-	<@authorize code="user_deleteUsers" role="ROLE_ADMIN">
+	<@authorize code="user_deleteUser" role="ROLE_ADMIN">
 	<a href="./deleteUser?userID=${user.userID}">【<@i18n code="delete"/>】</a>
 	</@authorize>
 	</td>

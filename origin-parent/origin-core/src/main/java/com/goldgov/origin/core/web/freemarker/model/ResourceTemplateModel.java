@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
+import org.springframework.web.servlet.resource.ResourceUrlProvider;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -23,9 +24,12 @@ public class ResourceTemplateModel implements TemplateDirectiveModel {
 	private final static String LINK = "<link type=\"text/css\" rel=\"stylesheet\" href=\"%s\" %s />\r\n";
 	private final static String SCRIPT = "<script type=\"text/javascript\" src=\"%s\" %s></script>\r\n";
 	private final static String IMG = "";
+
+	private ResourceUrlProvider resourceUrlProvider;
 	
-	public ResourceTemplateModel(HttpServletRequest request){
+	public ResourceTemplateModel(HttpServletRequest request, ResourceUrlProvider resourceUrlProvider){
 		this.request = request;
+		this.resourceUrlProvider = resourceUrlProvider;
 	}
 	
 	@Override
@@ -50,6 +54,10 @@ public class ResourceTemplateModel implements TemplateDirectiveModel {
 		String resourceLocation = getResourceLocation(tagName);
 		if(resourceLocation != null){
 			srcStr = resourceLocation + srcStr;
+		}
+		
+		if(resourceUrlProvider != null){
+			srcStr = resourceUrlProvider.getForLookupPath(srcStr);
 		}
 		
 		Writer out = env.getOut();

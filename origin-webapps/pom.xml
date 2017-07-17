@@ -86,6 +86,16 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/favicon.ico</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/favicon.ico</include>
+				</includes>
 			</resource>
 			<resource>
 				<directory>src/main/java</directory>

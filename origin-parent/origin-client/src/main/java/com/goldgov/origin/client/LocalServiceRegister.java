@@ -176,6 +176,10 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 				return StringUtils.tokenizeToStringArray(property, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 			} catch (IOException e) {
 				throw new RuntimeException("获取可选模块时发生IO错误",e);
+			}finally{
+				try {
+					resourceStream.close();
+				} catch (IOException e) {}
 			}
 
 		}else{
