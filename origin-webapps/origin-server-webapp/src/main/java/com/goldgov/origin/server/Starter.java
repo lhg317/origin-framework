@@ -1,4 +1,4 @@
-package com.goldgov.origin.webapp.server;
+package com.goldgov.origin.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
