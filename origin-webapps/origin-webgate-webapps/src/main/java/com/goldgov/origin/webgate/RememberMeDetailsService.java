@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
@@ -22,7 +23,7 @@ import com.goldgov.origin.security.UserToken;
  * @author LiuHG
  * @version 1.0
  */
-//@Component
+@Component
 public class RememberMeDetailsService implements RememberMeUserDetailsService{
 
 	@Autowired

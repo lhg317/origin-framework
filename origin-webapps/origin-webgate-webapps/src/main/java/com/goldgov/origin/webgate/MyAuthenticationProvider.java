@@ -7,7 +7,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,10 +19,11 @@ import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserService;
+import com.goldgov.origin.security.CustomAuthenticationProvider;
 import com.goldgov.origin.security.UserToken;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class MyAuthenticationProvider implements CustomAuthenticationProvider {
 
 	@Autowired
 	@Qualifier("rpcUserService.Client")

@@ -20,11 +20,13 @@ public interface DiscoveryServerService {
 	 */
 	public void addService(ServiceServer service);
 	
-	public void addRequiredServiceName(String clientAddress,List<String> serviceName);
+	public void addRequiredServiceName(String serverID,List<String> serviceName);
 	
-	public void addOptionalServiceName(String clientAddress, List<String> serviceName);
+	public void addOptionalServiceName(String serverID, List<String> serviceName);
 	
-	public void deleteRequiredServiceName(String clientAddress);
+	public void deleteRequiredServiceName(String serverID);
+	
+	public void deleteOptionalServiceName(String serverID);
 	
 	public Map<String,List<String>> getAllRequiredServiceName();
 	
@@ -53,9 +55,9 @@ public interface DiscoveryServerService {
 	 * @param serverIP
 	 * @param port
 	 */
-	public void deleteService(String serverIP,int port);
+	public void deleteServiceServer(String serverID);
 	
 	public Map<String,ServiceServer> getClientMapping();
 	
-	public ServiceServer getService(String ip,int port);
+	public ServiceServer getServiceServer(String serverID);
 }

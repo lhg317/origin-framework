@@ -128,7 +128,6 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/logout").setViewName("logout");
-		registry.addViewController(welcomePage).setViewName("main");
 		registry.addViewController(urlError).setViewName("error");
 		
 		if(!"".equals(welcomePage)){

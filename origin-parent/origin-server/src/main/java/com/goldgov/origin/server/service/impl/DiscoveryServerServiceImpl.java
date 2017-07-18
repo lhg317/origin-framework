@@ -168,8 +168,8 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 //	}
 
 	@Override
-	public void deleteService(String serverIP,int port) {
-		discoveryDao.deleteService(serverIP,port);
+	public void deleteServiceServer(String serverID) {
+		discoveryDao.deleteServiceServer(serverID);
 		clearServerCache();
 	}
 
@@ -179,13 +179,13 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 	}
 
 	@Override
-	public void addRequiredServiceName(String clientAddress, List<String> serviceName) {
-		requiredServiceNameMap.put(clientAddress, serviceName);
+	public void addRequiredServiceName(String serverID, List<String> serviceName) {
+		requiredServiceNameMap.put(serverID, serviceName);
 	}
 
 	@Override
-	public void deleteRequiredServiceName(String clientAddress) {
-		requiredServiceNameMap.remove(clientAddress);
+	public void deleteRequiredServiceName(String serverID) {
+		requiredServiceNameMap.remove(serverID);
 	}
 
 	@Override
@@ -194,8 +194,13 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 	}
 	
 	@Override
-	public void addOptionalServiceName(String clientAddress, List<String> serviceName) {
-		optionalServiceNameMap.put(clientAddress, serviceName);
+	public void addOptionalServiceName(String serverID, List<String> serviceName) {
+		optionalServiceNameMap.put(serverID, serviceName);
+	}
+	
+	@Override
+	public void deleteOptionalServiceName(String serverID) {
+		optionalServiceNameMap.remove(serverID);
 	}
 	
 	@Override
@@ -215,8 +220,8 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 	}
 
 	@Override
-	public ServiceServer getService(String ip, int port) {
-		return discoveryDao.getService(ip, port);
+	public ServiceServer getServiceServer(String serverID) {
+		return discoveryDao.getServiceServer(serverID);
 	}
 
 }

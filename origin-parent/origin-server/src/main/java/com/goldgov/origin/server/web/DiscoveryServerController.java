@@ -65,8 +65,8 @@ public class DiscoveryServerController {
 		serviceObject.setConfigPath(processPlaceholder(serviceObject.getConfigPath(),properties));
 		serviceObject.setRegisterDate(new Date());
 		
-		discoveryService.addRequiredServiceName(serviceObject.getRpcServerAddress(), serviceObject.getRequiredServerNames());
-		discoveryService.addOptionalServiceName(serviceObject.getRpcServerAddress(), serviceObject.getOptionalServerNames());
+		discoveryService.addRequiredServiceName(serviceObject.getServerID(), serviceObject.getRequiredServerNames());
+		discoveryService.addOptionalServiceName(serviceObject.getServerID(), serviceObject.getOptionalServerNames());
 		
 		discoveryService.addService(serviceObject);
 		return "SUCCESS";

@@ -21,11 +21,9 @@ public interface DiscoveryDao {
 	
 	public List<ServiceServer> getAllServiceServer();
 	
-	public ServiceServer getService(String ip,int port);
+	public ServiceServer getServiceServer(String serverID);
 	
-	public ServiceServer getService(String clientAddress);
-	
-	public void deleteService(String serverIP,int port);
+	public void deleteServiceServer(String serverID);
 	
 	public Map<String,ServiceServer> getClientMapping();
 

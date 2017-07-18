@@ -21,8 +21,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import com.goldgov.origin.security.filter.RemoteAuthenticationFilter;
+import com.goldgov.origin.security.filter.RemoteAuthenticationProvider;
 
 @Configurable
 //@EnableWebSecurity
@@ -36,7 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //	private String updatePath;
 	
 	@Autowired
-	private AuthenticationProvider authenticationProvider;
+	private CustomAuthenticationProvider authenticationProvider;
 	
 	@Autowired(required=false)
 	private AccessDecisionManager accessDecisionManager;
@@ -57,11 +61,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(new CustomUserDetailsService());
         auth.authenticationProvider(authenticationProvider);
+        auth.authenticationProvider(new RemoteAuthenticationProvider());
 //      auth.eraseCredentials(false);
     }
     
     @Bean
-    @ConditionalOnMissingBean(AuthenticationProvider.class)
+    @ConditionalOnMissingBean(CustomAuthenticationProvider.class)
     public AuthenticationProvider authenticationProvider(){
     	return new DefaultAuthenticationProvider();
     }
@@ -125,6 +130,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //        	.tokenValiditySeconds(tokenValiditySeconds)//记住我的有效秒数，默认为2周，即14天
         	.userDetailsService(rememberMeUserDetailsService);
         }
+        
+        http.addFilterAfter(new RemoteAuthenticationFilter(), RememberMeAuthenticationFilter.class);
     }
 
 	@Bean

@@ -19,9 +19,13 @@
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-core</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-security</artifactId>
+		</dependency> -->
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-monitor</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>

@@ -53,13 +53,12 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 		}else if(serviceObject instanceof NoServiceInstance){
 			NoServiceInstance noServiceInstance = (NoServiceInstance)serviceObject;
 			ServiceServer serviceServer = noServiceInstance.getServiceServer();
-			clientMapping.put(serviceServer.getRpcServerAddress(), serviceServer);
+			clientMapping.put(serviceServer.getServerID(), serviceServer);
 		}
 		
-		if(!clientMapping.containsKey(serviceObject.getServiceServer().getRpcServerAddress())){
+		if(!clientMapping.containsKey(serviceObject.getServiceServer().getServerID())){
 			ServiceServer serviceServer = serviceObject.getServiceServer();
-			clientMapping.put(serviceServer.getRpcServerAddress(), serviceServer);
-			logger.debug("put service mapping \"" + serviceObject.getServiceServer().getRpcServerAddress() + "\"");
+			clientMapping.put(serviceServer.getServerID(), serviceServer);
 		}
 		
 //		return isNew;
@@ -100,16 +99,16 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 	}
 
 	@Override
-	public void deleteService(String serverIP,int port) {
+	public void deleteServiceServer(String serverID) {
 		Set<String> keySet = serviceMap.keySet();
-		clientMapping.remove(serverIP+":"+port);
+		clientMapping.remove(serverID);
 		for (String serviceName : keySet) {
 			List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
 			for (RpcServiceInstance serviceObject : serviceList) {
 				ServiceServer serviceServer = serviceObject.getServiceServer();
-				if(serviceServer.getServerIP().equals(serverIP) && serviceServer.getServerPort() == port){
+				if(serviceServer.getServerID().equals(serverID)){
 					serviceList.remove(serviceObject);
-					logger.debug("delete service \"" + serviceName + "\" at " + serviceServer.getRpcServerAddress());
+					logger.info("delete service \"" + serviceName + "\" at " + serviceServer.getRpcServerAddress());
 					break;
 				}
 			}
@@ -117,13 +116,8 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 	}
 
 	@Override
-	public ServiceServer getService(String ip, int port) {
-		return getService(ip+":"+port);
-	}
-	
-	@Override
-	public ServiceServer getService(String clientAddress) {
-		return clientMapping.get(clientAddress);
+	public ServiceServer getServiceServer(String serverID) {
+		return clientMapping.get(serverID);
 	}
 
 	@Override

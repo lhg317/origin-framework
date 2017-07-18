@@ -57,8 +57,9 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 				ServiceServer serviceObject = allServices.get(i);
 				if(!doCheck(serviceObject.getRpcServerAddress(),serviceObject.getHealthPath())){
 					logger.debug("Prepare to clear all services under " + serviceObject.getRpcServerAddress());
-					discoveryServerService.deleteRequiredServiceName(serviceObject.getRpcServerAddress());
-					discoveryServerService.deleteService(serviceObject.getServerIP(),serviceObject.getServerPort());
+					discoveryServerService.deleteRequiredServiceName(serviceObject.getServerID());
+					discoveryServerService.deleteOptionalServiceName(serviceObject.getServerID());
+					discoveryServerService.deleteServiceServer(serviceObject.getServerID());
 				}
 			}
 			checkInterval = Math.max(RETRY_INTERVAL, RETRY_INTERVAL + (RETRY_INTERVAL/2)*(allServices.size() - 1));

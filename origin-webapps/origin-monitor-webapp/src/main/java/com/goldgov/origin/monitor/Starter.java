@@ -9,7 +9,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.WebApplicationInitializer;
 
-import com.goldgov.origin.core.CoreConfiguration;
 import com.goldgov.origin.core.discovery.rpc.EnableRpcConfiguration;
 
 @SpringBootApplication

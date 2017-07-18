@@ -24,7 +24,7 @@ public class ServiceServer {
 	
 	private String serverIP;//rpc服务器的IP
 	private String serverName;//rpc服务器的机器名
-	private int serverPort;//rpc服务器的RPC端口
+	private int serverPort;//rpc服务器的RPC端口,如果该应用中没有服务，则该值为0
 	
 	private String healthPath;
 	private String updatePath;

@@ -227,6 +227,12 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			serviceTypeList.add(ServiceType.DiscoveryService);
 		} catch (ClassNotFoundException e) {}
 		
+		//判断是否为注册发现服务
+		try {
+			Class.forName("com.goldgov.origin.server.service.DiscoveryServerService");
+			serviceTypeList.add(ServiceType.DiscoveryService);
+		} catch (ClassNotFoundException e) {}
+				
 //		//判断是否为网关服务
 //		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 //		for (StackTraceElement stackTraceElement : stackTrace) {
@@ -239,8 +245,8 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 		
 		//判断是否为注册发现服务
 		try {
-			Class.forName("com.goldgov.origin.config.ConfigConfiguration");
-			serviceTypeList.add(ServiceType.ConfigurationService);
+			Class.forName("com.goldgov.origin.monitor.MonitorConfiguration");
+			serviceTypeList.add(ServiceType.MonitorService);
 		} catch (ClassNotFoundException e) {}
 		
 		//TODO 更多服务的判断方式
