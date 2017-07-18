@@ -92,7 +92,9 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			public void run() {
 				
 				ServiceServer localService = new ServiceServer();
-				localService.setServerPort(rpcServer.getPort());
+				if(rpcServer.isServing()){
+					localService.setServerPort(rpcServer.getPort());
+				}
 				//FIXME
 				if(healthPath == null || "".equals(healthPath)){
 					healthPath = "http://{serverIP}:" + serverPort + contextPath + "/health";

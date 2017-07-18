@@ -1,4 +1,3 @@
-cd target
-java -jar origin-server-webapp-1.0.0-SNAPSHOT.jar
+java -jar %~dp0target\discovery-server.jar
 
 pause

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
+import com.goldgov.origin.core.discovery.rpc.NoServiceInstance;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 import com.goldgov.origin.server.dao.DiscoveryDao;
 
@@ -49,6 +50,10 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 				serviceList.add(serviceObject);
 				serviceMap.put(serviceName, serviceList);
 			}
+		}else if(serviceObject instanceof NoServiceInstance){
+			NoServiceInstance noServiceInstance = (NoServiceInstance)serviceObject;
+			ServiceServer serviceServer = noServiceInstance.getServiceServer();
+			clientMapping.put(serviceServer.getRpcServerAddress(), serviceServer);
 		}
 		
 		if(!clientMapping.containsKey(serviceObject.getServiceServer().getRpcServerAddress())){
@@ -74,16 +79,16 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 		return hasService;
 	}
 	
-	@Override
-	public void updateService(String serviceName,RpcServiceInstance serviceObject) {
-		List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
-		for (int i = 0; i < serviceList.size(); i++) {
-			RpcServiceInstance _serviceInfo = serviceList.get(i);
-			if(_serviceInfo.getServiceServer().getRpcServerAddress().equals(serviceObject.getServiceServer().getRpcServerAddress())){
-				serviceList.set(i, serviceObject);
-			}
-		}
-	}
+//	@Override
+//	public void updateService(String serviceName,RpcServiceInstance serviceObject) {
+//		List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
+//		for (int i = 0; i < serviceList.size(); i++) {
+//			RpcServiceInstance _serviceInfo = serviceList.get(i);
+//			if(_serviceInfo.getServiceServer().getRpcServerAddress().equals(serviceObject.getServiceServer().getRpcServerAddress())){
+//				serviceList.set(i, serviceObject);
+//			}
+//		}
+//	}
 
 	@Override
 	public List<RpcServiceInstance> getServices(String serviceName) {
@@ -91,7 +96,7 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 		if(serviceList == null){
 			serviceList = Collections.emptyList();
 		}
-		return serviceList;
+		return Collections.unmodifiableList(serviceList);
 	}
 
 	@Override

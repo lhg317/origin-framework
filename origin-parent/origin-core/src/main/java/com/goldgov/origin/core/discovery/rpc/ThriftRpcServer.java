@@ -89,7 +89,7 @@ public class ThriftRpcServer implements InitializingBean,DisposableBean {
 	}
 	
 	public boolean isServing(){
-		return server != null && server.isServing();
+		return rpcServiceList != null && server != null && server.isServing() && rpcServiceList.size() > 0;
 	}
 	
 	public int getPort(){

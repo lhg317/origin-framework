@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,7 +53,8 @@ public class DiscoveryServerController {
 	public @ResponseBody String serviceDiscovery(@RequestBody ServiceServer serviceObject,HttpServletRequest request){
 		String remoteHost = request.getRemoteHost();
 		
-		//FIX IP或域名？
+		serviceObject.setServerID(UUID.randomUUID().toString());
+		
 		serviceObject.setServerIP(request.getRemoteAddr());
 		serviceObject.setServerName(request.getRemoteHost());
 		

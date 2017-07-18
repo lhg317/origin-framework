@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ClassUtils;
@@ -26,6 +29,8 @@ import com.goldgov.origin.core.dao.mybatis.StatementHandlerInterceptor;
 
 @Configurable
 //@Import(C3p0DataSourceConfig.class)
+@ConditionalOnBean(DataSource.class)
+@AutoConfigureAfter(DataSourceAutoConfiguration.class)
 public class MyBatisConfiguration {
 	
 	@Bean("mapperScannerConfigurer")

@@ -35,6 +35,7 @@
 	<modules>
 		<module>origin-server-webapp</module>
     	<module>origin-webgate-webapps</module>
+    <module>origin-monitor-webapp</module>
   </modules>
 	<dependencyManagement>
 		<dependencies>

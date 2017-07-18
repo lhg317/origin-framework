@@ -11,7 +11,7 @@ public interface DiscoveryDao {
 
 	public void saveService(String serviceName,RpcServiceInstance serviceObject);
 	
-	public void updateService(String serviceName,RpcServiceInstance serviceObject);
+//	public void updateService(String serviceName,RpcServiceInstance serviceObject);
 
 	public List<RpcServiceInstance> getServices(String serviceName);
 

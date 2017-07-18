@@ -15,13 +15,13 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configurable
 public class CacheConfiguration {
 
-	@Value("${spring.redis.host}")
+	@Value("${spring.redis.host:}")
 	private String host;
 	
-	@Value("${spring.redis.port}")
+	@Value("${spring.redis.port:6379}")
 	private int port;
 	
-	@Value("${spring.redis.password}")
+	@Value("${spring.redis.password:}")
 	private String password;
 	
 	@Bean

@@ -5,11 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 import com.goldgov.origin.core.cache.CacheConfiguration;
-import com.goldgov.origin.core.dao.MyBatisConfiguration;
 import com.goldgov.origin.core.service.proxy.ProxyServiceConfigurer;
 
 @Configurable
-@Import({MyBatisConfiguration.class,CacheConfiguration.class})
+@Import({CacheConfiguration.class})
 public class CoreConfiguration {
 
 	@Bean

@@ -8,8 +8,8 @@
 		<artifactId>origin-webapps</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>origin-server-webapp</artifactId>
-	<name>origin-server-webapp</name>
+	<artifactId>origin-monitor-webapp</artifactId>
+	<name>origin-monitor-webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +21,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>
-			<artifactId>origin-server</artifactId>
+			<artifactId>origin-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -36,17 +40,19 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<server.port>8000</server.port>
+				<server.port>8005</server.port>
+				<discovery.url>http://127.0.0.1:80/server/discovery</discovery.url>
 				<!-- <datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url> -->
-				<logging.level>INFO</logging.level>
+				<logging.level>ERROR</logging.level>
 			</properties>
 		</profile>
 		<profile>
 			<id>docker</id>
 			<properties>
-				<server.port>8000</server.port>
+				<server.port>8005</server.port>
+				<discovery.url>http://docker_discovery:8000/server/discovery</discovery.url>
 				<!-- <datasource.url>jdbc:mysql://docker_mysql:3306/origin</datasource.url> -->
-				<logging.level>ERROR</logging.level>
+				<logging.level>INFO</logging.level>
 			</properties>
 		</profile>
 	</profiles>

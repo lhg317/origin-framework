@@ -17,12 +17,14 @@ import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 @JsonIgnoreProperties(ignoreUnknown = true) 
 public class ServiceServer {
 
+	private String serverID;
+	
 	private String applicationName;
 	private String displayName;	
 	
-	private String serverIP;
-	private String serverName;
-	private int serverPort;
+	private String serverIP;//rpc服务器的IP
+	private String serverName;//rpc服务器的机器名
+	private int serverPort;//rpc服务器的RPC端口
 	
 	private String healthPath;
 	private String updatePath;
@@ -180,6 +182,14 @@ public class ServiceServer {
 		DiscoveryService,//发现服务
 		WebGateService,//网关服务
 		NoService;//没有任何标准服务
+	}
+
+	public String getServerID() {
+		return serverID;
+	}
+
+	public void setServerID(String serverID) {
+		this.serverID = serverID;
 	}
 
 	
