@@ -15,9 +15,20 @@ public class DeleteRequest implements Request<HttpDelete>{
 		this(url,DEFAULT_TIMEOUT);
 	}
 	
+	public DeleteRequest(String url,boolean isRpcRequest){
+		this(url,DEFAULT_TIMEOUT,isRpcRequest);
+	}
+	
 	public DeleteRequest(String url,int timeout){
+		this(url,timeout,true);
+	}
+	
+	public DeleteRequest(String url,int timeout,boolean isRpcRequest){
 		this.timeout = timeout;
 		httpDelete = new HttpDelete(url);
+		if(isRpcRequest){
+			httpDelete.setHeader(Request.DISCOVERY_HEADER_NAME, httpDelete.getURI().toString());
+		}
 	}
 	
 	@Override
@@ -26,7 +37,6 @@ public class DeleteRequest implements Request<HttpDelete>{
 				.setSocketTimeout(timeout)
 				.setConnectTimeout(timeout)
 				.build();
-		httpDelete.setHeader(Request.DISCOVERY_HEADER_NAME, httpDelete.getURI().toString());
 		httpDelete.setConfig(requestConfig);
 		return httpDelete;
 	}

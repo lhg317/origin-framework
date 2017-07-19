@@ -12,7 +12,7 @@ public class PostRequest implements Request<HttpPost>{
 
 	protected static final String CONTENT_ENCODING = "UTF-8";
 	
-	protected HttpPost httpPost;
+	protected final HttpPost httpPost;
 	
 	private int timeout;
 
@@ -20,6 +20,10 @@ public class PostRequest implements Request<HttpPost>{
 	
 	public PostRequest(String url){
 		this(url,null);
+	}
+	
+	public PostRequest(String url,boolean isRpcRequest){
+		this(url,DEFAULT_TIMEOUT,null,isRpcRequest);
 	}
 	
 	public PostRequest(String url,PostParams params){
@@ -30,10 +34,21 @@ public class PostRequest implements Request<HttpPost>{
 		this(url,DEFAULT_TIMEOUT,null);
 	}
 	
+	public PostRequest(String url,int timeout,boolean isRpcRequest){
+		this(url,DEFAULT_TIMEOUT,null,isRpcRequest);
+	}
+	
 	public PostRequest(String url,int timeout,PostParams params){
+		this(url,timeout,params,true);
+	}
+	
+	public PostRequest(String url,int timeout,PostParams params,boolean isRpcRequest){
 		this.timeout = timeout;
 		this.params = params;
 		httpPost = new HttpPost(url);
+		if(isRpcRequest){
+			httpPost.setHeader(Request.DISCOVERY_HEADER_NAME, httpPost.getURI().toString());
+		}
 	}
 	
 	public HttpPost unwrap(){
@@ -52,7 +67,6 @@ public class PostRequest implements Request<HttpPost>{
 				throw new RuntimeException("不支持的编码格式" + CONTENT_ENCODING,e);
 			}
 		}
-		httpPost.setHeader(Request.DISCOVERY_HEADER_NAME, httpPost.getURI().toString());
 		return httpPost;
 	}
 }

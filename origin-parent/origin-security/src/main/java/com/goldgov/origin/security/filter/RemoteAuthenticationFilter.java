@@ -22,18 +22,23 @@ public class RemoteAuthenticationFilter extends GenericFilterBean{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		if (SecurityContextHolder.getContext().getAuthentication() == null) {
-			String user = request.getParameter("u");
+			String expires = request.getParameter("expires");
 			String code = request.getParameter("code");
 			
-			if(user == null){
+			if(expires == null || code == null){
 				chain.doFilter(request, response);
+				return;
+			}
+			long expiresMill = -1;
+			try{
+				expiresMill = Long.parseLong(expires);
+			}catch(NumberFormatException e){
 				return;
 			}
 
 			List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 	        grantedAuths.add(new SimpleGrantedAuthority("ACTUATOR"));
-	        
-			RemoteAuthenticationToken remoteAuthenticationToken = new RemoteAuthenticationToken("user",grantedAuths);
+			RemoteAuthenticationToken remoteAuthenticationToken = new RemoteAuthenticationToken(code,expiresMill,grantedAuths);
 			SecurityContextHolder.getContext().setAuthentication(remoteAuthenticationToken);
 		}
 		chain.doFilter(request, response);

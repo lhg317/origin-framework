@@ -11,9 +11,12 @@ public class RemoteAuthenticationToken extends AbstractAuthenticationToken {
 	
 	private final Object principal;
 	
-	public RemoteAuthenticationToken(String principal,Collection<? extends GrantedAuthority> authorities) {
+	private final long expires;
+	
+	public RemoteAuthenticationToken(String principal,long expires,Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
+		this.expires = expires;
 	}
 
 	@Override
@@ -26,4 +29,8 @@ public class RemoteAuthenticationToken extends AbstractAuthenticationToken {
 		return principal;
 	}
 
+	public long getExpires() {
+		return expires;
+	}
+	
 }

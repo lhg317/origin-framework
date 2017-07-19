@@ -7,7 +7,7 @@ import com.goldgov.origin.core.discovery.http.Request;
 
 public class GetRequest implements Request<HttpGet>{
 
-	private HttpGet httpGet;
+	private final HttpGet httpGet;
 	
 	private int timeout;
 	
@@ -15,18 +15,28 @@ public class GetRequest implements Request<HttpGet>{
 		this(url,DEFAULT_TIMEOUT);
 	}
 	
+	public GetRequest(String url,boolean isRpcRequest){
+		this(url,DEFAULT_TIMEOUT,isRpcRequest);
+	}
+	
 	public GetRequest(String url,int timeout){
+		this(url,timeout,true);
+	}
+	
+	public GetRequest(String url,int timeout,boolean isRpcRequest){
 		this.timeout = timeout;
 		httpGet = new HttpGet(url);
+		if(isRpcRequest){
+			httpGet.setHeader(Request.DISCOVERY_HEADER_NAME, httpGet.getURI().toString());
+		}
 	}
-
+	
 	@Override
 	public HttpGet unwrap() {
 		RequestConfig requestConfig = RequestConfig.custom()
 				.setSocketTimeout(timeout)
 				.setConnectTimeout(timeout)
 				.build();
-		httpGet.setHeader(Request.DISCOVERY_HEADER_NAME, httpGet.getURI().toString());
 		httpGet.setConfig(requestConfig);
 		return httpGet;
 	}
