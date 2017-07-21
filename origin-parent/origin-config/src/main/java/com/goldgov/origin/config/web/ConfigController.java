@@ -20,7 +20,7 @@ public class ConfigController {
 //	@Value("${discovery.config.security-code}")
 //	private String securityCode;
 
-	@RequestMapping("getConfig")
+	@RequestMapping("config")
 	public @ResponseBody Map<Object, Object> getConfig(@RequestParam("applicationName") String applicationName){
 		Map<Object, Object> config = configService.getConfig(applicationName);
 		return config;

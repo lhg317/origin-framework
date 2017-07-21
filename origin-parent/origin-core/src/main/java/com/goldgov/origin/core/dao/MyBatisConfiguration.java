@@ -112,4 +112,17 @@ public class MyBatisConfiguration {
 	        return annos.value();
 		}
 	}
+	
+//	@Bean(name="dataSource1")  
+//    @Primary  
+//    @ConfigurationProperties(prefix="spring.datasource.ds1")  
+//	public DataSource dataSource1(){
+//		return DataSourceBuilder.create().build();
+//	}
+//	
+//	@Bean(name="dataSource2")  
+//    @ConfigurationProperties(prefix="spring.datasource.ds2")  
+//    public DataSource dataSource2() {  
+//        return DataSourceBuilder.create().build();
+//    }
 }

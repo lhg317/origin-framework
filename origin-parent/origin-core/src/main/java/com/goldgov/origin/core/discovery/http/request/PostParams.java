@@ -15,7 +15,7 @@ public class PostParams implements Wrapper<List<BasicNameValuePair>>{
 	private Map<String, String> params;
 
 	public PostParams(Map<String,String> params){
-		Assert.notNull(params);
+		Assert.notNull(params,"params not null");
 		this.params = params;
 	}
 	

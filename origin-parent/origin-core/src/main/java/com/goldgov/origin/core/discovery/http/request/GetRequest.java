@@ -36,6 +36,7 @@ public class GetRequest implements Request<HttpGet>{
 		RequestConfig requestConfig = RequestConfig.custom()
 				.setSocketTimeout(timeout)
 				.setConnectTimeout(timeout)
+//				.setCookieSpec(CookieSpecs.IGNORE_COOKIES)
 				.build();
 		httpGet.setConfig(requestConfig);
 		return httpGet;

@@ -2,6 +2,7 @@ package com.goldgov.origin.monitor.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class MonitorInfo {
 		private int processors;//The number of processors
 		private long instanceUptime;//The application context uptime in milliseconds
 		private long uptime;//The system uptime in milliseconds
-		private int systemload;//The average system load
+		private double systemload;//The average system load
 		
 		//Heap information in KB
 		private int heap;
@@ -55,13 +56,14 @@ public class MonitorInfo {
 		private int initHeap;
 		private int usedHeap;
 		private int nonHeap;
-		private int committednonHeap;
-		private int initnonHeap;
-		private int usednonHeap;
+		private int committedNonHeap;
+		private int initNonHeap;
+		private int usedNonHeap;
 		
 		//Thread information
 		private int threads;
 		private int peakThreads;
+		private int totalStartedThreads;
 		private int daemonThreads;
 		
 		//Class load information
@@ -81,23 +83,29 @@ public class MonitorInfo {
 		public void setNonHeap(int nonHeap) {
 			this.nonHeap = nonHeap;
 		}
-		public int getCommittednonHeap() {
-			return committednonHeap;
+		public int getCommittedNonHeap() {
+			return committedNonHeap;
 		}
-		public void setCommittednonHeap(int committednonHeap) {
-			this.committednonHeap = committednonHeap;
+		public void setCommittedNonHeap(int committedNonHeap) {
+			this.committedNonHeap = committedNonHeap;
 		}
-		public int getInitnonHeap() {
-			return initnonHeap;
+		public int getInitNonHeap() {
+			return initNonHeap;
 		}
-		public void setInitnonHeap(int initnonHeap) {
-			this.initnonHeap = initnonHeap;
+		public void setInitNonHeap(int initNonHeap) {
+			this.initNonHeap = initNonHeap;
 		}
-		public int getUsednonHeap() {
-			return usednonHeap;
+		public int getUsedNonHeap() {
+			return usedNonHeap;
 		}
-		public void setUsednonHeap(int usednonHeap) {
-			this.usednonHeap = usednonHeap;
+		public int getTotalStartedThreads() {
+			return totalStartedThreads;
+		}
+		public void setTotalStartedThreads(int totalStartedThreads) {
+			this.totalStartedThreads = totalStartedThreads;
+		}
+		public void setUsedNonHeap(int usedNonHeap) {
+			this.usedNonHeap = usedNonHeap;
 		}
 		public int getMemTotal() {
 			return memTotal;
@@ -129,10 +137,10 @@ public class MonitorInfo {
 		public void setUptime(long uptime) {
 			this.uptime = uptime;
 		}
-		public int getSystemload() {
+		public double getSystemload() {
 			return systemload;
 		}
-		public void setSystemload(int systemload) {
+		public void setSystemload(double systemload) {
 			this.systemload = systemload;
 		}
 		public long getHeap() {
@@ -227,7 +235,7 @@ public class MonitorInfo {
 	 * @author LiuHG
 	 * @version 1.0
 	 */
-	public class HttpMetrics{
+	public static class HttpMetrics{
 		private int maxHttpSessions;
 		private int activeHttpSessions;
 		
@@ -257,10 +265,16 @@ public class MonitorInfo {
 			addStatusCount(status,uri,-1);
 		}
 		
-		public void addStatusCount(int status,String uri,int count,int responseTime) {
+		public void addStatusCount(int status,String uri,int count,double responseTime) {
+			for (StatusCount _statusCount : statusCounterList) {
+				if(_statusCount.getStatus() == status){
+					_statusCount.putCount(uri, count, responseTime);
+					return;
+				}
+			}
 			StatusCount statusCount = new StatusCount(status);
 			statusCount.putCount(uri, count,responseTime);
-			this.statusCounterList.add(statusCount);
+			statusCounterList.add(statusCount);
 		}
 
 		/**
@@ -268,15 +282,15 @@ public class MonitorInfo {
 		 * @author LiuHG
 		 * @version 1.0
 		 */
-		public class StatusCount{
+		public static class StatusCount{
 			private final int status;
-			private Map<String,StatusMetrics> requestMap = new HashMap<>();
+			private final Map<String,StatusMetrics> requestMap = new HashMap<>();
 			
-			private StatusCount(int status){
+			public StatusCount(int status){
 				this.status = status;
 			}
 			
-			public void putCount(String uri,int count,int responseTime){
+			public void putCount(String uri,int count,double responseTime){
 				requestMap.put(uri, new StatusMetrics(count,responseTime));
 			}
 			
@@ -293,27 +307,29 @@ public class MonitorInfo {
 				return status;
 			}
 			
-		}
-		
-		public class StatusMetrics{
-			private final int count;
-			private final int responseTime;
-			
-			public StatusMetrics(int count, int responseTime) {
-				super();
-				this.count = count;
-				this.responseTime = responseTime;
+			public Map<String, StatusMetrics> getStatusMetrics() {
+				return Collections.unmodifiableMap(requestMap);
 			}
 
-			public int getCount() {
-				return count;
-			}
+			public static class StatusMetrics{
+				private final int count;
+				private final double responseTime;
+				
+				public StatusMetrics(int count, double responseTime) {
+					super();
+					this.count = count;
+					this.responseTime = responseTime;
+				}
 
-			public int getResponseTime() {
-				return responseTime;
+				public int getCount() {
+					return count;
+				}
+
+				public double getResponseTime() {
+					return responseTime;
+				}
 			}
 		}
-		
 	}
 	
 }

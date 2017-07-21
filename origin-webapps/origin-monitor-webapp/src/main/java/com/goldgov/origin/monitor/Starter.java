@@ -25,5 +25,16 @@ public class Starter extends SpringBootServletInitializer implements WebApplicat
     public static void main( String[] args ) {
     	SpringApplication.run(new Object[]{Starter.class}, args);
     }
-
+    
+//    @Bean("dataSource")
+//    public RoutingDataSource routingDataSource(List<DataSource> dataSources){
+//    	RoutingDataSource routingDataSource = new RoutingDataSource(dataSources);
+//    	return routingDataSource;
+//    }
+//
+//    @Bean(name="dataSource1")  
+//	@ConfigurationProperties(prefix="spring.datasource")  
+//	public DataSource dataSource(){
+//		return DataSourceBuilder.create().build();//此类只支持部分数据源DataSourceBuilder.DATA_SOURCE_TYPE_NAMES来查看
+//	}
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.util.Assert;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -26,9 +28,7 @@ public class ServiceServer {
 	private String serverName;//rpc服务器的机器名
 	private int serverPort;//rpc服务器的RPC端口,如果该应用中没有服务，则该值为0
 	
-	private String healthPath;
-	private String updatePath;
-	private String configPath;
+	private String webPath;
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date registerDate;
@@ -80,22 +80,6 @@ public class ServiceServer {
 		this.serverPort = serverPort;
 	}
 
-	public String getHealthPath() {
-		return healthPath;
-	}
-
-	public void setHealthPath(String healthPath) {
-		this.healthPath = healthPath;
-	}
-
-	public String getUpdatePath() {
-		return updatePath;
-	}
-
-	public void setUpdatePath(String updatePath) {
-		this.updatePath = updatePath;
-	}
-
 	public List<RpcServiceInstance> getServiceList() {
 		return serviceList;
 	}
@@ -140,14 +124,6 @@ public class ServiceServer {
 		this.applicationName = applicationName;
 	}
 
-	public String getConfigPath() {
-		return configPath;
-	}
-
-	public void setConfigPath(String configPath) {
-		this.configPath = configPath;
-	}
-	
 	public double getWeights() {
 		return weights;
 	}
@@ -190,6 +166,34 @@ public class ServiceServer {
 
 	public void setServerID(String serverID) {
 		this.serverID = serverID;
+	}
+
+	public String getWebPath() {
+		return webPath;
+	}
+
+	public void setWebPath(String webPath) {
+		this.webPath = webPath;
+	}
+
+	public String getHealthPath() {
+		Assert.notNull(webPath,"webPath is required");
+		return webPath + "/health";
+	}
+
+	public String getUpdatePath() {
+		Assert.notNull(webPath,"webPath is required");
+		return webPath + "/update";
+	}
+
+	public String getConfigPath() {
+		Assert.notNull(webPath,"webPath is required");
+		return webPath + "/config";
+	}
+	
+	public String getMetricsPath(){
+		Assert.notNull(webPath,"webPath is required");
+		return webPath + "/metrics";
 	}
 
 	

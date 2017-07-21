@@ -56,6 +56,7 @@ public class PostRequest implements Request<HttpPost>{
 		RequestConfig requestConfig = RequestConfig.custom()
 				.setSocketTimeout(timeout)
 				.setConnectTimeout(timeout)
+//				.setCookieSpec(CookieSpecs.IGNORE_COOKIES)
 				.build();
 		
 		httpPost.setConfig(requestConfig);

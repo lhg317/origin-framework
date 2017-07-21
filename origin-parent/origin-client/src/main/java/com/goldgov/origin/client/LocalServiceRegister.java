@@ -50,17 +50,20 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	@Autowired
 	private ClientConfig clientConfig;
 	
-	@Value("${server.port}")
+	@Value("${server.port:80}")
 	private int serverPort;
 	
 	@Value("${server.context-path:}")
 	private String contextPath;
 	
-	@Value("${discovery.client.update-path}")
-	private String updatePath;
+//	@Value("${discovery.client.update-path}")
+//	private String updatePath;
+//	
+//	@Value("${discovery.client.health-path:}")
+//	private String healthPath;
 	
-	@Value("${discovery.client.health-path:}")
-	private String healthPath;
+	@Value("${discovery.client.web-path:}")
+	private String webPath;
 	
 	@Value("${application.name:Unspecified}")
 	private String applicationName;
@@ -68,8 +71,11 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	@Value("${server.display-name:Unspecified}")
 	private String displayName;
 	
-	@Value("${discovery.config.config-path:}")
-	private String configPath;
+//	@Value("${discovery.config.config-path:}")
+//	private String configPath;
+	
+	@Value("${server.ssl.enabled:false}")
+	private boolean sslEnabled;
 	
 	
 	public void register(){
@@ -95,13 +101,15 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 				if(rpcServer.isServing()){
 					localService.setServerPort(rpcServer.getPort());
 				}
-				//FIXME
-				if(healthPath == null || "".equals(healthPath)){
-					healthPath = "http://{serverIP}:" + serverPort + contextPath + "/health";
+
+				if(webPath == null || "".equals(webPath)){
+					String protocol = sslEnabled ? "https":"http";
+					webPath = protocol + "://{serverIP}:" + serverPort + contextPath;
 				}
-				localService.setHealthPath(healthPath);
-				localService.setUpdatePath(updatePath);
-				localService.setConfigPath(configPath);
+				localService.setWebPath(webPath);
+//				localService.setHealthPath(healthPath);
+//				localService.setUpdatePath(updatePath);
+//				localService.setConfigPath(configPath);
 				
 				for (RpcServiceProxy rpcServiceObject : rpcServiceList) {
 					RpcServiceInstance registeredService = new RpcServiceInstance(rpcServiceObject.getServiceName(),localService);

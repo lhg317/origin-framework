@@ -36,6 +36,7 @@ public class DeleteRequest implements Request<HttpDelete>{
 		RequestConfig requestConfig = RequestConfig.custom()
 				.setSocketTimeout(timeout)
 				.setConnectTimeout(timeout)
+//				.setCookieSpec(CookieSpecs.IGNORE_COOKIES)
 				.build();
 		httpDelete.setConfig(requestConfig);
 		return httpDelete;
