@@ -37,6 +37,7 @@ public class RemoteAuthenticationFilter extends GenericFilterBean{
 			}
 
 			List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
+			//FIXME
 	        grantedAuths.add(new SimpleGrantedAuthority("ACTUATOR"));
 			RemoteAuthenticationToken remoteAuthenticationToken = new RemoteAuthenticationToken(code,expiresMill,grantedAuths);
 			SecurityContextHolder.getContext().setAuthentication(remoteAuthenticationToken);
