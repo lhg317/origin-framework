@@ -39,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //	@Value("${discovery.client.update-path}")
 //	private String updatePath;
 	
-	@Autowired
+	@Autowired(required=false)
 	private CustomAuthenticationProvider authenticationProvider;
 	
 	@Autowired(required=false)
@@ -60,14 +60,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(new CustomUserDetailsService());
-        auth.authenticationProvider(authenticationProvider);
+    	if(authenticationProvider == null){
+    		auth.authenticationProvider(defaultAuthenticationProvider());
+    	}else{
+    		auth.authenticationProvider(authenticationProvider);
+    	}
         auth.authenticationProvider(new RemoteAuthenticationProvider());
 //      auth.eraseCredentials(false);
     }
     
     @Bean
     @ConditionalOnMissingBean(CustomAuthenticationProvider.class)
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider defaultAuthenticationProvider(){
     	return new DefaultAuthenticationProvider();
     }
     

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.goldgov.origin.config.service.ConfigService;
 
 @Controller
-@RequestMapping("config")
+//@RequestMapping("config")
 public class ConfigController {
 	
 	@Autowired
