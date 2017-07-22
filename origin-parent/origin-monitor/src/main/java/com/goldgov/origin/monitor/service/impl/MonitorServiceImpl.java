@@ -43,6 +43,8 @@ public class MonitorServiceImpl implements MonitorService{
 	@Autowired(required=false)
 	private MetricsPropertyMapper metricsPropertyMapper;
 	
+	HttpRequestClient httpRequestClient = new HttpRequestClient();
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<MonitorInfo> getAllServerMonitorInfo() {
@@ -54,8 +56,10 @@ public class MonitorServiceImpl implements MonitorService{
 		long expires = System.currentTimeMillis() + DEFAULT_EXPIRES_MILLISECOND;
 		String md5Hex = DigestUtils.md5Hex(user + password + role + expires);
 		
-		HttpRequestClient httpRequestClient = new HttpRequestClient();
-		try{
+//		System.out.println("#### " + expires + " - " + new Date(expires).toLocaleString());
+		
+//		HttpRequestClient httpRequestClient = new HttpRequestClient();
+//		try{
 			for (ServiceServer serviceServer : allMonitorServer) {
 				
 				GetRequest request = new GetRequest(serviceServer.getMetricsPath() + "?expires=" + expires + "&code=" + md5Hex ,false);
@@ -76,9 +80,9 @@ public class MonitorServiceImpl implements MonitorService{
 					throw new RuntimeException("获取网关服务监控指标时出现错误：" + serviceServer.getMetricsPath(), e);
 				}
 			}
-		}finally {
-			httpRequestClient.close();
-		}
+//		}finally {
+//			httpRequestClient.close();
+//		}
 		
 		
 		return result;
@@ -86,7 +90,6 @@ public class MonitorServiceImpl implements MonitorService{
 
 	@Override
 	public List<ServiceServer> getAllMonitorServer() {
-		HttpRequestClient httpRequestClient = new HttpRequestClient();
 		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceServer.ServiceType.ProducerService);
 		try {
 			Response response = httpRequestClient.sendRequest(request);
@@ -97,9 +100,10 @@ public class MonitorServiceImpl implements MonitorService{
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("获取所有网关服务时出现错误" , e);
-		}finally {
-			httpRequestClient.close();
 		}
+//		finally {
+//			httpRequestClient.close();
+//		}
 		return Collections.emptyList();
 	}
 	

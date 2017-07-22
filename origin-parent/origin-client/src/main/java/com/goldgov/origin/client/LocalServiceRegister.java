@@ -155,14 +155,14 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 								logger.error("注册失败：" + localService + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");
 							}
 						}else{
-							logger.error("注册失败：" + localService + "，错误明细：" + response.toString() + "，" + RETRY_INTERVAL + "后重试");
+							logger.warn("注册失败：" + localService + "，错误明细：" + response.toString() + "，" + RETRY_INTERVAL + "后重试");
 						}
 					} catch (Exception e) {
 						failTimes++;
 						if(logger.isDebugEnabled()){
 							logger.debug("registration server failed.fail times:" + failTimes + ",Retry after " + RETRY_INTERVAL + "ms", e);
 						}
-						logger.error("registration server failed:"+e.getMessage()+".fail times:" + failTimes + ",Retry after " + RETRY_INTERVAL + "ms" + ",full stack in debug level");
+						logger.warn("registration server failed:"+e.getMessage()+".fail times:" + failTimes + ",Retry after " + RETRY_INTERVAL + "ms" + ",full stack in debug level");
 					}finally{
 						requestClient.close();
 					}
@@ -235,10 +235,10 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			serviceTypeList.add(ServiceType.DiscoveryService);
 		} catch (ClassNotFoundException e) {}
 		
-		//判断是否为注册发现服务
+		//判断是否为配置服务
 		try {
-			Class.forName("com.goldgov.origin.server.service.DiscoveryServerService");
-			serviceTypeList.add(ServiceType.DiscoveryService);
+			Class.forName("com.goldgov.origin.config.ConfigConfiguration");
+			serviceTypeList.add(ServiceType.ConfigurationService);
 		} catch (ClassNotFoundException e) {}
 				
 //		//判断是否为网关服务

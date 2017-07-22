@@ -1,4 +1,4 @@
-package com.goldgov.origin.security.filter;
+package com.goldgov.origin.security.authentication.remote;
 
 import java.util.Date;
 import java.util.MissingResourceException;
@@ -9,8 +9,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-
-import com.goldgov.origin.security.authentication.RemoteAuthenticationToken;
 
 public class RemoteAuthenticationProvider implements AuthenticationProvider{
 
@@ -36,6 +34,7 @@ public class RemoteAuthenticationProvider implements AuthenticationProvider{
 		String md5Hex = DigestUtils.md5Hex(user + password + role + token.getExpires());
 		if(md5Hex.equals(principal.toString())){
 			if(expiresDate.before(new Date())){
+//				System.out.println("#### " + token.getExpires() + " - " + expiresDate.toLocaleString() + " not before " + new Date().toLocaleString());
 				throw new BadCredentialsException("监控登录被拒绝，您提供的凭证已过期");
 			}
 			return authentication;

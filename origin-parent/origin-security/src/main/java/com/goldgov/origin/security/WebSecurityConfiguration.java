@@ -25,8 +25,8 @@ import org.springframework.security.web.authentication.rememberme.RememberMeAuth
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import com.goldgov.origin.security.filter.RemoteAuthenticationFilter;
-import com.goldgov.origin.security.filter.RemoteAuthenticationProvider;
+import com.goldgov.origin.security.authentication.remote.RemoteAuthenticationProvider;
+import com.goldgov.origin.security.filter.remote.RemoteAuthenticationFilter;
 
 @Configurable
 //@EnableWebSecurity
