@@ -50,10 +50,10 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 			httpClient.close();
 		}
 		
-		//从远程配置中心获取配置更新当前应用中的配置。
 		if(serviceServers == null || serviceServers.length == 0){
 			return;
 		}
+		//从远程配置中心获取配置更新当前应用中的配置。
 		String applicationName = environment.getProperty("application.name");
 //		String securityCode = environment.getProperty("discovery.config.security-code");
 		request = new GetRequest(serviceServers[0].getConfigPath() + "?applicationName=" + applicationName);
@@ -65,16 +65,17 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 			if(sendRequest.isSuccess()){
 				configValueMap = sendRequest.toObject(Map.class);
 			}else{
-				logger.error("从配置中心获取配置信息出错: " + serviceServers[0].getConfigPath() + ",status code : " + sendRequest.getStatusCode() + ",return content : " + sendRequest.toString());
+				throw new RuntimeException("从配置中心获取配置信息出错: " + serviceServers[0].getConfigPath() + ",status code : " + sendRequest.getStatusCode() + ",return content : " + sendRequest.toString());
 			}
 		} catch (Exception e) {
-			logger.error("从配置中心获取配置信息出错: " + serviceServers[0].getConfigPath(),e);
+			throw new RuntimeException("从配置中心获取配置信息出错: " + serviceServers[0].getConfigPath(),e);
 		}finally{
 			httpClient.close();
 		}
 		PropertySource<?> propertySource = new MapPropertySource("configServiceServer", configValueMap);
 		environment.getPropertySources().addFirst(propertySource);//.getPropertySources().replace("datasource.c3p0.url", mapPropertySource);
 		environment.getPropertySources().get("applicationConfigurationProperties");
+		logger.info("从配置中心更新配置成功: " + serviceServers[0].getConfigPath());
 	}
 	
 }
