@@ -16,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import com.goldgov.origin.core.discovery.IsWebGate;
 import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
@@ -30,6 +31,7 @@ import com.goldgov.origin.core.utils.ArrayUtils;
  * 本地服务注册器，负责将本地含有的服务注册到服务中心。如果注册失败则默认等待5秒后继续尝试，直到成功为止。
  * 注册服务是以Http方式注册到服务中心，因此本注册服务保证了注册行为在容器启动之后执行。当本地服务注册成功后，
  * 则注册器的工作即结束，退出线程。
+ * 该类必须在主线程中执行，否则可能导致获取网关服务类型错误。
  * @author LiuHG
  * @since 1.0
  */
@@ -77,8 +79,17 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	@Value("${server.ssl.enabled:false}")
 	private boolean sslEnabled;
 	
+	private boolean started = false;
 	
-	public void register(){
+	private boolean isWebGate = false;
+	
+	public synchronized void register(){
+		if(started){
+			logger.info("Register thread already running.");
+			return;
+		}
+		started = true;
+		
 		final String discoveryServer = clientConfig.getDiscoveryServer();
 		Assert.hasText(discoveryServer,"discovery server is not specified.");
 		
@@ -89,6 +100,9 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 //		}
 		final String[] optional = getOptionalModules();
 		
+		//判断是否为网关服务
+		isWebGate = isWebGate();
+
 		new Thread("ServiceRegister"){
 
 			private int failTimes; 
@@ -128,7 +142,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 						}
 					}
 				}
-				
+
 				localService.setServiceType(getServiceType());
 				if(applicationName != null && !"".equals(applicationName)){
 					localService.setApplicationName(applicationName);
@@ -174,6 +188,27 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			
 		}.start();
 		
+	}
+
+	private boolean isWebGate() {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		StackTraceElement stackTraceElement = stackTrace[stackTrace.length - 1];
+		if ("main".equals(stackTraceElement.getMethodName())) {
+			try {
+				Class<?>[] interfaces = Class.forName(stackTraceElement.getClassName()).getInterfaces();
+				for (Class<?> interfaceClass : interfaces) {
+					if(interfaceClass == IsWebGate.class){
+						return true;
+					}
+				}
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			
+		}else if("run".equals(stackTraceElement.getMethodName())){
+			throw new RuntimeException("获取网关类型失败，注册器被非主线程调用。");
+		}
+		return false;
 	}
 
 	private String[] getOptionalModules() {
@@ -229,6 +264,11 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			}
 		}
 		
+		//判断是否为网关服务
+		if(isWebGate){
+			serviceTypeList.add(ServiceType.WebGateService);
+		}
+		
 		//判断是否为注册发现服务
 		try {
 			Class.forName("com.goldgov.origin.server.service.DiscoveryServerService");
@@ -241,16 +281,6 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			serviceTypeList.add(ServiceType.ConfigurationService);
 		} catch (ClassNotFoundException e) {}
 				
-//		//判断是否为网关服务
-//		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-//		for (StackTraceElement stackTraceElement : stackTrace) {
-//			if ("main".equals(stackTraceElement.getMethodName())) {
-//				if(stackTraceElement.getClassName().endsWith("Starter")){
-//					serviceTypeList.add(ServiceType.WebGateService);
-//				}
-//			}
-//		}
-		
 		//判断是否为注册发现服务
 		try {
 			Class.forName("com.goldgov.origin.monitor.MonitorConfiguration");

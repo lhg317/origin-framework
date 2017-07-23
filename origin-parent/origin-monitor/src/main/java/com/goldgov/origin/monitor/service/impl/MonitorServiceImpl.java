@@ -21,6 +21,11 @@ import com.goldgov.origin.monitor.service.MetricsPropertyMapper;
 import com.goldgov.origin.monitor.service.MonitorInfo;
 import com.goldgov.origin.monitor.service.MonitorService;
 
+/**
+ * 仅监控网关服务
+ * @author LiuHG
+ * @version 1.0
+ */
 @Service
 public class MonitorServiceImpl implements MonitorService{
 
@@ -90,7 +95,7 @@ public class MonitorServiceImpl implements MonitorService{
 
 	@Override
 	public List<ServiceServer> getAllMonitorServer() {
-		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceServer.ServiceType.ProducerService);
+		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceServer.ServiceType.WebGateService);
 		try {
 			Response response = httpRequestClient.sendRequest(request);
 			if(response.isSuccess()){
