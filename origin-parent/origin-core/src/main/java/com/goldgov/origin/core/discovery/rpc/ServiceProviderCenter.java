@@ -128,7 +128,7 @@ public class ServiceProviderCenter{
 	public SocketProvider getSocketProvider(String serviceName){
 		List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
 		//////////////////////////////////////////////////////////////////////////////////////////
-		if(serviceList == null){
+		if(serviceList == null || serviceList.size() == 0){
 			List<ServiceServer> serviceObjectList = getServiceServer(serviceName);
 			if(serviceObjectList != null && serviceObjectList.size() > 0){
 				for (ServiceServer serviceObject : serviceObjectList) {

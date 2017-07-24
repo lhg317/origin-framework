@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import com.goldgov.origin.modules.auth.api.RpcAuthAccountService;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.user.api.RpcUser;
@@ -34,8 +35,18 @@ public class RememberMeDetailsService implements RememberMeUserDetailsService{
 	@Qualifier("rpcRoleService.Client")
 	private RpcRoleService.Iface roleService;
 	
+	@Autowired
+	@Qualifier("rpcAuthAccountService.Client")
+	private RpcAuthAccountService.Iface authAccountService;
+	
 	@Override
 	public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
+		String password = null;
+		try {
+			password = authAccountService.getPassword(loginName);
+        } catch (Exception e) {
+			throw new RuntimeException("获取用户认证信息时出现错误：" + loginName,e);
+        }
 		RpcUser user = null;
 		try {
 			user = userService.getUserByLoginName(loginName);
@@ -57,7 +68,7 @@ public class RememberMeDetailsService implements RememberMeUserDetailsService{
 			throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
 		}
 		
-        UserToken userToken = new UserToken(user.getLoginName(),user.getPassword(),user.getUserName(),grantedAuths);
+        UserToken userToken = new UserToken(loginName,password,user.getUserName(),grantedAuths);
 		return userToken;
 	}
 

@@ -266,6 +266,10 @@ public class MonitorInfo {
 		}
 		
 		public void addStatusCount(int status,String uri,int count,double responseTime) {
+			//如果是监控指标，则不加入到统计结果中。
+			if(uri.equals("/metrics") || uri.equals("/config") || uri.equals("/health")){
+				return;
+			}
 			for (StatusCount _statusCount : statusCounterList) {
 				if(_statusCount.getStatus() == status){
 					_statusCount.putCount(uri, count, responseTime);

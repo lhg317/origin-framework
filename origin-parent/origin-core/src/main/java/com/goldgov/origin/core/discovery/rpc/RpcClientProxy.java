@@ -135,7 +135,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 						retry--;
 						//业务异常处理
 					}catch(InvocationTargetException ex){
-						Throwable targetException = ex.getTargetException();
+						Throwable targetException = ex.getTargetException();//targetException.getCause() == SocketTimeoutException
 						throw targetException;
 					}
 				}

@@ -12,7 +12,6 @@ import com.goldgov.origin.modules.user.event.UserEvent;
 import com.goldgov.origin.modules.user.exception.UserExistException;
 import com.goldgov.origin.modules.user.exception.UserNameCheckFailException;
 import com.goldgov.origin.modules.user.service.Group;
-import com.goldgov.origin.modules.user.service.PasswordEncoder;
 import com.goldgov.origin.modules.user.service.User;
 import com.goldgov.origin.modules.user.service.UserNameChecker;
 import com.goldgov.origin.modules.user.service.UserQuery;
@@ -30,9 +29,6 @@ public class UserServiceImpl implements UserService{
 	@Autowired(required=false)
 	private UserNameChecker userNameChecker;
 	
-	@Autowired(required=false)
-	private PasswordEncoder passwordEncoder;
-	
 	@Override
 	public void addUser(User user) throws UserExistException, UserNameCheckFailException {
 		if(existUser(user.getLoginName())){
@@ -41,8 +37,6 @@ public class UserServiceImpl implements UserService{
 		if(!checkUserName(user.getUserName())){
 			throw new UserNameCheckFailException(user.getLoginName());
 		}
-		
-		user.setPassword(getPasswordEncoder().encode(user.getPassword()));
 		
 		processBeforeEvent(AddUserEvent.class,user);
 		userDao.addUser(user);
@@ -114,19 +108,6 @@ public class UserServiceImpl implements UserService{
 				userEvent.onAfterEvent(obj);
 			}
 		}
-	}
-
-	public PasswordEncoder getPasswordEncoder() {
-		if(passwordEncoder == null){
-			passwordEncoder = new Md5PasswordEncoder();
-		}
-		return passwordEncoder;
-	}
-
-	@Override
-	public void updatePassword(String loginName, String oldPassword, String newPassword) {
-		PasswordEncoder encoder = getPasswordEncoder();
-		userDao.updatePassword(loginName, encoder.encode(oldPassword), encoder.encode(newPassword));
 	}
 
 	@Override

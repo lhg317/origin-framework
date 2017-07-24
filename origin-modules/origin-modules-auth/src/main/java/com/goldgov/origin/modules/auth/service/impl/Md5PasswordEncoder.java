@@ -1,10 +1,10 @@
-package com.goldgov.origin.modules.user.service.impl;
+package com.goldgov.origin.modules.auth.service.impl;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.goldgov.origin.modules.user.service.PasswordEncoder;
+import com.goldgov.origin.modules.auth.service.PasswordEncoder;
 
 public class Md5PasswordEncoder implements PasswordEncoder {
 

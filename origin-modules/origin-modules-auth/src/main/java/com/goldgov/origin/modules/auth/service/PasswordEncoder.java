@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.user.service;
+package com.goldgov.origin.modules.auth.service;
 
 public interface PasswordEncoder {
 

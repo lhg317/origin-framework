@@ -52,6 +52,7 @@ public class MyBatisConfiguration {
 		sessionFactory.setDataSource(dataSource);
 		
 		sessionFactory.setPlugins(new Interceptor[]{interceptor});
+//		sessionFactory.setTypeAliases(new Class<?>[]{MyLanguageDriver.class});
 		
 //		sessionFactory.setConfigurationProperties(properties);
 		
