@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
+import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.rpc.loadbalancer.IRule;
 
 /**
@@ -25,12 +25,12 @@ public class RoundRobinRule implements IRule {
 	}
 
 	@Override
-	public RpcServiceInstance choose(List<RpcServiceInstance> allServers,Object key) {
+	public ServiceServer choose(List<ServiceServer> allServers,Object key) {
 		if (allServers == null) {
 			log.warn("no service ");
 			return null;
 		}
-		RpcServiceInstance service = null;
+		ServiceServer service = null;
         int count = 0;
         while (service == null && count++ < 10) {
 //            List<RpcServiceInstance> reachableServers = getReachableServers(allServers);

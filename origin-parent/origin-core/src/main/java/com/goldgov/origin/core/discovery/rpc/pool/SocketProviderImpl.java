@@ -7,7 +7,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.transport.TTransport;
 import org.springframework.beans.factory.DisposableBean;
 
-import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
+import com.goldgov.origin.core.discovery.ServiceServer;
 
 public class SocketProviderImpl implements SocketProvider, DisposableBean{
 
@@ -34,9 +34,9 @@ public class SocketProviderImpl implements SocketProvider, DisposableBean{
 		this.timeout = timeout;
 	}
 	
-	public SocketProviderImpl(RpcServiceInstance service, int timeout) {
-		this.serviceIP = service.getServiceServer().getServerIP();
-		this.servicePort = service.getServiceServer().getServerPort();
+	public SocketProviderImpl(ServiceServer service, int timeout) {
+		this.serviceIP = service.getServerIP();
+		this.servicePort = service.getServerPort();
 		this.timeout = timeout;
 		
 		init();
@@ -86,5 +86,46 @@ public class SocketProviderImpl implements SocketProvider, DisposableBean{
             throw new RuntimeException("error returnCon()", e);
         }
 	}
+
+	/**
+	 * 池中被借的对象实例数量
+	 * @return
+	 */
+	public int getNumActive() {
+		return objectPool.getNumActive();
+	}
+
+	/**
+	 * 池中最多的空闲对象实例数量
+	 * @return
+	 */
+	public int getMaxIdle() {
+		return objectPool.getMaxIdle();
+	}
+
+	/**
+	 * 池中最多能包含多少对象，负数表示不限制
+	 * @return
+	 */
+	public final int getMaxTotal() {
+		return objectPool.getMaxTotal();
+	}
+
+	/**
+	 * 池中最小对象数量，需要配合getTimeBetweenEvictionRunsMillis()才生效
+	 * @return
+	 */
+	public int getMinIdle() {
+		return objectPool.getMinIdle();
+	}
+
+	/**
+	 * 池中空闲对象的数量，近似于可借用对象的数量，如果此参数不可用则返回负数
+	 * @return
+	 */
+	public int getNumIdle() {
+		return objectPool.getNumIdle();
+	}
+
 
 }

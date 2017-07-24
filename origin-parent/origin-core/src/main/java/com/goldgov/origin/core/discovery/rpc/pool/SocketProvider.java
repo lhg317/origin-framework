@@ -10,4 +10,8 @@ public interface SocketProvider {
 	
 	public void destroy();
 	
+	public int getNumActive();
+	
+	public int getMaxTotal();
+	
 }

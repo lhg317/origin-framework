@@ -2,7 +2,7 @@ package com.goldgov.origin.core.discovery.rpc.loadbalancer;
 
 import java.util.List;
 
-import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
+import com.goldgov.origin.core.discovery.ServiceServer;
 
 /**
  * 负载策略
@@ -17,6 +17,6 @@ public interface IRule {
 	 * @param key 服务标识名，此处为服务标识名
 	 * @return 根据负载策略计算后的服务实例
 	 */
-	public RpcServiceInstance choose(List<RpcServiceInstance> servers,Object key);
+	public ServiceServer choose(List<ServiceServer> servers,Object key);
 
 }

@@ -8,7 +8,7 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
+import com.goldgov.origin.core.discovery.ServiceServer;
 
 /**
  * 加权循环负载规则<p>
@@ -34,13 +34,13 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
 	private WeightComparator weightComparator = new WeightComparator();
 	
 	@Override
-	public RpcServiceInstance choose(List<RpcServiceInstance> allServers, Object key) {
+	public ServiceServer choose(List<ServiceServer> allServers, Object key) {
 		
 		if (allServers == null) {
 			log.warn("no service ");
 			return null;
 		}
-		RpcServiceInstance server = null;
+		ServiceServer server = null;
 		
         while (server == null) {
         	
@@ -59,8 +59,8 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
             double maxTotalWeight = 0;// = currentWeights.size() == 0 ? 0 : currentWeights.get(currentWeights.size() - 1); 
             if(allServers.size() > 0){
             	sortByWeight(allServers);
-            	RpcServiceInstance maxWeightService = allServers.get(allServers.size() - 1);
-            	maxTotalWeight = maxWeightService.getServiceServer().getWeights();
+            	ServiceServer maxWeightService = allServers.get(allServers.size() - 1);
+            	maxTotalWeight = maxWeightService.getWeights();
             }
             
             if (maxTotalWeight < 0.001d) {
@@ -73,8 +73,8 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
                 double randomWeight = random.nextDouble() * maxTotalWeight;
                 // 基于随机数权重取出对应的RPC服务索引号
                 int n = 0;
-                for (RpcServiceInstance service : allServers) {
-                    if (service.getServiceServer().getWeights() >= randomWeight) {
+                for (ServiceServer service : allServers) {
+                    if (service.getWeights() >= randomWeight) {
                         serverIndex = n;
                     } else {
                         n++;
@@ -89,7 +89,7 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
                 continue;
             }
 
-            log.debug("service " + key + " on : " + server.getServiceServer().getRpcServerAddress());
+            log.debug("service " + key + " on : " + server.getRpcServerAddress());
             return server;
 //            if (server.getState() == ServiceState.AVAILABLE) {
 //            	log.debug("service " + key + " on : " + server.getHostAddress());
@@ -103,15 +103,15 @@ public class WeightedRoundRobinRule extends RoundRobinRule{
         return server;
 	}
 	
-	private void sortByWeight(List<RpcServiceInstance> weights) {
+	private void sortByWeight(List<ServiceServer> weights) {
         Collections.sort(weights, weightComparator);
     }
 	
-	public static class WeightComparator implements Comparator<RpcServiceInstance>{
+	public static class WeightComparator implements Comparator<ServiceServer>{
 
 		@Override
-		public int compare(RpcServiceInstance arg0, RpcServiceInstance arg1) {
-			return arg0.getServiceServer().getWeights()>arg1.getServiceServer().getWeights() ? 1 : 0;
+		public int compare(ServiceServer arg0, ServiceServer arg1) {
+			return arg0.getWeights()>arg1.getWeights() ? 1 : 0;
 		}
 		
 	}

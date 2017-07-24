@@ -2,7 +2,6 @@ package com.goldgov.origin.core.discovery.rpc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,7 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.GaugeService;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
@@ -30,8 +31,9 @@ public class ServiceProviderCenter{
 
 	private final Log logger = LogFactory.getLog(getClass());
 	
-	private Map<String,List<RpcServiceInstance>> serviceMap = new ConcurrentHashMap<String,List<RpcServiceInstance>>();
-	private Map<RpcServiceInstance,SocketProvider> socketProviderMap = new ConcurrentHashMap<RpcServiceInstance,SocketProvider>();
+	private Map<String,List<ServiceServer>> serviceMap = new ConcurrentHashMap<String,List<ServiceServer>>();
+	//key：ServiceServer.getServerID(); 服务器ID，value：一个TSocket对象池，每台服务器一个池
+	private Map<String,SocketProvider> socketProviderMap = new ConcurrentHashMap<String,SocketProvider>();
 	
 	private Map<String,IRule> ruleMap = new ConcurrentHashMap<String,IRule>();
 	
@@ -43,6 +45,8 @@ public class ServiceProviderCenter{
 	@Value("${rpc.connect.timeout:3000}")
 	private int rpcTimeout;
 	
+	@Autowired(required=false)
+	private GaugeService gaugeService;
 	
 	public void clearServerCache(){
 		serviceMap.clear();
@@ -63,19 +67,19 @@ public class ServiceProviderCenter{
 		}
 	}
 	
-	public synchronized void registerService(String serviceName,RpcServiceInstance service){
+	public synchronized void registerService(String serviceName,ServiceServer server){
 		if(serviceMap.containsKey(serviceName)){
-			List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
-			if(!hasService(serviceList,service)){
-				serviceList.add(service);
+			List<ServiceServer> serviceList = serviceMap.get(serviceName);
+			if(!hasService(serviceList,server)){
+				serviceList.add(server);
 			}
 		}else{
-			List<RpcServiceInstance> serviceList = new ArrayList<RpcServiceInstance>();
-			serviceList.add(service);
-			serviceMap.put(serviceName, serviceList);
+			List<ServiceServer> serverList = new ArrayList<ServiceServer>();
+			serverList.add(server);
+			serviceMap.put(serviceName, serverList);
 		}
 		if(logger.isInfoEnabled()){
-			logger.info("The new service is registered:"+serviceName+",at " + service.getServiceServer().getRpcServerAddress() + ".service num:" + serviceMap.size() + ",socketProvider:" + socketProviderMap.size());
+			logger.info("The new service is registered:"+serviceName+",at " + server.getRpcServerAddress() + ".service num:" + serviceMap.size() + ",socketProvider:" + socketProviderMap.size());
 		}
 	}
 	
@@ -85,12 +89,16 @@ public class ServiceProviderCenter{
 	 * @param socketProvider
 	 */
 	synchronized void deleteService(String serviceName,SocketProvider socketProvider){
-		Set<RpcServiceInstance> keySet = socketProviderMap.keySet();
-		for (RpcServiceInstance service : keySet) {
-			SocketProvider _socketProvider = socketProviderMap.get(service);
+		Set<String> keySet = socketProviderMap.keySet();
+		for (String serverID : keySet) {
+			SocketProvider _socketProvider = socketProviderMap.get(serverID);
 			if(_socketProvider.equals(socketProvider)){
-				List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
-				serviceList.remove(service);
+				List<ServiceServer> serviceList = serviceMap.get(serviceName);
+				for (ServiceServer serviceServer : serviceList) {
+					if(serviceServer.getServerID().equals(serverID)){
+						serviceList.remove(serviceServer);
+					}
+				}
 				_socketProvider.destroy();
 				socketProviderMap.remove(_socketProvider);
 				break;
@@ -99,46 +107,54 @@ public class ServiceProviderCenter{
 	}
 	
 	
-	public void deleteService(String serviceName){
-		List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
-		if(serviceList != null){
-			for (RpcServiceInstance service : serviceList) {
-				socketProviderMap.remove(service);
-			}
-			serviceMap.remove(serviceName);
-		}
-	}
-	
-	public void deleteService(String serverIP, int serverPort){
-		Collection<List<RpcServiceInstance>> allServices = serviceMap.values();
-		if(allServices != null && allServices.size() > 0){
-			for (List<RpcServiceInstance> serviceList : allServices) {
-				for (RpcServiceInstance _service : serviceList) {
-					if(_service.getServiceServer().getServerIP().equals(serverIP) && _service.getServiceServer().getServerPort() == serverPort){
-						socketProviderMap.remove(_service);
-//						serviceMap.remove(_service);
-						serviceList.remove(_service);
-						break;
-					}
-				}
-			}
-		}
-	}
+//	public void deleteService(String serviceName){
+//		List<ServiceServer> serviceList = serviceMap.get(serviceName);
+//		if(serviceList != null){
+//			for (ServiceServer server : serviceList) {
+//				socketProviderMap.remove(server);
+//			}
+//			serviceMap.remove(serviceName);
+//		}
+//	}
+//	
+//	public void deleteService(String serverIP, int serverPort){
+//		Collection<List<ServiceServer>> allServer = serviceMap.values();
+//		if(allServer != null && allServer.size() > 0){
+//			for (List<ServiceServer> serverList : allServer) {
+//				for (ServiceServer _server : serverList) {
+//					if(_server.getServerIP().equals(serverIP) && _server.getServerPort() == serverPort){
+//						socketProviderMap.remove(_server);
+////						serviceMap.remove(_service);
+//						serverList.remove(_server);
+//						break;
+//					}
+//				}
+//			}
+//		}
+//	}
 	
 	public SocketProvider getSocketProvider(String serviceName){
-		List<RpcServiceInstance> serviceList = serviceMap.get(serviceName);
+		List<ServiceServer> serverList = serviceMap.get(serviceName);
 		//////////////////////////////////////////////////////////////////////////////////////////
-		if(serviceList == null || serviceList.size() == 0){
+		if(serverList == null || serverList.size() == 0){
 			List<ServiceServer> serviceObjectList = getServiceServer(serviceName);
 			if(serviceObjectList != null && serviceObjectList.size() > 0){
 				for (ServiceServer serviceObject : serviceObjectList) {
-					registerService(serviceName,serviceObject.getService(serviceName));
+					/*
+					 * 虽然返回当前服务的服务器对象可能还有其他很多服务，但是此处并不要对其进行注册，
+					 * 只有当需要对应服务的时候才去获取新的。
+					 */
+					registerService(serviceName,serviceObject);
+//					List<RpcServiceInstance> serviceList = serviceObject.getServiceList();
+//					for (RpcServiceInstance rpcServiceInstance : serviceList) {
+//						registerService(rpcServiceInstance.getServiceName(),serviceObject);
+//					}
 				}
-				serviceList = serviceMap.get(serviceName);
+				serverList = serviceMap.get(serviceName);
 			}
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////
-		if(serviceList == null || serviceList.size() == 0){
+		if(serverList == null || serverList.size() == 0){
 			throw new RuntimeException("当前服务群中没有服务："+serviceName);
 		}
 		
@@ -149,33 +165,38 @@ public class ServiceProviderCenter{
 			rule = new WeightedRoundRobinRule();
 			ruleMap.put(serviceName, rule);
 		}
-		RpcServiceInstance service = rule.choose(serviceList,serviceName);
+		ServiceServer server = rule.choose(serverList,serviceName);
 		
 		if(logger.isDebugEnabled()){
-			logger.debug(serviceName +":(" + serviceList.size() + ") at " + service.getServiceServer().getRpcServerAddress());
+			logger.debug(serviceName +":(" + serverList.size() + ") at " + server.getRpcServerAddress());
 		}
 		
-		SocketProvider socketProvider = socketProviderMap.get(service);
+		SocketProvider socketProvider = socketProviderMap.get(server);
 		if(socketProvider == null){
 			synchronized (this) {
 				//秒超时设置
-				socketProvider = new SocketProviderImpl(service,rpcTimeout);
-				socketProviderMap.put(service, socketProvider);
+				socketProvider = new SocketProviderImpl(server,rpcTimeout);
+				socketProviderMap.put(server.getServerID(), socketProvider);
 			}
+		}
+		if(gaugeService != null){
+			gaugeService.submit("rpc." + serviceName, serverList.size());
+			gaugeService.submit("rpc.pool.num-active."+server.getRpcServerAddress(), socketProvider.getNumActive());
+			gaugeService.submit("rpc.pool.max-total."+server.getRpcServerAddress(), socketProvider.getMaxTotal());
 		}
 		return socketProvider;
 	}
 	
-	protected boolean hasService(List<RpcServiceInstance> serviceList,RpcServiceInstance service){
-		for (RpcServiceInstance rpcService : serviceList) {
-			if(rpcService.getServiceServer().getRpcServerAddress().equals(service.getServiceServer().getRpcServerAddress())){
+	protected boolean hasService(List<ServiceServer> serverList,ServiceServer server){
+		for (ServiceServer rpcServer : serverList) {
+			if(rpcServer.getServerID().equals(server.getServerID())){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public Map<String,List<RpcServiceInstance>> getAllService(){
+	public Map<String,List<ServiceServer>> getAllService(){
 		return serviceMap;
 	}
 
