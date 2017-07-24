@@ -40,13 +40,6 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
 		
-		synchronized (this) {
-			if(!initialized){
-				initRoleResourceMap();
-				initialized = true;
-			}
-		}
-		
 		Iterator<ConfigAttribute> iterator = configAttributes.iterator();
 		while(iterator.hasNext()){
 			ConfigAttribute cfgAttribute = iterator.next();
@@ -60,6 +53,13 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		
 		if(authentication instanceof AnonymousAuthenticationToken){
 			throw new AccessDeniedException("拒绝以匿名身份访问："+filterInvocation.getFullRequestUrl());
+		}
+		
+		synchronized (this) {
+			if(!initialized){
+				initRoleResourceMap();
+				initialized = true;
+			}
 		}
 		
 		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(CACHE_CODE_PATH_RESOURCE_MAPPING);
