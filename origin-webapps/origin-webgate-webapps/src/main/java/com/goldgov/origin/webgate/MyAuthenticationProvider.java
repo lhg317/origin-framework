@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.goldgov.origin.modules.auth.api.RpcAuthAccountService;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.user.api.RpcUser;
@@ -30,6 +30,10 @@ public class MyAuthenticationProvider implements CustomAuthenticationProvider {
 	private RpcUserService.Iface userService;
 	
 	@Autowired
+	@Qualifier("rpcAuthAccountService.Client")
+	private RpcAuthAccountService.Iface authAccountService;
+	
+	@Autowired
 	@Qualifier("rpcRoleService.Client")
 	private RpcRoleService.Iface roleService;
 	
@@ -39,15 +43,20 @@ public class MyAuthenticationProvider implements CustomAuthenticationProvider {
 		String loginName = (String) authentication.getPrincipal();
         String password = (String)authentication.getCredentials();
         
+        try {
+        	String userPwd = authAccountService.getPassword(loginName);
+        	password = DigestUtils.md5Hex(password);
+			if(userPwd == null || !password.equals(userPwd)){
+				throw new BadCredentialsException("认证失败：" + loginName);
+			}
+        } catch (Exception e) {
+			throw new RuntimeException("获取用户认证信息时出现错误：" + loginName,e);
+        }
+        
         RpcUser user = null;
         try {
 			user = userService.getUserByLoginName(loginName);
-			
-			password = DigestUtils.md5Hex(password);
-			if(user == null || !password.equals(user.getPassword())){
-				throw new BadCredentialsException("认证失败：" + loginName);
-			}
-		} catch (TException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("获取用户信息时出现错误：" + loginName,e);
 		}
         

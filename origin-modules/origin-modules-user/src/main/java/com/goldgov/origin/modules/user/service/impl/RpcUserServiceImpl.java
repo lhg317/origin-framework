@@ -26,9 +26,10 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	private UserConverter userConverter = new UserConverter();
 	
 	@Override
-	public void addUser(RpcUser user) throws TException {
+	public String addUser(RpcUser user) throws TException {
 		try {
 			userService.addUser(userConverter.fromRpcObject(user));
+			return user.getUserID();
 		} catch (UserExistException e) {
 			throw new RpcUserExistException(user.getLoginName());
 		} catch (UserNameCheckFailException e) {
@@ -78,12 +79,6 @@ public class RpcUserServiceImpl implements RpcUserService.Iface{
 	@Override
 	public boolean checkUserName(String userName) throws TException {
 		return userService.checkUserName(userName);
-	}
-
-	@Override
-	public boolean updatePassword(String loginName, String oldPassword, String newPassword) throws TException {
-		userService.updatePassword(loginName, oldPassword, newPassword);
-		return true;
 	}
 
 }

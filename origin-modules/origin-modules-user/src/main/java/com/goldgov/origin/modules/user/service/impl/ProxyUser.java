@@ -24,7 +24,6 @@ public class ProxyUser extends User{
 		setUserID(_user.getUserID());
 		setLoginName(_user.getLoginName());
 		setUserName(_user.getUserName());
-		setPassword(_user.getPassword());
 		setEmail(_user.getEmail());
 	}
 
@@ -50,14 +49,6 @@ public class ProxyUser extends User{
 
 	public void setUserName(String userName) {
 		user.setUserName(userName);
-	}
-
-	public String getPassword() {
-		return user.getPassword();
-	}
-
-	public void setPassword(String password) {
-		user.setPassword(password);
 	}
 
 	public String getEmail() {

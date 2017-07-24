@@ -7,8 +7,8 @@
 		<id column="USER_ID" jdbcType="VARCHAR" property="userID"/>
 		<result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
 		<result column="EMAIL" jdbcType="VARCHAR" property="email"/>
-		<result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
 		<result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+		<result column="PHONE" jdbcType="VARCHAR" property="phone"/>
 	</resultMap>
 	
 	<select id="getUser" resultMap="user">
@@ -19,7 +19,7 @@
 		<selectKey keyProperty="userID" resultType="String" order="BEFORE">
 		    select uuid() from dual
 		</selectKey>
-		INSERT INTO USER (USER_ID,LOGIN_NAME,USER_NAME,PASSWORD,EMAIL)VALUES(#{userID},#{loginName},#{userName},#{password},#{email});
+		INSERT INTO USER (USER_ID,LOGIN_NAME,USER_NAME,EMAIL,PHONE)VALUES(#{userID},#{loginName},#{userName},#{email},#{phone});
 	</insert>
 	
 	<update id="updateUser">
@@ -27,7 +27,8 @@
 		<set>
 			<!-- <if test="loginName != null and loginName != ''">LOGIN_NAME=#{loginName},</if> -->
 			<if test="userName != null and userName != ''">USER_NAME=#{userName},</if>
-			<if test="email != null and email != ''">email=#{email},</if>
+			<if test="email != null and email != ''">EMAIL=#{email},</if>
+			<if test="phone != null and phone != ''">PHONE=#{phone},</if>
 		</set>
 		where user_id=#{userID}
 	</update>
@@ -40,11 +41,11 @@
 	</delete>
 	
 	<select id="listUser" resultMap="user">
-		SELECT USER_ID,LOGIN_NAME,USER_NAME,EMAIL FROM USER
+		SELECT USER_ID,LOGIN_NAME,USER_NAME,EMAIL,PHONE FROM USER
 	</select>
 	
 	<select id="getUserByLoginName" resultMap="user">
-		SELECT * FROM USER WHERE LOGIN_NAME=#{loginName}
+		SELECT USER_ID,LOGIN_NAME,USER_NAME,EMAIL,PHONE FROM USER WHERE LOGIN_NAME=#{loginName}
 	</select>
 	
 </mapper>

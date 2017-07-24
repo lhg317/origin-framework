@@ -6,8 +6,8 @@ struct RpcUser {
 	1: string userID;
 	2: string userName;
 	3: string loginName;
-	4: string password;
-	5: string email;
+	4: string email;
+	5: string phone;
 }
 
 struct RpcUserQuery {
@@ -33,14 +33,13 @@ exception RpcUserNameCheckFailException{
 
 
 service RpcUserService {
-	void addUser(1:RpcUser user) throws (1:RpcUserExistException e1,2: RpcUserNameCheckFailException e2);
+	string addUser(1:RpcUser user) throws (1:RpcUserExistException e1,2: RpcUserNameCheckFailException e2);
 	void deleteUser(1:list<string> ids);
 	void updateUser(1:RpcUser user);
 	RpcUser getUser(1:string userID);
 	RpcUser getUserByLoginName(1:string loginName);
 	RpcUserQuery listUser(1:RpcUserQuery userQuery);
 	bool existUser(1:string loginName);
-	bool updatePassword(1:string loginName,2:string oldPassword,3:string newPassword);
 	bool checkUserName(1:string userName);
 }
 

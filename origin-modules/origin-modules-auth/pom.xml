@@ -8,17 +8,13 @@
 		<artifactId>origin-modules</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>origin-modules-user</artifactId>
-	<name>origin-modules-user</name>
+	<artifactId>origin-modules-auth</artifactId>
+	<name>origin-modules-auth</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.goldgov</groupId>
-			<artifactId>origin-modules-auth</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

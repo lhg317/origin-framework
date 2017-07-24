@@ -16,6 +16,8 @@ import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.core.web.validator.Valid;
+import com.goldgov.origin.modules.auth.api.RpcAuthAccount;
+import com.goldgov.origin.modules.auth.api.RpcAuthAccountService;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserExistException;
 import com.goldgov.origin.modules.user.api.RpcUserNameCheckFailException;
@@ -33,6 +35,10 @@ public class RpcUserController {
 	@Qualifier("rpcUserService.Client")
 	private RpcUserService.Iface userService;
 	
+	@Autowired
+	@Qualifier("rpcAuthAccountService.Client")
+	private RpcAuthAccountService.Iface authAccountService;
+	
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	public String preAdd() throws Exception{
@@ -42,20 +48,28 @@ public class RpcUserController {
 	@RequestMapping("/addUser")
 	@WebToken(handle=TokenHandleType.VERIFY,forward="/user/listUser")
 	@ModuleOperating(name="i18n:label.user+add",type=OperateType.ADD)
-	public String addUser(@Valid RpcUser user) throws Exception{
+	public String addUser(@Valid RpcUser user,@RequestParam("password")String password) throws Exception{
+		String userID;
 		try {
-			userService.addUser(user);
+			userID = userService.addUser(user);
 		} catch (RpcUserExistException e) {
 			throw new RuntimeException("登录名重复："+user.getLoginName(),e);
 		} catch (RpcUserNameCheckFailException e) {
 			throw new RuntimeException("用户名检查失败："+user.getUserName(),e);
 		}
+		
+		RpcAuthAccount authAccount = new RpcAuthAccount();
+		authAccount.setAccountID(userID);
+		authAccount.setPrincipal(user.getLoginName());
+		authAccount.setPassword(password);
+		authAccountService.addAuthAccount(authAccount);
 		return "forward:/user/listUser";
 	}
 	
 	@RequestMapping("/deleteUser")
 	@ModuleOperating(name="i18n:label.user+delete",type=OperateType.DELETE)
 	public String deleteUser(@RequestParam("userID") String[] ids) throws Exception{
+		authAccountService.deleteAuthAccount(Arrays.asList(ids));
 		userService.deleteUser(Arrays.asList(ids));
 		return "forward:/user/listUser";
 	}

@@ -24,8 +24,6 @@ public interface UserDao {
 	
 	public User getUserByLoginName(@Param("loginName") String loginName);
 	
-	public void updatePassword(@Param("loginName")String loginName,@Param("oldPassword") String oldPassword,@Param("newPassword") String newPassword);
-	
 	public void addGroup(Group group);
 	
 	public void addUser(User user,String groupID);
