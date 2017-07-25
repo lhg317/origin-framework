@@ -35,7 +35,6 @@ service RpcRoleService{
 	void saveRoleResource(1:string roleID,2:list<string> resourceOperate),
 	void saveRoleObject(1:string roleID,2:list<string> roleObject),
 	list<RpcRole> listRoleByObject(1:string roleObject),
-	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject),
-	void refreshRoleResourceCache();
+	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject),	
 	map<string,list<string>> getRoleResourceMap();
 } 

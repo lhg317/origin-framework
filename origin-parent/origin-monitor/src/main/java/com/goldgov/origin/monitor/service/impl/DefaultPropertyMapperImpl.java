@@ -8,6 +8,7 @@ import com.goldgov.origin.monitor.service.MetricsPropertyMapper;
 import com.goldgov.origin.monitor.service.MonitorInfo;
 import com.goldgov.origin.monitor.service.MonitorInfo.HttpMetrics;
 import com.goldgov.origin.monitor.service.MonitorInfo.SystemMetrics;
+import com.goldgov.origin.monitor.service.MonitorInfo.HttpMetrics.RpcSocketPoolMetrics;
 
 /**
  * 
@@ -26,7 +27,7 @@ public class DefaultPropertyMapperImpl implements MetricsPropertyMapper{
 			String propName = keyIterator.next();
 			
 			//在统计请求数量时对该值已经处理，因此不用单独处理
-			if(propName.startsWith("gauge.response")){
+			if(propName.startsWith("gauge.response") || propName.startsWith("rpc.pool.max-total")){
 				continue;
 			}
 			
@@ -89,6 +90,11 @@ public class DefaultPropertyMapperImpl implements MetricsPropertyMapper{
 				
 			}else if(propName.equals("datasource.primary.usage")){
 				
+			}else if(propName.startsWith("rpc.pool.num-active")){
+				String host = propName.substring(20);
+				Number maxTotal = propValueMap.get("rpc.pool.max-total." + host);
+				RpcSocketPoolMetrics rpcSocketPoolMetrics = new RpcSocketPoolMetrics(host,maxTotal.intValue(),propValue.intValue());
+				monitorInfo.addRpcSocketPoolMetrics(rpcSocketPoolMetrics);
 			}else if(propName.startsWith("counter.status")){
 				String[] infoSplit = propName.split("[.]");
 				int statusCode = Integer.parseInt(infoSplit[2]);

@@ -13,8 +13,8 @@ public class SocketProviderImpl implements SocketProvider, DisposableBean{
 
 	private final Log logger = LogFactory.getLog(getClass());
 	
-    private String serviceIP;
-    private int servicePort;
+    private final String serviceIP;
+    private final int servicePort;
     private int timeout;
     
     private int maxTotal = GenericObjectPoolConfig.DEFAULT_MAX_TOTAL;
@@ -68,8 +68,10 @@ public class SocketProviderImpl implements SocketProvider, DisposableBean{
 	@Override
 	public TTransport getSocket() {
 		try {  
-			TTransport socket = (TTransport) objectPool.borrowObject();  
-            logger.debug("[getSocket] numActive : " + objectPool.getNumActive() + "/" + objectPool.getMaxTotal());
+			TTransport socket = (TTransport) objectPool.borrowObject();
+			if(logger.isDebugEnabled()){
+				logger.debug("[getSocket] numActive : " + objectPool.getNumActive() + "/" + objectPool.getMaxTotal());
+			}
             return socket;
         } catch (Exception e) {
         	logger.error("获取TSocket时发生错误，请确认RPC服务器连接参数是否正确："+serviceIP+":"+servicePort, e);
@@ -127,5 +129,12 @@ public class SocketProviderImpl implements SocketProvider, DisposableBean{
 		return objectPool.getNumIdle();
 	}
 
+	public String getServiceIP() {
+		return serviceIP;
+	}
+
+	public int getServicePort() {
+		return servicePort;
+	}
 
 }

@@ -2,6 +2,7 @@ package com.goldgov.origin.core.discovery.rpc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,9 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.GaugeService;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
@@ -30,7 +29,7 @@ import com.goldgov.origin.core.discovery.rpc.pool.SocketProviderImpl;
 public class ServiceProviderCenter{
 
 	private final Log logger = LogFactory.getLog(getClass());
-	
+	//服务名与服务器映射对象
 	private Map<String,List<ServiceServer>> serviceMap = new ConcurrentHashMap<String,List<ServiceServer>>();
 	//key：ServiceServer.getServerID(); 服务器ID，value：一个TSocket对象池，每台服务器一个池
 	private Map<String,SocketProvider> socketProviderMap = new ConcurrentHashMap<String,SocketProvider>();
@@ -44,9 +43,6 @@ public class ServiceProviderCenter{
 	
 	@Value("${rpc.connect.timeout:3000}")
 	private int rpcTimeout;
-	
-	@Autowired(required=false)
-	private GaugeService gaugeService;
 	
 	public void clearServerCache(){
 		serviceMap.clear();
@@ -88,15 +84,16 @@ public class ServiceProviderCenter{
 	 * @param serviceName
 	 * @param socketProvider
 	 */
-	synchronized void deleteService(String serviceName,SocketProvider socketProvider){
+	synchronized void deleteServer(String serviceName,SocketProvider socketProvider){
 		Set<String> keySet = socketProviderMap.keySet();
 		for (String serverID : keySet) {
 			SocketProvider _socketProvider = socketProviderMap.get(serverID);
 			if(_socketProvider.equals(socketProvider)){
-				List<ServiceServer> serviceList = serviceMap.get(serviceName);
-				for (ServiceServer serviceServer : serviceList) {
+				List<ServiceServer> serverList = serviceMap.get(serviceName);
+				for (ServiceServer serviceServer : serverList) {
 					if(serviceServer.getServerID().equals(serverID)){
-						serviceList.remove(serviceServer);
+						serverList.remove(serviceServer);
+						break;
 					}
 				}
 				_socketProvider.destroy();
@@ -171,18 +168,13 @@ public class ServiceProviderCenter{
 			logger.debug(serviceName +":(" + serverList.size() + ") at " + server.getRpcServerAddress());
 		}
 		
-		SocketProvider socketProvider = socketProviderMap.get(server);
+		SocketProvider socketProvider = socketProviderMap.get(server.getServerID());
 		if(socketProvider == null){
 			synchronized (this) {
 				//秒超时设置
 				socketProvider = new SocketProviderImpl(server,rpcTimeout);
 				socketProviderMap.put(server.getServerID(), socketProvider);
 			}
-		}
-		if(gaugeService != null){
-			gaugeService.submit("rpc." + serviceName, serverList.size());
-			gaugeService.submit("rpc.pool.num-active."+server.getRpcServerAddress(), socketProvider.getNumActive());
-			gaugeService.submit("rpc.pool.max-total."+server.getRpcServerAddress(), socketProvider.getMaxTotal());
 		}
 		return socketProvider;
 	}
@@ -197,7 +189,11 @@ public class ServiceProviderCenter{
 	}
 	
 	public Map<String,List<ServiceServer>> getAllService(){
-		return serviceMap;
+		return Collections.unmodifiableMap(serviceMap);
+	}
+	
+	public Map<String,SocketProvider> getAllSocketProvider(){
+		return Collections.unmodifiableMap(socketProviderMap);
 	}
 
 	public List<ServiceServer> getServiceServer(String serviceName){

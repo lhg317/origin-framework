@@ -14,4 +14,8 @@ public interface SocketProvider {
 	
 	public int getMaxTotal();
 	
+	public String getServiceIP();
+
+	public int getServicePort();
+	
 }

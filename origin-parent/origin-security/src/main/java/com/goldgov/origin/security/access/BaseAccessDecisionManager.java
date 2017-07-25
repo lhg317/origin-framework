@@ -1,4 +1,4 @@
-package com.goldgov.origin.webgate;
+package com.goldgov.origin.security.access;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -17,29 +15,19 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.stereotype.Component;
 
 import com.goldgov.origin.core.cache.CacheHolder;
-import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.security.resource.ResourceConstants;
 import com.goldgov.origin.security.resource.ResourceContext;
 
-@Component
-public class CustomAccessDecisionManager implements AccessDecisionManager{
+public abstract class BaseAccessDecisionManager implements AccessDecisionManager{
 
-	public static final String CACHE_CODE_PATH_RESOURCE_MAPPING = "CACHE_CODE_PATH_RESOURCE_MAPPING";
-
-	@Autowired
-	@Qualifier("rpcRoleService.Client")
-	private RpcRoleService.Iface roleService;
-	
 	private boolean initialized; 
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
-		
 		Iterator<ConfigAttribute> iterator = configAttributes.iterator();
 		while(iterator.hasNext()){
 			ConfigAttribute cfgAttribute = iterator.next();
@@ -57,12 +45,18 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		
 		synchronized (this) {
 			if(!initialized){
-				initRoleResourceMap();
+				Map<String, List<String>> roleResourceMap;
+				try {
+					roleResourceMap = roleResourceMap();
+				} catch (Exception e) {
+					throw new RuntimeException("获取角色资源映射关系时出现错误",e);
+				}
+				CacheHolder.put(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING, roleResourceMap);
 				initialized = true;
 			}
 		}
 		
-		Map<String,String> pathMapping = (Map<String, String>) CacheHolder.get(CACHE_CODE_PATH_RESOURCE_MAPPING);
+		Map<String,String> pathMapping = ResourceContext.getAllResourcesMap();
 		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 		
 		String requestURI = httpRequest.getRequestURI();
@@ -76,10 +70,11 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		}
 //		System.out.println("路径：" + requestURI + ",resourceCode：" + resourceCode + ",roleCode：" + roleCodeList);
 		//检查当前用户是否含有资源访问的角色编码，authority.getAuthority()中即为当前用户所拥有的角色（编码）
+		String adminRole = adminRole();
 		for(GrantedAuthority authority : (Collection<GrantedAuthority>)authentication.getAuthorities()){
 			if("ROLE_ANONYMOUS".equals(authority.getAuthority())){
 				throw new AccessDeniedException("以ROLE_ANONYMOUS角色访问被拒绝："+filterInvocation.getFullRequestUrl());
-			}else if("ROLE_ADMIN".equals(authority.getAuthority())){
+			}else if(adminRole != null && adminRole.equals(authority.getAuthority())){
 				return;
 			}else if(roleCodeList != null && roleCodeList.contains(authority.getAuthority())){
 				return;
@@ -89,6 +84,18 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		if(resourceCode != null){
 			throw new AccessDeniedException("访问拒绝："+filterInvocation.getFullRequestUrl());
 		}
+		
+	}
+
+	protected abstract Map<String, List<String>> roleResourceMap()throws Exception;
+	
+	/**
+	 * 管理员角色，如果不设置管理员角色则返回null，默认返回null。<br>
+	 * 注：管理员角色有权访问任何受限资源
+	 * @return 
+	 */
+	protected String adminRole(){
+		return null;
 	}
 
 	@Override
@@ -101,20 +108,4 @@ public class CustomAccessDecisionManager implements AccessDecisionManager{
 		return true;
 	}
 
-	
-	public void initRoleResourceMap() {
-		/*
-		 * 资源路径与资源编码的映射
-		 */
-		Map<String,String> allResourceMapping = ResourceContext.getAllResourcesMap();
-		CacheHolder.put(CACHE_CODE_PATH_RESOURCE_MAPPING, allResourceMapping);
-		
-		// 将角色编码与资源编码进行Map对象组装，key为资源编码，value为角色，角色可能会多个（角色资源配置重复的情况下）
-		try {
-			roleService.refreshRoleResourceCache();
-		} catch (Exception e) {
-			throw new RuntimeException("初始化角色资源缓存时失败", e);
-		}
-	}
-	
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
+import com.goldgov.origin.monitor.service.MonitorInfo.HttpMetrics.RpcSocketPoolMetrics;
 
 /**
  * 监控信息对象
@@ -20,6 +21,7 @@ public class MonitorInfo {
 	
 	private SystemMetrics systemMetrics = new SystemMetrics();
 	private HttpMetrics httpMetrics = new HttpMetrics();
+	private List<RpcSocketPoolMetrics> rpcSocketPoolMetricsList = new ArrayList<>();
 	
 	public ServiceServer getServer() {
 		return server;
@@ -36,6 +38,16 @@ public class MonitorInfo {
 	public HttpMetrics getHttpMetrics() {
 		return httpMetrics;
 	}
+	
+	public void addRpcSocketPoolMetrics(RpcSocketPoolMetrics rpcSocketPoolMetrics){
+		rpcSocketPoolMetricsList.add(rpcSocketPoolMetrics);
+	}
+
+	public List<RpcSocketPoolMetrics> getRpcSocketPoolMetrics() {
+		return rpcSocketPoolMetricsList;
+	}
+
+
 
 	/**
 	 * 系统指标对象
@@ -333,6 +345,32 @@ public class MonitorInfo {
 					return responseTime;
 				}
 			}
+		}
+		
+		public static class RpcSocketPoolMetrics{
+			private final String host;
+			private final int maxTotal;
+			private final int numActive;
+			
+			public RpcSocketPoolMetrics(String host, int maxTotal, int numActive) {
+				super();
+				this.host = host;
+				this.maxTotal = maxTotal;
+				this.numActive = numActive;
+			}
+
+			public String getHost() {
+				return host;
+			}
+
+			public int getMaxTotal() {
+				return maxTotal;
+			}
+
+			public int getNumActive() {
+				return numActive;
+			}
+			
 		}
 	}
 	

@@ -53,13 +53,13 @@ public interface RoleService {
 	Map<String,List<String>> getRoleResourceMap();
 	
 	
-	/**
-	 * 将角色与资源操作封装成Map形式并放入到缓存中。
-	 * Map的存放格式为：key为角色编码，value为与角色对应的资源操作编码List集合。
-	 * 本方法主要是将{@link #getRoleResourceMap()}方法返回的Map放入缓存。如果有特殊场景，
-	 * 可以在其他节点自行调用{@link #getRoleResourceMap()}方法，将返回值单独处理、缓存。
-	 */
-	void refreshRoleResourceCache();
+//	/**
+//	 * 将角色与资源操作封装成Map形式并放入到缓存中。
+//	 * Map的存放格式为：key为角色编码，value为与角色对应的资源操作编码List集合。
+//	 * 本方法主要是将{@link #getRoleResourceMap()}方法返回的Map放入缓存。如果有特殊场景，
+//	 * 可以在其他节点自行调用{@link #getRoleResourceMap()}方法，将返回值单独处理、缓存。
+//	 */
+//	void refreshRoleResourceCache();
 
 	
 }

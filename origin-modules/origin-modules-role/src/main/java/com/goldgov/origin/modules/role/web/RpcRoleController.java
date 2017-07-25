@@ -1,7 +1,6 @@
 package com.goldgov.origin.modules.role.web;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,12 +16,11 @@ import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.annotation.OperateType;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
+import com.goldgov.origin.modules.role.api.GetAllResourceHandler;
 import com.goldgov.origin.modules.role.api.ResourceObjectHandler;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
-import com.goldgov.origin.security.resource.Resource;
-import com.goldgov.origin.security.resource.ResourceContext;
 
 @Controller
 @RequestMapping("role")
@@ -41,6 +39,9 @@ public class RpcRoleController {
 	
 	@Autowired(required=false)
 	private ResourceObjectHandler resourceObjectHandler;
+	
+	@Autowired(required=false)
+	private GetAllResourceHandler getAllResourceHandler;
 	
 	@RequestMapping("/preAdd")
 	@WebToken(handle=TokenHandleType.GENERATE)
@@ -104,10 +105,11 @@ public class RpcRoleController {
 	 * allResources为List&lt;{@link com.goldgov.origin.security.resource.Resource Resource}&gt;对象
 	 */
 	@RequestMapping("/listResource")
-	public String getResources(Model model) throws Exception{
-		List<Resource> allResources = ResourceContext.getAllResources();
-		model.addAttribute("allResources", allResources);
-		return PAGE_BASE_PATH + "tree";
+	public String getResources(HttpServletRequest request, Model model) throws Exception{
+		if(getAllResourceHandler == null){
+			throw new IllegalArgumentException("当前Spring上下文中没有GetAllResourceHandler的实例，无法执行该请求");
+		}
+		return getAllResourceHandler.doHandle(request,model);
 	}
 	
 	@RequestMapping("/listObject")

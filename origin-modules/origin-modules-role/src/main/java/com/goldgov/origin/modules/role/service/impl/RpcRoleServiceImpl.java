@@ -88,10 +88,10 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 		return resultList;
 	}
 
-	@Override
-	public void refreshRoleResourceCache() throws TException {
-		roleService.refreshRoleResourceCache();
-	}
+//	@Override
+//	public void refreshRoleResourceCache() throws TException {
+////		roleService.refreshRoleResourceCache();
+//	}
 
 	@Override
 	public Map<String,List<String>> getRoleResourceMap() throws TException {

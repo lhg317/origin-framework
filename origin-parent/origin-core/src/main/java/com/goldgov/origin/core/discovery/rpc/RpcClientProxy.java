@@ -102,7 +102,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 			 * 如果所有的服务器均无法提供服务，则会抛出无服务的异常。
 			*/
 			while(socket == null){
-				serviceCenter.deleteService(serviceName, socketProvider);
+				serviceCenter.deleteServer(serviceName, socketProvider);
 				socketProvider = serviceCenter.getSocketProvider(serviceName);
 				socket = socketProvider.getSocket();
 			}
@@ -139,7 +139,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 						throw targetException;
 					}
 				}
-				serviceCenter.deleteService(serviceName, socketProvider);
+				serviceCenter.deleteServer(serviceName, socketProvider);
 				return invoke(arg0, arg1,arg2);
 			}finally{
 				socketProvider.release(socket);

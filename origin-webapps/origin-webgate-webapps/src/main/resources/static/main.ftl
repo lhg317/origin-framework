@@ -10,7 +10,7 @@
 <!-- <script type="text/javascript" src="/sockjs.js"></script>
 <script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script> -->	
 <script>
-	var websocket;
+	/* var websocket;
 	var testUrl = window.location.host+"/myHandler";
 	if ('WebSocket' in window) {
 		websocket = new WebSocket("ws://"+testUrl);
@@ -51,7 +51,7 @@
 		 if(e && e.keyCode==13){
 			 send();
 		 }
-	}
+	} */
 </script>
 <body>
 <@authorize >
@@ -87,7 +87,7 @@
 	<input type="file" name="testFile" />
 	<input type="file" name="testFile2" />
 	<button type="submit" >上传</button>
-	<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+	${csrfToken(true)}
 </form>
 
 <div id="message" style="border:1px solid #00F; width:400px; height:200px; overflow-y: scroll;"></div>

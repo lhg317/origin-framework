@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.rememberme.RememberMeAuth
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.goldgov.origin.security.authentication.OriginAuthenticationProvider;
 import com.goldgov.origin.security.authentication.remote.RemoteAuthenticationProvider;
 import com.goldgov.origin.security.filter.remote.RemoteAuthenticationFilter;
 
@@ -40,7 +41,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //	private String updatePath;
 	
 	@Autowired(required=false)
-	private CustomAuthenticationProvider authenticationProvider;
+	private OriginAuthenticationProvider authenticationProvider;
 	
 	@Autowired(required=false)
 	private AccessDecisionManager accessDecisionManager;
@@ -70,7 +71,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     }
     
     @Bean
-    @ConditionalOnMissingBean(CustomAuthenticationProvider.class)
+    @ConditionalOnMissingBean(OriginAuthenticationProvider.class)
     public AuthenticationProvider defaultAuthenticationProvider(){
     	return new DefaultAuthenticationProvider();
     }
@@ -100,7 +101,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     
     @Override  
     protected void configure(HttpSecurity http) throws Exception {  
-//    	http.csrf().disable()
+//    	http.csrf().disable();
 //    	@formatter:off
     	http.authorizeRequests().anyRequest().authenticated()
 //    			.accessDecisionManager(accessDecisionManager)

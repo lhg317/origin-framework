@@ -7,6 +7,7 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import com.goldgov.origin.core.discovery.actuator.RpcServerHealthIndicator;
 import com.goldgov.origin.core.discovery.actuator.RpcServiceEndPoint;
+import com.goldgov.origin.core.discovery.actuator.metrics.RpcPublicMetrics;
 
 public class DelegatingRpcConfiguration implements ImportAware{
 
@@ -39,6 +40,11 @@ public class DelegatingRpcConfiguration implements ImportAware{
 	public RpcServerHealthIndicator rpcServerHealthIndicator(){
 		RpcServerHealthIndicator rpcServerHealthIndicator = new RpcServerHealthIndicator();
 		return rpcServerHealthIndicator;
+	}
+	
+	@Bean
+	public RpcPublicMetrics rpcPublicMetrics(){
+		return new RpcPublicMetrics();
 	}
 	
 	/**
