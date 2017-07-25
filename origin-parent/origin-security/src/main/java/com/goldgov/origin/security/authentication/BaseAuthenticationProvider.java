@@ -7,6 +7,11 @@ import org.springframework.security.core.AuthenticationException;
 
 import com.goldgov.origin.security.UserToken;
 
+/**
+ * 如不满足，自行实现OriginAuthenticationProvider接口
+ * @author LiuHG
+ * @version 1.0
+ */
 public abstract class BaseAuthenticationProvider implements OriginAuthenticationProvider{
 
 	@Override
@@ -29,8 +34,21 @@ public abstract class BaseAuthenticationProvider implements OriginAuthentication
 		return authenticationToken;
 	}
 	
+	/**
+	 * 用户凭证认证
+	 * @param loginName
+	 * @param password
+	 * @return true 认证成功，false，认证失败
+	 * @throws Exception
+	 */
 	protected abstract boolean authenticate(String loginName,String password) throws Exception;
 	
+	/**
+	 * 当用户认证成功后，会调用此方法构造用户UserToken对象
+	 * @param loginName
+	 * @param password
+	 * @return
+	 */
 	protected abstract UserToken getUserToken(String loginName, String password);
 
 	@Override

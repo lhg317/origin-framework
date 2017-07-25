@@ -10,7 +10,7 @@
 <!-- <script type="text/javascript" src="/sockjs.js"></script>
 <script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script> -->	
 <script>
-	/* var websocket;
+	var websocket;
 	var testUrl = window.location.host+"/myHandler";
 	if ('WebSocket' in window) {
 		websocket = new WebSocket("ws://"+testUrl);
@@ -51,7 +51,7 @@
 		 if(e && e.keyCode==13){
 			 send();
 		 }
-	} */
+	}
 </script>
 <body>
 <@authorize >

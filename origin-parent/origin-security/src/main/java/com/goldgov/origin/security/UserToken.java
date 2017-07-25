@@ -29,6 +29,13 @@ public class UserToken extends User implements UserDelegate{
 		roles = new String[0];
 	}
 	
+	/**
+	 * 登录成功后的用户对象
+	 * @param loginName 登录名
+	 * @param password 密码
+	 * @param userName 用户显示名
+	 * @param authorities 用户角色编码，由SimpleGrantedAuthority对象组成的集合
+	 */
 	public UserToken(String loginName, String password,String userName,  List<GrantedAuthority> authorities) {
 		super(loginName, password,authorities);
 		this.loginName = loginName;

@@ -20,6 +20,11 @@ import com.goldgov.origin.core.cache.CacheHolder;
 import com.goldgov.origin.security.resource.ResourceConstants;
 import com.goldgov.origin.security.resource.ResourceContext;
 
+/**
+ * 如不满足，自行实现AccessDecisionManager接口
+ * @author LiuHG
+ * @version 1.0
+ */
 public abstract class BaseAccessDecisionManager implements AccessDecisionManager{
 
 	private boolean initialized; 
