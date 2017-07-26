@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Test {
 
-	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+	public static void main1(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		om.writer(new HTMLCharacterEscapes());
 //		om.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, false);

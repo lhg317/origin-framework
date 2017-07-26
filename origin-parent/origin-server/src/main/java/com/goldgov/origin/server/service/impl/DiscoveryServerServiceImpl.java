@@ -2,7 +2,6 @@ package com.goldgov.origin.server.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,9 +30,6 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 	
 	@Autowired
 	private DiscoveryDao discoveryDao;
-	
-	private Map<String,List<String>> requiredServiceNameMap = new ConcurrentHashMap<>();
-	private Map<String,List<String>> optionalServiceNameMap = new ConcurrentHashMap<>();
 	
 	@Override
 	public void addService(ServiceServer serviceServer) {
@@ -180,32 +176,32 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 
 	@Override
 	public void addRequiredServiceName(String serverID, List<String> serviceName) {
-		requiredServiceNameMap.put(serverID, serviceName);
+		discoveryDao.addRequiredServiceName(serverID, serviceName);
 	}
 
 	@Override
 	public void deleteRequiredServiceName(String serverID) {
-		requiredServiceNameMap.remove(serverID);
+		discoveryDao.deleteRequiredServiceName(serverID);
 	}
 
 	@Override
 	public Map<String,List<String>> getAllRequiredServiceName(){
-		return requiredServiceNameMap;
+		return discoveryDao.getAllRequiredServiceName();
 	}
 	
 	@Override
 	public void addOptionalServiceName(String serverID, List<String> serviceName) {
-		optionalServiceNameMap.put(serverID, serviceName);
+		discoveryDao.addOptionalServiceName(serverID, serviceName);
 	}
 	
 	@Override
 	public void deleteOptionalServiceName(String serverID) {
-		optionalServiceNameMap.remove(serverID);
+		discoveryDao.deleteOptionalServiceName(serverID);
 	}
 	
 	@Override
 	public Map<String,List<String>> getAllOptionalServiceName(){
-		return optionalServiceNameMap;
+		return discoveryDao.getAllOptionalServiceName();
 	}
 	
 	

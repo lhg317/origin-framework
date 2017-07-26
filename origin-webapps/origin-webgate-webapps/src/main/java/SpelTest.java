@@ -10,7 +10,7 @@ import org.springframework.util.StopWatch;
 
 public class SpelTest {
 
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		ExpressionParser parser = new SpelExpressionParser();
 //		Expression exp = parser.parseExpression("'Hello World'");
 //		String message = (String) exp.getValue();

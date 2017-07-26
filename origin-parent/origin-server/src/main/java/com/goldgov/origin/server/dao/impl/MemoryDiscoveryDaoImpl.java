@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +36,10 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 	// 该集合中，只包含正在提供服务的客户端主机映射信息，不包含失效的主机。
 	private Map<String,ServiceServer> clientMapping = new HashMap<>();
 	
+	
+	private Map<String,List<String>> requiredServiceNameMap = new ConcurrentHashMap<>();
+	private Map<String,List<String>> optionalServiceNameMap = new ConcurrentHashMap<>();
+	
 	public void saveService(String serviceName,RpcServiceInstance serviceObject){
 		List<RpcServiceInstance> serviceList;
 		
@@ -59,6 +64,8 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 		if(!clientMapping.containsKey(serviceObject.getServiceServer().getServerID())){
 			ServiceServer serviceServer = serviceObject.getServiceServer();
 			clientMapping.put(serviceServer.getServerID(), serviceServer);
+			addRequiredServiceName(serviceServer.getServerID(), serviceServer.getRequiredServerNames());
+			addOptionalServiceName(serviceServer.getServerID(), serviceServer.getOptionalServerNames());
 		}
 		
 //		return isNew;
@@ -150,6 +157,36 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	public void addRequiredServiceName(String serverID, List<String> serviceName) {
+		requiredServiceNameMap.put(serverID, serviceName);
+	}
+
+	@Override
+	public void deleteRequiredServiceName(String serverID) {
+		requiredServiceNameMap.remove(serverID);
+	}
+
+	@Override
+	public Map<String,List<String>> getAllRequiredServiceName(){
+		return requiredServiceNameMap;
+	}
+	
+	@Override
+	public void addOptionalServiceName(String serverID, List<String> serviceName) {
+		optionalServiceNameMap.put(serverID, serviceName);
+	}
+	
+	@Override
+	public void deleteOptionalServiceName(String serverID) {
+		optionalServiceNameMap.remove(serverID);
+	}
+	
+	@Override
+	public Map<String,List<String>> getAllOptionalServiceName(){
+		return optionalServiceNameMap;
 	}
 
 	private boolean hasServiceType(ServiceType serviceType,ServiceType[] serviceTypes){

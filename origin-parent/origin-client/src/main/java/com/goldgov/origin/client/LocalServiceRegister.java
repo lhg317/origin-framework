@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -120,6 +121,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 					String protocol = sslEnabled ? "https":"http";
 					webPath = protocol + "://{serverIP}:" + serverPort + contextPath;
 				}
+				localService.setServerID(UUID.randomUUID().toString());
 				localService.setWebPath(webPath);
 //				localService.setHealthPath(healthPath);
 //				localService.setUpdatePath(updatePath);

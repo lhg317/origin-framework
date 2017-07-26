@@ -26,6 +26,20 @@ public interface DiscoveryDao {
 	public void deleteServiceServer(String serverID);
 	
 	public Map<String,ServiceServer> getClientMapping();
+	
+	
+	
+	public void addRequiredServiceName(String serverID,List<String> serviceName);
+	
+	public void addOptionalServiceName(String serverID, List<String> serviceName);
+	
+	public void deleteRequiredServiceName(String serverID);
+	
+	public void deleteOptionalServiceName(String serverID);
+	
+	public Map<String,List<String>> getAllRequiredServiceName();
+	
+	public Map<String,List<String>> getAllOptionalServiceName();
 
 	
 	

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,8 +52,6 @@ public class DiscoveryServerController {
 	public @ResponseBody String serviceDiscovery(@RequestBody ServiceServer serviceObject,HttpServletRequest request){
 		String remoteHost = request.getRemoteHost();
 		
-		serviceObject.setServerID(UUID.randomUUID().toString());
-		
 		serviceObject.setServerIP(request.getRemoteAddr());
 		serviceObject.setServerName(request.getRemoteHost());
 		
@@ -62,9 +59,6 @@ public class DiscoveryServerController {
 		properties.put("serverIP", remoteHost);
 		serviceObject.setWebPath(processPlaceholder(serviceObject.getWebPath(),properties));
 		serviceObject.setRegisterDate(new Date());
-		
-		discoveryService.addRequiredServiceName(serviceObject.getServerID(), serviceObject.getRequiredServerNames());
-		discoveryService.addOptionalServiceName(serviceObject.getServerID(), serviceObject.getOptionalServerNames());
 		
 		discoveryService.addService(serviceObject);
 		return "SUCCESS";
