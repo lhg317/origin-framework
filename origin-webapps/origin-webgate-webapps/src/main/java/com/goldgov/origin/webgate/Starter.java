@@ -1,12 +1,9 @@
 package com.goldgov.origin.webgate;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import com.goldgov.origin.core.OriginApplication;
 import com.goldgov.origin.core.discovery.IsWebGate;
-import com.goldgov.origin.core.discovery.rpc.EnableRpcConfiguration;
 
 
 /**
@@ -14,9 +11,6 @@ import com.goldgov.origin.core.discovery.rpc.EnableRpcConfiguration;
  * @author LiuHG
  * @version 1.0
  */
-@SpringBootApplication
-@EnableRpcConfiguration
-@ComponentScan({"com/goldgov/origin"})
 public class Starter extends OriginApplication implements IsWebGate{
 	
     public static void main( String[] args ) {
