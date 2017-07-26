@@ -1,4 +1,4 @@
-package com.goldgov.origin.webgate.custom.role;
+package com.goldgov.origin.webgate.custom.role.web;
 
 import javax.servlet.http.HttpServletRequest;
 

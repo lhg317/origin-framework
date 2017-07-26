@@ -5,10 +5,11 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.goldgov.origin.modules.auth.api.PasswordEncoder;
+import com.goldgov.origin.modules.auth.api.impl.Md5PasswordEncoder;
 import com.goldgov.origin.modules.auth.dao.AuthenticationDao;
 import com.goldgov.origin.modules.auth.service.AuthAccount;
 import com.goldgov.origin.modules.auth.service.AuthAccountService;
-import com.goldgov.origin.modules.auth.service.PasswordEncoder;
 
 @Service
 public class AuthAccountServiceImpl implements AuthAccountService{
