@@ -40,6 +40,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 //	@Value("${discovery.client.update-path}")
 //	private String updatePath;
 	
+	@Value("${security.enable-csrf:true}")
+	private boolean enableCsrf;
+	
 	@Autowired(required=false)
 	private OriginAuthenticationProvider authenticationProvider;
 	
@@ -100,8 +103,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     }  
     
     @Override  
-    protected void configure(HttpSecurity http) throws Exception {  
-//    	http.csrf().disable();
+    protected void configure(HttpSecurity http) throws Exception {
+    	if(!enableCsrf){
+    		http.csrf().disable();
+    	}
 //    	@formatter:off
     	http.authorizeRequests().anyRequest().authenticated()
 //    			.accessDecisionManager(accessDecisionManager)
