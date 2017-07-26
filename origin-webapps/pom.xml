@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<origin.webapps.version>1.0.0-SNAPSHOT</origin.webapps.version>
 		<java.version>1.7</java.version>
 	</properties>
 
@@ -42,32 +43,32 @@
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-core</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.webapps.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-server</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.webapps.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-client</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.webapps.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-config</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.webapps.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-monitor</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.webapps.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-security</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.webapps.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet.jsp</groupId>

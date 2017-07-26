@@ -13,6 +13,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<origin.modules.version>1.0.0-SNAPSHOT</origin.modules.version>
+		<origin.version>1.0.0-SNAPSHOT</origin.version>
 		<java.version>1.7</java.version>
 	</properties>
 
@@ -38,27 +40,27 @@
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-core</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>${origin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-security</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>${origin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-modules-user</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.modules.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-modules-role</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.modules.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goldgov</groupId>
 				<artifactId>origin-modules-auth</artifactId>
-				<version>${project.version}</version>
+				<version>${origin.modules.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
