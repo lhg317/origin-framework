@@ -1,12 +1,12 @@
 package com.goldgov.origin.server.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -88,24 +88,32 @@ public class DiscoveryServerController {
 		Map<String, List<String>> allOptionalServics = discoveryService.getAllOptionalServiceName();
 		Map<String, ServiceServer> clientMapping = discoveryService.getClientMapping();
 		
-		Set<String> clientAddressSet = allRequiredServics.keySet();
-		ClientHealth clientHealth = new ClientHealth();
-		for (String clientAddress : clientAddressSet) {
-			ServiceServer serviceServer = clientMapping.get(clientAddress);
-			List<String> requiredServiceNames = allRequiredServics.get(clientAddress);
-			List<String> optionalServiceNames = allOptionalServics.get(clientAddress);
-			List<ServiceHealth> healthList = new ArrayList<>();
-			for (String serviceName : requiredServiceNames) {
-				List<RpcServiceInstance> serviceList = discoveryService.getServices(serviceName);
-				healthList.add(new ServiceHealth(serviceName, serviceList.size() > 0 ? HealthState.UP : HealthState.DOWN));
-			}
-			for (String serviceName : optionalServiceNames) {
-				healthList.add(new ServiceHealth(serviceName, HealthState.MAYBE));
-			}
-			clientHealth.addHealthState(serviceServer, healthList);
-		}
 		Map<String, List<RpcServiceInstance>> allServices = discoveryService.getAllServices();
-		model.addAttribute("clientHealth",clientHealth);
+		
+		Collection<ServiceServer> servers = clientMapping.values();
+		
+		List<ServerHealth> serverHealth = new ArrayList<>(clientMapping.size());
+		for(ServiceServer serviceServer : servers){
+			ServerHealth health = new ServerHealth(serviceServer);
+			List<String> requiredServiceNames = allRequiredServics.get(serviceServer.getServerID());
+			List<String> optionalServiceNames = allOptionalServics.get(serviceServer.getServerID());
+
+			if(requiredServiceNames != null){
+				for (String serviceName : requiredServiceNames) {
+					List<RpcServiceInstance> serviceList = allServices.get(serviceName);
+					health.addHealthState(serviceName, serviceList.size() > 0 ? HealthState.UP : HealthState.DOWN);
+				}
+			}
+			
+			if(optionalServiceNames != null){
+				for (String serviceName : optionalServiceNames) {
+					health.addHealthState(serviceName, HealthState.OPTIONAL);
+				}
+			}
+			serverHealth.add(health);
+		}
+		
+		model.addAttribute("allHealth",serverHealth);
 		model.addAttribute("allServices",allServices);
 		model.addAttribute("checkInterval", healthChecker.getCheckInterval()/1000);
 		model.addAttribute("lastCheckDate", healthChecker.getLastCheckDate());
@@ -118,93 +126,131 @@ public class DiscoveryServerController {
 		return placeholderHelper.replacePlaceholders(text, properties);
 	}
 	
-	public static class ClientHealth {
-
-		private Map<String,HealthState> clientHealthMap = new HashMap<>();
-
-		private Map<String,List<ServiceHealth>> serviceHealthMap = new HashMap<>();
+	
+	public static class ServerHealth {
 		
-		private Map<String,ServiceServer> serviceServerMap = new HashMap<>();
+		private HealthState serverHealth = HealthState.UP;
+		
+		private final ServiceServer serviceServer;
 
-		private ServiceServer serviceServer;
+		private Map<String,HealthState> serviceHealthMap = new HashMap<>();
 		
-		public ClientHealth(){}
+		public ServerHealth(ServiceServer serviceServer){
+			this.serviceServer = serviceServer;
+		}
 		
-		public void addHealthState(ServiceServer serviceServer,List<ServiceHealth> arg1) {
-			//			 String clientAddress = serviceServer.getRpcServerAddress();
-			 this.serviceServer = serviceServer;
-			 String healthPath = serviceServer.getHealthPath();
-			 serviceHealthMap.put(healthPath, arg1);
-			 clientHealthMap.put(healthPath, HealthState.UP);
-			 serviceServerMap.put(healthPath, serviceServer);
-			 if(arg1 == null || arg1.size() == 0){
-				 return;
-			 }
-			 for (ServiceHealth serviceHealth : arg1) {
-				if(serviceHealth.getState() == HealthState.DOWN){
-					clientHealthMap.put(healthPath, HealthState.DOWN);
-					break;
-				}
+		public void addHealthState(String serviceName ,HealthState state) {
+			serviceHealthMap.put(serviceName, state);
+			if(state != HealthState.UP){
+				serverHealth = state;
 			}
 		}
 
-		public Map<String, HealthState> getClientHealthMap() {
-			return clientHealthMap;
+		public HealthState getServerHealth() {
+			return serverHealth;
 		}
 
-		public Map<String, List<ServiceHealth>> getServiceHealthMap() {
-			return serviceHealthMap;
-		}
-		
-		public Map<String, ServiceServer> getServiceServerMap() {
-			return serviceServerMap;
-		}
-		
 		public ServiceServer getServer() {
 			return serviceServer;
 		}
 
-		public int getClientNum(){
-			return clientHealthMap.size();
+		public Map<String, HealthState> getServiceHealthState() {
+			return serviceHealthMap;
 		}
 		
-		public int getServiceNum(String clientAddress){
-			List<ServiceHealth> serviceList = serviceHealthMap.get(clientAddress);
-			if(serviceList == null){
-				return 0;
-			}
-			return serviceList.size();
+		public int getServiceNum(){
+			return serviceHealthMap.size();
 		}
-
 	}
 	
-	public static class ServiceHealth{
-		private String serviceName;
-		private HealthState state;
-		
-		public ServiceHealth(){}
-		
-		public ServiceHealth(String serviceName,HealthState state){
-			this.serviceName = serviceName;
-			this.state = state;
-		}
-		
-		public String getServiceName() {
-			return serviceName;
-		}
-		public void setServiceName(String serviceName) {
-			this.serviceName = serviceName;
-		}
-		public HealthState getState() {
-			return state;
-		}
-		public void setState(HealthState state) {
-			this.state = state;
-		}
-	}
+//	public static class ServerHealth2 {
+//
+//		private Map<String,HealthState> clientHealthMap = new HashMap<>();
+//
+//		private Map<String,List<ServiceHealth>> serviceHealthMap = new HashMap<>();
+//		
+//		private Map<String,ServiceServer> serviceServerMap = new HashMap<>();
+//
+//		public ServerHealth2(){}
+//		
+//		public void addHealthState(ServiceServer serviceServer,List<ServiceHealth> arg1) {
+//			 String healthPath = serviceServer.getHealthPath();
+//			 serviceHealthMap.put(healthPath, arg1);
+//			 clientHealthMap.put(healthPath, HealthState.UP);
+//			 serviceServerMap.put(healthPath, serviceServer);
+//			 if(arg1 == null || arg1.size() == 0){
+//				 return;
+//			 }
+//			 for (ServiceHealth serviceHealth : arg1) {
+//				if(serviceHealth.getState() == HealthState.DOWN){
+//					clientHealthMap.put(healthPath, HealthState.DOWN);
+//					break;
+//				}
+//			}
+//		}
+//
+//		public Map<String, HealthState> getClientHealthMap() {
+//			return clientHealthMap;
+//		}
+//
+//		public Map<String, List<ServiceHealth>> getServiceHealthMap() {
+//			return serviceHealthMap;
+//		}
+//		
+//		public Map<String, ServiceServer> getServers() {
+//			return serviceServerMap;
+//		}
+//		
+////		public ServiceServer getServer() {
+////			return serviceServer;
+////		}
+//
+//		public int getClientNum(){
+//			return clientHealthMap.size();
+//		}
+//		
+//		public int getServiceNum(String clientAddress){
+//			List<ServiceHealth> serviceList = serviceHealthMap.get(clientAddress);
+//			if(serviceList == null){
+//				return 0;
+//			}
+//			return serviceList.size();
+//		}
+//
+//	}
+//	
+//	/**
+//	 * 业务健康状态
+//	 * @author LiuHG
+//	 * @version 1.0
+//	 */
+//	public static class ServiceHealth{
+//		private String serviceName;
+//		private HealthState state;
+//		
+//		public ServiceHealth(){}
+//		
+//		public ServiceHealth(String serviceName,HealthState state){
+//			this.serviceName = serviceName;
+//			this.state = state;
+//		}
+//		
+//		public String getServiceName() {
+//			return serviceName;
+//		}
+//		public void setServiceName(String serviceName) {
+//			this.serviceName = serviceName;
+//		}
+//		public HealthState getState() {
+//			return state;
+//		}
+//		public void setState(HealthState state) {
+//			this.state = state;
+//		}
+//	}
 	
 	public enum HealthState{
-		UP,DOWN,MAYBE;
+		UP,DOWN,OPTIONAL;
 	}
 	
 }

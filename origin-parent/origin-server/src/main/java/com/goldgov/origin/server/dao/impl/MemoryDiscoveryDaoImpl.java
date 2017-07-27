@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
 import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
-import com.goldgov.origin.core.discovery.rpc.NoServiceInstance;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 import com.goldgov.origin.server.dao.DiscoveryDao;
 
@@ -55,11 +54,12 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 				serviceList.add(serviceObject);
 				serviceMap.put(serviceName, serviceList);
 			}
-		}else if(serviceObject instanceof NoServiceInstance){
-			NoServiceInstance noServiceInstance = (NoServiceInstance)serviceObject;
-			ServiceServer serviceServer = noServiceInstance.getServiceServer();
-			clientMapping.put(serviceServer.getServerID(), serviceServer);
 		}
+//		else if(serviceObject instanceof NoServiceInstance){
+//			NoServiceInstance noServiceInstance = (NoServiceInstance)serviceObject;
+//			ServiceServer serviceServer = noServiceInstance.getServiceServer();
+//			clientMapping.put(serviceServer.getServerID(), serviceServer);
+//		}
 		
 		if(!clientMapping.containsKey(serviceObject.getServiceServer().getServerID())){
 			ServiceServer serviceServer = serviceObject.getServiceServer();
@@ -67,8 +67,6 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 			addRequiredServiceName(serviceServer.getServerID(), serviceServer.getRequiredServerNames());
 			addOptionalServiceName(serviceServer.getServerID(), serviceServer.getOptionalServerNames());
 		}
-		
-//		return isNew;
 		
 	}
 
