@@ -51,7 +51,9 @@
 	<#list allHealth as serverHealth>
 	<tr>
 		<td rowspan="${(serverHealth.serviceNum > 0)?string(serverHealth.serviceNum,1)}">
-			${serverHealth.server.serverID}（${serverHealth.server.displayName!}：${serverHealth.server.applicationName!}）<br>
+			服务地址：${serverHealth.server.webPath}<br>
+			服务ID：${serverHealth.server.serverID}<br>
+			服务名称：${serverHealth.server.displayName!}：${serverHealth.server.applicationName!}<br>
 			服务类型：<#list serverHealth.server.serviceType as serviceType>${serviceType};</#list>
 		</td>
 		<td rowspan="${(serverHealth.serviceNum > 0)?string(serverHealth.serviceNum,1)}" style="text-align:center">

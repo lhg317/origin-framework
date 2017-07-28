@@ -46,6 +46,11 @@ public class AuthorizeTemplateModel implements TemplateDirectiveModel{
 			Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 			List<String> roleCodeList = null;
 			if(resourceCodeArgs != null){
+				if(roleResourceMapping == null){
+					throw new RuntimeException("资源未初始化："
+							+ "方法1 - 使用本标签之前通过CacheHolder.put方法添加一个名为ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING，值为Map对象，k-角色编码，并将角色分配给该用户，v-资源编码（例如：" + resourceCodeArgs + "）；"
+							+ "方法2 - 加入origin-security模块，继承BaseAccessDecisionManager类，实现roleResourceMap方法。");
+				}
 				roleCodeList = roleResourceMapping.get(resourceCodeArgs.toString());
 			}
 			

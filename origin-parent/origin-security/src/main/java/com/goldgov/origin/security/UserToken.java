@@ -1,5 +1,6 @@
 package com.goldgov.origin.security;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +24,7 @@ public class UserToken extends User implements UserDelegate{
 	private final String[] roles;
 	
 	public UserToken(String loginName, String password,String userName) {
-		super(loginName, password,null);
+		super(loginName, password,new ArrayList<GrantedAuthority>());
 		this.loginName = loginName;
 		this.userName = userName;
 		roles = new String[0];

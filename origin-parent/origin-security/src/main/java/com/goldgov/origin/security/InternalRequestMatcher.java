@@ -15,7 +15,9 @@ public class InternalRequestMatcher implements RequestMatcher{
 	@Override
 	public boolean matches(HttpServletRequest request) {
 		String header = request.getHeader(Request.DISCOVERY_HEADER_NAME);
-		logger.info("############ " + header + " == " + request.getRequestURL());
+		if(logger.isDebugEnabled()){
+			logger.debug("############ " + header + " == " + request.getRequestURL());
+		}
 //		try {
 //			URL url = new URL(header);
 //			System.out.println("############ " + header + " == " + request.getRequestURL());
