@@ -108,6 +108,12 @@
 					<include>**/*.properties</include>
 					<include>META-INF/.keystore</include>
 					<include>META-INF/.truststore</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<filtering>true</filtering>
+				<includes>
 					<include>META-INF/rpc</include>
 				</includes>
 			</resource>

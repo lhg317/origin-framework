@@ -101,7 +101,7 @@ public class DiscoveryServerController {
 			if(requiredServiceNames != null){
 				for (String serviceName : requiredServiceNames) {
 					List<RpcServiceInstance> serviceList = allServices.get(serviceName);
-					health.addHealthState(serviceName, serviceList.size() > 0 ? HealthState.UP : HealthState.DOWN);
+					health.addHealthState(serviceName, (serviceList != null && serviceList.size() > 0) ? HealthState.UP : HealthState.DOWN);
 				}
 			}
 			

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.goldgov.origin.client.service.DiscoveryClientService;
 
 @Controller
-@RequestMapping("/client")
+//@RequestMapping("/client")
 public class DiscoveryClientController {
 	
 	@Autowired

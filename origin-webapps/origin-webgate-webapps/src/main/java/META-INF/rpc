@@ -1,2 +1,2 @@
 optional.modules=
-version=
+version=@project.version@

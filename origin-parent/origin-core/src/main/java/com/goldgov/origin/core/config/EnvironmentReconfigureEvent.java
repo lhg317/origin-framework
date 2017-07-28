@@ -1,6 +1,8 @@
 package com.goldgov.origin.core.config;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,6 +10,7 @@ import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEven
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
@@ -36,7 +39,21 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 	@Override
 	public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
 		ConfigurableEnvironment environment = event.getEnvironment();
+	
+		Properties defaultProperties = new Properties();
+		try {
+			defaultProperties.load(this.getClass().getResourceAsStream("/default.properties"));
+		} catch (IOException e1) {
+			throw new RuntimeException("默认配置未找到：/default.properties",e1);
+		}
+		PropertySource<?> defaultPropertySource = new PropertiesPropertySource("defaultPropertySource", defaultProperties);
+		environment.getPropertySources().addAfter("applicationConfigurationProperties",defaultPropertySource);
+		
 		String discoveryServer = environment.getProperty("discovery.client.discovery-server");
+		if(discoveryServer == null){
+			logger.info("没有配置注册中心地址，跳过检测配置 ");
+			return;
+		}
 		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceType.ConfigurationService);
 		HttpRequestClient httpClient = new HttpRequestClient();
 		ServiceServer[] serviceServers = null;
@@ -77,5 +94,5 @@ public class EnvironmentReconfigureEvent implements ApplicationListener<Applicat
 		environment.getPropertySources().get("applicationConfigurationProperties");
 		logger.info("从配置中心更新配置成功: " + serviceServers[0].getConfigPath());
 	}
-	
+
 }
