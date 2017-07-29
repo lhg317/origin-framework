@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.goldgov</groupId>
@@ -33,11 +34,21 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<modules>
+	<!-- <modules>
 		<module>origin-server-webapp</module>
-    	<module>origin-webgate-webapps</module>
-    <module>origin-monitor-webapp</module>
-  </modules>
+		<module>origin-webgate-webapps</module>
+		<module>origin-monitor-webapp</module>
+	</modules> -->
+	<distributionManagement>
+		<repository>
+			<id>origin-releases</id>
+			<url>http://192.168.10.110:8081/nexus/content/repositories/origin/</url>
+		</repository>
+		<snapshotRepository>
+			<id>origin-snapshots</id>
+			<url>http://192.168.10.110:8081/nexus/content/repositories/origin-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

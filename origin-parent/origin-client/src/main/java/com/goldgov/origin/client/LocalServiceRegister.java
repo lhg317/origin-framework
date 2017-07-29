@@ -90,7 +90,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			return;
 		}
 		started = true;
-		
+		//FIXME 永远不要配置127.0.0.1或localhost，否则会导致调用死循环等问题！！
 		final String discoveryServer = clientConfig.getDiscoveryServer();
 		Assert.hasText(discoveryServer,"discovery server is not specified.");
 		
