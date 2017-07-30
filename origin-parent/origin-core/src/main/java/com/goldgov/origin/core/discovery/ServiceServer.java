@@ -2,7 +2,9 @@ package com.goldgov.origin.core.discovery;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.util.Assert;
 
@@ -40,8 +42,10 @@ public class ServiceServer {
 	@JsonManagedReference
 	private List<RpcServiceInstance> serviceList = new ArrayList<>();
 	
-	private List<String> requiredServerNames = new ArrayList<>();
-	private List<String> optionalServerNames = new ArrayList<>();
+//	private List<String> requiredServerNames = new ArrayList<>();
+//	private List<String> optionalServerNames = new ArrayList<>();
+	
+	private Map<String,ServiceDependency> dependencyMap = new HashMap<>();
 	
 	public RpcServiceInstance getService(String serviceName){
 		for (RpcServiceInstance serviceInstance : serviceList) {
@@ -56,13 +60,22 @@ public class ServiceServer {
 		serviceList.add(service);
 	}
 	
-	public void addRequiredServerName(String serviceName){
-		requiredServerNames.add(serviceName);
+//	public void addRequiredServerName(String serviceName){
+//		requiredServerNames.add(serviceName);
+//	}
+//	
+//	public void addOptionalServerName(String serviceName){
+//		optionalServerNames.add(serviceName);
+//	}
+	
+	public void putServiceDependency(String serviceName,ServiceDependency dependencyType){
+		dependencyMap.put(serviceName,dependencyType);
 	}
 	
-	public void addOptionalServerName(String serviceName){
-		optionalServerNames.add(serviceName);
+	public Map<String, ServiceDependency> getServiceDependency(){
+		return dependencyMap;
 	}
+	
 
 	public String getServerIP() {
 		return serverIP;
@@ -92,13 +105,13 @@ public class ServiceServer {
 		return serverIP + ":" + serverPort;
 	}
 
-	public List<String> getRequiredServerNames() {
-		return requiredServerNames;
-	}
-	
-	public List<String> getOptionalServerNames() {
-		return optionalServerNames;
-	}
+//	public List<String> getRequiredServerNames() {
+//		return requiredServerNames;
+//	}
+//	
+//	public List<String> getOptionalServerNames() {
+//		return optionalServerNames;
+//	}
 
 	public ServiceType[] getServiceType() {
 		return serviceType;
@@ -148,18 +161,6 @@ public class ServiceServer {
 		this.displayName = displayName;
 	}
 
-	public enum ServiceType{
-		ProducerService,//生产者服务
-		ConsumerService,//消费者服务
-		ConfigurationService,//配置服务
-		MonitorService,//监控服务
-		LoggingService,//日志服务
-		CertificationService,//认证服务
-		DiscoveryService,//发现服务
-		WebGateService,//网关服务
-		NoService;//没有任何标准服务
-	}
-
 	public String getServerID() {
 		return serverID;
 	}
@@ -196,5 +197,9 @@ public class ServiceServer {
 		return webPath + "/metrics";
 	}
 
+
+	public enum ServiceDependency{
+		REQUIRED,OPTIONAL,SELF_SUFFICIENT;
+	}
 	
 }

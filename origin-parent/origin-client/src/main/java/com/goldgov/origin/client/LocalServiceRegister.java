@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,7 +18,8 @@ import org.springframework.util.StringUtils;
 
 import com.goldgov.origin.core.discovery.IsWebGate;
 import com.goldgov.origin.core.discovery.ServiceServer;
-import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
+import com.goldgov.origin.core.discovery.ServiceType;
+import com.goldgov.origin.core.discovery.ServiceServer.ServiceDependency;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.JsonRequest;
@@ -137,10 +137,14 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 					for (RpcClientProxy rpcServiceProxy : rpcClientList) {
 						if(!isServiceSelf(rpcServiceProxy.getServiceName())){
 							if(ArrayUtils.contain(optional,rpcServiceProxy.getServiceName()) != -1){
-								localService.addOptionalServerName(rpcServiceProxy.getServiceName());
+//								localService.addOptionalServerName(rpcServiceProxy.getServiceName());
+								localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.OPTIONAL);
 							}else{
-								localService.addRequiredServerName(rpcServiceProxy.getServiceName());
+//								localService.addRequiredServerName(rpcServiceProxy.getServiceName());
+								localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.REQUIRED);
 							}
+						}else{
+							localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.SELF_SUFFICIENT);
 						}
 					}
 				}

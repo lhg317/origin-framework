@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
+import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.GetRequest;
@@ -95,7 +96,7 @@ public class MonitorServiceImpl implements MonitorService{
 
 	@Override
 	public List<ServiceServer> getAllMonitorServer() {
-		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceServer.ServiceType.WebGateService);
+		GetRequest request = new GetRequest(discoveryServer + "?serviceType=" + ServiceType.WebGateService);
 		try {
 			Response response = httpRequestClient.sendRequest(request);
 			if(response.isSuccess()){

@@ -7,14 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
-import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
+import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 import com.goldgov.origin.server.dao.DiscoveryDao;
 
@@ -36,8 +35,8 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 	private Map<String,ServiceServer> clientMapping = new HashMap<>();
 	
 	
-	private Map<String,List<String>> requiredServiceNameMap = new ConcurrentHashMap<>();
-	private Map<String,List<String>> optionalServiceNameMap = new ConcurrentHashMap<>();
+//	private Map<String,List<String>> requiredServiceNameMap = new ConcurrentHashMap<>();
+//	private Map<String,List<String>> optionalServiceNameMap = new ConcurrentHashMap<>();
 	
 	public void saveService(String serviceName,RpcServiceInstance serviceObject){
 		List<RpcServiceInstance> serviceList;
@@ -64,8 +63,8 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 		if(!clientMapping.containsKey(serviceObject.getServiceServer().getServerID())){
 			ServiceServer serviceServer = serviceObject.getServiceServer();
 			clientMapping.put(serviceServer.getServerID(), serviceServer);
-			addRequiredServiceName(serviceServer.getServerID(), serviceServer.getRequiredServerNames());
-			addOptionalServiceName(serviceServer.getServerID(), serviceServer.getOptionalServerNames());
+//			addRequiredServiceName(serviceServer.getServerID(), serviceServer.getRequiredServerNames());
+//			addOptionalServiceName(serviceServer.getServerID(), serviceServer.getOptionalServerNames());
 		}
 		
 	}
@@ -157,35 +156,35 @@ public class MemoryDiscoveryDaoImpl implements DiscoveryDao{
 		return result;
 	}
 	
-	@Override
-	public void addRequiredServiceName(String serverID, List<String> serviceName) {
-		requiredServiceNameMap.put(serverID, serviceName);
-	}
-
-	@Override
-	public void deleteRequiredServiceName(String serverID) {
-		requiredServiceNameMap.remove(serverID);
-	}
-
-	@Override
-	public Map<String,List<String>> getAllRequiredServiceName(){
-		return requiredServiceNameMap;
-	}
-	
-	@Override
-	public void addOptionalServiceName(String serverID, List<String> serviceName) {
-		optionalServiceNameMap.put(serverID, serviceName);
-	}
-	
-	@Override
-	public void deleteOptionalServiceName(String serverID) {
-		optionalServiceNameMap.remove(serverID);
-	}
-	
-	@Override
-	public Map<String,List<String>> getAllOptionalServiceName(){
-		return optionalServiceNameMap;
-	}
+//	@Override
+//	public void addRequiredServiceName(String serverID, List<String> serviceName) {
+//		requiredServiceNameMap.put(serverID, serviceName);
+//	}
+//
+//	@Override
+//	public void deleteRequiredServiceName(String serverID) {
+//		requiredServiceNameMap.remove(serverID);
+//	}
+//
+//	@Override
+//	public Map<String,List<String>> getAllRequiredServiceName(){
+//		return requiredServiceNameMap;
+//	}
+//	
+//	@Override
+//	public void addOptionalServiceName(String serverID, List<String> serviceName) {
+//		optionalServiceNameMap.put(serverID, serviceName);
+//	}
+//	
+//	@Override
+//	public void deleteOptionalServiceName(String serverID) {
+//		optionalServiceNameMap.remove(serverID);
+//	}
+//	
+//	@Override
+//	public Map<String,List<String>> getAllOptionalServiceName(){
+//		return optionalServiceNameMap;
+//	}
 
 	private boolean hasServiceType(ServiceType serviceType,ServiceType[] serviceTypes){
 		for (ServiceType _serviceType : serviceTypes) {

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
-import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
+import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.DeleteRequest;
@@ -174,35 +174,35 @@ public class DiscoveryServerServiceImpl implements DiscoveryServerService{
 		return discoveryDao.getAllServiceServer();
 	}
 
-	@Override
-	public void addRequiredServiceName(String serverID, List<String> serviceName) {
-		discoveryDao.addRequiredServiceName(serverID, serviceName);
-	}
-
-	@Override
-	public void deleteRequiredServiceName(String serverID) {
-		discoveryDao.deleteRequiredServiceName(serverID);
-	}
-
-	@Override
-	public Map<String,List<String>> getAllRequiredServiceName(){
-		return discoveryDao.getAllRequiredServiceName();
-	}
-	
-	@Override
-	public void addOptionalServiceName(String serverID, List<String> serviceName) {
-		discoveryDao.addOptionalServiceName(serverID, serviceName);
-	}
-	
-	@Override
-	public void deleteOptionalServiceName(String serverID) {
-		discoveryDao.deleteOptionalServiceName(serverID);
-	}
-	
-	@Override
-	public Map<String,List<String>> getAllOptionalServiceName(){
-		return discoveryDao.getAllOptionalServiceName();
-	}
+//	@Override
+//	public void addRequiredServiceName(String serverID, List<String> serviceName) {
+//		discoveryDao.addRequiredServiceName(serverID, serviceName);
+//	}
+//
+//	@Override
+//	public void deleteRequiredServiceName(String serverID) {
+//		discoveryDao.deleteRequiredServiceName(serverID);
+//	}
+//
+//	@Override
+//	public Map<String,List<String>> getAllRequiredServiceName(){
+//		return discoveryDao.getAllRequiredServiceName();
+//	}
+//	
+//	@Override
+//	public void addOptionalServiceName(String serverID, List<String> serviceName) {
+//		discoveryDao.addOptionalServiceName(serverID, serviceName);
+//	}
+//	
+//	@Override
+//	public void deleteOptionalServiceName(String serverID) {
+//		discoveryDao.deleteOptionalServiceName(serverID);
+//	}
+//	
+//	@Override
+//	public Map<String,List<String>> getAllOptionalServiceName(){
+//		return discoveryDao.getAllOptionalServiceName();
+//	}
 	
 	
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
-import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
+import com.goldgov.origin.core.discovery.ServiceServer.ServiceDependency;
+import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.rpc.RpcServiceInstance;
 import com.goldgov.origin.server.service.DiscoveryServerService;
 import com.goldgov.origin.server.service.ServiceHealthChecker;
@@ -87,8 +89,8 @@ public class DiscoveryServerController {
 	@RequestMapping("overview")
 	public String serviceInfoOverview(Model model){
 		
-		Map<String, List<String>> allRequiredServics = discoveryService.getAllRequiredServiceName();
-		Map<String, List<String>> allOptionalServics = discoveryService.getAllOptionalServiceName();
+//		Map<String, List<String>> allRequiredServics = discoveryService.getAllRequiredServiceName();
+//		Map<String, List<String>> allOptionalServics = discoveryService.getAllOptionalServiceName();
 		Map<String, ServiceServer> clientMapping = discoveryService.getClientMapping();
 		
 		Map<String, List<RpcServiceInstance>> allServices = discoveryService.getAllServices();
@@ -98,21 +100,35 @@ public class DiscoveryServerController {
 		List<ServerHealth> serverHealth = new ArrayList<>(clientMapping.size());
 		for(ServiceServer serviceServer : servers){
 			ServerHealth health = new ServerHealth(serviceServer);
-			List<String> requiredServiceNames = allRequiredServics.get(serviceServer.getServerID());
-			List<String> optionalServiceNames = allOptionalServics.get(serviceServer.getServerID());
+//			List<String> requiredServiceNames = allRequiredServics.get(serviceServer.getServerID());
+//			List<String> optionalServiceNames = allOptionalServics.get(serviceServer.getServerID());
 
-			if(requiredServiceNames != null){
-				for (String serviceName : requiredServiceNames) {
+			Map<String, ServiceDependency> dependencyMap = serviceServer.getServiceDependency();
+			Iterator<String> keyIterator = dependencyMap.keySet().iterator();
+			while(keyIterator.hasNext()){
+				String serviceName = keyIterator.next();
+				ServiceDependency serviceDependency = dependencyMap.get(serviceName);
+				if(serviceDependency == ServiceDependency.REQUIRED){
 					List<RpcServiceInstance> serviceList = allServices.get(serviceName);
 					health.addHealthState(serviceName, (serviceList != null && serviceList.size() > 0) ? HealthState.UP : HealthState.DOWN);
-				}
-			}
-			
-			if(optionalServiceNames != null){
-				for (String serviceName : optionalServiceNames) {
+				}else if(serviceDependency == ServiceDependency.OPTIONAL){
 					health.addHealthState(serviceName, HealthState.OPTIONAL);
+				}else{
+					health.addHealthState(serviceName, HealthState.SELF_SUFFICIENT);
 				}
 			}
+//			if(requiredServiceNames != null){
+//				for (String serviceName : requiredServiceNames) {
+//					List<RpcServiceInstance> serviceList = allServices.get(serviceName);
+//					health.addHealthState(serviceName, (serviceList != null && serviceList.size() > 0) ? HealthState.UP : HealthState.DOWN);
+//				}
+//			}
+//			
+//			if(optionalServiceNames != null){
+//				for (String serviceName : optionalServiceNames) {
+//					health.addHealthState(serviceName, HealthState.OPTIONAL);
+//				}
+//			}
 			serverHealth.add(health);
 		}
 		
@@ -144,7 +160,7 @@ public class DiscoveryServerController {
 		
 		public void addHealthState(String serviceName ,HealthState state) {
 			serviceHealthMap.put(serviceName, state);
-			if(state != HealthState.UP){
+			if(state == HealthState.DOWN){
 				serverHealth = state;
 			}
 		}
@@ -253,7 +269,7 @@ public class DiscoveryServerController {
 //	}
 	
 	public enum HealthState{
-		UP,DOWN,OPTIONAL;
+		UP,DOWN,OPTIONAL,SELF_SUFFICIENT;
 	}
 	
 }

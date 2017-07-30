@@ -14,7 +14,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 
 import com.goldgov.origin.core.discovery.ServiceServer;
-import com.goldgov.origin.core.discovery.ServiceServer.ServiceType;
+import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.GetRequest;
