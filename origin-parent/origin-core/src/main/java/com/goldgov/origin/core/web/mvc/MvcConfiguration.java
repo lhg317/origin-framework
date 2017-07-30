@@ -18,6 +18,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.bind.support.WebBindingInitializer;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.goldgov.origin.core.web.bind.CustomBindingInitializer;
 import com.goldgov.origin.core.web.freemarker.FreeMarkerAttribute;
 import com.goldgov.origin.core.web.freemarker.PuzzleFreeMarkerView;
 import com.goldgov.origin.core.web.interceptor.WebInterceptor;
@@ -163,6 +165,11 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 			
 		}
 		return arg0;
+	}
+	
+	@Bean
+	public WebBindingInitializer configurableWebBindingInitializer(){
+		return new CustomBindingInitializer();
 	}
 
 	@Override
