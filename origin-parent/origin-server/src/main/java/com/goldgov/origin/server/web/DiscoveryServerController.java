@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +60,8 @@ public class DiscoveryServerController {
 		properties.put("serverIP", remoteHost);
 		serviceObject.setWebPath(processPlaceholder(serviceObject.getWebPath(),properties));
 		serviceObject.setRegisterDate(new Date());
+		
+		serviceObject.setServerID(DigestUtils.md5Hex(serviceObject.getWebPath()));
 		
 		discoveryService.addService(serviceObject);
 		return "SUCCESS";

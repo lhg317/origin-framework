@@ -121,7 +121,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 					String protocol = sslEnabled ? "https":"http";
 					webPath = protocol + "://{serverIP}:" + serverPort + contextPath;
 				}
-				localService.setServerID(UUID.randomUUID().toString());
+//				localService.setServerID(UUID.randomUUID().toString());
 				localService.setWebPath(webPath);
 //				localService.setHealthPath(healthPath);
 //				localService.setUpdatePath(updatePath);
