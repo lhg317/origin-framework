@@ -58,7 +58,7 @@
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-modules-file</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<classifier>WEB</classifier>
+			<!-- <classifier>WEB</classifier> -->
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
