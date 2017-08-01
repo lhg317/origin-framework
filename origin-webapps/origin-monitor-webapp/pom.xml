@@ -61,6 +61,6 @@
 		</profile>
 	</profiles>
 	<build>
-		<finalName>discovery-server</finalName>
+		<finalName>monitor-server</finalName>
 	</build>
 </project>
