@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import com.goldgov.origin.client.service.DiscoveryClientService;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
@@ -14,7 +13,6 @@ import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.GetRequest;
 import com.goldgov.origin.core.discovery.rpc.ServiceProviderCenter;
 
-@Service
 public class DiscoveryClientServiceImpl implements DiscoveryClientService{
 
 	private final Log logger = LogFactory.getLog(getClass());

@@ -1,7 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.goldgov.origin.core.CoreConfiguration,\
 com.goldgov.origin.core.web.mvc.MvcConfiguration,\
-com.goldgov.origin.core.dao.MyBatisConfiguration
+com.goldgov.origin.core.dao.MyBatisConfiguration,\
+com.goldgov.origin.core.discovery.rpc.RpcAutoConfiguration
 
 org.springframework.context.ApplicationListener=\
 com.goldgov.origin.core.config.EnvironmentReconfigureEvent

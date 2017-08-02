@@ -9,11 +9,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.goldgov.origin.core.discovery.rpc.EnableRpcConfiguration;
-
 @SpringBootApplication
-@EnableRpcConfiguration
-@ComponentScan({"com/goldgov/origin"})
+@ComponentScan({"com.goldgov.origin"})
 public abstract class OriginApplication extends SpringBootServletInitializer{
 
 	/**

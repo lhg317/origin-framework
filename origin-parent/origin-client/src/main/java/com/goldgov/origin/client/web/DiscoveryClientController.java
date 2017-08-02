@@ -15,19 +15,19 @@ import com.goldgov.origin.client.service.DiscoveryClientService;
 //@RequestMapping("/client")
 public class DiscoveryClientController {
 	
-	@Autowired
+	@Autowired(required=false)
 	private DiscoveryClientService discoveryClientService;
 	
 	
 	@RequestMapping(path="/update",method=RequestMethod.DELETE)
 	public @ResponseBody String clearServerCache(HttpServletRequest request){
-		discoveryClientService.clearServerCache();
+		getClientService().clearServerCache();
 		return "SUCCESS";
 	}
 	
 	@RequestMapping(path="/update",method=RequestMethod.PUT,params={"serviceName","HttpServletRequest","!weighted"})
 	public @ResponseBody String changeLoadBalancerStrategy(String serviceName,String strategyClass,HttpServletRequest request){
-		discoveryClientService.changeLoadBalancerStrategy(serviceName, strategyClass);
+		getClientService().changeLoadBalancerStrategy(serviceName, strategyClass);
 		return "SUCCESS";
 	}
 	
@@ -35,6 +35,13 @@ public class DiscoveryClientController {
 	public @ResponseBody String changeLoadBalancerStrategy(@RequestParam("serviceName") String serviceName,@RequestParam("weighted") Double weighted,HttpServletRequest request){
 		//TODO 
 		return "SUCCESS";
+	}
+	
+	private DiscoveryClientService getClientService(){
+		if(discoveryClientService == null){
+			throw new RuntimeException("您可能尚未开启RPC自动配置@EnableRpcConfiguration");
+		}
+		return discoveryClientService;
 	}
 	
 }

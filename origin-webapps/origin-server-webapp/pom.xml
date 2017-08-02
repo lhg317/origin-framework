@@ -8,8 +8,8 @@
 		<artifactId>origin-webapps</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>origin-server-webapp</artifactId>
-	<name>origin-server-webapp</name>
+	<artifactId>origin-discovery-webapp</artifactId>
+	<name>origin-discovery-webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,7 +37,6 @@
 			</activation>
 			<properties>
 				<server.port>8000</server.port>
-				<!-- <datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url> -->
 				<logging.level>INFO</logging.level>
 			</properties>
 		</profile>
@@ -45,12 +44,11 @@
 			<id>docker</id>
 			<properties>
 				<server.port>8000</server.port>
-				<!-- <datasource.url>jdbc:mysql://docker_mysql:3306/origin</datasource.url> -->
 				<logging.level>ERROR</logging.level>
 			</properties>
 		</profile>
 	</profiles>
 	<build>
-		<finalName>discovery-server</finalName>
+		<finalName>discovery-center</finalName>
 	</build>
 </project>

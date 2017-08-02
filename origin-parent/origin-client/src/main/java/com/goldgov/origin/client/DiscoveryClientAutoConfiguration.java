@@ -7,9 +7,13 @@ import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoCo
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
+import com.goldgov.origin.client.service.DiscoveryClientService;
+import com.goldgov.origin.client.service.impl.DiscoveryClientServiceImpl;
+import com.goldgov.origin.core.discovery.rpc.ServiceProviderCenter;
+
 @Configurable
-@AutoConfigureAfter(EmbeddedServletContainerAutoConfiguration.class)
-public class DiscoveryClientConfiguration {
+@AutoConfigureAfter({EmbeddedServletContainerAutoConfiguration.class})
+public class DiscoveryClientAutoConfiguration {
 
 	@Bean
 	public LocalServiceRegister discoveryRegister(){
@@ -19,6 +23,20 @@ public class DiscoveryClientConfiguration {
 	@Bean
 	public ClientConfig clientConfig(){
 		return new ClientConfig();
+	}
+	
+	@Bean
+	public DiscoveryClientService discoveryClientService(){
+		return new DiscoveryClientServiceImpl();
+	}
+	
+	/**
+	 * @return
+	 */
+	@Bean("rpcServiceProviderCenter")
+	public ServiceProviderCenter serviceProviderCenter(){
+		ServiceProviderCenter serviceProviderCenter = new ServiceProviderCenter();
+		return serviceProviderCenter;
 	}
 	
 	@Bean

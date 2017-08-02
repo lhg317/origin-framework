@@ -18,8 +18,8 @@ import org.springframework.util.StringUtils;
 
 import com.goldgov.origin.core.discovery.IsWebGate;
 import com.goldgov.origin.core.discovery.ServiceServer;
-import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.ServiceServer.ServiceDependency;
+import com.goldgov.origin.core.discovery.ServiceType;
 import com.goldgov.origin.core.discovery.http.HttpRequestClient;
 import com.goldgov.origin.core.discovery.http.Response;
 import com.goldgov.origin.core.discovery.http.request.JsonRequest;
@@ -43,7 +43,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	private static final int RETRY_INTERVAL = 5000;//毫秒
 	
 	
-	@Autowired
+	@Autowired(required=false)
 	private ThriftRpcServer rpcServer;
 	
 	@SuppressWarnings("rawtypes")
@@ -94,11 +94,13 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 		final String discoveryServer = clientConfig.getDiscoveryServer();
 		Assert.hasText(discoveryServer,"discovery server is not specified.");
 		
-		final List<RpcServiceProxy> rpcServiceList = rpcServer.getRpcServiceList();
-//		if(rpcServiceList.size() == 0){
-//			logger.debug("当前应用不包含任何rpc服务，不发起服务注册请求");
-//			return;
-//		}
+		if(rpcServer == null){
+			logger.info("Bean method 'rpcServer' not loaded because auto-configuration 'DelegatingRpcConfiguration' was excluded");
+		}
+		final List<RpcServiceProxy> rpcServiceList = new ArrayList<>();
+		if(rpcServer != null){
+			rpcServiceList.addAll(rpcServer.getRpcServiceList());
+		}
 		final String[] optional = getOptionalModules();
 		
 		//判断是否为网关服务
@@ -113,7 +115,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 			public void run() {
 				
 				ServiceServer localService = new ServiceServer();
-				if(rpcServer.isServing()){
+				if(rpcServer != null && rpcServer.isServing()){
 					localService.setServerPort(rpcServer.getPort());
 				}
 
@@ -239,6 +241,9 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 	}
 	
 	private boolean isServiceSelf(String serviceName){
+		if(rpcServer == null){
+			return false;
+		}
 		List<RpcServiceProxy> rpcServiceList = rpcServer.getRpcServiceList();
 		boolean hasService = false;
 		for (RpcServiceProxy providedService : rpcServiceList) {
@@ -255,9 +260,11 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 		List<ServiceType> serviceTypeList = new ArrayList<>();
 		
 		//判断是否为生产者服务
-		List<RpcServiceProxy> rpcServiceList = rpcServer.getRpcServiceList();
-		if(rpcServiceList.size() > 0){
-			serviceTypeList.add(ServiceType.ProducerService);
+		if(rpcServer != null){
+			List<RpcServiceProxy> rpcServiceList = rpcServer.getRpcServiceList();
+			if(rpcServiceList.size() > 0){
+				serviceTypeList.add(ServiceType.ProducerService);
+			}
 		}
 		
 		//判断是否为消费者服务

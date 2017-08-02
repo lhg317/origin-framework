@@ -9,9 +9,9 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>origin-webgate-webapps</artifactId>
+	<artifactId>origin-basic-webapps</artifactId>
 
-	<name>origin-webgate-webapps</name>
+	<name>origin-basic-webapps</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,32 +33,29 @@
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-client</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.goldgov</groupId>
-			<artifactId>origin-config</artifactId>
-		</dependency> -->
 		<dependency>
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-modules-auth</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
+			<classifier>SERVICE</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-modules-user</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<!-- <classifier>WEB</classifier> -->
+			<classifier>SERVICE</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-modules-role</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<!-- <classifier>WEB</classifier> -->
+			<classifier>SERVICE</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-modules-file</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<!-- <classifier>WEB</classifier> -->
+			<classifier>SERVICE</classifier>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -81,7 +78,7 @@
 			</activation>
 			<properties>
 				<server.port>80</server.port>
-				<discovery.url>http://192.168.0.19:80/server/discovery</discovery.url>
+				<discovery.url>http://127.0.0.1:8000/server/discovery</discovery.url>
 				<datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url>
 				<memory.cache.enabled>true</memory.cache.enabled>
 				<redis.host>192.168.10.120</redis.host>
@@ -103,7 +100,7 @@
 		</profile>
 	</profiles>
 	<build>
-		<finalName>origin-webapp</finalName>
+		<finalName>base-service-server</finalName>
 		<!-- <plugins>
 			<plugin>
 	            <groupId>org.apache.maven.plugins</groupId>

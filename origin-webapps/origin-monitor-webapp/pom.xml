@@ -45,8 +45,7 @@
 			</activation>
 			<properties>
 				<server.port>8005</server.port>
-				<discovery.url>http://127.0.0.1:80/server/discovery</discovery.url>
-				<!-- <datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url> -->
+				<discovery.url>http://127.0.0.1:8000/server/discovery</discovery.url>
 				<logging.level>ERROR</logging.level>
 			</properties>
 		</profile>
@@ -55,12 +54,11 @@
 			<properties>
 				<server.port>8005</server.port>
 				<discovery.url>http://docker_discovery:8000/server/discovery</discovery.url>
-				<!-- <datasource.url>jdbc:mysql://docker_mysql:3306/origin</datasource.url> -->
 				<logging.level>INFO</logging.level>
 			</properties>
 		</profile>
 	</profiles>
 	<build>
-		<finalName>monitor-server</finalName>
+		<finalName>monitor-center</finalName>
 	</build>
 </project>

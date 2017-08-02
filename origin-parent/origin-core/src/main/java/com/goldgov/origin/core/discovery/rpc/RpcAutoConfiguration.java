@@ -2,14 +2,12 @@ package com.goldgov.origin.core.discovery.rpc;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ImportAware;
-import org.springframework.core.type.AnnotationMetadata;
 
 import com.goldgov.origin.core.discovery.actuator.RpcServerHealthIndicator;
 import com.goldgov.origin.core.discovery.actuator.RpcServiceEndPoint;
 import com.goldgov.origin.core.discovery.actuator.metrics.RpcPublicMetrics;
 
-public class DelegatingRpcConfiguration implements ImportAware{
+public class RpcAutoConfiguration{
 
 	@Bean("rpcServer")
 	public ThriftRpcServer rpcServer(){
@@ -45,20 +43,6 @@ public class DelegatingRpcConfiguration implements ImportAware{
 	@Bean
 	public RpcPublicMetrics rpcPublicMetrics(){
 		return new RpcPublicMetrics();
-	}
-	
-	/**
-	 * @return
-	 */
-	@Bean("rpcServiceProviderCenter")
-	public ServiceProviderCenter serviceProviderCenter(){
-		ServiceProviderCenter serviceProviderCenter = new ServiceProviderCenter();
-		return serviceProviderCenter;
-	}
-
-	@Override
-	public void setImportMetadata(AnnotationMetadata importMetadata) {
-		
 	}
 	
 }
