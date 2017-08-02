@@ -27,10 +27,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>
-			<artifactId>origin-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.goldgov</groupId>
 			<artifactId>origin-client</artifactId>
 		</dependency>
 		<dependency>
@@ -77,7 +73,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<server.port>80</server.port>
+				<server.port>8001</server.port>
 				<discovery.url>http://127.0.0.1:8000/server/discovery</discovery.url>
 				<datasource.url>jdbc:mysql://127.0.0.1:3306/origin</datasource.url>
 				<memory.cache.enabled>true</memory.cache.enabled>
@@ -89,7 +85,7 @@
 		<profile>
 			<id>docker</id>
 			<properties>
-				<server.port>80</server.port>
+				<server.port>8001</server.port>
 				<discovery.url>http://docker_discovery:8000/server/discovery</discovery.url>
 				<datasource.url>jdbc:mysql://docker_mysql:3306/origin</datasource.url>
 				<memory.cache.enabled>false</memory.cache.enabled>

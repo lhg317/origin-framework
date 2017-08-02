@@ -34,11 +34,11 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<!-- <modules>
+	<modules>
 		<module>origin-server-webapp</module>
-		<module>origin-webgate-webapps</module>
 		<module>origin-monitor-webapp</module>
-	</modules> -->
+		<module>origin-webgate-webapps</module>
+	</modules>
 	<distributionManagement>
 		<!-- <repository>
 			<id>origin-releases</id>
