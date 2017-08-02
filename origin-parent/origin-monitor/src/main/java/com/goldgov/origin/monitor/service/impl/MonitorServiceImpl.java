@@ -105,7 +105,7 @@ public class MonitorServiceImpl implements MonitorService{
 				logger.error("获取所有网关服务时出现错误：" + response.toString());
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("获取所有网关服务时出现错误" , e);
+			throw new RuntimeException("获取所有网关服务时出现错误，请检查是否成功注册到了服务中心" , e);
 		}
 //		finally {
 //			httpRequestClient.close();
