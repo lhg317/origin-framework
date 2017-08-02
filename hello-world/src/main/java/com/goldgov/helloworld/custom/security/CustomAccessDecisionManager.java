@@ -11,16 +11,18 @@ import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.security.access.BaseAccessDecisionManager;
 
 @Component
-public class CustomAccessDecisionManager extends BaseAccessDecisionManager{
+public class CustomAccessDecisionManager extends BaseAccessDecisionManager {
 
-	
 	@Autowired
 	@Qualifier("rpcRoleService.Client")
 	private RpcRoleService.Iface roleService;
 	
+	/**
+	 * key：角色资源编码，value:角色编码
+	 */
 	@Override
-	protected Map<String, List<String>> roleResourceMap() throws Exception {
+	protected Map<String, List<String>> roleResourceMap()throws Exception {
 		return roleService.getRoleResourceMap();
 	}
-
+	
 }

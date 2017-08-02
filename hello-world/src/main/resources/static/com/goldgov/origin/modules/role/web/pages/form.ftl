@@ -16,7 +16,7 @@
 <@i18n code="label.roleName" suffix="colon"/><input type="text" name="roleName" value="${(role.roleName)!}">
 <@i18n code="label.roleCode" suffix="colon"/><input type="text" name="roleCode" value="${(role.roleCode)!}">
 <@i18n code="label.description" suffix="colon"/><input type="text" name="description" value="${(role.description)!}">
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+${csrfToken(true)}
 ${webToken(true)}
 <br>
 <input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listRole')"/>

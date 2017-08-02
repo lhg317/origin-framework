@@ -70,5 +70,4 @@ public class CustomAuthenticationProvider extends BaseAuthenticationProvider{//i
 		UserToken userToken = new UserToken(loginName, password, user.getUserName(), grantedAuths);
 		return userToken;
 	}
-	
 }
