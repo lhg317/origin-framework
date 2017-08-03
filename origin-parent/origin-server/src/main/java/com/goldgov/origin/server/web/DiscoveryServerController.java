@@ -40,7 +40,7 @@ import com.goldgov.origin.server.service.ServiceHealthChecker;
 @RequestMapping("/server")
 public class DiscoveryServerController {
 
-	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/");
+	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/") + "/pages/";
 	
 	@Autowired
 	private DiscoveryServerService discoveryService;
@@ -138,7 +138,7 @@ public class DiscoveryServerController {
 		model.addAttribute("lastCheckDate", healthChecker.getLastCheckDate());
 		model.addAttribute("checkFailTotal", healthChecker.getCheckFailTotal());
 		
-		return PAGES_BASE_PATH + "/overview";
+		return PAGES_BASE_PATH + "overview";
 	}
 	
 	private String processPlaceholder(String text,Properties properties){

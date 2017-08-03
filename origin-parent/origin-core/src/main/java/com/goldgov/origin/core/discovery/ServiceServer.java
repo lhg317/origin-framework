@@ -197,9 +197,9 @@ public class ServiceServer {
 		return webPath + "/metrics";
 	}
 
-
+	
 	public enum ServiceDependency{
-		REQUIRED,OPTIONAL,SELF_SUFFICIENT;
+		REQUIRED,OPTIONAL,JUST_PROVIDER;
 	}
 	
 }

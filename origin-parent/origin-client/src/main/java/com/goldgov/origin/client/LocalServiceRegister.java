@@ -146,7 +146,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 								localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.REQUIRED);
 							}
 						}else{
-							localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.SELF_SUFFICIENT);
+							localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.JUST_PROVIDER);
 						}
 					}
 				}
