@@ -114,7 +114,7 @@ public class DiscoveryServerController {
 				}else if(serviceDependency == ServiceDependency.OPTIONAL){
 					health.addHealthState(serviceName, HealthState.OPTIONAL);
 				}else{
-					health.addHealthState(serviceName, HealthState.SELF_SUFFICIENT);
+					health.addHealthState(serviceName, HealthState.JUST_PROVIDER);
 				}
 			}
 //			if(requiredServiceNames != null){
@@ -269,7 +269,7 @@ public class DiscoveryServerController {
 //	}
 	
 	public enum HealthState{
-		UP,DOWN,OPTIONAL,SELF_SUFFICIENT;
+		UP,DOWN,OPTIONAL,JUST_PROVIDER;
 	}
 	
 }

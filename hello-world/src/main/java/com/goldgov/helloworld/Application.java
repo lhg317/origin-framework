@@ -1,7 +1,5 @@
 package com.goldgov.helloworld;
 
-import org.springframework.boot.SpringApplication;
-
 import com.goldgov.origin.core.OriginApplication;
 import com.goldgov.origin.core.discovery.IsWebGate;
 
@@ -13,6 +11,6 @@ import com.goldgov.origin.core.discovery.IsWebGate;
 public class Application extends OriginApplication implements IsWebGate{
 
 	public static void main(String[] args) {
-		SpringApplication.run(new Object[]{Application.class}, args);
+		Application.startup(Application.class, args);
 	}
 }
