@@ -174,10 +174,10 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 								registerSuccess = true;
 								return;
 							}else{
-								logger.error("注册失败：" + localService + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");
+								logger.error("注册失败：" + discoveryServer + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");
 							}
 						}else{
-							logger.warn("注册失败：" + localService + "，错误明细：" + response.toString() + "，" + RETRY_INTERVAL + "后重试");
+							logger.warn("注册失败：" + discoveryServer + "，错误明细：" + response.toString() + "，" + RETRY_INTERVAL + "后重试");
 						}
 					} catch (Exception e) {
 						failTimes++;
