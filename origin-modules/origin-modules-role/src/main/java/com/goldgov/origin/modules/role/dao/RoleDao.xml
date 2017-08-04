@@ -51,9 +51,9 @@
 	</insert>
 	
 	<insert id="addRoleObject">
-		insert into role_object (ROLE_OBJECT_ID,ROLE_ID,ROLE_OBJECT)value
+		insert into role_object (ROLE_OBJECT_ID,ROLE_ID,ROLE_OBJECT,OBJECT_TYPE)value
 		<foreach item="id" collection="roleObject" separator=",">
-		   (uuid(),#{roleID},#{id})
+		   (uuid(),#{roleID},#{id},#{roleObjectType})
 		</foreach>
 	</insert>
 	
@@ -62,7 +62,7 @@
 	</delete>
 	
 	<delete id="deleteRoleObjectByRoleID">
-		delete from role_object where ROLE_ID = #{roleID}
+		delete from role_object where ROLE_ID = #{roleID} AND OBJECT_TYPE = #{roleObjectType}
 	</delete>
 	
 	<delete id="deleteRoles">

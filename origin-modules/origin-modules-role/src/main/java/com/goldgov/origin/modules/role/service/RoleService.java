@@ -14,7 +14,7 @@ public interface RoleService {
 	
 	void saveRoleResource(String roleID,String[] resourceOperate);
 	
-	void saveRoleObject(String roleID,String[] roleObject);
+	void saveRoleObject(String roleID,String[] roleObject,String roleObjectType);
 	
 	void updateRole(Role role);
 	
@@ -37,13 +37,16 @@ public interface RoleService {
 	 * @return 关联对象所属的所有资源对象
 	 */
 	List<RoleResource> listRoleResourceByObject(String roleObject);
+	List<RoleResource> listRoleResourceByObject(String roleObject,String roleObjectType);
 
 	/**
 	 * 根据角色关联对象（例如用户ID），查询该角色对象下的所有所属角色。
 	 * @param roleObject 角色关联对象，可能为比如用户ID等通用的、表示角色拥有者特征的唯一标识。
+//	 * @param roleObjectType 角色对象类型
 	 * @return 关联对象所属的所有角色对象
 	 */
 	List<Role> listRoleByObject(String roleObject);
+	List<Role> listRoleByObject(String roleObject,String roleObjectType);
 	
 	/**
 	 * 获取角色资源，以Map形式返回。

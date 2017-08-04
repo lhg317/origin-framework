@@ -27,7 +27,7 @@
 
 </#list>
 </table>
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+${csrfToken(true)}
 <input type="hidden" name="roleID" value="${RequestParameters['roleID']}"/>
 <button type="submit"><@i18n code="select"/></button> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listRole','_self')"/>
 </form>

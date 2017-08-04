@@ -2,8 +2,12 @@ package com.goldgov.origin.modules.role.service;
 
 public class RoleObject {
 
+	public static final String USER = "USER";
+	public static final String GROUP = "GROUP";
+	
 	private Integer roleObjectID;
 	private String roleObject;
+	private String type;
 	private Integer roleID;
 	
 	public Integer getRoleObjectID() {
@@ -23,6 +27,12 @@ public class RoleObject {
 	}
 	public void setRoleObject(String roleObject) {
 		this.roleObject = roleObject;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

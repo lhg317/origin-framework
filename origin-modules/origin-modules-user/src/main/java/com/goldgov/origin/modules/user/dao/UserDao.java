@@ -33,4 +33,6 @@ public interface UserDao {
 	public void deleteGroup(String[] ids);
 	
 	public void updateGroupName(String id,String groupName);
+	
+	public List<User> listUserInGroup(String groupID);
 }

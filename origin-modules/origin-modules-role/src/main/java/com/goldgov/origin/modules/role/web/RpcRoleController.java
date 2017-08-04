@@ -64,8 +64,8 @@ public class RpcRoleController {
 	}
 	
 	@RequestMapping("/saveRoleObject")
-	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("roleObject")String[] roleObject) throws Exception{
-		roleService.saveRoleObject(roleID, Arrays.asList(roleObject));
+	public String saveRoleObject(@RequestParam("roleID")String roleID, @RequestParam("roleObject")String[] roleObject,@RequestParam("roleObjectType")String roleObjectType) throws Exception{
+		roleService.saveRoleObject(roleID, Arrays.asList(roleObject),roleObjectType);
 		return "forward:/role/listRole";
 	}
 	

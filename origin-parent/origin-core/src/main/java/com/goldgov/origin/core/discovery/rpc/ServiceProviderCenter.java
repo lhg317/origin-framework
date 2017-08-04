@@ -206,7 +206,8 @@ public class ServiceProviderCenter{
 			if(response.getStatusCode() == 200){
 				services = response.toObject(ServiceServer[].class);
 			}else{
-				//FIXME
+				//如果返回404，有可能对方忘记引入origin-server模块。
+				throw new RuntimeException(" Get " + serviceName +" error from " + discoveryServer + ". response message:" + response.toString());
 			}
 			logger.debug(" Get "+ services.length +" " + serviceName +" service producers.from " + discoveryServer);
 			return Arrays.asList(services);
