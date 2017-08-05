@@ -84,9 +84,10 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 		
 		List<RoleResource> listRole = new ArrayList<>();
 		if(roleObjectSource != null && roleObjectSource.size() > 0){
-			for (RoleObjectResource roleObjectSource : roleObjectSource) {
-				if(roleObjectSource.typeCode().equals(roleObjectType)){
-					listRole.addAll(roleObjectSource.listRoleResource(roleObject));
+			for (int i =0 ; i < roleObjectSource.size();i++) {
+				RoleObjectResource roleObjectResource = roleObjectSource.get(i);
+				if(roleObjectResource.typeCode().equals(roleObjectType)){
+					listRole.addAll(roleObjectResource.listRoleResource(roleObject));
 					break;
 				}
 			}
@@ -107,9 +108,10 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 		
 		List<Role> listRole = new ArrayList<>();
 		if(roleObjectSource != null && roleObjectSource.size() > 0){
-			for (RoleObjectResource roleObjectSource : roleObjectSource) {
-				if(roleObjectSource.typeCode().equals(roleObjectType)){
-					listRole.addAll(roleObjectSource.listRole(roleObject));
+			for (int i =0 ; i < roleObjectSource.size();i++) {
+				RoleObjectResource roleObjectResource = roleObjectSource.get(i);
+				if(roleObjectResource.typeCode().equals(roleObjectType)){
+					listRole.addAll(roleObjectResource.listRole(roleObject));
 					break;
 				}
 			}
@@ -125,8 +127,9 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 			support = true;
 		}
 		if(!support && roleObjectSource != null && roleObjectSource.size() > 0){
-			for (RoleObjectResource roleObjectSource : roleObjectSource) {
-				if(roleObjectSource.typeCode().equals(roleObjectType)){
+			for (int i =0 ; i < roleObjectSource.size();i++) {
+				RoleObjectResource roleObjectResource = roleObjectSource.get(i);
+				if(roleObjectResource.typeCode().equals(roleObjectType)){
 					support = true;
 					break;
 				}
