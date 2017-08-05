@@ -50,6 +50,7 @@ import com.goldgov.origin.core.web.interceptor.handler.impl.TokenCheckHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.ValidationHandler;
 import com.goldgov.origin.core.web.messages.ClassPathMessageSource;
 import com.goldgov.origin.core.web.mvc.ViewController.ViewMapping;
+import com.goldgov.origin.core.web.resolver.RpcBeanResolver;
 
 @Configuration
 public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPostProcessor{//,ApplicationListener<EmbeddedServletContainerInitializedEvent> {
@@ -103,7 +104,7 @@ public class MvcConfiguration  extends WebMvcConfigurerAdapter implements BeanPo
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//		argumentResolvers.add(new ModelQueryResolver());
+		argumentResolvers.add(new RpcBeanResolver());
 	}
 	
 	@Override

@@ -4,7 +4,6 @@
 
 	<groupId>com.goldgov.origin</groupId>
 	<artifactId>hello-world</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>hello-world</name>
@@ -47,6 +46,12 @@
 		</profile>
 	</profiles>
 	<dependencies>
+		<dependency>
+			<groupId>com.goldgov</groupId>
+			<artifactId>origin-modules-basedata</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<!-- <classifier>WEB</classifier> -->
+		</dependency>
 		<dependency>
 			<groupId>com.goldgov</groupId>
 			<artifactId>origin-modules-auth</artifactId>

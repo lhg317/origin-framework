@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goldgov.origin.modules.basedata.dao.BaseDataDao">
+
+	<resultMap type="com.goldgov.origin.modules.basedata.service.BaseDataLocale"
+		id="dataLocale">
+		<result column="LOCALE_CODE" jdbcType="VARCHAR" property="localeCode" />
+		<result column="LOCALE_ID" jdbcType="VARCHAR" property="localeID" />
+		<result column="LOCALE_NAME" jdbcType="VARCHAR" property="localeName" />
+	</resultMap>
+
+	<resultMap type="com.goldgov.origin.modules.basedata.service.BaseData"
+		id="data">
+		<result column="DATA_ID" jdbcType="VARCHAR" property="dataID" />
+		<result column="DATA_NAME" jdbcType="VARCHAR" property="dataName" />
+		<result column="DATA_VALUE" jdbcType="VARCHAR" property="dataValue" />
+		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+		<result column="ORDER_NUM" jdbcType="NUMERIC" property="orderNum" />
+	</resultMap>
+
+	<sql id="baseDataQueryFields">
+		DATA_ID as "dataID",
+		DATA_NAME as "dataName",
+		DATA_VALUE as "dataValue",
+		DESCRIPTION as
+		"description",
+		ORDER_NUM as "orderNum"
+	</sql>
+
+	<sql id="baseDataLocaleQueryFields">
+		LOCALE_CODE as "localeCode",
+		LOCALE_ID as "localeID",
+		LOCALE_NAME as "localeName"
+	</sql>
+
+	<insert id="addLocale">
+		<selectKey keyProperty="localeID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		INSERT INTO BASE_DATA_LOCALE
+		(LOCALE_CODE,DATA_LOCALE_ID,LOCALE_NAME) VALUES
+		(#{localeCode},#{localeID},#{localeName})
+	</insert>
+
+	<insert id="addData">
+		<selectKey keyProperty="dataID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		INSERT INTO BASE_DATA
+		(DATA_LOCALE_ID,DATA_ID,DATA_NAME,DATA_VALUE,DESCRIPTION,ORDER_NUM)
+		VALUES
+		(#{dataLocale.localeID},#{dataID},#{dataName},#{dataValue},#{description},#{orderNum})
+	</insert>
+
+	<delete id="deleteLocale">
+		delete from BASE_DATA_LOCALE where DATA_LOCALE_ID =
+		#{id}
+	</delete>
+
+	<delete id="deleteData">
+		delete from BASE_DATA where ACCOUNT_ID IN
+		<foreach item="id" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="getLocale">
+		SELECT <include refid="baseDataLocaleQueryFields"/> from BASE_DATA_LOCALE where DATA_LOCALE_ID=#{localeID}
+	</select>
+	
+	<select id="getData">
+		SELECT <include refid="baseDataQueryFields"/> from BASE_DATA where DATA_ID=#{dataID}
+	</select>
+
+	<update id="updateLocale">
+		UPDATE BASE_DATA_LOCALE
+		<set>
+			<if test="localeCode != null ">LOCALE_CODE = #{localeCode},</if>
+			<if test="localeName != null ">LOCALE_NAME = #{localeName},</if>
+		</set>
+		WHERE DATA_LOCALE_ID = #{localeID}
+	</update>
+
+	<update id="updateData">
+		UPDATE BASE_DATA
+		<set>
+			<if test="dataName != null ">DATA_NAME = #{dataName},</if>
+			<if test="dataValue != null ">DATA_VALUE = #{dataValue},</if>
+			<if test="description != null ">DESCRIPTION = #{description},</if>
+			<if test="orderNum != null ">ORDER_NUM = #{orderNum},</if>
+		</set>
+		WHERE DATA_ID = #{dataID}
+	</update>
+	
+	<select id="listLocale" resultMap="dataLocale">
+		SELECT <include refid="baseDataLocaleQueryFields"/> FROM BASE_DATA_LOCALE
+	</select>
+
+	<select id="listData" resultMap="data">
+		SELECT <include refid="baseDataQueryFields"/> FROM BASE_DATA WHERE LOCALE_CODE=#{localeCode} AND DATA_NAME=#{dataName}
+	</select>
+
+</mapper>
