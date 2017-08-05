@@ -100,7 +100,7 @@
 	</select>
 
 	<select id="listData" resultMap="data">
-		SELECT <include refid="baseDataQueryFields"/> FROM BASE_DATA WHERE LOCALE_CODE=#{localeCode} AND DATA_NAME=#{dataName}
+		SELECT <include refid="baseDataQueryFields"/> FROM BASE_DATA_LOCALE l,BASE_DATA d WHERE l.DATA_LOCALE_ID=d.DATA_LOCALE_ID AND LOCALE_CODE=#{localeCode} AND DATA_NAME=#{dataName}
 	</select>
 
 </mapper>

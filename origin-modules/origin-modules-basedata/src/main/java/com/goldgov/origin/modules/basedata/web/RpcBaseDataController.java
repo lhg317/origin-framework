@@ -78,4 +78,11 @@ public class RpcBaseDataController {
 		return "forward:/basedata/listData";
 	}
 	
+	@RequestMapping("/listData")
+	public String listData(Model model) throws Exception{
+		List<RpcBaseData> listData = rpcBaseDataService.listData("1","1232");
+		model.addAttribute("listData",listData);
+		return PAGE_BASE_PATH + "locale/list";
+	}
+	
 }

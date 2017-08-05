@@ -27,10 +27,16 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 	}
 	
 	public String getDataID() {
-		return rpcBaseData.getDataID();
+		if(rpcBaseData.isSetDataID()){
+			return rpcBaseData.getDataID();
+		}else{
+			return null;
+		}
 	}
 	public void setDataID(String dataID) {
-		rpcBaseData.setDataID(dataID);
+		if(dataID != null){
+			rpcBaseData.setDataID(dataID);
+		}
 	}
 	public String getDataName() {
 		if(rpcBaseData.isSetDataName()){
@@ -40,7 +46,9 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 		}
 	}
 	public void setDataName(String dataName) {
-		rpcBaseData.setDataName(dataName);
+		if(dataName != null){
+			rpcBaseData.setDataName(dataName);
+		}
 	}
 	public String getDataValue() {
 		if(rpcBaseData.isSetDataValue()){
@@ -50,7 +58,9 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 		}
 	}
 	public void setDataValue(String dataValue) {
-		rpcBaseData.setDataValue(dataValue);
+		if(dataValue != null){
+			rpcBaseData.setDataValue(dataValue);
+		}
 	}
 	public String getDescription() {
 		if(rpcBaseData.isSetDescription()){
@@ -60,7 +70,9 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 		}
 	}
 	public void setDescription(String description) {
-		rpcBaseData.setDescription(description);
+		if(description != null){
+			rpcBaseData.setDescription(description);
+		}
 	}
 	public Integer getOrderNum() {
 		if(rpcBaseData.isSetOrderNum()){
@@ -70,10 +82,12 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 		}
 	}
 	public void setOrderNum(Integer orderNum) {
-		rpcBaseData.setOrderNum(orderNum);
+		if(orderNum != null){
+			rpcBaseData.setOrderNum(orderNum);
+		}
 	}
 	public BaseDataLocale getDataLocale() {
-		if(rpcBaseData.getDataLocale() != null){
+		if(rpcBaseData.isSetDataLocale()){
 			return new ProxyBaseDataLocale(rpcBaseData.getDataLocale());
 		}
 		return null;
