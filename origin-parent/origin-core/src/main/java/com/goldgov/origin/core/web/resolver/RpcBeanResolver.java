@@ -31,7 +31,7 @@ public class RpcBeanResolver implements HandlerMethodArgumentResolver{//extends 
 		Class<?> parameterType = parameter.getParameterType();
 //		String name = parameterType.getSimpleName();
 //		if (name.startsWith("Rpc")) {
-		if (parameterType.isAssignableFrom(TBase.class)) {
+		if (TBase.class.isAssignableFrom(parameterType)) {
 			return true;
 		}
 		return false;

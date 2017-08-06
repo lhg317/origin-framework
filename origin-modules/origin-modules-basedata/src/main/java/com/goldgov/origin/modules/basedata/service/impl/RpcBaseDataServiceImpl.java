@@ -9,12 +9,15 @@ import com.goldgov.origin.core.discovery.rpc.ObjectConverter.Utils;
 import com.goldgov.origin.core.discovery.rpc.ResultSetUtils;
 import com.goldgov.origin.core.discovery.rpc.RpcService;
 import com.goldgov.origin.modules.basedata.api.RpcBaseData;
+import com.goldgov.origin.modules.basedata.api.RpcBaseDataCategory;
 import com.goldgov.origin.modules.basedata.api.RpcBaseDataLocale;
 import com.goldgov.origin.modules.basedata.api.RpcBaseDataService;
 import com.goldgov.origin.modules.basedata.service.BaseData;
+import com.goldgov.origin.modules.basedata.service.BaseDataCategory;
 import com.goldgov.origin.modules.basedata.service.BaseDataLocale;
 import com.goldgov.origin.modules.basedata.service.BaseDataService;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseData;
+import com.goldgov.origin.modules.basedata.service.ProxyBaseDataCategory;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseDataLocale;
 
 @RpcService
@@ -24,6 +27,7 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 	private BaseDataService baseDataService;
 	
 	private BaseDataConverter baseDateConverter = new BaseDataConverter();
+	private BaseDataCategoryConverter baseDataCategoryConverter = new BaseDataCategoryConverter();
 	private BaseDataLocaleConverter baseDateLocaleConverter = new BaseDataLocaleConverter();
 	
 	@Override
@@ -66,8 +70,8 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 	}
 
 	@Override
-	public List<RpcBaseData> listData(String localeCode, String dataName) throws TException {
-		List<BaseData> listData = baseDataService.listData(localeCode, dataName);
+	public List<RpcBaseData> listData(String localeCode, String dataName,String parentID) throws TException {
+		List<BaseData> listData = baseDataService.listData(localeCode, dataName,parentID);
 		List<RpcBaseData> listRpcData = ResultSetUtils.convertToRpc(listData, baseDateConverter);
 		return listRpcData;
 	}
@@ -82,6 +86,34 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 	public RpcBaseData getData(String dataID) throws TException {
 		BaseData data = baseDataService.getData(dataID);
 		return new ProxyBaseData(data).toRpcObject();
+	}
+
+	@Override
+	public String addCategory(RpcBaseDataCategory category) throws TException {
+		baseDataService.addCategory(baseDataCategoryConverter.fromRpcObject(category));
+		return category.getCategoryID();
+	}
+
+	@Override
+	public RpcBaseDataCategory getCategory(String categoryID) throws TException {
+		BaseDataCategory category = baseDataService.getCategory(categoryID);
+		return new ProxyBaseDataCategory(category).toRpcObject();
+	}
+
+	@Override
+	public void updateCategory(RpcBaseDataCategory category) throws TException {
+		baseDataService.updateCategory(baseDataCategoryConverter.fromRpcObject(category));
+	}
+
+	@Override
+	public void deleteCategory(String categoryID) throws TException {
+		baseDataService.deleteCategory(categoryID);
+	}
+
+	@Override
+	public List<RpcBaseDataCategory> listCategory() throws TException {
+		List<BaseDataCategory> listCategory = baseDataService.listCategory();
+		return ResultSetUtils.convertToRpc(listCategory, baseDataCategoryConverter);
 	}
 
 }

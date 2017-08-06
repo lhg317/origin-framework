@@ -17,6 +17,7 @@
 数据值：<input type="text" name="dataValue" value="${(data.dataValue)!}">
 排序：<input type="text" name="orderNum" value="${(data.orderNum)!}">
 <input type="hidden" name="dataLocale.localeID" value="1">
+<input type="hidden" name="dataCategory.categoryID" value="1">
 ${csrfToken(true)}
 ${webToken(true)}
 <br>

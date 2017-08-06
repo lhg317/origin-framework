@@ -11,22 +11,42 @@
 		<result column="LOCALE_NAME" jdbcType="VARCHAR" property="localeName" />
 	</resultMap>
 
+	<resultMap
+		type="com.goldgov.origin.modules.basedata.service.BaseDataCategory"
+		id="baseDataCategory">
+		<result column="CATEGORY_CODE" jdbcType="VARCHAR" property="categoryCode" />
+		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryID" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+	</resultMap>
+
 	<resultMap type="com.goldgov.origin.modules.basedata.service.BaseData"
 		id="data">
 		<result column="DATA_ID" jdbcType="VARCHAR" property="dataID" />
 		<result column="DATA_NAME" jdbcType="VARCHAR" property="dataName" />
 		<result column="DATA_VALUE" jdbcType="VARCHAR" property="dataValue" />
 		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+		<result column="NODE_VALUE" jdbcType="NUMERIC" property="nodeValue" />
+		<result column="NODE_PATH" jdbcType="VARCHAR" property="nodePath" />
 		<result column="ORDER_NUM" jdbcType="NUMERIC" property="orderNum" />
 	</resultMap>
 
 	<sql id="baseDataQueryFields">
-		DATA_ID as "dataID",
-		DATA_NAME as "dataName",
-		DATA_VALUE as "dataValue",
-		DESCRIPTION as
+		d.DATA_ID as "dataID",
+		d.DATA_NAME as "dataName",
+		v.DATA_VALUE as
+		"dataValue",
+		d.DESCRIPTION as
 		"description",
-		ORDER_NUM as "orderNum"
+		v.ORDER_NUM as "orderNum",
+		d.NODE_VALUE as "nodeValue",
+		d.NODE_PATH as "nodePath"
+	</sql>
+
+	<sql id="baseDataCategoryQueryFields">
+		CATEGORY_CODE as "categoryCode",
+		CATEGORY_ID as
+		"categoryID",
+		CATEGORY_NAME as "categoryName"
 	</sql>
 
 	<sql id="baseDataLocaleQueryFields">
@@ -37,25 +57,52 @@
 
 	<insert id="addLocale">
 		<selectKey keyProperty="localeID" resultType="String" order="BEFORE">
-		    select uuid() from dual
+			select uuid() from dual
 		</selectKey>
 		INSERT INTO BASE_DATA_LOCALE
-		(LOCALE_CODE,DATA_LOCALE_ID,LOCALE_NAME) VALUES
+		(LOCALE_CODE,DATA_LOCALE_ID,LOCALE_NAME)
+		VALUES
 		(#{localeCode},#{localeID},#{localeName})
+	</insert>
+
+	<insert id="addCategory">
+		<selectKey keyProperty="categoryID" resultType="String"
+			order="BEFORE">
+			select uuid() from dual
+		</selectKey>
+		INSERT INTO BASE_DATA_CATEGORY
+		(CATEGORY_CODE,CATEGORY_ID,CATEGORY_NAME)
+		VALUES
+		(#{categoryCode},#{categoryID},#{categoryName})
 	</insert>
 
 	<insert id="addData">
 		<selectKey keyProperty="dataID" resultType="String" order="BEFORE">
-		    select uuid() from dual
+			select uuid() from dual
 		</selectKey>
+		<if test="parentData == null || parentData.dataID == null">
+			<bind name="parentData.dataID" value="dataID"/>
+		</if>
 		INSERT INTO BASE_DATA
-		(DATA_LOCALE_ID,DATA_ID,DATA_NAME,DATA_VALUE,DESCRIPTION,ORDER_NUM)
+		(CATEGORY_ID,DATA_ID,DATA_NAME,DESCRIPTION,NODE_VALUE,NODE_PATH,PARENT_ID)
 		VALUES
-		(#{dataLocale.localeID},#{dataID},#{dataName},#{dataValue},#{description},#{orderNum})
+		(#{dataCategory.categoryID},#{dataID},#{dataName},#{description},#{nodeValue},#{nodePath},#{parentData.dataID})
+	</insert>
+	
+	<insert id="addDataValue">
+		INSERT INTO BASE_DATA_VALUE
+		(DATA_VALUE_ID,DATA_ID,DATA_LOCALE_ID,DATA_VALUE,ORDER_NUM)
+		VALUES
+		(uuid(),#{dataID},#{localeID},#{dataValue},#{orderNum})
 	</insert>
 
 	<delete id="deleteLocale">
 		delete from BASE_DATA_LOCALE where DATA_LOCALE_ID =
+		#{id}
+	</delete>
+
+	<delete id="deleteCategory">
+		delete from BASE_DATA_CATEGORY where CATEGORY_ID =
 		#{id}
 	</delete>
 
@@ -66,13 +113,31 @@
 			#{id}
 		</foreach>
 	</delete>
-	
+
 	<select id="getLocale">
-		SELECT <include refid="baseDataLocaleQueryFields"/> from BASE_DATA_LOCALE where DATA_LOCALE_ID=#{localeID}
+		SELECT
+		<include refid="baseDataLocaleQueryFields" />
+		from BASE_DATA_LOCALE where DATA_LOCALE_ID=#{localeID}
 	</select>
 	
+	<select id="getMaxNodeValue" resultType="Integer">
+		SELECT max(NODE_VALUE) FROM BASE_DATA
+	</select>
+	
+	<select id="getNodePath" resultType="String">
+		SELECT NODE_PATH FROM BASE_DATA WHERE DATA_ID = #{dataID}
+	</select>
+
+	<select id="getCategory">
+		SELECT
+		<include refid="baseDataCategoryQueryFields" />
+		from BASE_DATA_CATEGORY where CATEGORY_ID=#{categoryID}
+	</select>
+
 	<select id="getData">
-		SELECT <include refid="baseDataQueryFields"/> from BASE_DATA where DATA_ID=#{dataID}
+		SELECT
+		<include refid="baseDataQueryFields" />
+		from BASE_DATA d,BASE_DATA_VALUE v where d.DATA_ID=v.DATA_ID AND d.DATA_ID=#{dataID}
 	</select>
 
 	<update id="updateLocale">
@@ -82,6 +147,15 @@
 			<if test="localeName != null ">LOCALE_NAME = #{localeName},</if>
 		</set>
 		WHERE DATA_LOCALE_ID = #{localeID}
+	</update>
+
+	<update id="updateCategory">
+		UPDATE BASE_DATA_CATEGORY
+		<set>
+			<if test="categoryCode != null ">CATEGORY_CODE = #{categoryCode},</if>
+			<if test="categoryName != null ">CATEGORY_NAME = #{categoryName},</if>
+		</set>
+		WHERE CATEGORY_ID = #{categoryID}
 	</update>
 
 	<update id="updateData">
@@ -95,12 +169,49 @@
 		WHERE DATA_ID = #{dataID}
 	</update>
 	
+	<update id="updateDataValue">
+		UPDATE BASE_DATA_VALUE
+		<set>
+			<if test="dataValue != null ">DATA_VALUE = #{dataValue},</if>
+			<if test="orderNum != null ">ORDER_NUM = #{orderNum},</if>
+		</set>
+		WHERE DATA_ID = #{dataID} AND DATA_LOCALE_ID = #{localeID}
+	</update>
+
 	<select id="listLocale" resultMap="dataLocale">
-		SELECT <include refid="baseDataLocaleQueryFields"/> FROM BASE_DATA_LOCALE
+		SELECT
+		<include refid="baseDataLocaleQueryFields" />
+		FROM BASE_DATA_LOCALE
+	</select>
+	
+	<select id="listCategory" resultMap="baseDataCategory">
+		SELECT
+		<include refid="baseDataCategoryQueryFields" />
+		FROM BASE_DATA_CATEGORY ORDER BY CATEGORY_NAME
 	</select>
 
 	<select id="listData" resultMap="data">
-		SELECT <include refid="baseDataQueryFields"/> FROM BASE_DATA_LOCALE l,BASE_DATA d WHERE l.DATA_LOCALE_ID=d.DATA_LOCALE_ID AND LOCALE_CODE=#{localeCode} AND DATA_NAME=#{dataName}
+		SELECT
+		<include refid="baseDataQueryFields" />
+		FROM 
+		BASE_DATA_LOCALE l,BASE_DATA d,BASE_DATA_VALUE v,BASE_DATA_CATEGORY c 
+		WHERE
+		c.CATEGORY_ID=d.CATEGORY_ID AND d.DATA_ID=v.DATA_ID AND l.DATA_LOCALE_ID=v.DATA_LOCALE_ID AND l.LOCALE_CODE=#{localeCode} AND c.CATEGORY_CODE=#{categoryCode}
+	</select>
+	
+	<select id="listDataByParent" resultMap="data">
+		SELECT
+		<include refid="baseDataQueryFields" />
+		FROM BASE_DATA_LOCALE l,BASE_DATA d,BASE_DATA_VALUE v,BASE_DATA_CATEGORY c WHERE
+		c.CATEGORY_ID=d.CATEGORY_ID AND d.DATA_ID=v.DATA_ID AND 
+		<if test="parentID == null ">
+			d.PARENT_ID=d.DATA_ID
+		</if>
+		<if test="parentID != null ">
+			d.PARENT_ID=#{parentID} AND d.PARENT_ID!=d.DATA_ID
+		</if>
+		 AND l.DATA_LOCALE_ID=v.DATA_LOCALE_ID AND l.LOCALE_CODE=#{localeCode} AND
+		c.CATEGORY_CODE=#{categoryCode}
 	</select>
 
 </mapper>

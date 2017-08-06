@@ -17,12 +17,17 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 	
 	public ProxyBaseData(BaseData baseData){
 		rpcBaseData = new RpcBaseData();
-		rpcBaseData.setDataID(baseData.getDataID());
-		rpcBaseData.setDataName(baseData.getDataName());
-		rpcBaseData.setDataValue(baseData.getDataValue());
+		setDataID(baseData.getDataID());
+		setDataName(baseData.getDataName());
+		setDataValue(baseData.getDataValue());
 		if(baseData.getDataLocale() != null){
-			ProxyBaseDataLocale locale = new ProxyBaseDataLocale(baseData.getDataLocale());
-			rpcBaseData.setDataLocale(locale.toRpcObject());
+			setDataLocale(baseData.getDataLocale());
+		}
+		if(baseData.getParentData() != null){
+			setParentData(baseData.getParentData());
+		}
+		if(baseData.getDataCategory() != null){
+			setDataCategory(baseData.getDataCategory());
 		}
 	}
 	
@@ -95,6 +100,56 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 	public void setDataLocale(BaseDataLocale dataLocale) {
 		if(dataLocale != null){
 			rpcBaseData.setDataLocale(new ProxyBaseDataLocale(dataLocale).toRpcObject());
+		}
+	}
+	
+	public Integer getNodeValue() {
+		if(rpcBaseData.isSetNodeValue()){
+			return rpcBaseData.getNodeValue();
+		}else{
+			return null;
+		}
+	}
+	public void setNodeValue(Integer nodeValue) {
+		if(nodeValue != null){
+			rpcBaseData.setNodeValue(nodeValue);
+		}
+	}
+	public String getNodePath() {
+		if(rpcBaseData.isSetNodePath()){
+			return rpcBaseData.getNodePath();
+		}else{
+			return null;
+		}
+	}
+	public void setNodePath(String nodePath) {
+		if(nodePath != null){
+			rpcBaseData.setNodePath(nodePath);
+		}
+	}
+	public BaseData getParentData() {
+		if(rpcBaseData.isSetParentData()){
+			return new ProxyBaseData(rpcBaseData.getParentData());
+		}else{
+			return null;
+		}
+	}
+	public void setParentData(BaseData parentData) {
+		if(parentData != null){
+			rpcBaseData.setParentData(new ProxyBaseData(parentData).toRpcObject());
+		}
+	}
+	
+	public BaseDataCategory getDataCategory() {
+		if(rpcBaseData.isSetDataCategory()){
+			return new ProxyBaseDataCategory(rpcBaseData.getDataCategory());
+		}else{
+			return null;
+		}
+	}
+	public void setDataCategory(BaseDataCategory dataCategory) {
+		if(dataCategory != null){
+			rpcBaseData.setDataCategory(new ProxyBaseDataCategory(dataCategory).toRpcObject());
 		}
 	}
 

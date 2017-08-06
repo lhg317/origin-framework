@@ -99,14 +99,14 @@
 		</dependency>
 	</dependencies>
 	<distributionManagement>
-		<repository>
+		<!-- <repository>
 			<id>origin-releases</id>
 			<url>http://192.168.10.110:8081/nexus/content/repositories/origin/</url>
 		</repository>
 		<snapshotRepository>
 			<id>origin-snapshots</id>
 			<url>http://192.168.10.110:8081/nexus/content/repositories/origin-snapshots/</url>
-		</snapshotRepository>
+		</snapshotRepository> -->
 		<!-- <repository>
 			<id>origin-releases</id>
 			<url>http://10.129.58.215:8081/nexus/content/repositories/origin/</url>
@@ -115,6 +115,14 @@
 			<id>origin-snapshots</id>
 			<url>http://10.129.58.215:8081/nexus/content/repositories/origin-snapshots/</url>
 		</snapshotRepository> -->
+		<repository>
+			<id>origin-releases</id>
+			<url>http://10.129.58.215:8081/nexus/content/repositories/origin/</url>
+		</repository>
+		<snapshotRepository>
+			<id>origin-snapshots</id>
+			<url>http://10.129.58.215:8081/nexus/content/repositories/origin-snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>

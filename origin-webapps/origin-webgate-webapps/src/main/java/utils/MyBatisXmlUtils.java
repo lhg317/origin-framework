@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.basedata;
+package utils;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
@@ -10,8 +10,6 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import org.springframework.cglib.core.ReflectUtils;
-
-import com.goldgov.origin.modules.basedata.service.BaseDataCategory;
 
 @SuppressWarnings("rawtypes")
 public class MyBatisXmlUtils {
@@ -93,7 +91,12 @@ public class MyBatisXmlUtils {
 		for (int i = 0; i < beanProperties.length; i++) {
 			Method readMethod = beanProperties[i].getReadMethod();
 			if(readMethod != null){
-				String fieldName = getFieldName(beanProperties[i].getName());;				
+				String fieldName = null;
+				if(beanProperties[i].getName().equalsIgnoreCase("entityID")){
+					fieldName = clazz.getSimpleName().toUpperCase() + "_ID";
+				}else{
+					fieldName = getFieldName(beanProperties[i].getName());
+				}
 				fields.append(fieldName);
 				values.append("#{" + beanProperties[i].getName() + "}");
 				if(beanProperties.length -1 != i){
@@ -172,11 +175,7 @@ public class MyBatisXmlUtils {
 			}
 			sb.append(c);
 		}
-		String upperCase = sb.toString().toUpperCase();
-		if(upperCase.endsWith("_I_D")){
-			upperCase = upperCase.substring(0, upperCase.length()-4) + "_ID";
-		}
-		return upperCase;
+		return sb.toString().toUpperCase();
 	}
 	
 	public String getJdbcType(Class type){
@@ -205,11 +204,11 @@ public class MyBatisXmlUtils {
 //		}
 //	}
 	
-	public static void main(String[] args) {//BaseDataLocale
-		MyBatisXmlUtils myBatisXmlUtils = new MyBatisXmlUtils();
-//		myBatisXmlUtils.resultMap(BaseDataCategory.class, System.out);
-//		myBatisXmlUtils.queryFields(BaseDataCategory.class, System.out);
-//		myBatisXmlUtils.insertFields(BaseDataCategory.class, System.out);
-		myBatisXmlUtils.updateFields(BaseDataCategory.class, System.out);
+	public static void main1111(String[] args) {
+//		MyBatisXmlUtils myBatisXmlUtils = new MyBatisXmlUtils();
+//		myBatisXmlUtils.resultMap(CourseInfo.class, System.out);
+//		myBatisXmlUtils.queryFields(CourseInfo.class, System.out);
+//		myBatisXmlUtils.insertFields(CourseInfo.class, System.out);
+//		myBatisXmlUtils.updateFields(CourseInfo.class, System.out);
 	}
 }

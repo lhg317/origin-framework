@@ -107,6 +107,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
     	if(!enableCsrf){
     		http.csrf().disable();
     	}
+    	http.headers().frameOptions().disable();
 //    	@formatter:off
     	http.authorizeRequests().anyRequest().authenticated()
 //    			.accessDecisionManager(accessDecisionManager)

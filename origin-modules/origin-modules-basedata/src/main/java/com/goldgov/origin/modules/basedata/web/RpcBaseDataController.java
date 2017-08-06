@@ -80,9 +80,9 @@ public class RpcBaseDataController {
 	
 	@RequestMapping("/listData")
 	public String listData(Model model) throws Exception{
-		List<RpcBaseData> listData = rpcBaseDataService.listData("1","1232");
+		List<RpcBaseData> listData = rpcBaseDataService.listData("zh_cn","sex","75551660-7b50-11e7-a081-00232494ab17");
 		model.addAttribute("listData",listData);
-		return PAGE_BASE_PATH + "locale/list";
+		return PAGE_BASE_PATH + "data/list";
 	}
 	
 }
