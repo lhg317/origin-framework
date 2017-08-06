@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.event.SaveRoleResourceEvent;
 import com.goldgov.origin.modules.role.service.Role;
+import com.goldgov.origin.modules.role.service.RoleObject;
+import com.goldgov.origin.modules.role.service.RoleObjectResource;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 import com.goldgov.origin.modules.role.service.RoleResource;
 import com.goldgov.origin.modules.role.service.RoleService;
@@ -25,6 +27,9 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 	@Autowired
 	private RoleDao roleDao;
 	private ApplicationContext applicationContext;
+	
+	@Autowired(required=false)
+	private List<RoleObjectResource> roleObjectSource;
 	
 	@Override
 	public void addRole(Role role) {
@@ -70,6 +75,25 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 	public List<RoleResource> listRoleResourceByObject(String roleObject) {
 		return roleDao.listRoleResourceByObject(roleObject);
 	}
+	
+	@Override
+	public List<RoleResource> listRoleResourceByObject(String roleObject,String roleObjectType) {
+		if(roleObjectType.equals(RoleObject.USER)){
+			return listRoleResourceByObject(roleObject);
+		}
+		
+		List<RoleResource> listRole = new ArrayList<>();
+		if(roleObjectSource != null && roleObjectSource.size() > 0){
+			for (int i =0 ; i < roleObjectSource.size();i++) {
+				RoleObjectResource roleObjectResource = roleObjectSource.get(i);
+				if(roleObjectResource.typeCode().equals(roleObjectType)){
+					listRole.addAll(roleObjectResource.listRoleResource(roleObject));
+					break;
+				}
+			}
+		}
+		return listRole;
+	}
 
 	@Override
 	public List<Role> listRoleByObject(String roleObject) {
@@ -77,11 +101,47 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 	}
 	
 	@Override
-	@Transactional
-	public void saveRoleObject(String roleID, String[] roleObject) {
-		roleDao.deleteRoleObjectByRoleID(roleID);
-		roleDao.addRoleObject(roleID, roleObject);
+	public List<Role> listRoleByObject(String roleObject,String roleObjectType) {
+		if(roleObjectType.equals(RoleObject.USER)){
+			return listRoleByObject(roleObject);
+		}
+		
+		List<Role> listRole = new ArrayList<>();
+		if(roleObjectSource != null && roleObjectSource.size() > 0){
+			for (int i =0 ; i < roleObjectSource.size();i++) {
+				RoleObjectResource roleObjectResource = roleObjectSource.get(i);
+				if(roleObjectResource.typeCode().equals(roleObjectType)){
+					listRole.addAll(roleObjectResource.listRole(roleObject));
+					break;
+				}
+			}
+		}
+		return listRole;
 	}
+	
+	@Override
+	@Transactional
+	public void saveRoleObject(String roleID, String[] roleObject,String roleObjectType) {
+		boolean support = false;
+		if(roleObjectType.equals(RoleObject.USER) || roleObjectType.equals(RoleObject.GROUP)){
+			support = true;
+		}
+		if(!support && roleObjectSource != null && roleObjectSource.size() > 0){
+			for (int i =0 ; i < roleObjectSource.size();i++) {
+				RoleObjectResource roleObjectResource = roleObjectSource.get(i);
+				if(roleObjectResource.typeCode().equals(roleObjectType)){
+					support = true;
+					break;
+				}
+			}
+		}
+		if(!support){
+			throw new RuntimeException("不支持角色对象类型：" + roleObjectType);
+		}
+		roleDao.deleteRoleObjectByRoleID(roleID,roleObjectType);
+		roleDao.addRoleObject(roleID, roleObject,roleObjectType);
+	}
+	
 
 	@Override
 	public Map<String,List<String>> getRoleResourceMap() {

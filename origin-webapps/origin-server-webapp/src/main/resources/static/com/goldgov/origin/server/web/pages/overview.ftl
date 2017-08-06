@@ -41,37 +41,42 @@
 </table>
 <p>
 
-<h2>客户端运行状态  (${clientHealth.serviceHealthMap?size})</h2>
+<h2>客户端运行状态  (${allHealth?size})</h2>
 <table border="1" width="80%">
 	<tr>
 		<td colspan="2" style="text-align:center"><b>主机</b></td>
 		<td colspan="2" style="text-align:center"><b>依赖服务</b></td>
 	</tr>
 	
-	<#list clientHealth.clientHealthMap?keys as key>
+	<#list allHealth as serverHealth>
 	<tr>
-		<td rowspan="${(clientHealth.serviceHealthMap[key]?size > 0)?string(clientHealth.serviceHealthMap[key]?size,1)}">
-			${key} <br> 服务类型： <#list clientHealth.serviceServerMap[key].serviceType as serviceType>${serviceType};</#list>
+		<td rowspan="${(serverHealth.serviceNum > 0)?string(serverHealth.serviceNum,1)}">
+			服务地址：${serverHealth.server.webPath}<br>
+			服务ID：${serverHealth.server.serverID}<br>
+			服务名称：${serverHealth.server.displayName!}：${serverHealth.server.applicationName!}<br>
+			服务类型：<#list serverHealth.server.serviceType as serviceType>${serviceType};</#list>
 		</td>
-		<td rowspan="${(clientHealth.serviceHealthMap[key]?size > 0)?string(clientHealth.serviceHealthMap[key]?size,1)}" style="text-align:center">
-			${clientHealth.clientHealthMap[key]}
+		<td rowspan="${(serverHealth.serviceNum > 0)?string(serverHealth.serviceNum,1)}" style="text-align:center">
+			${serverHealth.serverHealth}
 		</td>
-		<#list clientHealth.serviceHealthMap[key] as item>
-		<#if item_index &gt; 0>
+		<#assign index=0/>
+		<#list serverHealth.serviceHealthState?keys as key>
+		<#if index &gt; 0>
 			<tr>
 		</#if>
 		<td>
-			${item.serviceName}
+			${key}
 		</td>
 		<td style="text-align:center">
-			${item.state}
+			${serverHealth.serviceHealthState[key]}
 		</td>
-		<#if item_index &gt; 0>
+		<#if index &gt; 0>
 			</tr>
 		</#if>
+		<#assign index=index+1/>
 		</#list>
-		<#if (clientHealth.serviceHealthMap[key]?size) == 0>
-			<td>
+		<#if (serverHealth.serviceNum) == 0>
+			<td colspan=2>
 				无依赖服务
 			</td>
 		</#if>

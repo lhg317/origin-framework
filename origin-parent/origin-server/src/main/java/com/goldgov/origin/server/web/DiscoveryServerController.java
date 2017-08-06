@@ -40,7 +40,7 @@ import com.goldgov.origin.server.service.ServiceHealthChecker;
 @RequestMapping("/server")
 public class DiscoveryServerController {
 
-	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/");
+	private final String PAGES_BASE_PATH =  this.getClass().getPackage().getName().replace(".", "/") + "/pages/";
 	
 	@Autowired
 	private DiscoveryServerService discoveryService;
@@ -114,7 +114,7 @@ public class DiscoveryServerController {
 				}else if(serviceDependency == ServiceDependency.OPTIONAL){
 					health.addHealthState(serviceName, HealthState.OPTIONAL);
 				}else{
-					health.addHealthState(serviceName, HealthState.SELF_SUFFICIENT);
+					health.addHealthState(serviceName, HealthState.JUST_PROVIDER);
 				}
 			}
 //			if(requiredServiceNames != null){
@@ -138,7 +138,7 @@ public class DiscoveryServerController {
 		model.addAttribute("lastCheckDate", healthChecker.getLastCheckDate());
 		model.addAttribute("checkFailTotal", healthChecker.getCheckFailTotal());
 		
-		return PAGES_BASE_PATH + "/overview";
+		return PAGES_BASE_PATH + "overview";
 	}
 	
 	private String processPlaceholder(String text,Properties properties){
@@ -269,7 +269,7 @@ public class DiscoveryServerController {
 //	}
 	
 	public enum HealthState{
-		UP,DOWN,OPTIONAL,SELF_SUFFICIENT;
+		UP,DOWN,OPTIONAL,JUST_PROVIDER;
 	}
 	
 }

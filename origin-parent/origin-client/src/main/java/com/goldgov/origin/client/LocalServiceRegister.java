@@ -146,7 +146,7 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 								localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.REQUIRED);
 							}
 						}else{
-							localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.SELF_SUFFICIENT);
+							localService.putServiceDependency(rpcServiceProxy.getServiceName(), ServiceDependency.JUST_PROVIDER);
 						}
 					}
 				}
@@ -174,10 +174,10 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 								registerSuccess = true;
 								return;
 							}else{
-								logger.error("注册失败：" + localService + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");
+								logger.error("注册失败：" + discoveryServer + "，服务器返回了不可识别的信息：" + result + "，" + RETRY_INTERVAL + "后重试");
 							}
 						}else{
-							logger.warn("注册失败：" + localService + "，错误明细：" + response.toString() + "，" + RETRY_INTERVAL + "后重试");
+							logger.warn("注册失败：" + discoveryServer + "，错误明细：" + response.toString() + "，" + RETRY_INTERVAL + "后重试");
 						}
 					} catch (Exception e) {
 						failTimes++;
@@ -200,21 +200,20 @@ public class LocalServiceRegister implements ApplicationListener<EmbeddedServlet
 
 	private boolean isWebGate() {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-		StackTraceElement stackTraceElement = stackTrace[stackTrace.length - 1];
-		if ("main".equals(stackTraceElement.getMethodName())) {
-			try {
-				Class<?>[] interfaces = Class.forName(stackTraceElement.getClassName()).getInterfaces();
-				for (Class<?> interfaceClass : interfaces) {
-					if(interfaceClass == IsWebGate.class){
-						return true;
+		for (StackTraceElement stackTraceElement : stackTrace) {
+			if ("main".equals(stackTraceElement.getMethodName())) {
+				try {
+					Class<?>[] interfaces = Class.forName(stackTraceElement.getClassName()).getInterfaces();
+					for (Class<?> interfaceClass : interfaces) {
+						if(interfaceClass == IsWebGate.class){
+							return true;
+						}
 					}
+				} catch (Exception e) {
+					throw new RuntimeException(e);
 				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+				
 			}
-			
-		}else if("run".equals(stackTraceElement.getMethodName())){
-			throw new RuntimeException("获取网关类型失败，注册器被非主线程调用。");
 		}
 		return false;
 	}

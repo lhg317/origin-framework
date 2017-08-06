@@ -30,22 +30,22 @@
 		</dependency>
 	</dependencies>
 	<distributionManagement>
-		<!-- <repository>
+		<repository>
 			<id>origin-releases</id>
 			<url>http://192.168.10.110:8081/nexus/content/repositories/origin/</url>
 		</repository>
 		<snapshotRepository>
 			<id>origin-snapshots</id>
 			<url>http://192.168.10.110:8081/nexus/content/repositories/origin-snapshots/</url>
-		</snapshotRepository> -->
-		<repository>
+		</snapshotRepository>
+		<!-- <repository>
 			<id>origin-releases</id>
 			<url>http://10.129.58.215:8081/nexus/content/repositories/origin/</url>
 		</repository>
 		<snapshotRepository>
 			<id>origin-snapshots</id>
 			<url>http://10.129.58.215:8081/nexus/content/repositories/origin-snapshots/</url>
-		</snapshotRepository>
+		</snapshotRepository> -->
 	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
@@ -88,6 +88,7 @@
 		<module>origin-modules-file</module>
 		<module>origin-modules-node</module>
 		<module>origin-modules-auth</module>
+		<module>origin-modules-basedata</module>
 	</modules>
 
 	<build>

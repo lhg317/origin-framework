@@ -14,6 +14,7 @@ public class CustomBindingInitializer extends ConfigurableWebBindingInitializer{
 		DateLongEditor longDateEditor = new DateLongEditor();
 		binder.registerCustomEditor(Long.TYPE, longDateEditor);
 		binder.registerCustomEditor(Long.class, longDateEditor);
+//		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
 	

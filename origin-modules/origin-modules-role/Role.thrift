@@ -24,6 +24,7 @@ struct RpcRoleObject{
 	1: string roleObjectID,
 	2: string roleID,
 	3: string roleObject,
+	4: string type;
 }
 
 service RpcRoleService{
@@ -33,7 +34,7 @@ service RpcRoleService{
 	RpcRole getRole(1:string roleID),
 	RpcRoleQuery listRole(1:RpcRoleQuery query),
 	void saveRoleResource(1:string roleID,2:list<string> resourceOperate),
-	void saveRoleObject(1:string roleID,2:list<string> roleObject),
+	void saveRoleObject(1:string roleID,2:list<string> roleObject,3: string roleObjectType),
 	list<RpcRole> listRoleByObject(1:string roleObject),
 	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject),	
 	map<string,list<string>> getRoleResourceMap();

@@ -60,8 +60,8 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	}
 
 	@Override
-	public void saveRoleObject(String roleID, List<String> roleObject) throws TException {
-		roleService.saveRoleObject(roleID, roleObject.toArray(new String[0]));
+	public void saveRoleObject(String roleID, List<String> roleObject,String roleObjectType) throws TException {
+		roleService.saveRoleObject(roleID, roleObject.toArray(new String[0]),roleObjectType);
 	}
 
 	@Override

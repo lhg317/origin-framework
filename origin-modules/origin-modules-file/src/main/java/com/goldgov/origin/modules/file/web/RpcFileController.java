@@ -1,35 +1,27 @@
 package com.goldgov.origin.modules.file.web;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.goldgov.origin.modules.file.api.RpcFile;
 import com.goldgov.origin.modules.file.api.RpcFileFragmentService;
 import com.goldgov.origin.modules.file.api.UploadConfig;
 import com.goldgov.origin.modules.file.api.UploadConfigService;
+import com.goldgov.origin.modules.file.api.UploadHelper;
 import com.goldgov.origin.modules.file.api.exception.NoPermissionException;
-import com.goldgov.origin.modules.file.api.exception.UploadLimitException;
 
 /**
  * 文件上传及下载基础控制器类，业务模块应该如果有上传和下载服务的功能应继承本类，
@@ -50,6 +42,9 @@ public class RpcFileController {
 	@Qualifier("rpcFileFragmentService.Client")
 	private RpcFileFragmentService.Iface fileService;
 	
+	@Autowired
+	private UploadHelper uploadHelper;
+	
 	@RequestMapping("/uploadFile")
 	public @ResponseBody String[] uploadFile(HttpServletRequest request) throws Exception{
 		UploadConfig uploadConfig = getUploadConfig(request);
@@ -58,52 +53,58 @@ public class RpcFileController {
 			throw new NoPermissionException();
 		}
 		
-		List<String> resultFileIDs = new ArrayList<>();
-		if(ServletFileUpload.isMultipartContent(request)){
-			 MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
-			 Iterator<String> iter = multiRequest.getFileNames();
-			 int fileNum = multiRequest.getFileMap().size();
-			 while(iter.hasNext()) {
-	            
-	                MultipartFile file = multiRequest.getFile(iter.next().toString());
-	                if(file!=null && file.getSize() > 0)
-	                {
-	                	if(isLimited(uploadConfig,file,fileNum)){
-	            			throw new UploadLimitException(uploadConfig.toString());
-	            		}
-	                	
-	                	ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	            		int copyCount = FileCopyUtils.copy(file.getInputStream(), byteArrayOutputStream);
-	            		ByteBuffer byteBuffer = ByteBuffer.allocate(copyCount);
-	            		byteBuffer.put(byteArrayOutputStream.toByteArray());
-	            		byteBuffer.flip();
-	            		
-	            		RpcFile rpcFile = new RpcFile();
-	            		rpcFile.setCreateDate(System.currentTimeMillis());
-	            		rpcFile.setFileSize(file.getSize());
-	            		rpcFile.setFileName(file.getOriginalFilename());
-	            		rpcFile.setFileType(file.getContentType());
-	            		String fileID = fileService.addFile(rpcFile,byteBuffer);
-	            		resultFileIDs.add(fileID);
-	            		
-//	            		文件分片上传示例，此处可用FileSplitUtils工具类
-//	            		byteBuffer = ByteBuffer.allocate(1);
-//	            		byteBuffer.put((byte)1);
-//	            		byteBuffer.flip();
-//	            		fileID = fileService.createFileFragment(rpcFile, 5, byteBuffer);
-//	            		for (int i = 1; i < 5; i++) {
-//	            			byteBuffer = ByteBuffer.allocate(1);
-//		            		byteBuffer.put((byte)(1+i));
-//		            		byteBuffer.flip();
-//		            		fileService.addFileFragment(fileID, i, byteBuffer);
-//						}
-//	            		fileService.completeFileFragment(fileID,5);
-	                }
-			 }
-        }
+		List<String> resultFileIDs = uploadHelper.saveFile(request, uploadConfig);
 		
 		return resultFileIDs.toArray(new String[0]);
 	}
+
+//	private List<String> saveFile(HttpServletRequest request, UploadConfig uploadConfig)
+//			throws IOException, TException {
+//		List<String> resultFileIDs = new ArrayList<>();
+//		if(ServletFileUpload.isMultipartContent(request)){
+//			 MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+//			 Iterator<String> iter = multiRequest.getFileNames();
+//			 int fileNum = multiRequest.getFileMap().size();
+//			 while(iter.hasNext()) {
+//	            
+//	                MultipartFile file = multiRequest.getFile(iter.next().toString());
+//	                if(file!=null && file.getSize() > 0)
+//	                {
+//	                	if(isLimited(uploadConfig,file,fileNum)){
+//	            			throw new UploadLimitException(uploadConfig.toString());
+//	            		}
+//	                	
+//	                	ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//	            		int copyCount = FileCopyUtils.copy(file.getInputStream(), byteArrayOutputStream);
+//	            		ByteBuffer byteBuffer = ByteBuffer.allocate(copyCount);
+//	            		byteBuffer.put(byteArrayOutputStream.toByteArray());
+//	            		byteBuffer.flip();
+//	            		
+//	            		RpcFile rpcFile = new RpcFile();
+//	            		rpcFile.setCreateDate(System.currentTimeMillis());
+//	            		rpcFile.setFileSize(file.getSize());
+//	            		rpcFile.setFileName(file.getOriginalFilename());
+//	            		rpcFile.setFileType(file.getContentType());
+//	            		String fileID = fileService.addFile(rpcFile,byteBuffer);
+//	            		resultFileIDs.add(fileID);
+//	            		
+////	            		文件分片上传示例，此处可用FileSplitUtils工具类
+////	            		byteBuffer = ByteBuffer.allocate(1);
+////	            		byteBuffer.put((byte)1);
+////	            		byteBuffer.flip();
+////	            		fileID = fileService.createFileFragment(rpcFile, 5, byteBuffer);
+////	            		for (int i = 1; i < 5; i++) {
+////	            			byteBuffer = ByteBuffer.allocate(1);
+////		            		byteBuffer.put((byte)(1+i));
+////		            		byteBuffer.flip();
+////		            		fileService.addFileFragment(fileID, i, byteBuffer);
+////						}
+////	            		fileService.completeFileFragment(fileID,5);
+//	                }
+//			 }
+//        }
+//		return resultFileIDs;
+//	}
 	
 	protected boolean isLimited(UploadConfig uploadConfig, MultipartFile file,int fileNum) {
 		if(file.getSize() > uploadConfig.getSizeMax()){//附件大小超出限制
@@ -129,17 +130,19 @@ public class RpcFileController {
 		if(file == null){
 			throw new FileNotFoundException(fileID);
 		}
-		ByteBuffer fileContent = fileService.getFileContent(fileID);
-		
 		String fileName = file.getFileName(); 
 		
 		response.setContentType(file.getFileType());
 		response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes(),"ISO-8859-1") +"\"");
 		
-		byte[] fileFragmentBytes = fileContent.array(); 
 		ServletOutputStream outputStream = response.getOutputStream();
-		outputStream.write(fileFragmentBytes);
-		fileContent.clear();
+		uploadHelper.writeFile(fileID, outputStream);
+		
+//		ByteBuffer fileContent = fileService.getFileContent(fileID);
+//		byte[] fileFragmentBytes = fileContent.array(); 
+//		ServletOutputStream outputStream = response.getOutputStream();
+//		outputStream.write(fileFragmentBytes);
+//		fileContent.clear();
 		
 	}
 	
@@ -153,18 +156,21 @@ public class RpcFileController {
 		if(file == null){
 			throw new FileNotFoundException(fileID);
 		}
-		ByteBuffer byteBuffer = fileService.getFileFragmentContent(fileID,0);
-		long currentSize = 0;
+		
+		
 		response.setContentType(file.getFileType());
 		response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getFileName() +"\"");
 		
 		ServletOutputStream outputStream = response.getOutputStream();
-		while (byteBuffer != null) {
-			byte[] fileFragmentBytes = byteBuffer.array(); 
-			outputStream.write(fileFragmentBytes);
-			currentSize += fileFragmentBytes.length;
-			byteBuffer = fileService.getFileFragmentContent(fileID,currentSize);
-		}
+		uploadHelper.writeFileFragment(fileID, outputStream);
+//		long currentSize = 0;
+//		ByteBuffer byteBuffer = fileService.getFileFragmentContent(fileID,0);
+//		while (byteBuffer != null) {
+//			byte[] fileFragmentBytes = byteBuffer.array(); 
+//			outputStream.write(fileFragmentBytes);
+//			currentSize += fileFragmentBytes.length;
+//			byteBuffer = fileService.getFileFragmentContent(fileID,currentSize);
+//		}
 		
 	}
 	
