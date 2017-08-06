@@ -2,6 +2,11 @@ package com.goldgov.origin.modules.role.event;
 
 import org.springframework.context.ApplicationEvent;
 
+/**
+ * 当保存角色资源时触发的事件
+ * @author LiuHG
+ * @version 1.0
+ */
 public class SaveRoleResourceEvent extends ApplicationEvent{
 
 	private static final long serialVersionUID = 1112585872100805099L;

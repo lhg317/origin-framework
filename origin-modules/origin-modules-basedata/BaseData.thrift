@@ -12,7 +12,10 @@ struct RpcBaseData{
 	3: optional string dataValue;
 	4: optional string description;
 	5: optional i32 orderNum;
-	6: optional RpcBaseDataLocale dataLocale;
+	6: optional i32 nodeValue;
+	7: optional string nodePath;
+	8: optional RpcBaseData parentData;
+	9: optional RpcBaseDataLocale dataLocale;
 }
 
 service RpcBaseDataService {

@@ -97,6 +97,43 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 			rpcBaseData.setDataLocale(new ProxyBaseDataLocale(dataLocale).toRpcObject());
 		}
 	}
+	
+	public Integer getNodeValue() {
+		if(rpcBaseData.isSetNodeValue()){
+			return rpcBaseData.getNodeValue();
+		}else{
+			return null;
+		}
+	}
+	public void setNodeValue(Integer nodeValue) {
+		if(nodeValue != null){
+			rpcBaseData.setNodeValue(nodeValue);
+		}
+	}
+	public String getNodePath() {
+		if(rpcBaseData.isSetNodePath()){
+			return rpcBaseData.getNodePath();
+		}else{
+			return null;
+		}
+	}
+	public void setNodePath(String nodePath) {
+		if(nodePath != null){
+			rpcBaseData.setNodePath(nodePath);
+		}
+	}
+	public BaseData getParentData() {
+		if(rpcBaseData.isSetParentData()){
+			return new ProxyBaseData(rpcBaseData.getParentData());
+		}else{
+			return null;
+		}
+	}
+	public void setParentData(BaseData parentData) {
+		if(parentData != null){
+			rpcBaseData.setParentData(new ProxyBaseData(parentData).toRpcObject());
+		}
+	}
 
 	@Override
 	public RpcBaseData toRpcObject() {
