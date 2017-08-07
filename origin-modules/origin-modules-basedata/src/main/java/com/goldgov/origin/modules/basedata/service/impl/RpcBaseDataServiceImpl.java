@@ -70,8 +70,8 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 	}
 
 	@Override
-	public List<RpcBaseData> listData(String localeCode, String dataName,String parentID) throws TException {
-		List<BaseData> listData = baseDataService.listData(localeCode, dataName,parentID);
+	public List<RpcBaseData> listData(String localeCode, String dataName) throws TException {
+		List<BaseData> listData = baseDataService.listData(localeCode, dataName);
 		List<RpcBaseData> listRpcData = ResultSetUtils.convertToRpc(listData, baseDateConverter);
 		return listRpcData;
 	}
@@ -114,6 +114,14 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 	public List<RpcBaseDataCategory> listCategory() throws TException {
 		List<BaseDataCategory> listCategory = baseDataService.listCategory();
 		return ResultSetUtils.convertToRpc(listCategory, baseDataCategoryConverter);
+	}
+
+	@Override
+	public List<RpcBaseData> listDataByParent(String localeCode, String categoryCode, String parentID)
+			throws TException {
+		List<BaseData> listData = baseDataService.listData(localeCode, categoryCode, parentID);
+		List<RpcBaseData> listRpcData = ResultSetUtils.convertToRpc(listData, baseDateConverter);
+		return listRpcData;
 	}
 
 }

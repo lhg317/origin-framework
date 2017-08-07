@@ -82,10 +82,10 @@ public class BaseDataServiceImpl implements BaseDataService,ApplicationContextAw
 
 	@Override
 	public void deleteData(String[] dataID) {
-		baseDao.deleteData(dataID);
 		if(dataID.length > 0){
-			applicationContext.publishEvent(new BaseDataEvent(dataID[0],EventType.DELETE));
+			applicationContext.publishEvent(new BaseDataEvent(dataID[0],EventType.PRE_DELETE));
 		}
+		baseDao.deleteData(dataID);
 	}
 
 	@Override

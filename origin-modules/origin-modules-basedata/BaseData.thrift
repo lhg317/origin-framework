@@ -45,7 +45,9 @@ service RpcBaseDataService {
 	
 	void deleteData(1:list<string> dataID);
 	
-	list<RpcBaseData> listData(1:string localeCode,2:string categoryCode,3:string parentID);
+	list<RpcBaseData> listData(1:string localeCode,2:string categoryCode);
+	
+	list<RpcBaseData> listDataByParent(1:string localeCode,2:string categoryCode,3:string parentID);
 	
 	string addCategory(1:RpcBaseDataCategory category);
 	

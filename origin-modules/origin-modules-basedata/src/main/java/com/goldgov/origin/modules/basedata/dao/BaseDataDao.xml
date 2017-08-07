@@ -197,6 +197,7 @@
 		BASE_DATA_LOCALE l,BASE_DATA d,BASE_DATA_VALUE v,BASE_DATA_CATEGORY c 
 		WHERE
 		c.CATEGORY_ID=d.CATEGORY_ID AND d.DATA_ID=v.DATA_ID AND l.DATA_LOCALE_ID=v.DATA_LOCALE_ID AND l.LOCALE_CODE=#{localeCode} AND c.CATEGORY_CODE=#{categoryCode}
+		ORDER BY v.ORDER_NUM
 	</select>
 	
 	<select id="listDataByParent" resultMap="data">
@@ -212,6 +213,7 @@
 		</if>
 		 AND l.DATA_LOCALE_ID=v.DATA_LOCALE_ID AND l.LOCALE_CODE=#{localeCode} AND
 		c.CATEGORY_CODE=#{categoryCode}
+		ORDER BY v.ORDER_NUM
 	</select>
 
 </mapper>

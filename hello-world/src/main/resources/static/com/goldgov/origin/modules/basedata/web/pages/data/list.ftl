@@ -3,7 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <@res tag="link" src="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
-<@res tag="link" src="/skin/default/css/css.css"/>
 </head>
 <body>
 
@@ -23,6 +22,7 @@
 					<th>数据名</th>
 					<th>数据值</th>
 					<th>描述</th>
+					<th>子数据</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,6 +33,7 @@
 					<td>${data.dataName}</td>
 					<td>${data.dataValue}</td>
 					<td>${data.description!}</td>
+					<td><a href="./listData?dataID=${data.dataID}&categoryCode=${RequestParameters['categoryCode']}">【进入】</a></td>
 				</tr>
 				</#escape> </#list>
 			</tbody>
@@ -43,16 +44,4 @@
 	</form>
 </body>
 <@res tag="script" src="/webjars/jquery/1.9.1/jquery.min.js"/>
-<script>
-	$(function() {
-		var addWin = new WinAgency(document, "基础数据信息", "test-2-1.html", 600, 400);
-		//设置回调函数
-		addWin.callback = function() {
-			this.location.reload();
-		}
-		$(".new-btn").click(function() {
-			addWin.open();
-		});
-	});
-</script>
 </html>

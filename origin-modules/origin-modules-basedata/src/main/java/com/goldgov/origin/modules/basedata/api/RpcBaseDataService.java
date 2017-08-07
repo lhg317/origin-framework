@@ -30,7 +30,9 @@ public class RpcBaseDataService {
 
     public void deleteData(java.util.List<java.lang.String> dataID) throws org.apache.thrift.TException;
 
-    public java.util.List<RpcBaseData> listData(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID) throws org.apache.thrift.TException;
+    public java.util.List<RpcBaseData> listData(java.lang.String localeCode, java.lang.String categoryCode) throws org.apache.thrift.TException;
+
+    public java.util.List<RpcBaseData> listDataByParent(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID) throws org.apache.thrift.TException;
 
     public java.lang.String addCategory(RpcBaseDataCategory category) throws org.apache.thrift.TException;
 
@@ -64,7 +66,9 @@ public class RpcBaseDataService {
 
     public void deleteData(java.util.List<java.lang.String> dataID, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void listData(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException;
+    public void listData(java.lang.String localeCode, java.lang.String categoryCode, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException;
+
+    public void listDataByParent(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException;
 
     public void addCategory(RpcBaseDataCategory category, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
@@ -292,18 +296,17 @@ public class RpcBaseDataService {
       return;
     }
 
-    public java.util.List<RpcBaseData> listData(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID) throws org.apache.thrift.TException
+    public java.util.List<RpcBaseData> listData(java.lang.String localeCode, java.lang.String categoryCode) throws org.apache.thrift.TException
     {
-      send_listData(localeCode, categoryCode, parentID);
+      send_listData(localeCode, categoryCode);
       return recv_listData();
     }
 
-    public void send_listData(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID) throws org.apache.thrift.TException
+    public void send_listData(java.lang.String localeCode, java.lang.String categoryCode) throws org.apache.thrift.TException
     {
       listData_args args = new listData_args();
       args.setLocaleCode(localeCode);
       args.setCategoryCode(categoryCode);
-      args.setParentID(parentID);
       sendBase("listData", args);
     }
 
@@ -315,6 +318,31 @@ public class RpcBaseDataService {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listData failed: unknown result");
+    }
+
+    public java.util.List<RpcBaseData> listDataByParent(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID) throws org.apache.thrift.TException
+    {
+      send_listDataByParent(localeCode, categoryCode, parentID);
+      return recv_listDataByParent();
+    }
+
+    public void send_listDataByParent(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID) throws org.apache.thrift.TException
+    {
+      listDataByParent_args args = new listDataByParent_args();
+      args.setLocaleCode(localeCode);
+      args.setCategoryCode(categoryCode);
+      args.setParentID(parentID);
+      sendBase("listDataByParent", args);
+    }
+
+    public java.util.List<RpcBaseData> recv_listDataByParent() throws org.apache.thrift.TException
+    {
+      listDataByParent_result result = new listDataByParent_result();
+      receiveBase(result, "listDataByParent");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listDataByParent failed: unknown result");
     }
 
     public java.lang.String addCategory(RpcBaseDataCategory category) throws org.apache.thrift.TException
@@ -728,9 +756,9 @@ public class RpcBaseDataService {
       }
     }
 
-    public void listData(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException {
+    public void listData(java.lang.String localeCode, java.lang.String categoryCode, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      listData_call method_call = new listData_call(localeCode, categoryCode, parentID, resultHandler, this, ___protocolFactory, ___transport);
+      listData_call method_call = new listData_call(localeCode, categoryCode, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -738,8 +766,43 @@ public class RpcBaseDataService {
     public static class listData_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<RpcBaseData>> {
       private java.lang.String localeCode;
       private java.lang.String categoryCode;
+      public listData_call(java.lang.String localeCode, java.lang.String categoryCode, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.localeCode = localeCode;
+        this.categoryCode = categoryCode;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listData", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        listData_args args = new listData_args();
+        args.setLocaleCode(localeCode);
+        args.setCategoryCode(categoryCode);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public java.util.List<RpcBaseData> getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_listData();
+      }
+    }
+
+    public void listDataByParent(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      listDataByParent_call method_call = new listDataByParent_call(localeCode, categoryCode, parentID, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class listDataByParent_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<RpcBaseData>> {
+      private java.lang.String localeCode;
+      private java.lang.String categoryCode;
       private java.lang.String parentID;
-      public listData_call(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public listDataByParent_call(java.lang.String localeCode, java.lang.String categoryCode, java.lang.String parentID, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.localeCode = localeCode;
         this.categoryCode = categoryCode;
@@ -747,8 +810,8 @@ public class RpcBaseDataService {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listData", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        listData_args args = new listData_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listDataByParent", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        listDataByParent_args args = new listDataByParent_args();
         args.setLocaleCode(localeCode);
         args.setCategoryCode(categoryCode);
         args.setParentID(parentID);
@@ -762,7 +825,7 @@ public class RpcBaseDataService {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_listData();
+        return (new Client(prot)).recv_listDataByParent();
       }
     }
 
@@ -946,6 +1009,7 @@ public class RpcBaseDataService {
       processMap.put("updateData", new updateData());
       processMap.put("deleteData", new deleteData());
       processMap.put("listData", new listData());
+      processMap.put("listDataByParent", new listDataByParent());
       processMap.put("addCategory", new addCategory());
       processMap.put("getCategory", new getCategory());
       processMap.put("updateCategory", new updateCategory());
@@ -1149,7 +1213,27 @@ public class RpcBaseDataService {
 
       public listData_result getResult(I iface, listData_args args) throws org.apache.thrift.TException {
         listData_result result = new listData_result();
-        result.success = iface.listData(args.localeCode, args.categoryCode, args.parentID);
+        result.success = iface.listData(args.localeCode, args.categoryCode);
+        return result;
+      }
+    }
+
+    public static class listDataByParent<I extends Iface> extends org.apache.thrift.ProcessFunction<I, listDataByParent_args> {
+      public listDataByParent() {
+        super("listDataByParent");
+      }
+
+      public listDataByParent_args getEmptyArgsInstance() {
+        return new listDataByParent_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public listDataByParent_result getResult(I iface, listDataByParent_args args) throws org.apache.thrift.TException {
+        listDataByParent_result result = new listDataByParent_result();
+        result.success = iface.listDataByParent(args.localeCode, args.categoryCode, args.parentID);
         return result;
       }
     }
@@ -1277,6 +1361,7 @@ public class RpcBaseDataService {
       processMap.put("updateData", new updateData());
       processMap.put("deleteData", new deleteData());
       processMap.put("listData", new listData());
+      processMap.put("listDataByParent", new listDataByParent());
       processMap.put("addCategory", new addCategory());
       processMap.put("getCategory", new getCategory());
       processMap.put("updateCategory", new updateCategory());
@@ -1887,7 +1972,68 @@ public class RpcBaseDataService {
       }
 
       public void start(I iface, listData_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException {
-        iface.listData(args.localeCode, args.categoryCode, args.parentID,resultHandler);
+        iface.listData(args.localeCode, args.categoryCode,resultHandler);
+      }
+    }
+
+    public static class listDataByParent<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, listDataByParent_args, java.util.List<RpcBaseData>> {
+      public listDataByParent() {
+        super("listDataByParent");
+      }
+
+      public listDataByParent_args getEmptyArgsInstance() {
+        return new listDataByParent_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>>() { 
+          public void onComplete(java.util.List<RpcBaseData> o) {
+            listDataByParent_result result = new listDataByParent_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            listDataByParent_result result = new listDataByParent_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, listDataByParent_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcBaseData>> resultHandler) throws org.apache.thrift.TException {
+        iface.listDataByParent(args.localeCode, args.categoryCode, args.parentID,resultHandler);
       }
     }
 
@@ -8241,20 +8387,17 @@ public class RpcBaseDataService {
 
     private static final org.apache.thrift.protocol.TField LOCALE_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("localeCode", org.apache.thrift.protocol.TType.STRING, (short)1);
     private static final org.apache.thrift.protocol.TField CATEGORY_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("categoryCode", org.apache.thrift.protocol.TType.STRING, (short)2);
-    private static final org.apache.thrift.protocol.TField PARENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("parentID", org.apache.thrift.protocol.TType.STRING, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new listData_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new listData_argsTupleSchemeFactory();
 
     private java.lang.String localeCode; // required
     private java.lang.String categoryCode; // required
-    private java.lang.String parentID; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       LOCALE_CODE((short)1, "localeCode"),
-      CATEGORY_CODE((short)2, "categoryCode"),
-      PARENT_ID((short)3, "parentID");
+      CATEGORY_CODE((short)2, "categoryCode");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -8273,8 +8416,6 @@ public class RpcBaseDataService {
             return LOCALE_CODE;
           case 2: // CATEGORY_CODE
             return CATEGORY_CODE;
-          case 3: // PARENT_ID
-            return PARENT_ID;
           default:
             return null;
         }
@@ -8322,8 +8463,6 @@ public class RpcBaseDataService {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.CATEGORY_CODE, new org.apache.thrift.meta_data.FieldMetaData("categoryCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.PARENT_ID, new org.apache.thrift.meta_data.FieldMetaData("parentID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listData_args.class, metaDataMap);
     }
@@ -8333,13 +8472,11 @@ public class RpcBaseDataService {
 
     public listData_args(
       java.lang.String localeCode,
-      java.lang.String categoryCode,
-      java.lang.String parentID)
+      java.lang.String categoryCode)
     {
       this();
       this.localeCode = localeCode;
       this.categoryCode = categoryCode;
-      this.parentID = parentID;
     }
 
     /**
@@ -8352,9 +8489,6 @@ public class RpcBaseDataService {
       if (other.isSetCategoryCode()) {
         this.categoryCode = other.categoryCode;
       }
-      if (other.isSetParentID()) {
-        this.parentID = other.parentID;
-      }
     }
 
     public listData_args deepCopy() {
@@ -8365,7 +8499,6 @@ public class RpcBaseDataService {
     public void clear() {
       this.localeCode = null;
       this.categoryCode = null;
-      this.parentID = null;
     }
 
     public java.lang.String getLocaleCode() {
@@ -8414,29 +8547,6 @@ public class RpcBaseDataService {
       }
     }
 
-    public java.lang.String getParentID() {
-      return this.parentID;
-    }
-
-    public void setParentID(java.lang.String parentID) {
-      this.parentID = parentID;
-    }
-
-    public void unsetParentID() {
-      this.parentID = null;
-    }
-
-    /** Returns true if field parentID is set (has been assigned a value) and false otherwise */
-    public boolean isSetParentID() {
-      return this.parentID != null;
-    }
-
-    public void setParentIDIsSet(boolean value) {
-      if (!value) {
-        this.parentID = null;
-      }
-    }
-
     public void setFieldValue(_Fields field, java.lang.Object value) {
       switch (field) {
       case LOCALE_CODE:
@@ -8455,14 +8565,6 @@ public class RpcBaseDataService {
         }
         break;
 
-      case PARENT_ID:
-        if (value == null) {
-          unsetParentID();
-        } else {
-          setParentID((java.lang.String)value);
-        }
-        break;
-
       }
     }
 
@@ -8473,9 +8575,6 @@ public class RpcBaseDataService {
 
       case CATEGORY_CODE:
         return getCategoryCode();
-
-      case PARENT_ID:
-        return getParentID();
 
       }
       throw new java.lang.IllegalStateException();
@@ -8492,8 +8591,6 @@ public class RpcBaseDataService {
         return isSetLocaleCode();
       case CATEGORY_CODE:
         return isSetCategoryCode();
-      case PARENT_ID:
-        return isSetParentID();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -8531,15 +8628,6 @@ public class RpcBaseDataService {
           return false;
       }
 
-      boolean this_present_parentID = true && this.isSetParentID();
-      boolean that_present_parentID = true && that.isSetParentID();
-      if (this_present_parentID || that_present_parentID) {
-        if (!(this_present_parentID && that_present_parentID))
-          return false;
-        if (!this.parentID.equals(that.parentID))
-          return false;
-      }
-
       return true;
     }
 
@@ -8554,10 +8642,6 @@ public class RpcBaseDataService {
       hashCode = hashCode * 8191 + ((isSetCategoryCode()) ? 131071 : 524287);
       if (isSetCategoryCode())
         hashCode = hashCode * 8191 + categoryCode.hashCode();
-
-      hashCode = hashCode * 8191 + ((isSetParentID()) ? 131071 : 524287);
-      if (isSetParentID())
-        hashCode = hashCode * 8191 + parentID.hashCode();
 
       return hashCode;
     }
@@ -8586,16 +8670,6 @@ public class RpcBaseDataService {
       }
       if (isSetCategoryCode()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.categoryCode, other.categoryCode);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.valueOf(isSetParentID()).compareTo(other.isSetParentID());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetParentID()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.parentID, other.parentID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8633,14 +8707,6 @@ public class RpcBaseDataService {
         sb.append("null");
       } else {
         sb.append(this.categoryCode);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("parentID:");
-      if (this.parentID == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.parentID);
       }
       first = false;
       sb.append(")");
@@ -8702,14 +8768,6 @@ public class RpcBaseDataService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // PARENT_ID
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.parentID = iprot.readString();
-                struct.setParentIDIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -8731,11 +8789,6 @@ public class RpcBaseDataService {
         if (struct.categoryCode != null) {
           oprot.writeFieldBegin(CATEGORY_CODE_FIELD_DESC);
           oprot.writeString(struct.categoryCode);
-          oprot.writeFieldEnd();
-        }
-        if (struct.parentID != null) {
-          oprot.writeFieldBegin(PARENT_ID_FIELD_DESC);
-          oprot.writeString(struct.parentID);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -8762,25 +8815,19 @@ public class RpcBaseDataService {
         if (struct.isSetCategoryCode()) {
           optionals.set(1);
         }
-        if (struct.isSetParentID()) {
-          optionals.set(2);
-        }
-        oprot.writeBitSet(optionals, 3);
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetLocaleCode()) {
           oprot.writeString(struct.localeCode);
         }
         if (struct.isSetCategoryCode()) {
           oprot.writeString(struct.categoryCode);
         }
-        if (struct.isSetParentID()) {
-          oprot.writeString(struct.parentID);
-        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, listData_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.localeCode = iprot.readString();
           struct.setLocaleCodeIsSet(true);
@@ -8788,10 +8835,6 @@ public class RpcBaseDataService {
         if (incoming.get(1)) {
           struct.categoryCode = iprot.readString();
           struct.setCategoryCodeIsSet(true);
-        }
-        if (incoming.get(2)) {
-          struct.parentID = iprot.readString();
-          struct.setParentIDIsSet(true);
         }
       }
     }
@@ -9202,6 +9245,984 @@ public class RpcBaseDataService {
               _elem22 = new RpcBaseData();
               _elem22.read(iprot);
               struct.success.add(_elem22);
+            }
+          }
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class listDataByParent_args implements org.apache.thrift.TBase<listDataByParent_args, listDataByParent_args._Fields>, java.io.Serializable, Cloneable, Comparable<listDataByParent_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listDataByParent_args");
+
+    private static final org.apache.thrift.protocol.TField LOCALE_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("localeCode", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CATEGORY_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("categoryCode", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField PARENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("parentID", org.apache.thrift.protocol.TType.STRING, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new listDataByParent_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new listDataByParent_argsTupleSchemeFactory();
+
+    private java.lang.String localeCode; // required
+    private java.lang.String categoryCode; // required
+    private java.lang.String parentID; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      LOCALE_CODE((short)1, "localeCode"),
+      CATEGORY_CODE((short)2, "categoryCode"),
+      PARENT_ID((short)3, "parentID");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // LOCALE_CODE
+            return LOCALE_CODE;
+          case 2: // CATEGORY_CODE
+            return CATEGORY_CODE;
+          case 3: // PARENT_ID
+            return PARENT_ID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.LOCALE_CODE, new org.apache.thrift.meta_data.FieldMetaData("localeCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.CATEGORY_CODE, new org.apache.thrift.meta_data.FieldMetaData("categoryCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.PARENT_ID, new org.apache.thrift.meta_data.FieldMetaData("parentID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listDataByParent_args.class, metaDataMap);
+    }
+
+    public listDataByParent_args() {
+    }
+
+    public listDataByParent_args(
+      java.lang.String localeCode,
+      java.lang.String categoryCode,
+      java.lang.String parentID)
+    {
+      this();
+      this.localeCode = localeCode;
+      this.categoryCode = categoryCode;
+      this.parentID = parentID;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public listDataByParent_args(listDataByParent_args other) {
+      if (other.isSetLocaleCode()) {
+        this.localeCode = other.localeCode;
+      }
+      if (other.isSetCategoryCode()) {
+        this.categoryCode = other.categoryCode;
+      }
+      if (other.isSetParentID()) {
+        this.parentID = other.parentID;
+      }
+    }
+
+    public listDataByParent_args deepCopy() {
+      return new listDataByParent_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.localeCode = null;
+      this.categoryCode = null;
+      this.parentID = null;
+    }
+
+    public java.lang.String getLocaleCode() {
+      return this.localeCode;
+    }
+
+    public void setLocaleCode(java.lang.String localeCode) {
+      this.localeCode = localeCode;
+    }
+
+    public void unsetLocaleCode() {
+      this.localeCode = null;
+    }
+
+    /** Returns true if field localeCode is set (has been assigned a value) and false otherwise */
+    public boolean isSetLocaleCode() {
+      return this.localeCode != null;
+    }
+
+    public void setLocaleCodeIsSet(boolean value) {
+      if (!value) {
+        this.localeCode = null;
+      }
+    }
+
+    public java.lang.String getCategoryCode() {
+      return this.categoryCode;
+    }
+
+    public void setCategoryCode(java.lang.String categoryCode) {
+      this.categoryCode = categoryCode;
+    }
+
+    public void unsetCategoryCode() {
+      this.categoryCode = null;
+    }
+
+    /** Returns true if field categoryCode is set (has been assigned a value) and false otherwise */
+    public boolean isSetCategoryCode() {
+      return this.categoryCode != null;
+    }
+
+    public void setCategoryCodeIsSet(boolean value) {
+      if (!value) {
+        this.categoryCode = null;
+      }
+    }
+
+    public java.lang.String getParentID() {
+      return this.parentID;
+    }
+
+    public void setParentID(java.lang.String parentID) {
+      this.parentID = parentID;
+    }
+
+    public void unsetParentID() {
+      this.parentID = null;
+    }
+
+    /** Returns true if field parentID is set (has been assigned a value) and false otherwise */
+    public boolean isSetParentID() {
+      return this.parentID != null;
+    }
+
+    public void setParentIDIsSet(boolean value) {
+      if (!value) {
+        this.parentID = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, java.lang.Object value) {
+      switch (field) {
+      case LOCALE_CODE:
+        if (value == null) {
+          unsetLocaleCode();
+        } else {
+          setLocaleCode((java.lang.String)value);
+        }
+        break;
+
+      case CATEGORY_CODE:
+        if (value == null) {
+          unsetCategoryCode();
+        } else {
+          setCategoryCode((java.lang.String)value);
+        }
+        break;
+
+      case PARENT_ID:
+        if (value == null) {
+          unsetParentID();
+        } else {
+          setParentID((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case LOCALE_CODE:
+        return getLocaleCode();
+
+      case CATEGORY_CODE:
+        return getCategoryCode();
+
+      case PARENT_ID:
+        return getParentID();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case LOCALE_CODE:
+        return isSetLocaleCode();
+      case CATEGORY_CODE:
+        return isSetCategoryCode();
+      case PARENT_ID:
+        return isSetParentID();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof listDataByParent_args)
+        return this.equals((listDataByParent_args)that);
+      return false;
+    }
+
+    public boolean equals(listDataByParent_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_localeCode = true && this.isSetLocaleCode();
+      boolean that_present_localeCode = true && that.isSetLocaleCode();
+      if (this_present_localeCode || that_present_localeCode) {
+        if (!(this_present_localeCode && that_present_localeCode))
+          return false;
+        if (!this.localeCode.equals(that.localeCode))
+          return false;
+      }
+
+      boolean this_present_categoryCode = true && this.isSetCategoryCode();
+      boolean that_present_categoryCode = true && that.isSetCategoryCode();
+      if (this_present_categoryCode || that_present_categoryCode) {
+        if (!(this_present_categoryCode && that_present_categoryCode))
+          return false;
+        if (!this.categoryCode.equals(that.categoryCode))
+          return false;
+      }
+
+      boolean this_present_parentID = true && this.isSetParentID();
+      boolean that_present_parentID = true && that.isSetParentID();
+      if (this_present_parentID || that_present_parentID) {
+        if (!(this_present_parentID && that_present_parentID))
+          return false;
+        if (!this.parentID.equals(that.parentID))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetLocaleCode()) ? 131071 : 524287);
+      if (isSetLocaleCode())
+        hashCode = hashCode * 8191 + localeCode.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCategoryCode()) ? 131071 : 524287);
+      if (isSetCategoryCode())
+        hashCode = hashCode * 8191 + categoryCode.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetParentID()) ? 131071 : 524287);
+      if (isSetParentID())
+        hashCode = hashCode * 8191 + parentID.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(listDataByParent_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.valueOf(isSetLocaleCode()).compareTo(other.isSetLocaleCode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetLocaleCode()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.localeCode, other.localeCode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.valueOf(isSetCategoryCode()).compareTo(other.isSetCategoryCode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCategoryCode()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.categoryCode, other.categoryCode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.valueOf(isSetParentID()).compareTo(other.isSetParentID());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetParentID()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.parentID, other.parentID);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("listDataByParent_args(");
+      boolean first = true;
+
+      sb.append("localeCode:");
+      if (this.localeCode == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.localeCode);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("categoryCode:");
+      if (this.categoryCode == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.categoryCode);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("parentID:");
+      if (this.parentID == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.parentID);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class listDataByParent_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listDataByParent_argsStandardScheme getScheme() {
+        return new listDataByParent_argsStandardScheme();
+      }
+    }
+
+    private static class listDataByParent_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<listDataByParent_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, listDataByParent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // LOCALE_CODE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.localeCode = iprot.readString();
+                struct.setLocaleCodeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // CATEGORY_CODE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.categoryCode = iprot.readString();
+                struct.setCategoryCodeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // PARENT_ID
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.parentID = iprot.readString();
+                struct.setParentIDIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, listDataByParent_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.localeCode != null) {
+          oprot.writeFieldBegin(LOCALE_CODE_FIELD_DESC);
+          oprot.writeString(struct.localeCode);
+          oprot.writeFieldEnd();
+        }
+        if (struct.categoryCode != null) {
+          oprot.writeFieldBegin(CATEGORY_CODE_FIELD_DESC);
+          oprot.writeString(struct.categoryCode);
+          oprot.writeFieldEnd();
+        }
+        if (struct.parentID != null) {
+          oprot.writeFieldBegin(PARENT_ID_FIELD_DESC);
+          oprot.writeString(struct.parentID);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class listDataByParent_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listDataByParent_argsTupleScheme getScheme() {
+        return new listDataByParent_argsTupleScheme();
+      }
+    }
+
+    private static class listDataByParent_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<listDataByParent_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, listDataByParent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetLocaleCode()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCategoryCode()) {
+          optionals.set(1);
+        }
+        if (struct.isSetParentID()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetLocaleCode()) {
+          oprot.writeString(struct.localeCode);
+        }
+        if (struct.isSetCategoryCode()) {
+          oprot.writeString(struct.categoryCode);
+        }
+        if (struct.isSetParentID()) {
+          oprot.writeString(struct.parentID);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, listDataByParent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.localeCode = iprot.readString();
+          struct.setLocaleCodeIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.categoryCode = iprot.readString();
+          struct.setCategoryCodeIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.parentID = iprot.readString();
+          struct.setParentIDIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class listDataByParent_result implements org.apache.thrift.TBase<listDataByParent_result, listDataByParent_result._Fields>, java.io.Serializable, Cloneable, Comparable<listDataByParent_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listDataByParent_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new listDataByParent_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new listDataByParent_resultTupleSchemeFactory();
+
+    private java.util.List<RpcBaseData> success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RpcBaseData.class))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listDataByParent_result.class, metaDataMap);
+    }
+
+    public listDataByParent_result() {
+    }
+
+    public listDataByParent_result(
+      java.util.List<RpcBaseData> success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public listDataByParent_result(listDataByParent_result other) {
+      if (other.isSetSuccess()) {
+        java.util.List<RpcBaseData> __this__success = new java.util.ArrayList<RpcBaseData>(other.success.size());
+        for (RpcBaseData other_element : other.success) {
+          __this__success.add(new RpcBaseData(other_element));
+        }
+        this.success = __this__success;
+      }
+    }
+
+    public listDataByParent_result deepCopy() {
+      return new listDataByParent_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public int getSuccessSize() {
+      return (this.success == null) ? 0 : this.success.size();
+    }
+
+    public java.util.Iterator<RpcBaseData> getSuccessIterator() {
+      return (this.success == null) ? null : this.success.iterator();
+    }
+
+    public void addToSuccess(RpcBaseData elem) {
+      if (this.success == null) {
+        this.success = new java.util.ArrayList<RpcBaseData>();
+      }
+      this.success.add(elem);
+    }
+
+    public java.util.List<RpcBaseData> getSuccess() {
+      return this.success;
+    }
+
+    public void setSuccess(java.util.List<RpcBaseData> success) {
+      this.success = success;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.util.List<RpcBaseData>)value);
+        }
+        break;
+
+      }
+    }
+
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof listDataByParent_result)
+        return this.equals((listDataByParent_result)that);
+      return false;
+    }
+
+    public boolean equals(listDataByParent_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(listDataByParent_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("listDataByParent_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class listDataByParent_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listDataByParent_resultStandardScheme getScheme() {
+        return new listDataByParent_resultStandardScheme();
+      }
+    }
+
+    private static class listDataByParent_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<listDataByParent_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, listDataByParent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+                {
+                  org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<RpcBaseData>(_list24.size);
+                  RpcBaseData _elem25;
+                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
+                  {
+                    _elem25 = new RpcBaseData();
+                    _elem25.read(iprot);
+                    struct.success.add(_elem25);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, listDataByParent_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
+            for (RpcBaseData _iter27 : struct.success)
+            {
+              _iter27.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class listDataByParent_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listDataByParent_resultTupleScheme getScheme() {
+        return new listDataByParent_resultTupleScheme();
+      }
+    }
+
+    private static class listDataByParent_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<listDataByParent_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, listDataByParent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          {
+            oprot.writeI32(struct.success.size());
+            for (RpcBaseData _iter28 : struct.success)
+            {
+              _iter28.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, listDataByParent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          {
+            org.apache.thrift.protocol.TList _list29 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new java.util.ArrayList<RpcBaseData>(_list29.size);
+            RpcBaseData _elem30;
+            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
+            {
+              _elem30 = new RpcBaseData();
+              _elem30.read(iprot);
+              struct.success.add(_elem30);
             }
           }
           struct.setSuccessIsSet(true);
@@ -12440,14 +13461,14 @@ public class RpcBaseDataService {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<RpcBaseDataCategory>(_list24.size);
-                  RpcBaseDataCategory _elem25;
-                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
+                  org.apache.thrift.protocol.TList _list32 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<RpcBaseDataCategory>(_list32.size);
+                  RpcBaseDataCategory _elem33;
+                  for (int _i34 = 0; _i34 < _list32.size; ++_i34)
                   {
-                    _elem25 = new RpcBaseDataCategory();
-                    _elem25.read(iprot);
-                    struct.success.add(_elem25);
+                    _elem33 = new RpcBaseDataCategory();
+                    _elem33.read(iprot);
+                    struct.success.add(_elem33);
                   }
                   iprot.readListEnd();
                 }
@@ -12473,9 +13494,9 @@ public class RpcBaseDataService {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (RpcBaseDataCategory _iter27 : struct.success)
+            for (RpcBaseDataCategory _iter35 : struct.success)
             {
-              _iter27.write(oprot);
+              _iter35.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -12506,9 +13527,9 @@ public class RpcBaseDataService {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (RpcBaseDataCategory _iter28 : struct.success)
+            for (RpcBaseDataCategory _iter36 : struct.success)
             {
-              _iter28.write(oprot);
+              _iter36.write(oprot);
             }
           }
         }
@@ -12520,14 +13541,14 @@ public class RpcBaseDataService {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list29 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.success = new java.util.ArrayList<RpcBaseDataCategory>(_list29.size);
-            RpcBaseDataCategory _elem30;
-            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
+            org.apache.thrift.protocol.TList _list37 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new java.util.ArrayList<RpcBaseDataCategory>(_list37.size);
+            RpcBaseDataCategory _elem38;
+            for (int _i39 = 0; _i39 < _list37.size; ++_i39)
             {
-              _elem30 = new RpcBaseDataCategory();
-              _elem30.read(iprot);
-              struct.success.add(_elem30);
+              _elem38 = new RpcBaseDataCategory();
+              _elem38.read(iprot);
+              struct.success.add(_elem38);
             }
           }
           struct.setSuccessIsSet(true);

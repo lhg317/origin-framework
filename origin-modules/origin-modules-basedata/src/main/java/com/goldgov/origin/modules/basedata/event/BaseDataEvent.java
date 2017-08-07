@@ -20,7 +20,7 @@ public class BaseDataEvent extends ApplicationEvent{
 	}
 
 	public enum EventType{
-		ADD,UPDATE,DELETE,LIST;
+		ADD,UPDATE,PRE_DELETE,LIST;
 	}
 
 	public Object getData() {

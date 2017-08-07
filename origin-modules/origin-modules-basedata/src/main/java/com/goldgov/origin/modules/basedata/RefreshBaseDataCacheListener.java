@@ -26,10 +26,6 @@ public class RefreshBaseDataCacheListener implements ApplicationListener<BaseDat
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onApplicationEvent(BaseDataEvent event) {
-//		Map<String, List<String>> roleResourceMap = roleService.getRoleResourceMap();
-////		FIXME 此处是数据保存在缓存，key与security的ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING对应
-//		CacheHolder.put("CACHE_CODE_ROLE_RESOURCE_MAPPING", roleResourceMap);
-		
 		Map<String,List<BaseData>> cache = (Map<String,List<BaseData>>) CacheHolder.get(BaseDataService.CACHE_CODE_BASE_DATA);
 		if(cache == null){
 			cache = new HashMap<>();
