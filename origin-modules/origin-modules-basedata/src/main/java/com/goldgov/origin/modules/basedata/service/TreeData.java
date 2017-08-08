@@ -9,8 +9,10 @@ public class TreeData {
 
 	private final List<TreeDataNode> rootDataList = new ArrayList<>();
 	private final List<BaseData> baseDataList;
+	private final String localeCode;
 	
-	public TreeData(List<BaseData> baseDataList){
+	public TreeData(String localeCode,List<BaseData> baseDataList){
+		this.localeCode = localeCode;
 		this.baseDataList = baseDataList;
 	}
 	
@@ -50,6 +52,10 @@ public class TreeData {
 
 	public List<TreeDataNode> getRootDataList() {
 		return rootDataList;
+	}
+
+	public String getLocaleCode() {
+		return localeCode;
 	}
 	
 }
