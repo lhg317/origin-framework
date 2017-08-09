@@ -1,23 +1,17 @@
-package com.goldgov.origin.modules.basedata.service;
+package com.goldgov.origin.modules.basedata.api;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * - NOT USE - 移动到API层 
- * @author LiuHG
- * @version 1.0
- * @deprecated
- */
 public class TreeDataNode {
 
-	private final BaseData baseData;
+	private final RpcBaseData baseData;
 	
 	private final List<TreeDataNode> subDataList = new ArrayList<>();
 
 	private final TreeDataNode parentTreeData;
 
-	public TreeDataNode(BaseData baseData,TreeDataNode parentTreeData){
+	public TreeDataNode(RpcBaseData baseData,TreeDataNode parentTreeData){
 		this.baseData = baseData;
 		this.parentTreeData = parentTreeData;
 	}
@@ -34,7 +28,7 @@ public class TreeDataNode {
 		return subDataList;
 	}
 
-	public BaseData getBaseData() {
+	public RpcBaseData getBaseData() {
 		return baseData;
 	}
 	

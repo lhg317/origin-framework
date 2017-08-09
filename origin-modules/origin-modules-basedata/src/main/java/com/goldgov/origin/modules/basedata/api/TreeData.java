@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.basedata.service;
+package com.goldgov.origin.modules.basedata.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,23 +8,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * - NOT USE - 移动到API层
  * 根据指定的语言环境及分类编码，将其下的所有基础数据值包装一个树形结构的对象
  * @author LiuHG
  * @version 1.0
- * @deprecated
  */
 public class TreeData {
 
 	private final Map<TreeDataNode,List<TreeDataNode>> subDataMap = new HashMap<>();
 	
 	private final List<TreeDataNode> rootDataList = new ArrayList<>();
-	private final List<BaseData> baseDataList;
+	private final List<RpcBaseData> baseDataList;
 	private final String localeCode;
 
 	private final String categoryCode;
 	
-	public TreeData(String localeCode,String categoryCode, List<BaseData> baseDataList){
+	public TreeData(String localeCode,String categoryCode, List<RpcBaseData> baseDataList){
 		this.localeCode = localeCode;
 		this.categoryCode = categoryCode;
 		this.baseDataList = baseDataList;
@@ -32,15 +30,15 @@ public class TreeData {
 	}
 	
 	private void treeFormat(){
-		Map<String,List<BaseData>> tempMap = new HashMap<>();
+		Map<String,List<RpcBaseData>> tempMap = new HashMap<>();
 		for (int i = 0; i < baseDataList.size(); i++) {
-			BaseData baseData = baseDataList.get(i);
+			RpcBaseData baseData = baseDataList.get(i);
 			String parentID = baseData.getParentData().getDataID();
 			
 			if(parentID.equals(baseData.getDataID())){
 				rootDataList.add(new TreeDataNode(baseData,null));
 			}else{
-				List<BaseData> dataList = tempMap.get(parentID);
+				List<RpcBaseData> dataList = tempMap.get(parentID);
 				if(dataList == null){
 					dataList = new ArrayList<>();
 					tempMap.put(parentID, dataList);
@@ -54,8 +52,8 @@ public class TreeData {
 		}
 	}
 
-	private void treeFormat(Map<String, List<BaseData>> tempMap, TreeDataNode treeData) {
-		List<BaseData> subDataList = tempMap.remove(treeData.getDataID());
+	private void treeFormat(Map<String, List<RpcBaseData>> tempMap, TreeDataNode treeData) {
+		List<RpcBaseData> subDataList = tempMap.remove(treeData.getDataID());
 		
 		if(subDataList != null){
 			for (int i = 0; i < subDataList.size(); i++) {

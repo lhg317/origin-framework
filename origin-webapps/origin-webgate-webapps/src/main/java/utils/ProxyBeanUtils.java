@@ -259,7 +259,7 @@ public class ProxyBeanUtils {
 		
 		public String getGetterCode(String name,Class<?> clazz){
 			StringBuilder sb = new StringBuilder();
-			sb.append(indentation + "public " + clazz.getTypeName() + " ");
+			sb.append(indentation + "public " + clazz.getSimpleName() + " ");
 			sb.append(getGetMethodName(name, clazz));
 			sb.append("() {");
 			sb.append("\r\n");

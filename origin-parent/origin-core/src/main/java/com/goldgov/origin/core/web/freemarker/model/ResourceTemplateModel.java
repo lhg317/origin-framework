@@ -46,12 +46,13 @@ public class ResourceTemplateModel implements TemplateDirectiveModel {
 		String srcStr = String.valueOf(src);
 		srcStr = srcStr.startsWith("/") ? srcStr : "/"+srcStr;
 		
+		String tmpSrc = srcStr;
 		if(resourceUrlProvider != null){
 			srcStr = resourceUrlProvider.getForLookupPath(srcStr);
 		}
 		
 		if(srcStr == null){
-			throw new RuntimeException("页面引入的资源不存在：" + srcStr);
+			throw new RuntimeException("页面引入的资源不存在：" + tmpSrc);
 		}
 		
 		String contextPath = request.getContextPath();

@@ -16,12 +16,13 @@
 数据名：<input type="text" name="dataName" value="${(data.dataName)!}">
 数据值：<input type="text" name="dataValue" value="${(data.dataValue)!}">
 排序：<input type="text" name="orderNum" value="${(data.orderNum)!}">
+<input type="hidden" name="parentData.dataID" value="${RequestParameters['parentData.dataID']!''}">
 <input type="hidden" name="dataLocale.localeID" value="1">
 <input type="hidden" name="dataCategory.categoryID" value="1">
 ${csrfToken(true)}
 ${webToken(true)}
 <br>
-<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listUser','_self')"/>
+<input type="submit" value="<@i18n code="submit"/>"/> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listData','_self')"/>
 
 </form>
 

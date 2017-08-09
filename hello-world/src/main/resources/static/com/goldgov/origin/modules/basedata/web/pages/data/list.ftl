@@ -6,10 +6,11 @@
 </head>
 <body>
 
+	<form action="" method="post"></form>
 	<div style="margin: 5px;">
 		<div>
 			<div class="btn-group pull-right" role="group" aria-label="...">
-				<button type="button" class="btn btn-default new-btn">新增</button>
+				<button type="button" class="btn btn-default new-btn" onclick="window.open('./preAddData?categoryCode=${RequestParameters['categoryCode']}&parentData.dataID=${RequestParameters['parentData.dataID']!''}','_self')">新增</button>
 				<button type="button" class="btn btn-default edit-btn">修改</button>
 				<button type="button" class="btn btn-danger del-btn">删除</button>
 			</div>
@@ -33,7 +34,7 @@
 					<td>${data.dataName}</td>
 					<td>${data.dataValue}</td>
 					<td>${data.description!}</td>
-					<td><a href="./listData?dataID=${data.dataID}&categoryCode=${RequestParameters['categoryCode']}">【进入】</a></td>
+					<td><a href="./listData?dataID=${data.dataID}&categoryCode=${RequestParameters['categoryCode']}&parentData.dataID=${data.dataID}">【进入】</a></td>
 				</tr>
 				</#escape> </#list>
 			</tbody>
@@ -41,7 +42,8 @@
 	</div>
 	${csrfToken(true)} ${webToken(true)}
 	<br>
+	<input type="hidden" name="parentData.dataID" value="${RequestParameters['parentData.dataID']!''}";>
 	</form>
 </body>
-<@res tag="script" src="/webjars/jquery/1.9.1/jquery.min.js"/>
+<@res tag="script" src="/webjars/jquery/3.2.1/jquery.min.js"/>
 </html>

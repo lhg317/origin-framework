@@ -6,30 +6,31 @@
 
 	<resultMap type="com.goldgov.origin.modules.basedata.service.BaseDataLocale"
 		id="dataLocale">
+		<id column="LOCALE_ID" jdbcType="VARCHAR" property="localeID" />
 		<result column="LOCALE_CODE" jdbcType="VARCHAR" property="localeCode" />
-		<result column="LOCALE_ID" jdbcType="VARCHAR" property="localeID" />
 		<result column="LOCALE_NAME" jdbcType="VARCHAR" property="localeName" />
 	</resultMap>
 
 	<resultMap
 		type="com.goldgov.origin.modules.basedata.service.BaseDataCategory"
 		id="baseDataCategory">
+		<id column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryID" />
 		<result column="CATEGORY_CODE" jdbcType="VARCHAR" property="categoryCode" />
-		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryID" />
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 	</resultMap>
 
 	<resultMap type="com.goldgov.origin.modules.basedata.service.BaseData"
 		id="data">
-		<result column="DATA_ID" jdbcType="VARCHAR" property="dataID" />
+		<id column="DATA_ID" jdbcType="VARCHAR" property="dataID" />
 		<result column="DATA_NAME" jdbcType="VARCHAR" property="dataName" />
 		<result column="DATA_VALUE" jdbcType="VARCHAR" property="dataValue" />
 		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
 		<result column="NODE_VALUE" jdbcType="NUMERIC" property="nodeValue" />
 		<result column="NODE_PATH" jdbcType="VARCHAR" property="nodePath" />
 		<result column="ORDER_NUM" jdbcType="NUMERIC" property="orderNum" />
+		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentData.dataID"/>
 	</resultMap>
-
+	
 	<sql id="baseDataQueryFields">
 		d.DATA_ID as "dataID",
 		d.DATA_NAME as "dataName",
@@ -39,7 +40,8 @@
 		"description",
 		v.ORDER_NUM as "orderNum",
 		d.NODE_VALUE as "nodeValue",
-		d.NODE_PATH as "nodePath"
+		d.NODE_PATH as "nodePath",
+		d.PARENT_ID
 	</sql>
 
 	<sql id="baseDataCategoryQueryFields">
