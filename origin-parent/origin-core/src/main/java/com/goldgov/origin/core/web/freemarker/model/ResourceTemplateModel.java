@@ -23,7 +23,7 @@ public class ResourceTemplateModel implements TemplateDirectiveModel {
 	
 	private final static String LINK = "<link type=\"text/css\" rel=\"stylesheet\" href=\"%s\" %s />\r\n";
 	private final static String SCRIPT = "<script type=\"text/javascript\" src=\"%s\" %s></script>\r\n";
-	private final static String IMG = "";
+	private final static String IMG = "<img src=\"%s\" %s/>\r\n";
 
 	private ResourceUrlProvider resourceUrlProvider;
 	
@@ -40,7 +40,7 @@ public class ResourceTemplateModel implements TemplateDirectiveModel {
 		Object tag = params.get("tag");
 		Object src = params.get("src");
 		Object attr = params.get("attr");
-		Assert.notNull(tag,"@Resource tag属性不能为空");
+//		Assert.notNull(tag,"@Resource tag属性不能为空");
 		Assert.notNull(src,"@Resource src属性不能为空");
 		
 		String srcStr = String.valueOf(src);
@@ -60,13 +60,18 @@ public class ResourceTemplateModel implements TemplateDirectiveModel {
 			srcStr = contextPath + srcStr;
 		}
 		
+		Writer out = env.getOut();
+		
+		if(tag == null){
+			out.write(srcStr);
+			return;
+		}
+		
 		String tagName = String.valueOf(tag).toUpperCase();
 		String resourceLocation = getResourceLocation(tagName);
 		if(resourceLocation != null){
 			srcStr = resourceLocation + srcStr;
 		}
-		
-		Writer out = env.getOut();
 		
 		String otherAttr = attr == null ? "" : String.valueOf(attr);
 		if(tagName.equals("LINK")){
