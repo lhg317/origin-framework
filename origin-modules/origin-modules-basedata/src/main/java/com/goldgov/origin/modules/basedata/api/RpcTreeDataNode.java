@@ -3,28 +3,28 @@ package com.goldgov.origin.modules.basedata.api;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeDataNode {
+public class RpcTreeDataNode {
 
 	private final RpcBaseData baseData;
 	
-	private final List<TreeDataNode> subDataList = new ArrayList<>();
+	private final List<RpcTreeDataNode> subDataList = new ArrayList<>();
 
-	private final TreeDataNode parentTreeData;
+	private final RpcTreeDataNode parentTreeData;
 
-	public TreeDataNode(RpcBaseData baseData,TreeDataNode parentTreeData){
+	public RpcTreeDataNode(RpcBaseData baseData,RpcTreeDataNode parentTreeData){
 		this.baseData = baseData;
 		this.parentTreeData = parentTreeData;
 	}
 	
-	public void addSubData(TreeDataNode baseData){
+	public void addSubData(RpcTreeDataNode baseData){
 		subDataList.add(baseData);
 	}
 	
-	public void addAllSubData(List<TreeDataNode> subDataList){
+	public void addAllSubData(List<RpcTreeDataNode> subDataList){
 		this.subDataList.addAll(subDataList);
 	}
 
-	public List<TreeDataNode> getSubDataList() {
+	public List<RpcTreeDataNode> getSubDataList() {
 		return subDataList;
 	}
 
@@ -44,7 +44,7 @@ public class TreeDataNode {
 		return baseData.getDataValue();
 	}
 
-	public TreeDataNode getParentTreeData() {
+	public RpcTreeDataNode getParentTreeData() {
 		return parentTreeData;
 	}
 	

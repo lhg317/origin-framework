@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * - NOT USE - 移动到API层 
  * @author LiuHG
  * @version 1.0
- * @deprecated
  */
 public class TreeDataNode {
 

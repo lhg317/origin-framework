@@ -41,7 +41,6 @@
 		</table>
 	</div>
 	${csrfToken(true)} ${webToken(true)}
-	<br>
 	<input type="hidden" name="parentData.dataID" value="${RequestParameters['parentData.dataID']!''}";>
 	</form>
 </body>

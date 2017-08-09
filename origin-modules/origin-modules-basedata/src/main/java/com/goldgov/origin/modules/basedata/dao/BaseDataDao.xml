@@ -29,32 +29,33 @@
 		<result column="NODE_PATH" jdbcType="VARCHAR" property="nodePath" />
 		<result column="ORDER_NUM" jdbcType="NUMERIC" property="orderNum" />
 		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentData.dataID"/>
+		<association property="dataCategory" resultMap="baseDataCategory" />
 	</resultMap>
 	
 	<sql id="baseDataQueryFields">
-		d.DATA_ID as "dataID",
-		d.DATA_NAME as "dataName",
-		v.DATA_VALUE as
-		"dataValue",
-		d.DESCRIPTION as
-		"description",
-		v.ORDER_NUM as "orderNum",
-		d.NODE_VALUE as "nodeValue",
-		d.NODE_PATH as "nodePath",
-		d.PARENT_ID
+		d.DATA_ID,
+		d.DATA_NAME,
+		v.DATA_VALUE,
+		d.DESCRIPTION,
+		v.ORDER_NUM,
+		d.NODE_VALUE,
+		d.NODE_PATH,
+		d.PARENT_ID,
+		c.CATEGORY_CODE,
+		c.CATEGORY_ID,
+		c.CATEGORY_NAME
 	</sql>
 
 	<sql id="baseDataCategoryQueryFields">
-		CATEGORY_CODE as "categoryCode",
-		CATEGORY_ID as
-		"categoryID",
-		CATEGORY_NAME as "categoryName"
+		CATEGORY_CODE,
+		CATEGORY_ID,
+		CATEGORY_NAME
 	</sql>
 
 	<sql id="baseDataLocaleQueryFields">
-		LOCALE_CODE as "localeCode",
-		LOCALE_ID as "localeID",
-		LOCALE_NAME as "localeName"
+		LOCALE_CODE,
+		LOCALE_ID,
+		LOCALE_NAME
 	</sql>
 
 	<insert id="addLocale">

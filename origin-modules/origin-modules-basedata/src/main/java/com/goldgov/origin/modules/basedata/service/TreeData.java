@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * - NOT USE - 移动到API层
  * 根据指定的语言环境及分类编码，将其下的所有基础数据值包装一个树形结构的对象
  * @author LiuHG
  * @version 1.0
- * @deprecated
  */
 public class TreeData {
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import com.goldgov.origin.core.cache.CacheHolder;
 import com.goldgov.origin.modules.basedata.event.BaseDataEvent;
@@ -17,7 +18,7 @@ import com.goldgov.origin.modules.basedata.service.BaseDataService;
  * @author LiuHG
  * @version 1.0
  */
-//@Component
+@Component
 public class RefreshBaseDataCacheListener implements ApplicationListener<BaseDataEvent>{
 
 	@Autowired

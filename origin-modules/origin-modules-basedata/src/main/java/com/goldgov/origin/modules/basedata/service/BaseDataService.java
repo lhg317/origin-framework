@@ -6,6 +6,10 @@ public interface BaseDataService {
 	
 	public static final String CACHE_CODE_BASE_DATA = "CACHE_CODE_BASE_DATA";
 	
+	/**
+	 * 添加基础数据语言环境
+	 * @param locale
+	 */
 	void addLocale(BaseDataLocale locale);
 	
 	BaseDataLocale getLocale(String localeID);
@@ -16,6 +20,10 @@ public interface BaseDataService {
 	
 	List<BaseDataLocale> listLocale();
 	
+	/**
+	 * 添加基础数据分类
+	 * @param category
+	 */
 	void addCategory(BaseDataCategory category);
 	
 	BaseDataCategory getCategory(String categoryID);
@@ -26,6 +34,10 @@ public interface BaseDataService {
 	
 	List<BaseDataCategory> listCategory();
 	
+	/**
+	 * 添加基础数据
+	 * @param data
+	 */
 	void addData(BaseData data);
 	
 	BaseData getData(String dataID);
@@ -40,9 +52,18 @@ public interface BaseDataService {
 	 * @param localeCode
 	 * @param categoryCode
 	 * @return
+	 * @see {@link com.goldgov.origin.modules.basedata.service.TreeData TreeData}
+	 * @see {@link com.goldgov.origin.modules.basedata.RefreshBaseDataCacheListener RefreshBaseDataCacheListener}
 	 */
 	List<BaseData> listData(String localeCode,String categoryCode);
 	
+	/**
+	 * 查询指定的父级数据ID，查询子集基础数据，本方法只查询子集一级，不会继续向下查询。
+	 * @param localeCode 语言环境编码
+	 * @param categoryCode 基础数据分类编码
+	 * @param parentID 基础数据父级ID
+	 * @return 子集基础数据对象（只有子集当前级别数据，不包含子级以下的基础数据），如果没有符合条件的返回空的集合。
+	 */
 	List<BaseData> listData(String localeCode,String categoryCode,String parentID);
 	
 }

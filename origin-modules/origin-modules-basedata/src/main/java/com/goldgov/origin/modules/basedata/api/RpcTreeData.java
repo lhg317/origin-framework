@@ -12,17 +12,17 @@ import java.util.Map;
  * @author LiuHG
  * @version 1.0
  */
-public class TreeData {
+public class RpcTreeData {
 
-	private final Map<TreeDataNode,List<TreeDataNode>> subDataMap = new HashMap<>();
+	private final Map<RpcTreeDataNode,List<RpcTreeDataNode>> subDataMap = new HashMap<>();
 	
-	private final List<TreeDataNode> rootDataList = new ArrayList<>();
+	private final List<RpcTreeDataNode> rootDataList = new ArrayList<>();
 	private final List<RpcBaseData> baseDataList;
 	private final String localeCode;
 
 	private final String categoryCode;
 	
-	public TreeData(String localeCode,String categoryCode, List<RpcBaseData> baseDataList){
+	public RpcTreeData(String localeCode,String categoryCode, List<RpcBaseData> baseDataList){
 		this.localeCode = localeCode;
 		this.categoryCode = categoryCode;
 		this.baseDataList = baseDataList;
@@ -36,7 +36,7 @@ public class TreeData {
 			String parentID = baseData.getParentData().getDataID();
 			
 			if(parentID.equals(baseData.getDataID())){
-				rootDataList.add(new TreeDataNode(baseData,null));
+				rootDataList.add(new RpcTreeDataNode(baseData,null));
 			}else{
 				List<RpcBaseData> dataList = tempMap.get(parentID);
 				if(dataList == null){
@@ -47,17 +47,17 @@ public class TreeData {
 			}
 		}
 		for (int i = 0; i < rootDataList.size(); i++) {
-			TreeDataNode treeData = rootDataList.get(i);
+			RpcTreeDataNode treeData = rootDataList.get(i);
 			treeFormat(tempMap, treeData);
 		}
 	}
 
-	private void treeFormat(Map<String, List<RpcBaseData>> tempMap, TreeDataNode treeData) {
+	private void treeFormat(Map<String, List<RpcBaseData>> tempMap, RpcTreeDataNode treeData) {
 		List<RpcBaseData> subDataList = tempMap.remove(treeData.getDataID());
 		
 		if(subDataList != null){
 			for (int i = 0; i < subDataList.size(); i++) {
-				TreeDataNode treeDataNode = new TreeDataNode(subDataList.get(i),treeData);
+				RpcTreeDataNode treeDataNode = new RpcTreeDataNode(subDataList.get(i),treeData);
 				treeData.addSubData(treeDataNode);
 				treeFormat(tempMap,treeDataNode);
 			}
@@ -71,10 +71,10 @@ public class TreeData {
 	 * @param dataName 数据名
 	 * @return dataName为数据名的节点数据，如果不存在则返回null
 	 */
-	public TreeDataNode getTreeData(String dataName){
-		Iterator<TreeDataNode> keyIterator = subDataMap.keySet().iterator();
+	public RpcTreeDataNode getTreeData(String dataName){
+		Iterator<RpcTreeDataNode> keyIterator = subDataMap.keySet().iterator();
 		while (keyIterator.hasNext()) {
-			TreeDataNode treeData = keyIterator.next();
+			RpcTreeDataNode treeData = keyIterator.next();
 			if(treeData.getDataName().equals(dataName)){
 				return treeData;
 			}
@@ -88,8 +88,8 @@ public class TreeData {
 	 * @param dataName 数据名
 	 * @return dataName为数据名下的所有子级数据，如没有找到，则返回空的集合。
 	 */
-	public List<TreeDataNode> getTreeDataList(String dataName){
-		TreeDataNode treeData = getTreeData(dataName);
+	public List<RpcTreeDataNode> getTreeDataList(String dataName){
+		RpcTreeDataNode treeData = getTreeData(dataName);
 		if(treeData != null){
 			return subDataMap.get(treeData);
 		}
@@ -100,7 +100,7 @@ public class TreeData {
 	 * 以列表形式返回树节点数据。
 	 * @return
 	 */
-	public List<TreeDataNode> getRootDataList() {
+	public List<RpcTreeDataNode> getRootDataList() {
 		return rootDataList;
 	}
 
@@ -109,8 +109,8 @@ public class TreeData {
 	 * @param dataName 数据名
 	 * @return dataName为数据名的父节点对象
 	 */
-	public TreeDataNode getParentTreeData(String dataName) {
-		TreeDataNode treeData = getTreeData(dataName);
+	public RpcTreeDataNode getParentTreeData(String dataName) {
+		RpcTreeDataNode treeData = getTreeData(dataName);
 		if(treeData != null){
 			return treeData.getParentTreeData();
 		}
@@ -124,7 +124,7 @@ public class TreeData {
 	 * @return 指定分隔符分隔的数据值路径，返回的路径以separator开头，但是不以其结尾
 	 */
 	public String getTreePath(String dataName,String separator) {
-		TreeDataNode treeData = getTreeData(dataName);
+		RpcTreeDataNode treeData = getTreeData(dataName);
 		StringBuilder sb = new StringBuilder();
 		while(treeData != null){
 			sb.insert(0,treeData.getDataValue());
