@@ -38,5 +38,7 @@ public interface RoleDao {
 	
 	public List<Map<String,String>> listRoleResourceMap();
 
+	public List<RoleResource> listRoleResourceByRoleID(@Param("roleID") String roleID);
+
 
 }

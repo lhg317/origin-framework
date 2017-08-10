@@ -38,6 +38,9 @@ public interface RoleService {
 	 */
 	List<RoleResource> listRoleResourceByObject(String roleObject);
 	List<RoleResource> listRoleResourceByObject(String roleObject,String roleObjectType);
+	
+	
+	List<RoleResource> listRoleResourceByRoleID(String roleID);
 
 	/**
 	 * 根据角色关联对象（例如用户ID），查询该角色对象下的所有所属角色。

@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.role.service.impl;
+package com.goldgov.origin.modules.role.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,6 @@ import java.util.List;
 import com.goldgov.origin.core.service.rpc.RpcPagingInfo;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
-import com.goldgov.origin.modules.role.service.Role;
-import com.goldgov.origin.modules.role.service.RoleQuery;
 
 public class ProxyRoleQuery extends RoleQuery<Role> {
 
@@ -95,7 +93,7 @@ public class ProxyRoleQuery extends RoleQuery<Role> {
 	public void setResultList(List<Role> resultList) {
 		List<RpcRole> rpcObjectList = new ArrayList<>(resultList.size());
 		for (Role user : resultList) {
-			rpcObjectList.add(new ProxyRole(user).toRpcRole());
+			rpcObjectList.add(new ProxyRole(user).toRpcObject());
 		}
 		roleQuery.setResultList(rpcObjectList);
 	}

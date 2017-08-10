@@ -167,6 +167,11 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 		this.applicationContext = applicationContext;
 	}
 
+	@Override
+	public List<RoleResource> listRoleResourceByRoleID(String roleID) {
+		return roleDao.listRoleResourceByRoleID(roleID);
+	}
+
 //	@Override
 //	public void refreshRoleResourceCache() {
 //		Map<String, List<String>> roleResourceMap = getRoleResourceMap();

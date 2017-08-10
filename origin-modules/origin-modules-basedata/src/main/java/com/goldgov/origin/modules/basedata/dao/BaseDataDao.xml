@@ -137,10 +137,10 @@
 		from BASE_DATA_CATEGORY where CATEGORY_ID=#{categoryID}
 	</select>
 
-	<select id="getData">
+	<select id="getData" resultMap="data">
 		SELECT
 		<include refid="baseDataQueryFields" />
-		from BASE_DATA d,BASE_DATA_VALUE v where d.DATA_ID=v.DATA_ID AND d.DATA_ID=#{dataID}
+		from BASE_DATA d,BASE_DATA_VALUE v,BASE_DATA_CATEGORY c WHERE c.CATEGORY_ID=d.CATEGORY_ID AND  d.DATA_ID=v.DATA_ID AND d.DATA_ID=#{dataID}
 	</select>
 
 	<update id="updateLocale">

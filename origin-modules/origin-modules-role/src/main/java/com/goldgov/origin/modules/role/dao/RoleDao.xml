@@ -5,35 +5,35 @@
 <mapper namespace="com.goldgov.origin.modules.role.dao.RoleDao">
 
 	<resultMap type="com.goldgov.origin.modules.role.service.Role" id="role">
-		<id column="ROLE_ID" jdbcType="INTEGER" property="roleID"/>
+		<id column="ROLE_ID" jdbcType="VARCHAR" property="roleID"/>
 		<result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
 		<result column="ROLE_CODE" jdbcType="VARCHAR" property="roleCode"/>
 		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
 	</resultMap>
 	
 	<resultMap type="com.goldgov.origin.modules.role.service.RoleResource" id="roleResource">
-		<id column="ROLE_RESOURCE_ID" jdbcType="INTEGER" property="roleResourceID"/>
-		<result column="OPERATE_ID" jdbcType="INTEGER" property="operateID"/>
-		<result column="ROLE_ID" jdbcType="INTEGER" property="roleID"/>
+		<id column="ROLE_RESOURCE_ID" jdbcType="VARCHAR" property="roleResourceID"/>
+		<result column="RESOURCE_OPERATE" jdbcType="VARCHAR" property="resourceOperate"/>
+		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleID"/>
 	</resultMap>
 	
 	<resultMap type="com.goldgov.origin.modules.role.service.RoleObject" id="roleObject">
-		<id column="ROLE_OBJECT_ID" jdbcType="INTEGER" property="roleObjectID"/>
-		<result column="OBJECT_ID" jdbcType="INTEGER" property="objectID"/>
-		<result column="ROLE_ID" jdbcType="INTEGER" property="role_ID"/>
+		<id column="ROLE_OBJECT_ID" jdbcType="VARCHAR" property="roleObjectID"/>
+		<result column="OBJECT_ID" jdbcType="VARCHAR" property="objectID"/>
+		<result column="ROLE_ID" jdbcType="VARCHAR" property="role_ID"/>
 	</resultMap>
 
 	<sql id="roleFields">
-		ROLE_ID as "roleID",
-		ROLE_NAME as "roleName",
-		ROLE_CODE as "roleCode",
-		DESCRIPTION as "description"
+		ROLE_ID,
+		ROLE_NAME,
+		ROLE_CODE,
+		DESCRIPTION
 	</sql>
 	
 	<sql id="resourceFields">
-		ROLE_RESOURCE_ID as "roleResourceID",
-		ROLE_CODE as "roleCode",
-		OPERATE_ID as "operateID"
+		ROLE_RESOURCE_ID,
+		ROLE_CODE,
+		OPERATE_ID
 	</sql>
 	
 	<insert id="addRole">
@@ -107,6 +107,11 @@
 	
 	<select id="listRoleResourceMap" resultType="map">
 		SELECT r.ROLE_CODE as "roleCode",res.RESOURCE_OPERATE as "resourceOperate" FROM ROLE r,ROLE_RESOURCE res WHERE r.role_id=res.role_id
+	</select>
+	
+	<select id="listRoleResourceByRoleID" resultMap="roleResource">
+		SELECT res.ROLE_RESOURCE_ID,res.ROLE_ID,res.RESOURCE_OPERATE FROM ROLE r,ROLE_RESOURCE res,ROLE_OBJECT ro 
+		WHERE r.role_id=res.role_id AND r.role_id=ro.role_id AND r.role_id=#{roleID}
 	</select>
 	
 </mapper>

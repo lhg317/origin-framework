@@ -7,13 +7,17 @@ import java.util.Map;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.goldgov.origin.core.discovery.rpc.ResultSetUtils;
 import com.goldgov.origin.core.discovery.rpc.RpcService;
 import com.goldgov.origin.modules.role.api.RpcRole;
 import com.goldgov.origin.modules.role.api.RpcRoleQuery;
 import com.goldgov.origin.modules.role.api.RpcRoleResource;
 import com.goldgov.origin.modules.role.api.RpcRoleService;
+import com.goldgov.origin.modules.role.service.ProxyRoleQuery;
 import com.goldgov.origin.modules.role.service.Role;
+import com.goldgov.origin.modules.role.service.RoleConverter;
 import com.goldgov.origin.modules.role.service.RoleResource;
+import com.goldgov.origin.modules.role.service.RoleResourceConverter;
 import com.goldgov.origin.modules.role.service.RoleService;
 
 @RpcService
@@ -22,9 +26,12 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	@Autowired
 	private RoleService roleService;
 	
+	private RoleConverter roleConverter = new RoleConverter();
+	private RoleResourceConverter roleResourceConverter = new RoleResourceConverter();
+	
 	@Override
 	public void addRole(RpcRole role) {
-		roleService.addRole(new ProxyRole(role));
+		roleService.addRole(roleConverter.fromRpcObject(role));
 	}
 
 	@Override
@@ -34,23 +41,19 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 
 	@Override
 	public void updateRole(RpcRole role) throws TException {
-		roleService.updateRole(new ProxyRole(role));
+		roleService.updateRole(roleConverter.fromRpcObject(role));
 	}
 
 	@Override
 	public RpcRole getRole(String roleID) throws TException {
 		Role role = roleService.getRole(roleID);
-		return new ProxyRole(role).toRpcRole();
+		return roleConverter.toRpcObject(role);
 	}
 
 	@Override
 	public RpcRoleQuery listRole(RpcRoleQuery query) throws TException {
 		List<Role> roleList = roleService.listRole(new ProxyRoleQuery(query));
-		List<RpcRole> resultList = new ArrayList<>();
-		for (Role role : roleList) {
-			resultList.add(new ProxyRole(role).toRpcRole());
-		}
-		query.setResultList(resultList);
+		query.setResultList(ResultSetUtils.convertToRpc(roleList, roleConverter));
 		return query;
 	}
 
@@ -67,10 +70,7 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	@Override
 	public List<RpcRole> listRoleByObject(String roleObject) throws TException {
 		List<Role> roleList = roleService.listRoleByObject(roleObject);
-		List<RpcRole> resultList = new ArrayList<>();
-		for (Role role : roleList) {
-			resultList.add(new ProxyRole(role).toRpcRole());
-		}
+		List<RpcRole> resultList = ResultSetUtils.convertToRpc(roleList, roleConverter);
 		return resultList;
 	}
 
@@ -96,6 +96,12 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	@Override
 	public Map<String,List<String>> getRoleResourceMap() throws TException {
 		return roleService.getRoleResourceMap();
+	}
+
+	@Override
+	public List<RpcRoleResource> listRoleResourceByRoleID(String roleID) throws TException {
+		List<RoleResource> listRoleResource = roleService.listRoleResourceByRoleID(roleID);
+		return ResultSetUtils.convertToRpc(listRoleResource, roleResourceConverter);
 	}
 
 }

@@ -1,9 +1,9 @@
-package com.goldgov.origin.modules.role.service.impl;
+package com.goldgov.origin.modules.role.service;
 
+import com.goldgov.origin.core.discovery.rpc.ProxyObject;
 import com.goldgov.origin.modules.role.api.RpcRole;
-import com.goldgov.origin.modules.role.service.Role;
 
-public class ProxyRole extends Role{
+public class ProxyRole extends Role implements ProxyObject<RpcRole>{
 
 	private RpcRole role;
 	
@@ -49,7 +49,7 @@ public class ProxyRole extends Role{
 		role.setDescription(description);
 	}
 
-	public RpcRole toRpcRole(){
+	public RpcRole toRpcObject(){
 		return role;
 	}
 	
