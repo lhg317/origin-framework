@@ -2,10 +2,11 @@ package com.goldgov.origin.modules.auth.service.impl;
 
 import java.util.Date;
 
+import com.goldgov.origin.core.discovery.rpc.ProxyObject;
 import com.goldgov.origin.modules.auth.api.RpcAuthAccount;
 import com.goldgov.origin.modules.auth.service.AuthAccount;
 
-public class ProxyAuthAccount extends AuthAccount{
+public class ProxyAuthAccount extends AuthAccount implements ProxyObject<RpcAuthAccount>{
 
 	private RpcAuthAccount rpcAuthAccount;
 	
@@ -34,23 +35,36 @@ public class ProxyAuthAccount extends AuthAccount{
 	}
 	
 	public String getPrincipal() {
-		return rpcAuthAccount.getPrincipal();
+		if(rpcAuthAccount.isSetPrincipal()){
+			return rpcAuthAccount.getPrincipal();
+		}else{
+			return null;
+		}
+		
 	}
 	public void setPrincipal(String principal) {
-		rpcAuthAccount.setPrincipal(principal);;
+		if(principal == null){
+			rpcAuthAccount.setPrincipal(principal);
+		}
 	}
 	public String getPassword() {
-		return rpcAuthAccount.getPassword();
+		if(rpcAuthAccount.isSetPassword()){
+			return rpcAuthAccount.getPassword();
+		}else{
+			return null;
+		}
 	}
 	public void setPassword(String password) {
-		rpcAuthAccount.setPassword(password);;
+		if(password == null){
+			rpcAuthAccount.setPassword(password);
+		}
 	}
 	public Date getExpiredDate() {
-		long time = rpcAuthAccount.getExpiredDate();
-		if(time > 0){
-			return new Date(time);
+		if(rpcAuthAccount.isSetExpiredDate()){
+			return new Date(rpcAuthAccount.getExpiredDate());
+		}else{
+			return null;
 		}
-		return null;
 	}
 	public void setExpiredDate(Date expiredDate) {
 		if(expiredDate != null){
@@ -58,17 +72,23 @@ public class ProxyAuthAccount extends AuthAccount{
 		}
 	}
 	public boolean isLocked() {
-		return rpcAuthAccount.isLocked();
+		if(rpcAuthAccount.isSetLocked()){
+			return rpcAuthAccount.isLocked();
+		}else{
+			return false;
+		}
 	}
 	public void setLocked(Boolean locked) {
-		rpcAuthAccount.setLocked(locked);
+		if(locked != null){
+			rpcAuthAccount.setLocked(locked);
+		}
 	}
 	public Date getPasswordExpired() {
-		long time = rpcAuthAccount.getPasswordExpired();
-		if(time > 0){
-			return new Date(time);
+		if(rpcAuthAccount.isSetPasswordExpired()){
+			return new Date(rpcAuthAccount.getPasswordExpired());
+		}else{
+			return null;
 		}
-		return null;
 	}
 	public void setPasswordExpired(Date passwordExpired) {
 		if(passwordExpired != null){
@@ -76,16 +96,28 @@ public class ProxyAuthAccount extends AuthAccount{
 		}
 	}
 	public boolean isEnabled() {
-		return rpcAuthAccount.isEnabled();
+		if(rpcAuthAccount.isSetEnabled()){
+			return rpcAuthAccount.isEnabled();
+		}else{
+			return false;
+		}
 	}
 	public void setEnabled(Boolean enabled) {
-		rpcAuthAccount.setEnabled(enabled);
+		if(enabled != null){
+			rpcAuthAccount.setEnabled(enabled);
+		}
 	}
 	public String getAccountID() {
-		return rpcAuthAccount.getAccountID();
+		if(rpcAuthAccount.isSetAccountID()){
+			return rpcAuthAccount.getAccountID();
+		}else{
+			return null;
+		}
 	}
 	public void setAccountID(String accountID) {
-		rpcAuthAccount.setAccountID(accountID);
+		if(accountID != null){
+			rpcAuthAccount.setAccountID(accountID);
+		}
 	}
 
 	public RpcAuthAccount toRpcObject() {

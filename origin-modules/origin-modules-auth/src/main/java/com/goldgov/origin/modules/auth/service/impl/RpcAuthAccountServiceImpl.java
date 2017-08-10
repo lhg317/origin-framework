@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.goldgov.origin.core.discovery.rpc.ObjectConverter.Utils;
 import com.goldgov.origin.core.discovery.rpc.RpcService;
 import com.goldgov.origin.modules.auth.api.RpcAuthAccount;
 import com.goldgov.origin.modules.auth.api.RpcAuthAccountService;
@@ -53,7 +54,7 @@ public class RpcAuthAccountServiceImpl implements RpcAuthAccountService.Iface{
 
 	@Override
 	public void deleteAuthAccount(List<String> principal) throws TException {
-		authAccountService.deleteAuthAccount(principal.toArray(new String[0]));
+		authAccountService.deleteAuthAccount(Utils.listToArray(principal));
 	}
 
 	@Override
