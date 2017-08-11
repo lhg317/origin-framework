@@ -28,7 +28,6 @@ public class ProxyOrganization extends Organization implements ProxyObject<RpcOr
 		setAbbreviation(organization.getAbbreviation());
 		setNodePath(organization.getNodePath());
 		setNodeValue(organization.getNodeValue());
-		
 		if(organization.getParentOrganization() != null){
 			setParentOrganization(organization);
 		}
