@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goldgov.origin.modules.organization.dao.OrganizationDao">
+
+	<resultMap type="com.goldgov.origin.modules.organization.service.Organization" id="organization">
+			<id column="ORG_ID" jdbcType="VARCHAR" property="orgID"/>
+			<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName"/>
+			<result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode"/>
+			<result column="ABBREVIATION" jdbcType="VARCHAR" property="abbreviation"/>
+			<result column="NODE_PATH" jdbcType="VARCHAR" property="nodePath"/>
+			<result column="NODE_VALUE" jdbcType="INTEGER" property="nodeValue"/>
+	</resultMap>
+	
+	<insert id="addOrganization">
+		<selectKey keyProperty="orgID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		insert into Organization (
+			ORG_ID,
+			ORG_NAME,
+			ORG_CODE,
+			ABBREVIATION,
+			NODE_PATH,
+			NODE_VALUE
+		) values (
+			#{ORG_ID,jdbcType=VARCHAR},
+			#{ORG_NAME,jdbcType=VARCHAR},
+			#{ORG_CODE,jdbcType=VARCHAR},
+			#{ABBREVIATION,jdbcType=VARCHAR},
+			#{NODE_PATH,jdbcType=VARCHAR},
+			#{NODE_VALUE,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<update id="deleteOrganization">
+		update Organization set STATE = 2 where ORG_ID in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<!--
+	<delete id="deleteOrganization">
+		delete from Organization where ORG_ID in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	-->
+	
+	<update id="updateOrganization">
+		update Organization
+		<set>
+			<if test="orgName != null and orgName != ''">ORG_NAME = #{orgName,jdbcType=VARCHAR},</if>
+			<if test="orgCode != null and orgCode != ''">ORG_CODE = #{orgCode,jdbcType=VARCHAR},</if>
+			<if test="abbreviation != null and abbreviation != ''">ABBREVIATION = #{abbreviation,jdbcType=VARCHAR},</if>
+			<if test="nodePath != null and nodePath != ''">NODE_PATH = #{nodePath,jdbcType=VARCHAR},</if>
+			<if test="nodeValue != null">NODE_VALUE = #{nodeValue,jdbcType=INTEGER},</if>
+		</set>
+		where ORG_ID  = #{orgID}
+	</update>
+	
+	<select id="listOrganization" resultMap="organization">
+		select 
+			ORG_ID,
+			ORG_NAME,
+			ORG_CODE,
+			ABBREVIATION,
+			NODE_PATH,
+			NODE_VALUE
+		from Organization
+		<where>
+				
+				
+				
+				
+				
+				
+		</where>
+	</select>
+	
+	<select id="getOrganization" resultMap="organization">
+		select 
+			ORG_ID,
+			ORG_NAME,
+			ORG_CODE,
+			ABBREVIATION,
+			NODE_PATH,
+			NODE_VALUE
+		from Organization 
+		where  
+		ORG_ID = #{id} 
+	</select>
+	
+</mapper>
