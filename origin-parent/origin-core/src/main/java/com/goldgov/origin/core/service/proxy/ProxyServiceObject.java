@@ -6,23 +6,37 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 @SuppressWarnings("rawtypes")
-public class ProxyServiceObject implements FactoryBean{
+public class ProxyServiceObject implements FactoryBean,ApplicationContextAware{
 
 	private Class serviceIface;
 	
 	private ProxyServiceImpl proxyServiceImpl;
+	
+	private ApplicationContext applicationContext;
 
-	public ProxyServiceObject(Class serviceIface,Object daoBean){
+	private String beanName;
+
+//	public ProxyServiceObject(Class serviceIface,Object daoBean){
+	public ProxyServiceObject(String beanName,Class serviceIface){
+		this.beanName = beanName;
 		this.serviceIface = serviceIface;
-		proxyServiceImpl = new ProxyServiceImpl(daoBean);
+//		proxyServiceImpl = new ProxyServiceImpl(daoBean);
 	}
 	
 	@Override
 	public Object getObject() throws Exception {
-		return Proxy.newProxyInstance(serviceIface.getClassLoader(),serviceIface.getInterfaces(),proxyServiceImpl);
+		Object bean = applicationContext.getBean(beanName);
+		proxyServiceImpl = new ProxyServiceImpl(bean);
+		Object proxyInstance = Proxy.newProxyInstance(serviceIface.getClassLoader(),new Class[]{serviceIface},proxyServiceImpl);
+//		AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
+//		beanFactory.autowireBeanProperties(proxyInstance, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
+		return proxyInstance;
 	}
 
 	@Override
@@ -58,6 +72,11 @@ public class ProxyServiceObject implements FactoryBean{
 			return method.invoke(daoBean, arg2);
 		}
 		
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
 	}
 
 }
