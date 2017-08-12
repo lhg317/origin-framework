@@ -129,7 +129,7 @@ public class UploadHelper {
 		if(file.getSize() > uploadConfig.getSizeMax()){//附件大小超出限制
 			return true;
 		}
-		if(!isContain(FilenameUtils.getExtension(file.getName()), uploadConfig.getFileExtension(),true) && 
+		if(!isContain(FilenameUtils.getExtension(file.getOriginalFilename()), uploadConfig.getFileExtension(),true) && 
 				!isContain("*", uploadConfig.getFileExtension(),true)){//配置中不包含的附件扩展名
 			return true;
 		}
