@@ -17,6 +17,7 @@ public class RpcTreeData {
 	private final Map<RpcTreeDataNode,List<RpcTreeDataNode>> subDataMap = new HashMap<>();
 	
 	private final List<RpcTreeDataNode> rootDataList = new ArrayList<>();
+	private final List<RpcTreeDataNode> endPointDataList = new ArrayList<>();
 	private final List<RpcBaseData> baseDataList;
 	private final String localeCode;
 
@@ -64,6 +65,9 @@ public class RpcTreeData {
 		}
 		
 		subDataMap.put(treeData, treeData.getSubDataList());
+		if(treeData.getSubDataList() == null || treeData.getSubDataList().size() < 0){
+			endPointDataList.add(treeData);
+		}
 	}
 	
 	/**
@@ -134,6 +138,13 @@ public class RpcTreeData {
 		return sb.toString();
 	}
 
+	/**
+	 * 获取所有端点数据，即叶节点数据
+	 * @return 端点数据
+	 */
+	public List<RpcTreeDataNode> getEndPointDataList() {
+		return endPointDataList;
+	}
 	
 	/**
 	 * 返回当前字典分类编码

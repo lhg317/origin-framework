@@ -17,6 +17,7 @@ public class TreeData {
 	private final Map<TreeDataNode,List<TreeDataNode>> subDataMap = new HashMap<>();
 	
 	private final List<TreeDataNode> rootDataList = new ArrayList<>();
+	private final List<TreeDataNode> endPointDataList = new ArrayList<>();
 	private final List<BaseData> baseDataList;
 	private final String localeCode;
 
@@ -64,6 +65,9 @@ public class TreeData {
 		}
 		
 		subDataMap.put(treeData, treeData.getSubDataList());
+		if(treeData.getSubDataList() == null || treeData.getSubDataList().size() < 0){
+			endPointDataList.add(treeData);
+		}
 	}
 	
 	/**
@@ -134,7 +138,14 @@ public class TreeData {
 		return sb.toString();
 	}
 
-	
+	/**
+	 * 获取所有端点数据，即叶节点数据
+	 * @return 端点数据
+	 */
+	public List<TreeDataNode> getEndPointDataList() {
+		return endPointDataList;
+	}
+
 	/**
 	 * 返回当前字典分类编码
 	 * @return
