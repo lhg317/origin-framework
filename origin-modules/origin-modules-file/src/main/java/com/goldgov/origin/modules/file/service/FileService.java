@@ -15,7 +15,7 @@ public interface FileService {
 	
 	InputStream getFileContent(String fileID);
 	
-	List<File> listFile(String relationID);
+	List<File> listFile(String groupID);
 	
 	void upldateRelationID(String relationID,String[] fileIDs);
 	

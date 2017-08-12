@@ -17,6 +17,7 @@ import com.goldgov.origin.modules.file.api.RpcFile;
 import com.goldgov.origin.modules.file.api.RpcFileFragmentService;
 import com.goldgov.origin.modules.file.service.File;
 import com.goldgov.origin.modules.file.service.FileFragmentService;
+import com.goldgov.origin.modules.file.service.ProxyFile;
 
 @RpcService("RpcFileService")
 public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
@@ -59,8 +60,8 @@ public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
 	}
 
 	@Override
-	public List<RpcFile> listFile(String relationID) throws TException {
-		List<File> fileFile = fileService.listFile(relationID);
+	public List<RpcFile> listFile(String groupID) throws TException {
+		List<File> fileFile = fileService.listFile(groupID);
 		List<RpcFile> resultList = new ArrayList<>();
 		for (File file : fileFile) {
 			resultList.add(new ProxyFile(file).toRpcFile());

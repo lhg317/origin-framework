@@ -46,7 +46,7 @@ public class RpcFileController {
 	private UploadHelper uploadHelper;
 	
 	@RequestMapping("/uploadFile")
-	public @ResponseBody String[] uploadFile(HttpServletRequest request) throws Exception{
+	public @ResponseBody String uploadFile(HttpServletRequest request) throws Exception{
 		UploadConfig uploadConfig = getUploadConfig(request);
 		
 		if(!allowUpload(uploadConfig,request)){
@@ -55,7 +55,8 @@ public class RpcFileController {
 		
 		List<String> resultFileIDs = uploadHelper.saveFile(request, uploadConfig);
 		
-		return resultFileIDs.toArray(new String[0]);
+//		return resultFileIDs.toArray(new String[0]);
+		return resultFileIDs.get(0);
 	}
 
 //	private List<String> saveFile(HttpServletRequest request, UploadConfig uploadConfig)

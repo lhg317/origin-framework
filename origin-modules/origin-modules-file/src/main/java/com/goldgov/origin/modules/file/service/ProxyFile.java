@@ -1,9 +1,8 @@
-package com.goldgov.origin.modules.file.service.impl;
+package com.goldgov.origin.modules.file.service;
 
 import java.util.Date;
 
 import com.goldgov.origin.modules.file.api.RpcFile;
-import com.goldgov.origin.modules.file.service.File;
 
 public class ProxyFile extends File{
 
@@ -26,37 +25,68 @@ public class ProxyFile extends File{
 		setFileType(_file.getFileType());
 		setDownloadNum(_file.getDownloadNum());
 		setCreateDate(_file.getCreateDate());
+		setGroupID(_file.getGroupID());
 	}
 	
 	public String getFileID() {
-		return file.getFileID();
+		if(file.isSetFileID()){
+			return file.getFileID();
+		}else{
+			return null;
+		}
 	}
 	public void setFileID(String fileID) {
-		file.setFileID(fileID);
+		if(fileID != null){
+			file.setFileID(fileID);
+		}
 	}
 	public String getFileName() {
-		return file.getFileName();
+		if(file.isSetFileName()){
+			return file.getFileName();
+		}else{
+			return null;
+		}
 	}
 	public void setFileName(String fileName) {
-		file.setFileName(fileName);
+		if(fileName != null){
+			file.setFileName(fileName);
+		}
 	}
 	public Long getFileSize() {
-		return file.getFileSize();
+		if(file.isSetFileSize()){
+			return file.getFileSize();
+		}else{
+			return null;
+		}
 	}
 	public void setFileSize(Long fileSize) {
-		file.setFileSize(fileSize);
+		if(fileSize != null){
+			file.setFileSize(fileSize);
+		}
 	}
 	public String getFileType() {
-		return file.getFileType();
+		if(file.isSetFileType()){
+			return file.getFileType();
+		}else{
+			return null;
+		}
 	}
 	public void setFileType(String fileType) {
-		file.setFileType(fileType);
+		if(fileType != null){
+			file.setFileType(fileType);
+		}
 	}
-	public String getRelationID() {
-		return file.getRelationID();
+	public String getGroupID() {
+		if(file.isSetGroupID()){
+			return file.getGroupID();
+		}else{
+			return null;
+		}
 	}
-	public void setRelationID(String relationID) {
-		file.setRelationID(relationID);
+	public void setGroupID(String groupID) {
+		if(groupID != null){
+			file.setGroupID(groupID);
+		}
 	}
 //	public Long getDownloadNum() {
 //		return file.getDownloadNum();
@@ -65,10 +95,16 @@ public class ProxyFile extends File{
 //		file.setDownloadNum(downloadNum);
 //	}
 	public Date getCreateDate() {
-		return new Date(file.getCreateDate());
+		if(file.isSetCreateDate()){
+			return new Date(file.getCreateDate());
+		}else{
+			return null;
+		}
 	}
 	public void setCreateDate(Date createDate) {
-		file.setCreateDate(createDate.getTime());
+		if(createDate != null){
+			file.setCreateDate(createDate.getTime());
+		}
 	}
 	
 	public RpcFile toRpcFile(){

@@ -1,13 +1,13 @@
 namespace java com.goldgov.origin.modules.file.api
 
 struct RpcFile {
-	1: string fileID;
-	2: string fileName;
-	3: i64 fileSize;
-	4: string fileType;
-	5: i64 createDate;
-	6: string relationID;
-	7: i64 downloadNum;
+	1: optional string fileID;
+	2: optional string fileName;
+	3: optional i64 fileSize;
+	4: optional string fileType;
+	5: optional i64 createDate;
+	6: optional string groupID;
+	7: optional i64 downloadNum;
 }
 
 service RpcFileService {
@@ -15,7 +15,7 @@ service RpcFileService {
 	void deleteFile(1:list<string> ids);
 	RpcFile getFile(1:string fileID);
 	binary getFileContent(1:string fileID);
-	list<RpcFile> listFile(1:string relationID);
+	list<RpcFile> listFile(1:string groupID);
 }
 
 service RpcFileFragmentService extends RpcFileService{

@@ -8,7 +8,7 @@ public class File {
 	private String fileName;
 	private Long fileSize;
 	private String fileType;
-	private String relationID;
+	private String groupID;
 	private Long downloadNum;
 	private Date createDate;
 	
@@ -36,12 +36,6 @@ public class File {
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
-	public String getRelationID() {
-		return relationID;
-	}
-	public void setRelationID(String relationID) {
-		this.relationID = relationID;
-	}
 	public Long getDownloadNum() {
 		return downloadNum;
 	}
@@ -53,6 +47,12 @@ public class File {
 	}
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	public String getGroupID() {
+		return groupID;
+	}
+	public void setGroupID(String groupID) {
+		this.groupID = groupID;
 	}
 	
 }

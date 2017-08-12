@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,8 +37,17 @@ public class UploadHelper {
 	 */
 	public List<String> saveFile(HttpServletRequest request, UploadConfig uploadConfig)
 			throws Exception {
+		
 		List<String> resultFileIDs = new ArrayList<>();
+		
+		String groupID = request.getParameter("groupID");
+		if(groupID == null){
+			groupID = UUID.randomUUID().toString();
+		}
+		resultFileIDs.add(groupID);
+		
 		if(ServletFileUpload.isMultipartContent(request)){
+			
 			 MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
 			 Iterator<String> iter = multiRequest.getFileNames();
 			 int fileNum = multiRequest.getFileMap().size();
@@ -57,6 +67,7 @@ public class UploadHelper {
 	            		byteBuffer.flip();
 	            		
 	            		RpcFile rpcFile = new RpcFile();
+	            		rpcFile.setGroupID(groupID);
 	            		rpcFile.setCreateDate(System.currentTimeMillis());
 	            		rpcFile.setFileSize(file.getSize());
 	            		rpcFile.setFileName(file.getOriginalFilename());
