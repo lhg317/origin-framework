@@ -140,7 +140,7 @@
 		</foreach>
 	</delete>
 
-	<update id="updateOrganization">
+ 	<update id="updateOrganizationPost">
 		update ORGANIZATION_POST
 		<set>
 			<if test="postCode != null and postCode !=''">POST_CODE = #{postCode},</if>
