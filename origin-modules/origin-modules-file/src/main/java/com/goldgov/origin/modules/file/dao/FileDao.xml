@@ -10,7 +10,7 @@
 		<result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType"/>
 		<result column="FILE_SIZE" jdbcType="INTEGER" property="fileSize"/>
 		<result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
-		<result column="RELATION_ID" jdbcType="VARCHAR" property="relationID"/>
+		<result column="GROUP_ID" jdbcType="VARCHAR" property="groupID"/>
 	</resultMap>
 
 	<sql id="fileFields">
@@ -19,15 +19,15 @@
 		FILE_TYPE as "fileType",
 		FILE_SIZE as "fileSize",
 		CREATE_DATE as "createDate",
-		RELATION_ID as "relationID"
+		GROUP_ID as "groupID"
 	</sql>
 	
 	<insert id="addFile">
 		<selectKey keyProperty="fileID" resultType="String" order="BEFORE">
 		    select uuid() from dual
 		</selectKey>
-		insert into FILE_STORAGE (FILE_ID,FILE_NAME,FILE_TYPE,FILE_SIZE,CREATE_DATE,RELATION_ID)
-		value(#{fileID},#{fileName},#{fileType},#{fileSize},#{createDate},#{relationID});
+		insert into FILE_STORAGE (FILE_ID,FILE_NAME,FILE_TYPE,FILE_SIZE,CREATE_DATE,GROUP_ID)
+		value(#{fileID},#{fileName},#{fileType},#{fileSize},#{createDate},#{groupID});
 	</insert>
 	
 	<delete id="deleteFile">
@@ -37,8 +37,8 @@
 		</foreach>
 	</delete>
 	
-	<delete id="deleteFileByRelationID">
-		DELETE FROM FILE_STORAGE WHERE RELATION_ID = #{relationID}
+	<delete id="deleteFileByGroupID">
+		DELETE FROM FILE_STORAGE WHERE GROUP_ID = #{groupID}
 	</delete>
 	
 	<select id="getFile" resultMap="file">
@@ -46,11 +46,11 @@
 	</select>
 	
 	<select id="listFile" resultMap="file">
-		SELECT <include refid="fileFields" /> FROM FILE_STORAGE WHERE RELATION_ID=#{relationID}
+		SELECT <include refid="fileFields" /> FROM FILE_STORAGE WHERE GROUP_ID=#{groupID}
 	</select>
 	
-	<update id="upldateRelationID" >
-		UPDATE FILE_STORAGE SET RELATION_ID = #{relationID} WHERE FILE_ID IN
+	<update id="updateGroupID" >
+		UPDATE FILE_STORAGE SET GROUP_ID = #{groupID} WHERE FILE_ID IN
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 		   #{id}
 		</foreach>

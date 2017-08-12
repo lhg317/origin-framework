@@ -137,9 +137,9 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 	}
 	
 	@Override
-	public void deleteFileByRelationID(String relationID) {
+	public void deleteFileByGroupID(String relationID) {
 		List<File> listFile = fileDao.listFile(relationID);
-		fileDao.deleteFileByRelationID(relationID);
+		fileDao.deleteFileByGroupID(relationID);
 		String[] ids = new String[listFile.size()];
 		for (int i = 0; i < listFile.size(); i++) {
 			ids[i] = listFile.get(i).getFileID();
@@ -164,8 +164,8 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 	}
 
 	@Override
-	public void upldateRelationID(String relationID, String[] fileIDs) {
-		fileDao.upldateRelationID(relationID, fileIDs);
+	public void updateGroupID(String relationID, String[] fileIDs) {
+		fileDao.updateGroupID(relationID, fileIDs);
 	}
 	
 	private FileStorage getFileStorage() {

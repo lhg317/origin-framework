@@ -14,11 +14,11 @@ public interface FileDao {
 	
 	void deleteFile(@Param("ids") String[] ids);
 	
-	void deleteFileByRelationID(@Param("relationID") String id);
+	void deleteFileByGroupID(@Param("groupID") String id);
 	
 	File getFile(@Param("fileID") String fileID);
 	
-	List<File> listFile(@Param("relationID") String relationID);
+	List<File> listFile(@Param("groupID") String groupID);
 	
-	void upldateRelationID(@Param("relationID") String relationID, @Param("ids") String[] fileIDs);
+	void updateGroupID(@Param("groupID") String groupID, @Param("ids") String[] fileIDs);
 }
