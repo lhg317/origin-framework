@@ -14,12 +14,12 @@
 	</resultMap>
 
 	<sql id="fileFields">
-		FILE_ID as "fileID",
-		FILE_NAME as "fileName",
-		FILE_TYPE as "fileType",
-		FILE_SIZE as "fileSize",
-		CREATE_DATE as "createDate",
-		GROUP_ID as "groupID"
+		FILE_ID,
+		FILE_NAME,
+		FILE_TYPE,
+		FILE_SIZE,
+		CREATE_DATE,
+		GROUP_ID
 	</sql>
 	
 	<insert id="addFile">
