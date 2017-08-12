@@ -9,7 +9,7 @@ public interface FileService {
 	
 	void deleteFile(String[] ids);
 	
-	void deleteFileByRelationID(String relationID);
+	void deleteFileByRelationID(String groupID);
 	
 	File getFile(String fileID);
 	
@@ -17,6 +17,6 @@ public interface FileService {
 	
 	List<File> listFile(String groupID);
 	
-	void upldateRelationID(String relationID,String[] fileIDs);
+	void upldateRelationID(String groupID,String[] fileIDs);
 	
 }
