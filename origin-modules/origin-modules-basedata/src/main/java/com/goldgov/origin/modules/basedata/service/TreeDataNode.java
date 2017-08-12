@@ -14,6 +14,8 @@ public class TreeDataNode {
 	private final List<TreeDataNode> subDataList = new ArrayList<>();
 
 	private final TreeDataNode parentTreeData;
+	
+	private int endPointNum = 0;
 
 	public TreeDataNode(BaseData baseData,TreeDataNode parentTreeData){
 		this.baseData = baseData;
@@ -50,6 +52,17 @@ public class TreeDataNode {
 
 	public TreeDataNode getParentTreeData() {
 		return parentTreeData;
+	}
+	
+	protected void incrementEndPointNum(){
+		endPointNum++;
+		if(parentTreeData != null){
+			parentTreeData.incrementEndPointNum();
+		}
+	}
+
+	public int getEndPointNum() {
+		return endPointNum;
 	}
 	
 }
