@@ -2,6 +2,7 @@ package com.goldgov.origin.security;
 
 public interface UserDelegate {
 
+	public String getUserID();
 	public String getLoginName();
 //	public void setLoginName(String loginName);
 	public String getUserName();

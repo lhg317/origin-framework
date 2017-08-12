@@ -55,7 +55,7 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider,Ini
             	grantedAuths.add(new SimpleGrantedAuthority(roleCode));
 			}
             
-        	UserToken userToken = new UserToken(loginName, password, displayName,grantedAuths);
+        	UserToken userToken = new UserToken(loginName,loginName, password, displayName,grantedAuths);
         	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userToken, password, grantedAuths);
     		return authenticationToken;
         }

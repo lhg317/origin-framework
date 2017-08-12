@@ -67,7 +67,7 @@ public class CustomAuthenticationProvider extends BaseAuthenticationProvider{//i
 			throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
 		}
 		
-		UserToken userToken = new UserToken(loginName, password, user.getUserName(), grantedAuths);
+		UserToken userToken = new UserToken(user.getUserID(),loginName, password, user.getUserName(), grantedAuths);
 		return userToken;
 	}
 }

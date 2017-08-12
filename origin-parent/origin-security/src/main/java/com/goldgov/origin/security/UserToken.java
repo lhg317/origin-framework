@@ -18,13 +18,16 @@ public class UserToken extends User implements UserDelegate{
 
 	private static final long serialVersionUID = 3512951721391711866L;
 	
+	private final String userID;
 	private final String loginName;
 	private final String userName;
 	
 	private final String[] roles;
+
 	
-	public UserToken(String loginName, String password,String userName) {
+	public UserToken(String userID,String loginName, String password,String userName) {
 		super(loginName, password,new ArrayList<GrantedAuthority>());
+		this.userID = userID;
 		this.loginName = loginName;
 		this.userName = userName;
 		roles = new String[0];
@@ -37,8 +40,9 @@ public class UserToken extends User implements UserDelegate{
 	 * @param userName 用户显示名
 	 * @param authorities 用户角色编码，由SimpleGrantedAuthority对象组成的集合
 	 */
-	public UserToken(String loginName, String password,String userName,  List<GrantedAuthority> authorities) {
+	public UserToken(String userID,String loginName, String password,String userName,  List<GrantedAuthority> authorities) {
 		super(loginName, password,authorities);
+		this.userID = userID;
 		this.loginName = loginName;
 		this.userName = userName;
 		roles = new String[authorities.size()];
@@ -59,6 +63,11 @@ public class UserToken extends User implements UserDelegate{
 	@Override
 	public String[] getRoles() {
 		return roles;
+	}
+
+	@Override
+	public String getUserID() {
+		return userID;
 	}
 
 }
