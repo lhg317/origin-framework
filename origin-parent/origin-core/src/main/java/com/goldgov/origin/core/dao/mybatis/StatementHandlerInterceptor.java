@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
@@ -14,6 +16,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * MyBatis基于{@link org.apache.ibatis.executor.statement.StatementHandler StatementHandler}接口的拦截器，
@@ -25,6 +28,11 @@ import org.apache.ibatis.reflection.SystemMetaObject;
  */
 @Intercepts({@Signature(type=StatementHandler.class,method="prepare",args={Connection.class,Integer.class})})
 public class StatementHandlerInterceptor implements Interceptor{
+	
+	private final Log logger = LogFactory.getLog(getClass());
+	
+	@Value("${showSql:false}")
+	private boolean showSql;
 	
 	private List<InterceptorHandler> handlers;
 	
@@ -40,6 +48,16 @@ public class StatementHandlerInterceptor implements Interceptor{
 				if(interceptorHandler.supports(boundSql)){
 					interceptorHandler.doHandle(boundSql, metaObject, connection);
 				}
+			}
+		}
+		
+		if(showSql){
+			String sql = boundSql.getSql();
+			sql = sql.replaceAll("\r\n", "");
+			if(logger.isDebugEnabled()){
+				logger.debug(sql);
+			}else{
+				System.out.println(sql);
 			}
 		}
 		
