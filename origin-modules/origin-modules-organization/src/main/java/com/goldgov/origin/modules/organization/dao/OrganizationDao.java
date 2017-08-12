@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import com.goldgov.origin.core.dao.Mapper;
 
 import com.goldgov.origin.modules.organization.service.Organization;
+import com.goldgov.origin.modules.organization.service.OrganizationPost;
 import com.goldgov.origin.modules.organization.service.OrganizationQuery;
 
 /**
@@ -14,18 +15,40 @@ import com.goldgov.origin.modules.organization.service.OrganizationQuery;
 @Mapper
 public interface OrganizationDao {
 	
-	public void addOrganization(Organization organization);
+	void addOrganization(Organization organization);
 	
-	public void deleteOrganization(@Param("ids")String[] ids);
+	void deleteOrganization(@Param("ids")String[] ids);
 	
-	public void updateOrganization(Organization organization);
+	void updateOrganization(Organization organization);
 	
-	public List<Organization> listOrganization(@Param("query")OrganizationQuery query);
+	List<Organization> listOrganization(@Param("query")OrganizationQuery query);
 	
-	public Organization getOrganization(@Param("id")String id);
+	Organization getOrganization(@Param("id")String id);
 	
 	Integer getMaxNodeValue();
 	
-	String getNodePath(@Param("orgID")String dataID);
+	String getNodePath(@Param("orgID")String orgID);
+	
+	void addOrgUser(@Param("orgID")String orgID,@Param("users")String[] users);
+	
+	void deleteOrgUser(@Param("orgUserID")String[] orgUserID);
+	
+	void deleteOrgUserByUser(@Param("orgID")String orgID,@Param("users") String[] users);
+	
+	void addOrganizationPost(OrganizationPost post);
+	
+	void deleteOrganizationPost(String[] ids);
+	
+	void updateOrganizationPost(OrganizationPost post);
+	
+	List<OrganizationPost> listOrganizationPost(String orgID);
+	
+	OrganizationPost getOrganizationPost(String id);
+	
+	void addPostUser(@Param("postID")String postID,@Param("users")String[] users);
+	
+	void deletePostUser(String[] postUserID);
+	
+	void deletePostUserByUser(@Param("postID")String postID,@Param("users")String[] users);
 	
 }

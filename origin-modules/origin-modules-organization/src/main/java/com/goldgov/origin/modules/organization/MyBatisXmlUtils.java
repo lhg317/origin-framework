@@ -1,4 +1,4 @@
-package com.goldgov.origin.modules.basedata;
+package com.goldgov.origin.modules.organization;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.Date;
 
 import org.springframework.cglib.core.ReflectUtils;
 
-import com.goldgov.origin.modules.basedata.service.BaseDataCategory;
+import com.goldgov.origin.modules.organization.service.OrganizationUser;
 
 @SuppressWarnings("rawtypes")
 public class MyBatisXmlUtils {
@@ -207,9 +207,9 @@ public class MyBatisXmlUtils {
 	
 	public static void main(String[] args) {//BaseDataLocale
 		MyBatisXmlUtils myBatisXmlUtils = new MyBatisXmlUtils();
-//		myBatisXmlUtils.resultMap(BaseDataCategory.class, System.out);
-//		myBatisXmlUtils.queryFields(BaseDataCategory.class, System.out);
-//		myBatisXmlUtils.insertFields(BaseDataCategory.class, System.out);
-		myBatisXmlUtils.updateFields(BaseDataCategory.class, System.out);
+//		myBatisXmlUtils.resultMap(OrganizationUser.class, System.out);
+//		myBatisXmlUtils.queryFields(OrganizationUser.class, System.out);
+		myBatisXmlUtils.insertFields(OrganizationUser.class, System.out);
+//		myBatisXmlUtils.updateFields(OrganizationUser.class, System.out);
 	}
 }

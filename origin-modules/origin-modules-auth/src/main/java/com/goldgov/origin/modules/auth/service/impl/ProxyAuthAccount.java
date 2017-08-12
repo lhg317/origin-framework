@@ -43,7 +43,7 @@ public class ProxyAuthAccount extends AuthAccount implements ProxyObject<RpcAuth
 		
 	}
 	public void setPrincipal(String principal) {
-		if(principal == null){
+		if(principal != null){
 			rpcAuthAccount.setPrincipal(principal);
 		}
 	}
@@ -55,7 +55,7 @@ public class ProxyAuthAccount extends AuthAccount implements ProxyObject<RpcAuth
 		}
 	}
 	public void setPassword(String password) {
-		if(password == null){
+		if(password != null){
 			rpcAuthAccount.setPassword(password);
 		}
 	}

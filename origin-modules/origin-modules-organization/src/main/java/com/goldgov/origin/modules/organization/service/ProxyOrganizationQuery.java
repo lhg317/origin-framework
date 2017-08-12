@@ -1,9 +1,7 @@
 package com.goldgov.origin.modules.organization.service;
-import java.util.List;
-import com.goldgov.origin.modules.organization.api.RpcOrganizationQuery;
-import com.goldgov.origin.modules.organization.service.impl.OrganizationConverter;
-import com.goldgov.origin.core.discovery.rpc.ResultSetUtils;
+
 import com.goldgov.origin.core.service.rpc.RpcPagingInfo;
+import com.goldgov.origin.modules.organization.api.RpcOrganizationQuery;
 
 /**
  * 组织机构管理
@@ -12,44 +10,83 @@ import com.goldgov.origin.core.service.rpc.RpcPagingInfo;
  */
 public class ProxyOrganizationQuery extends OrganizationQuery {
 	
-	private RpcOrganizationQuery rpcOrganizationQuery;
-	private OrganizationConverter converter=new OrganizationConverter();
-	 
+	private RpcOrganizationQuery rpcQuery;
+	
 	public ProxyOrganizationQuery(){
-		rpcOrganizationQuery=new RpcOrganizationQuery();
+		rpcQuery = new RpcOrganizationQuery();
 	}
 	
-	public ProxyOrganizationQuery(RpcOrganizationQuery rpcOrganizationQuery){
-		this.rpcOrganizationQuery=rpcOrganizationQuery;
+	public ProxyOrganizationQuery(RpcOrganizationQuery query){
+		this.rpcQuery = query;
 	}
-	
-	public ProxyOrganizationQuery(OrganizationQuery organizationQuery){
-		rpcOrganizationQuery=new RpcOrganizationQuery();
-		rpcOrganizationQuery.setPagingInfo(new RpcPagingInfo(organizationQuery.getPageSize(), organizationQuery.getCurrentPage(), organizationQuery.getCount(), organizationQuery.getMaxPage(), organizationQuery.getMinPage(), organizationQuery.getFirstResult()));
-		rpcOrganizationQuery.setResultList(ResultSetUtils.convertToRpc(organizationQuery.getResultList(),converter));
-	}
-	public List<Organization> getResultList() {
-		return ResultSetUtils.convertFormRpc(rpcOrganizationQuery.getResultList(),converter);
-	};
-	public void setResultList(List<Organization> resultList) {
-		rpcOrganizationQuery.setResultList(ResultSetUtils.convertToRpc(resultList,converter));
-	};
 
+	@Override
 	public int getPageSize() {
-		return rpcOrganizationQuery.getPageSize()==0?null:rpcOrganizationQuery.getPageSize();
+		return getPagingInfo().getPageSize();
 	}
 
-	public void setPageSize(Integer pageSize) {
-		rpcOrganizationQuery.setPageSize(pageSize);
+	@Override
+	public void setPageSize(int pageSize) {
+		getPagingInfo().setPageSize(pageSize);
 	}
 
+	@Override
 	public int getCurrentPage() {
-		return rpcOrganizationQuery.getCurrentPage();
+		return getPagingInfo().getCurrentPage();
 	}
 
-	public void setCurrentPage(Integer currentPage) {
-		rpcOrganizationQuery.setCurrentPage(currentPage);
+	@Override
+	public void setCurrentPage(int currentPage) {
+		getPagingInfo().setCurrentPage(currentPage);
+	}
+
+	@Override
+	public long getCount() {
+		return getPagingInfo().getCount();
+	}
+
+	@Override
+	public void setCount(long count) {
+		getPagingInfo().setCount(count);
+	}
+
+	@Override
+	public int getMaxPage() {
+		return getPagingInfo().getMaxPage();
+	}
+
+	@Override
+	public void setMaxPage(int maxPage) {
+		getPagingInfo().setMaxPage(maxPage);
+	}
+
+	@Override
+	public void setFirstResult(int firstResult) {
+		getPagingInfo().setFirstResult(firstResult);
+	}
+
+	@Override
+	public int getFirstResult() {
+		return getPagingInfo().getFirstResult();
+	}
+
+	@Override
+	public int getMinPage() {
+		return getPagingInfo().getMinPage();
+	}
+
+	@Override
+	public void setMinPage(int minPage) {
+		getPagingInfo().setMinPage(minPage);
 	}
 	
+	private RpcPagingInfo getPagingInfo(){
+		RpcPagingInfo pagingInfo = rpcQuery.getPagingInfo();
+		if(pagingInfo == null){
+			pagingInfo = new RpcPagingInfo();
+			rpcQuery.setPagingInfo(pagingInfo);
+		}
+		return pagingInfo;
+	}
 	
 }

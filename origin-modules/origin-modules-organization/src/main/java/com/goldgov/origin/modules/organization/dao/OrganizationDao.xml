@@ -33,21 +33,12 @@
 		)
 	</insert>
 	
-	<update id="deleteOrganization">
-		update Organization set STATE = 2 where ORG_ID in
-		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-	</update>
-	
-	<!--
 	<delete id="deleteOrganization">
-		delete from Organization where ORG_ID in
+		DELETE FROM ORGANIZATION WHERE ORG_ID IN
 		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
 			#{id}
 		</foreach>
 	</delete>
-	-->
 	
 	<update id="updateOrganization">
 		update Organization
@@ -92,5 +83,22 @@
 	<select id="getNodePath" resultType="String">
 		SELECT NODE_PATH FROM ORGANIZATION WHERE ORG_ID = #{orgID}
 	</select>
+	
+	<insert id="addOrgUser">
+		<selectKey keyProperty="orgUserID" resultType="String" order="BEFORE">
+		    select uuid() from dual
+		</selectKey>
+		INSERT INTO ORGANIZATION_USER (ORG_USER_ID,ORG_ID,ORG_USER) VALUES 
+		<foreach item="uid" index="index" collection="users" separator=",">
+			(#{orgUserID},#{orgID},#{uid})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteOrgUser">
+		DELETE FROM ORGANIZATION_USER WHERE ORG_USER_ID IN
+		<foreach item="id" index="index" collection="orgUserID" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 	
 </mapper>

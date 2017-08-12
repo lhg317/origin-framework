@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.goldgov.origin.core.utils.DataPathUtils;
 import com.goldgov.origin.modules.organization.dao.OrganizationDao;
 import com.goldgov.origin.modules.organization.service.Organization;
+import com.goldgov.origin.modules.organization.service.OrganizationPost;
 import com.goldgov.origin.modules.organization.service.OrganizationQuery;
 import com.goldgov.origin.modules.organization.service.OrganizationService;
 
@@ -62,6 +63,61 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public Organization getOrganization(String id) {
 		return organizationDao.getOrganization(id);
+	}
+
+	@Override
+	public void addOrgUser(String orgID, String[] users) {
+		organizationDao.addOrgUser(orgID, users);
+	}
+
+	@Override
+	public void deleteOrgUser(String[] orgUserID) {
+		organizationDao.deleteOrgUser(orgUserID);
+	}
+
+	@Override
+	public void deleteOrgUserByUser(String orgID, String[] users) {
+		organizationDao.deleteOrgUserByUser(orgID, users);
+	}
+
+	@Override
+	public void addOrganizationPost(OrganizationPost post) {
+		organizationDao.addOrganizationPost(post);
+	}
+
+	@Override
+	public void deleteOrganizationPost(String[] ids) {
+		organizationDao.deleteOrganizationPost(ids);
+	}
+
+	@Override
+	public void updateOrganizationPost(OrganizationPost post) {
+		organizationDao.updateOrganizationPost(post);
+	}
+
+	@Override
+	public List<OrganizationPost> listOrganizationPost(String orgID) {
+		return organizationDao.listOrganizationPost(orgID);
+	}
+
+	@Override
+	public OrganizationPost getOrganizationPost(String id) {
+		return organizationDao.getOrganizationPost(id);
+	}
+
+	@Override
+	public void addPostUser(String postID, String[] users) {
+		organizationDao.addPostUser(postID, users);
+	}
+
+	@Override
+	public void deletePostUser(String[] postUserID) {
+		organizationDao.deletePostUser(postUserID);
+	}
+
+	@Override
+	public void deletePostUserByUser(String postID, String[] users) {
+		organizationDao.deletePostUserByUser(postID, users);
 	}
 
 }
