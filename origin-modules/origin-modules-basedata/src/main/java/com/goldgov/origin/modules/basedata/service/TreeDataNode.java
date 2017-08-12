@@ -14,7 +14,11 @@ public class TreeDataNode {
 	private final List<TreeDataNode> subDataList = new ArrayList<>();
 
 	private final TreeDataNode parentTreeData;
-
+	
+	private int endPointNum = 0;
+	
+	private int deep;
+	
 	public TreeDataNode(BaseData baseData,TreeDataNode parentTreeData){
 		this.baseData = baseData;
 		this.parentTreeData = parentTreeData;
@@ -52,4 +56,27 @@ public class TreeDataNode {
 		return parentTreeData;
 	}
 	
+	protected void incrementEndPointNum(){
+		endPointNum++;
+		if(parentTreeData != null){
+			parentTreeData.incrementEndPointNum();
+		}
+	}
+
+	public int getEndPointNum() {
+		return endPointNum;
+	}
+
+	public int getDeep() {
+		return deep;
+	}
+
+	void setDeep(int deep) {
+		this.deep = deep;
+	}
+	
+	public boolean isEndPoint(){
+		return subDataList.size() == 0;
+	}
+
 }

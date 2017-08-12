@@ -23,6 +23,8 @@ public class RpcTreeData {
 
 	private final String categoryCode;
 	
+	private int maxDeep;
+	
 	public RpcTreeData(String localeCode,String categoryCode, List<RpcBaseData> baseDataList){
 		this.localeCode = localeCode;
 		this.categoryCode = categoryCode;
@@ -49,25 +51,30 @@ public class RpcTreeData {
 		}
 		for (int i = 0; i < rootDataList.size(); i++) {
 			RpcTreeDataNode treeData = rootDataList.get(i);
-			treeFormat(tempMap, treeData);
+			maxDeep = Math.max(maxDeep, treeFormat(tempMap, treeData));
 		}
 	}
 
-	private void treeFormat(Map<String, List<RpcBaseData>> tempMap, RpcTreeDataNode treeData) {
+	private int treeFormat(Map<String, List<RpcBaseData>> tempMap, RpcTreeDataNode treeData) {
 		List<RpcBaseData> subDataList = tempMap.remove(treeData.getDataID());
+		
+		int deep = treeData.getDeep();
 		
 		if(subDataList != null){
 			for (int i = 0; i < subDataList.size(); i++) {
 				RpcTreeDataNode treeDataNode = new RpcTreeDataNode(subDataList.get(i),treeData);
 				treeData.addSubData(treeDataNode);
-				treeFormat(tempMap,treeDataNode);
+				deep = Math.max(deep, treeFormat(tempMap,treeDataNode));
 			}
 		}
 		
 		subDataMap.put(treeData, treeData.getSubDataList());
 		if(treeData.getSubDataList() == null || treeData.getSubDataList().size() < 0){
 			endPointDataList.add(treeData);
+			treeData.incrementEndPointNum();
 		}
+		
+		return deep;
 	}
 	
 	/**
@@ -161,5 +168,9 @@ public class RpcTreeData {
 	public String getLocaleCode() {
 		return localeCode;
 	}
-	
+
+	public int getMaxDeep() {
+		return maxDeep;
+	}
+
 }

@@ -23,6 +23,8 @@ public class TreeData {
 
 	private final String categoryCode;
 	
+	private int maxDeep;
+	
 	public TreeData(String localeCode,String categoryCode, List<BaseData> baseDataList){
 		this.localeCode = localeCode;
 		this.categoryCode = categoryCode;
@@ -49,25 +51,30 @@ public class TreeData {
 		}
 		for (int i = 0; i < rootDataList.size(); i++) {
 			TreeDataNode treeData = rootDataList.get(i);
-			treeFormat(tempMap, treeData);
+			maxDeep = Math.max(maxDeep, treeFormat(tempMap, treeData));
 		}
 	}
 
-	private void treeFormat(Map<String, List<BaseData>> tempMap, TreeDataNode treeData) {
+	private int treeFormat(Map<String, List<BaseData>> tempMap, TreeDataNode treeData) {
 		List<BaseData> subDataList = tempMap.remove(treeData.getDataID());
+		treeData.setDeep(treeData.getBaseData().getNodePath().split("[/]").length - 1);
+		
+		int deep = treeData.getDeep();
 		
 		if(subDataList != null){
 			for (int i = 0; i < subDataList.size(); i++) {
 				TreeDataNode treeDataNode = new TreeDataNode(subDataList.get(i),treeData);
 				treeData.addSubData(treeDataNode);
-				treeFormat(tempMap,treeDataNode);
+				deep = Math.max(deep, treeFormat(tempMap,treeDataNode));
 			}
 		}
 		
 		subDataMap.put(treeData, treeData.getSubDataList());
 		if(treeData.getSubDataList() == null || treeData.getSubDataList().size() == 0){
 			endPointDataList.add(treeData);
+			treeData.incrementEndPointNum();
 		}
+		return deep;
 	}
 	
 	/**
@@ -161,5 +168,10 @@ public class TreeData {
 	public String getLocaleCode() {
 		return localeCode;
 	}
+
+	public int getMaxDeep() {
+		return maxDeep;
+	}
+
 	
 }

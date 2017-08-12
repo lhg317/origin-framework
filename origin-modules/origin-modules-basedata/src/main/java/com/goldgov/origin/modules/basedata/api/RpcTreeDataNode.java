@@ -10,6 +10,10 @@ public class RpcTreeDataNode {
 	private final List<RpcTreeDataNode> subDataList = new ArrayList<>();
 
 	private final RpcTreeDataNode parentTreeData;
+	
+	private int endPointNum = 0;
+	
+	private int deep;
 
 	public RpcTreeDataNode(RpcBaseData baseData,RpcTreeDataNode parentTreeData){
 		this.baseData = baseData;
@@ -46,6 +50,29 @@ public class RpcTreeDataNode {
 
 	public RpcTreeDataNode getParentTreeData() {
 		return parentTreeData;
+	}
+
+	public int getEndPointNum() {
+		return endPointNum;
+	}
+
+	void setEndPointNum(int endPointNum) {
+		this.endPointNum = endPointNum;
+	}
+
+	public int getDeep() {
+		return deep;
+	}
+
+	void setDeep(int deep) {
+		this.deep = deep;
+	}
+	
+	protected void incrementEndPointNum(){
+		endPointNum++;
+		if(parentTreeData != null){
+			parentTreeData.incrementEndPointNum();
+		}
 	}
 	
 }
