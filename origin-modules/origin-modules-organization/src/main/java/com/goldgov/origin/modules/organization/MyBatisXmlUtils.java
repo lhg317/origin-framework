@@ -11,7 +11,7 @@ import java.util.Date;
 
 import org.springframework.cglib.core.ReflectUtils;
 
-import com.goldgov.origin.modules.organization.service.OrganizationUser;
+import com.goldgov.origin.modules.organization.service.OrganizationPost;
 
 @SuppressWarnings("rawtypes")
 public class MyBatisXmlUtils {
@@ -207,9 +207,9 @@ public class MyBatisXmlUtils {
 	
 	public static void main(String[] args) {//BaseDataLocale
 		MyBatisXmlUtils myBatisXmlUtils = new MyBatisXmlUtils();
-//		myBatisXmlUtils.resultMap(OrganizationUser.class, System.out);
+		myBatisXmlUtils.resultMap(OrganizationPost.class, System.out);
 //		myBatisXmlUtils.queryFields(OrganizationUser.class, System.out);
-		myBatisXmlUtils.insertFields(OrganizationUser.class, System.out);
-//		myBatisXmlUtils.updateFields(OrganizationUser.class, System.out);
+//		myBatisXmlUtils.insertFields(OrganizationUser.class, System.out);
+//		myBatisXmlUtils.updateFields(OrganizationPost.class, System.out);
 	}
 }

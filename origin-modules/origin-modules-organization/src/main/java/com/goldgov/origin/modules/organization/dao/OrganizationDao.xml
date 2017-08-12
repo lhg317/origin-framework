@@ -149,12 +149,12 @@
 		where POST_ID = #{orgPostID}
 	</update>
 
-	<select id="listOrganizationPost" resultType="organizationPost">
+	<select id="listOrganizationPost" resultMap="organizationPost">
 		SELECT ORG_POST_ID,ORG_ID,POST_CODE,POST_NAME
 		FROM ORGANIZATION_POST WHERE ORG_ID = #{orgID}
 	</select>
 	
-	<select id="getOrganizationPost" resultType="organizationPost">
+	<select id="getOrganizationPost" resultMap="organizationPost">
 		SELECT ORG_POST_ID,ORG_ID,POST_CODE,POST_NAME
 		FROM ORGANIZATION_POST WHERE ORG_POST_ID = #{id}
 	</select>
