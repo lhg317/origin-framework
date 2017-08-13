@@ -130,7 +130,7 @@
 		SELECT NODE_PATH FROM BASE_DATA WHERE DATA_ID = #{dataID}
 	</select>
 
-	<select id="getCategory">
+	<select id="getCategory" resultMap="baseDataCategory">
 		SELECT
 		<include refid="baseDataCategoryQueryFields" />
 		from BASE_DATA_CATEGORY where CATEGORY_ID=#{categoryID}
