@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 import com.goldgov.origin.modules.basedata.api.RpcBaseData;
+import com.goldgov.origin.modules.basedata.api.RpcBaseDataCategory;
 import com.goldgov.origin.modules.basedata.api.RpcBaseDataLocale;
 import com.goldgov.origin.modules.basedata.api.RpcBaseDataService;
 
@@ -64,6 +65,11 @@ public class RpcBaseDataController {
 		return PAGE_BASE_PATH + "locale/list";
 	}
 	
+	@RequestMapping("/addCategory")
+	public String addCategory(RpcBaseDataCategory category) throws Exception{
+		rpcBaseDataService.addCategory(category);
+		return PAGE_BASE_PATH + "data/form";
+	}
 	
 	@RequestMapping("/preAddData")
 	@WebToken(handle=TokenHandleType.GENERATE)

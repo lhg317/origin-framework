@@ -69,14 +69,13 @@
 	</insert>
 
 	<insert id="addCategory">
-		<selectKey keyProperty="categoryID" resultType="String"
-			order="BEFORE">
+		<selectKey keyProperty="categoryID" resultType="String" order="BEFORE">
 			select uuid() from dual
 		</selectKey>
 		INSERT INTO BASE_DATA_CATEGORY
-		(CATEGORY_CODE,CATEGORY_ID,CATEGORY_NAME)
+		(CATEGORY_ID,CATEGORY_CODE,CATEGORY_NAME)
 		VALUES
-		(#{categoryCode},#{categoryID},#{categoryName})
+		(#{categoryID},#{categoryCode},#{categoryName})
 	</insert>
 
 	<insert id="addData">

@@ -31,7 +31,7 @@ public class ProxyBaseDataCategory extends BaseDataCategory implements ProxyObje
 	}
 	public void setCategoryID(String categoryID) {
 		if(categoryID != null){
-			rpcBaseDataCategory.setCategoryCode(categoryID);
+			rpcBaseDataCategory.setCategoryID(categoryID);
 		}
 	}
 	public String getCategoryName() {

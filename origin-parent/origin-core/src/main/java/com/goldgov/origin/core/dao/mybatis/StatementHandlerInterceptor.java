@@ -53,7 +53,9 @@ public class StatementHandlerInterceptor implements Interceptor{
 		
 		if(showSql){
 			String sql = boundSql.getSql();
-			sql = sql.replaceAll("\r\n", "");
+			sql = sql.replaceAll("\n", "");
+			sql = sql.replaceAll("\t", " ");
+			sql = sql.replaceAll("  ", "");
 			if(logger.isDebugEnabled()){
 				logger.debug(sql);
 			}else{
