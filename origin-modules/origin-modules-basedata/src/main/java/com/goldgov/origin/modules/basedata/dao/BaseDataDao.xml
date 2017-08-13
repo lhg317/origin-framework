@@ -109,7 +109,7 @@
 	</delete>
 
 	<delete id="deleteData">
-		delete from BASE_DATA where ACCOUNT_ID IN
+		delete from BASE_DATA where DATA_ID IN
 		<foreach item="id" index="index" collection="ids" open="("
 			separator="," close=")">
 			#{id}

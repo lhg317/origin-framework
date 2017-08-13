@@ -20,6 +20,7 @@ public class ProxyBaseData extends BaseData implements ProxyObject<RpcBaseData>{
 		setDataID(baseData.getDataID());
 		setDataName(baseData.getDataName());
 		setDataValue(baseData.getDataValue());
+		setDescription(baseData.getDescription());
 		if(baseData.getDataLocale() != null){
 			setDataLocale(baseData.getDataLocale());
 		}
