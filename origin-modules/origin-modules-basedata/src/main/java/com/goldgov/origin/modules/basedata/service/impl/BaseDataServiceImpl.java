@@ -68,7 +68,7 @@ public class BaseDataServiceImpl implements BaseDataService,ApplicationContextAw
 		basePath = basePath == null ? "" : basePath;
 		data.setNodePath(DataPathUtils.appendPath(basePath, "" + maxNodeValue));
 		baseDao.addData(data);
-		baseDao.addDataValue(data.getDataID(), data.getDataCategory().getCategoryID(), data.getDataValue(), data.getOrderNum());
+		baseDao.addDataValue(data.getDataID(), data.getDataLocale().getLocaleID(), data.getDataValue(), data.getOrderNum());
 		applicationContext.publishEvent(new BaseDataEvent(data.getDataID(),EventType.ADD));
 	}
 
