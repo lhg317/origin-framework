@@ -19,6 +19,7 @@ import com.goldgov.origin.modules.basedata.service.BaseDataService;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseData;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseDataCategory;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseDataLocale;
+import com.goldgov.origin.modules.basedata.service.TreeData;
 
 @RpcService
 public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
@@ -121,6 +122,10 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 			throws TException {
 		List<BaseData> listData = baseDataService.listData(localeCode, categoryCode, parentID);
 		List<RpcBaseData> listRpcData = ResultSetUtils.convertToRpc(listData, baseDateConverter);
+		
+		List<BaseData> listData2 = baseDataService.listData("zh_cn",categoryCode);
+		TreeData treeData = new TreeData("zh_cn",categoryCode,listData2);
+		treeData.toString();
 		return listRpcData;
 	}
 
