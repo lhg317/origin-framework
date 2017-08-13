@@ -123,9 +123,6 @@ public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{
 		List<BaseData> listData = baseDataService.listData(localeCode, categoryCode, parentID);
 		List<RpcBaseData> listRpcData = ResultSetUtils.convertToRpc(listData, baseDateConverter);
 		
-		List<BaseData> listData2 = baseDataService.listData("zh_cn",categoryCode);
-		TreeData treeData = new TreeData("zh_cn",categoryCode,listData2);
-		treeData.toString();
 		return listRpcData;
 	}
 
