@@ -71,6 +71,13 @@ public class RpcBaseDataController {
 		return PAGE_BASE_PATH + "data/form";
 	}
 	
+	@RequestMapping("/getCategory")
+	public String getCategory(Model model,@RequestParam("categoryID") String categoryID) throws Exception{
+		RpcBaseDataCategory category = rpcBaseDataService.getCategory(categoryID);
+		model.addAttribute("category", category);
+		return "forward:/basedata/main";
+	}
+	
 	@RequestMapping("/preAddData")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	public String preAddData() throws Exception{
