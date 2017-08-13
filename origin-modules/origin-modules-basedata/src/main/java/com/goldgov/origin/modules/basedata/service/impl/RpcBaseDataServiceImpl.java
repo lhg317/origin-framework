@@ -19,7 +19,6 @@ import com.goldgov.origin.modules.basedata.service.BaseDataService;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseData;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseDataCategory;
 import com.goldgov.origin.modules.basedata.service.ProxyBaseDataLocale;
-import com.goldgov.origin.modules.basedata.service.TreeData;
 
 @RpcService
 public class RpcBaseDataServiceImpl implements RpcBaseDataService.Iface{

@@ -66,7 +66,7 @@ public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
 		for (File file : fileFile) {
 			resultList.add(new ProxyFile(file).toRpcFile());
 		}
-		return null;
+		return resultList;
 	}
 
 	@Override
