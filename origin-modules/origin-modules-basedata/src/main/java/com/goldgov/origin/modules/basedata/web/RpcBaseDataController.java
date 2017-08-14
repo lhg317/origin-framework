@@ -1,5 +1,6 @@
 package com.goldgov.origin.modules.basedata.web;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,12 @@ public class RpcBaseDataController {
 		return "forward:/basedata/main";
 	}
 	
+	@RequestMapping("/updateCategory")
+	public String updateCategory(RpcBaseDataCategory category) throws Exception{
+		rpcBaseDataService.updateCategory(category);
+		return "forward:/basedata/main";
+	}
+	
 	@RequestMapping("/preAddData")
 	@WebToken(handle=TokenHandleType.GENERATE)
 	public String preAddData() throws Exception{
@@ -89,6 +96,12 @@ public class RpcBaseDataController {
 	public String addData(RpcBaseData data) throws Exception{
 		rpcBaseDataService.addData(data);
 		return "forward:/basedata/listData";
+	}
+	
+	@RequestMapping("/deleteData")
+	public String deleteData(Model model,@RequestParam(name="ids") String[] dataID) throws Exception{
+		rpcBaseDataService.deleteData(Arrays.asList(dataID));
+		return "forward:/basedata/main";
 	}
 	
 	@RequestMapping("/listData")
