@@ -101,11 +101,11 @@
 	<distributionManagement>
 		<repository>
 			<id>origin-releases</id>
-			<url>http://192.168.10.110:8081/nexus/content/repositories/origin/</url>
+			<url>http://maven-repo:8081/nexus/content/repositories/origin/</url>
 		</repository>
 		<snapshotRepository>
 			<id>origin-snapshots</id>
-			<url>http://192.168.10.110:8081/nexus/content/repositories/origin-snapshots/</url>
+			<url>http://maven-repo:8081/nexus/content/repositories/origin-snapshots/</url>
 		</snapshotRepository>
 		<!-- <repository>
 			<id>origin-releases</id>
