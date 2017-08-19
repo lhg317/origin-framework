@@ -13,7 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
 
 /**
- * 
+ * 自定义MVC拦截器
  * @author LiuHG
  * @version 1.0
  */

@@ -18,6 +18,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * Rpc服务器对象类，此类会启动一个Thrift服务器用于接收Rpc调用请求。
+ * 启动时需要属性参数rpc.server.port来定义启动端口，如果Rpc调用有安全要求，
+ * 需要生成数字签名并定义密码，将keystore文件放在META-INF/.keystore（文件名以“.keystore”命名），并将密码用属性参数rpc.security.server.password来定义密码
+ * @author LiuHG
+ * @version 1.0
+ */
 public class ThriftRpcServer implements InitializingBean,DisposableBean {
 
 	private final Log logger = LogFactory.getLog(getClass());
@@ -81,23 +88,33 @@ public class ThriftRpcServer implements InitializingBean,DisposableBean {
 		rpcServer.start();
 	}
 
-	
+	/**
+	 * 停止当前thrift服务器
+	 */
 	public synchronized void stop(){
 		if(isServing()){
 			server.stop();
 		}
 	}
 	
+	/**
+	 * 判断当前thrift服务器是否启动中
+	 * @return
+	 */
 	public boolean isServing(){
 		return rpcServiceList != null && server != null && server.isServing() && rpcServiceList.size() > 0;
 	}
 	
+	/**
+	 * 得到当前thrift服务器的端口
+	 * @return
+	 */
 	public int getPort(){
 		return port;
 	}
 
 	/**
-	 * 
+	 * 返回所有服务代理对象类
 	 * @return 永远不返回null
 	 */
 	public List<RpcServiceProxy> getRpcServiceList() {

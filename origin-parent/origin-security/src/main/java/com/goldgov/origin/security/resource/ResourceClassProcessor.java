@@ -89,7 +89,7 @@ public class ResourceClassProcessor implements InitializingBean{
 	public void processProtectedResource(ClassMetadata classMetadata){
 		Class<? extends Object> clazz;
 		try {
-			clazz = Class.forName(classMetadata.getClassName());
+			clazz = Class.forName(classMetadata.getClassName(),false,this.getClass().getClassLoader());
 		} catch (Throwable e) {
 			//TODO i18n
 			throw new RuntimeException("类不存在或无法实例化（比如依赖的import类文件不存在）："+classMetadata.getClassName(), e);

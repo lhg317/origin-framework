@@ -12,8 +12,8 @@ import com.goldgov.origin.core.web.annotation.ModuleResource;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
 
 /**
- * 审计日志处理器
- * 该处理器必须配置在{@link com.goldgov.puzzle.core.web.interceptor.handler.impl.LocaleChangeHandler LocaleChangeHandler}之后，
+ * MVC拦截器处理器，负责记录审计日志
+ * 该处理器必须配置在{@link com.goldgov.origin.core.web.interceptor.handler.impl.LocaleChangeHandler LocaleChangeHandler}之后，
  * 如果没有配置或配置在了本处理器之后，则不能使用国际化功能来显示模块名称。
  * @author LiuHG
  * @version 1.0

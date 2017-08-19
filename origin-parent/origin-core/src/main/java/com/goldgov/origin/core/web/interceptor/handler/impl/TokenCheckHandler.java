@@ -19,7 +19,7 @@ import com.goldgov.origin.core.web.token.WebToken;
 import com.goldgov.origin.core.web.token.WebToken.TokenHandleType;
 
 /**
- * 重复提交检查
+ * MVC拦截器处理器，负责重复提交的检查
  * @author LiuHG
  * @version 1.0
  */

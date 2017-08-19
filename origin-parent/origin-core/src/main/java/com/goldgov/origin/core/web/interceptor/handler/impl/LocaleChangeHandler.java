@@ -19,7 +19,7 @@ import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
 import com.goldgov.origin.core.web.interceptor.handler.impl.RequestHolderHandler.RequestHolder;
 
 /**
- * 
+ * MVC拦截器处理器，负责国际化语言环境切换
  * @author LiuHG
  * @version 1.0
  */

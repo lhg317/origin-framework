@@ -8,7 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.goldgov.origin.core.web.interceptor.handler.IRequestHandler;
 
 /**
- * 
+ * MVC拦截器处理器，负责将HttpServletRequest放入RequestHolder中，便于在Controller中使用。
+ * 当请求处理完成后会将HttpServletRequest对象从RequestHolder移除。
  * @author LiuHG
  * @version 1.0
  */

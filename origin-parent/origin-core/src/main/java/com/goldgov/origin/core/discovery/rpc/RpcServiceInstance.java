@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.goldgov.origin.core.discovery.ServiceServer;
 
 /**
- * 一个服务实例，包含服务名，服务显示名、服务类型等信息
+ * 一个服务实例，包含服务名，服务显示名、服务器对象信息
  * @author LiuHG
  * @since 1.0
  */

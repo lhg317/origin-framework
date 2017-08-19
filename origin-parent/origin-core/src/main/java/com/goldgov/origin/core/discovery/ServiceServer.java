@@ -85,6 +85,10 @@ public class ServiceServer {
 		this.serverIP = serverIP;
 	}
 
+	/**
+	 * Rpc服务器的RPC端口,如果该应用中没有服务，则该值为-1
+	 * @return
+	 */
 	public int getServerPort() {
 		return serverPort;
 	}

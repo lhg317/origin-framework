@@ -47,7 +47,7 @@ import com.goldgov.origin.core.web.validator.annotation.Past;
 import com.goldgov.origin.core.web.validator.annotation.Pattern;
 
 /**
- * 
+ * MVC拦截器处理器，负责字段服务端校验
  * @author LiuHG
  * @version 1.0
  */

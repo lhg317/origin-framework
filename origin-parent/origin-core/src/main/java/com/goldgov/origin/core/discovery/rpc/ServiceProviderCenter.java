@@ -22,7 +22,7 @@ import com.goldgov.origin.core.discovery.rpc.pool.SocketProvider;
 import com.goldgov.origin.core.discovery.rpc.pool.SocketProviderImpl;
 
 /**
- * 服务调度及RPC调用的核心处理类
+ * 服务调度及RPC调用的核心处理类。负责为消费者统一服务获取、调度。
  * @author LiuHG
  * @since 1.0
  */

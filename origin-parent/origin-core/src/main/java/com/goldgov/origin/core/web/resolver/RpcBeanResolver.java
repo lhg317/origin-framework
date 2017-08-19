@@ -20,7 +20,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * 用于RPC属性绑定
+ * 用于RPC属性绑定，被注解的Rpc参数对象前不能使用@ModelAttribute注解，否则此解析器不会生效
  * @author LiuHG
  * @version 1.0
  */
