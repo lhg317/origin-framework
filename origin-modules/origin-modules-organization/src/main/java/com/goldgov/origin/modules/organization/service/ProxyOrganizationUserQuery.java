@@ -1,25 +1,20 @@
 package com.goldgov.origin.modules.organization.service;
 
 import com.goldgov.origin.core.service.rpc.RpcPagingInfo;
-import com.goldgov.origin.modules.organization.api.RpcOrganizationQuery;
+import com.goldgov.origin.modules.organization.api.RpcOrganizationUserQuery;
 
-/**
- * 组织机构管理
- * @author LiuHG
- *
- */
-public class ProxyOrganizationQuery extends OrganizationQuery {
+public class ProxyOrganizationUserQuery extends OrganizationUserQuery{
 	
-	private RpcOrganizationQuery rpcQuery;
+	private RpcOrganizationUserQuery rpcQuery;
 	
-	public ProxyOrganizationQuery(){
-		rpcQuery = new RpcOrganizationQuery();
+	public ProxyOrganizationUserQuery(){
+		rpcQuery = new RpcOrganizationUserQuery();
 	}
 	
-	public ProxyOrganizationQuery(RpcOrganizationQuery query){
-		this.rpcQuery = query;
+	public ProxyOrganizationUserQuery(RpcOrganizationUserQuery rpcQuery){
+		this.rpcQuery = rpcQuery;
 	}
-
+	
 	@Override
 	public int getPageSize() {
 		return getPagingInfo().getPageSize();
@@ -80,17 +75,17 @@ public class ProxyOrganizationQuery extends OrganizationQuery {
 		getPagingInfo().setMinPage(minPage);
 	}
 	
-	public String getSearchParentID() {
-		if(rpcQuery.isSetSearchParentID()){
-			return rpcQuery.getSearchParentID();
+	public String getSearchOrgID() {
+		if(rpcQuery.isSetSearchOrgID()){
+			return rpcQuery.getSearchOrgID();
 		}else{
 			return null;
 		}
 	}
 
-	public void setSearchParentID(String searchParentID) {
-		if(searchParentID != null){
-			rpcQuery.setSearchParentID(searchParentID);
+	public void setSearchOrgID(String searchOrgID) {
+		if(searchOrgID != null){
+			rpcQuery.setSearchOrgID(searchOrgID);
 		}
 	}
 	

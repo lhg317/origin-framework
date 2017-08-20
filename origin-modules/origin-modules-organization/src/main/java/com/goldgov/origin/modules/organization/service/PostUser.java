@@ -1,5 +1,10 @@
 package com.goldgov.origin.modules.organization.service;
 
+/**
+ * 岗位用户
+ * @author LiuHG
+ * @version 1.0
+ */
 public class PostUser {
 
 	private String postUserID;

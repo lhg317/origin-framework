@@ -33,6 +33,13 @@ struct RpcPostUser {
 struct RpcOrganizationQuery {
 	1: optional RpcQuery.RpcPagingInfo pagingInfo;
 	2: optional list<RpcOrganization> resultList;
+	3: optional string searchParentID;
+}
+
+struct RpcOrganizationUserQuery {
+	1: optional RpcQuery.RpcPagingInfo pagingInfo;
+	2: optional list<RpcOrganization> resultList;
+	3: optional string searchOrgID;
 }
 
 service RpcOrganizationService {
@@ -55,6 +62,7 @@ service RpcOrganizationService {
 	void addPostUser(1:string postID,2:list<string> users);
 	void deletePostUser(1:list<string> postUserID);
 	void deletePostUserByUser(1:string postID,2:list<string> users);
+	
 }
 
 

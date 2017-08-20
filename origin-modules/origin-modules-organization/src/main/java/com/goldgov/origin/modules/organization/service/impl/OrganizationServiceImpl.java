@@ -74,7 +74,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public void deleteOrgUser(String[] orgUserID) {
 		organizationDao.deleteOrgUser(orgUserID);
 	}
-
+	
 	@Override
 	public void deleteOrgUserByUser(String orgID, String[] users) {
 		organizationDao.deleteOrgUserByUser(orgID, users);

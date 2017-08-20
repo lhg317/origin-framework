@@ -9,36 +9,36 @@ import java.util.List;
  */
 public interface OrganizationService {
 	
-	public void addOrganization(Organization organization);
+	void addOrganization(Organization organization);
 	
-	public void deleteOrganization(String[] ids);
+	void deleteOrganization(String[] ids);
 	
-	public void updateOrganization(Organization organization);
+	void updateOrganization(Organization organization);
 	
-	public List<Organization> listOrganization(OrganizationQuery query);
+	List<Organization> listOrganization(OrganizationQuery query);
 	
-	public Organization getOrganization(String id);
+	Organization getOrganization(String id);
 	
-	public void addOrgUser(String orgID,String[] users);
+	void addOrgUser(String orgID,String[] users);
 	
-	public void deleteOrgUser(String[] orgUserID);
+	void deleteOrgUser(String[] orgUserID);
 	
-	public void deleteOrgUserByUser(String orgID,String[] users);
+	void deleteOrgUserByUser(String orgID,String[] users);
 	
-	public void addOrganizationPost(OrganizationPost post);
+	void addOrganizationPost(OrganizationPost post);
 	
-	public void deleteOrganizationPost(String[] ids);
+	void deleteOrganizationPost(String[] ids);
 	
-	public void updateOrganizationPost(OrganizationPost post);
+	void updateOrganizationPost(OrganizationPost post);
 	
-	public List<OrganizationPost> listOrganizationPost(String orgID);
+	List<OrganizationPost> listOrganizationPost(String orgID);
 	
-	public OrganizationPost getOrganizationPost(String id);
+	OrganizationPost getOrganizationPost(String id);
 	
-	public void addPostUser(String postID,String[] users);
+	void addPostUser(String postID,String[] users);
 	
-	public void deletePostUser(String[] postUserID);
+	void deletePostUser(String[] postUserID);
 	
-	public void deletePostUserByUser(String postID,String[] users);
-	
+	void deletePostUserByUser(String postID,String[] users);
+
 }

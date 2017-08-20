@@ -8,5 +8,14 @@ import com.goldgov.origin.core.service.Query;
  */
 public class OrganizationQuery extends Query<Organization>{
 	
+	private String searchParentID;
+
+	public String getSearchParentID() {
+		return searchParentID;
+	}
+
+	public void setSearchParentID(String searchParentID) {
+		this.searchParentID = searchParentID;
+	}
 	
 }

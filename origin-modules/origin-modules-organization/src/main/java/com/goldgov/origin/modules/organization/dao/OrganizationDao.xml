@@ -12,6 +12,7 @@
 		<result column="ABBREVIATION" jdbcType="VARCHAR" property="abbreviation" />
 		<result column="NODE_PATH" jdbcType="VARCHAR" property="nodePath" />
 		<result column="NODE_VALUE" jdbcType="INTEGER" property="nodeValue" />
+		<result column="PARENT_ID" jdbcType="VARCHAR" property="organization.orgID" />
 	</resultMap>
 
 	<resultMap
@@ -33,14 +34,16 @@
 		ORG_CODE,
 		ABBREVIATION,
 		NODE_PATH,
-		NODE_VALUE
+		NODE_VALUE,
+		PARENT_ID
 		) values (
-		#{ORG_ID,jdbcType=VARCHAR},
-		#{ORG_NAME,jdbcType=VARCHAR},
-		#{ORG_CODE,jdbcType=VARCHAR},
-		#{ABBREVIATION,jdbcType=VARCHAR},
-		#{NODE_PATH,jdbcType=VARCHAR},
-		#{NODE_VALUE,jdbcType=INTEGER}
+		#{orgID},
+		#{orgName},
+		#{orgCode},
+		#{abbreviation},
+		#{nodePath},
+		#{nodeValue},
+		#{parentOrganization.orgID}
 		)
 	</insert>
 
@@ -55,24 +58,28 @@
 	<update id="updateOrganization">
 		update Organization
 		<set>
-			<if test="orgName != null and orgName != ''">ORG_NAME = #{orgName,jdbcType=VARCHAR},</if>
-			<if test="orgCode != null and orgCode != ''">ORG_CODE = #{orgCode,jdbcType=VARCHAR},</if>
-			<if test="abbreviation != null and abbreviation != ''">ABBREVIATION = #{abbreviation,jdbcType=VARCHAR},</if>
-			<if test="nodePath != null and nodePath != ''">NODE_PATH = #{nodePath,jdbcType=VARCHAR},</if>
-			<if test="nodeValue != null">NODE_VALUE = #{nodeValue,jdbcType=INTEGER},</if>
+			<if test="orgName != null and orgName != ''">ORG_NAME = #{orgName},</if>
+			<if test="orgCode != null and orgCode != ''">ORG_CODE = #{orgCode},</if>
+			<if test="abbreviation != null and abbreviation != ''">ABBREVIATION = #{abbreviation},</if>
+			<if test="nodePath != null and nodePath != ''">NODE_PATH = #{nodePath},</if>
+			<if test="nodeValue != null">NODE_VALUE = #{nodeValue},</if>
 		</set>
-		where ORG_ID = #{orgID}
+		 WHERE ORG_ID = #{orgID}
 	</update>
 
 	<select id="listOrganization" resultMap="organization">
-		select
+		SELECT
 		ORG_ID,
 		ORG_NAME,
 		ORG_CODE,
 		ABBREVIATION,
 		NODE_PATH,
 		NODE_VALUE
-		from Organization
+		FROM ORGANIZATION
+		<where>
+			<if test="query.searchParentID != null and query.searchParentID != ''">ORG_ID != PARENT_ID AND PARENT_ID = #{query.searchParentID}</if>
+			<if test="query.searchParentID == null or query.searchParentID == ''">ORG_ID = PARENT_ID</if>
+		</where>
 	</select>
 
 	<select id="getOrganization" resultMap="organization">
@@ -121,7 +128,7 @@
 			#{user}
 		</foreach>
 	</delete>
-
+	
 	<insert id="addOrganizationPost">
 		<selectKey keyProperty="orgPostID" resultType="String"
 			order="BEFORE">

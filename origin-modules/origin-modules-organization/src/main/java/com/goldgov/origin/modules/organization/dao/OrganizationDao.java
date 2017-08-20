@@ -1,9 +1,10 @@
 package com.goldgov.origin.modules.organization.dao;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import com.goldgov.origin.core.dao.Mapper;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.goldgov.origin.core.dao.Mapper;
 import com.goldgov.origin.modules.organization.service.Organization;
 import com.goldgov.origin.modules.organization.service.OrganizationPost;
 import com.goldgov.origin.modules.organization.service.OrganizationQuery;
@@ -50,5 +51,6 @@ public interface OrganizationDao {
 	void deletePostUser(String[] postUserID);
 	
 	void deletePostUserByUser(@Param("postID")String postID,@Param("users")String[] users);
+	
 	
 }
