@@ -120,4 +120,10 @@ public class RpcOrganizationServiceImpl implements RpcOrganizationService.Iface{
 		organizationService.deletePostUserByUser(postID, Utils.listToArray(users));
 	}
 
+	@Override
+	public List<RpcOrganization> listOrganizationByUser(String user) throws TException {
+		List<Organization> organizationList = organizationService.listOrganizationByUser(user);
+		return ResultSetUtils.convertToRpc(organizationList, orgConverter);
+	}
+
 }

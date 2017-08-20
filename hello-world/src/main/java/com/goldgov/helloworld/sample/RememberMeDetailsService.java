@@ -60,7 +60,7 @@ public class RememberMeDetailsService implements RememberMeUserDetailsService{
 		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_ANONYMOUSLY"));
 		try {
-			List<RpcRole> roleList = roleService.listRoleByObject(loginName);
+			List<RpcRole> roleList = roleService.listRoleByObject(loginName,"USER");
 	        for (RpcRole role : roleList) {
 	        	grantedAuths.add(new SimpleGrantedAuthority(role.getRoleCode()));
 			}

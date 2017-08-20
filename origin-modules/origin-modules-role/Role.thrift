@@ -35,8 +35,8 @@ service RpcRoleService{
 	RpcRoleQuery listRole(1:RpcRoleQuery query),
 	void saveRoleResource(1:string roleID,2:list<string> resourceOperate),
 	void saveRoleObject(1:string roleID,2:list<string> roleObject,3: string roleObjectType),
-	list<RpcRole> listRoleByObject(1:string roleObject),
-	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject),	
+	list<RpcRole> listRoleByObject(1:string roleObject,2:string objectType),
+	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject,2:string objectType),	
 	map<string,list<string>> getRoleResourceMap();
 	list<RpcRoleResource> listRoleResourceByRoleID(1:string roleID);
 } 

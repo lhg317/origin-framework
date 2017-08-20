@@ -81,6 +81,18 @@
 			<if test="query.searchParentID == null or query.searchParentID == ''">ORG_ID = PARENT_ID</if>
 		</where>
 	</select>
+	
+	<select id="listOrganizationByUser" resultMap="organization">
+		SELECT
+		o.ORG_ID,
+		o.ORG_NAME,
+		o.ORG_CODE,
+		o.ABBREVIATION,
+		o.NODE_PATH,
+		o.NODE_VALUE
+		FROM ORGANIZATION o,ORGANIZATION_USER ou WHERE o.ORG_ID=ou.ORG_ID AND ou.ORG_USER=#{user}
+	</select>
+	
 
 	<select id="getOrganization" resultMap="organization">
 		select

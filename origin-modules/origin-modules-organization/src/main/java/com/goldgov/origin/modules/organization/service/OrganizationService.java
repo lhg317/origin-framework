@@ -17,6 +17,8 @@ public interface OrganizationService {
 	
 	List<Organization> listOrganization(OrganizationQuery query);
 	
+	List<Organization> listOrganizationByUser(String user);
+	
 	Organization getOrganization(String id);
 	
 	void addOrgUser(String orgID,String[] users);

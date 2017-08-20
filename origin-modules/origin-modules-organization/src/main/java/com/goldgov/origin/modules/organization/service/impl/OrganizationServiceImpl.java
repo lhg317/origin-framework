@@ -120,4 +120,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		organizationDao.deletePostUserByUser(postID, users);
 	}
 
+	@Override
+	public List<Organization> listOrganizationByUser(String user) {
+		return organizationDao.listOrganizationByUser(user);
+	}
+
 }

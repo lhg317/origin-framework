@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import com.goldgov.origin.modules.auth.api.PasswordEncoder;
 import com.goldgov.origin.modules.auth.api.RpcAuthAccountService;
 import com.goldgov.origin.modules.auth.api.impl.Md5PasswordEncoder;
+import com.goldgov.origin.modules.role.api.ObjectRoleList;
 import com.goldgov.origin.modules.role.api.RpcRole;
-import com.goldgov.origin.modules.role.api.RpcRoleService;
 import com.goldgov.origin.modules.user.api.RpcUser;
 import com.goldgov.origin.modules.user.api.RpcUserService;
 import com.goldgov.origin.security.UserToken;
@@ -30,9 +30,12 @@ public class CustomAuthenticationProvider extends BaseAuthenticationProvider{//i
 	@Qualifier("rpcAuthAccountService.Client")
 	private RpcAuthAccountService.Iface authAccountService;
 	
-	@Autowired
-	@Qualifier("rpcRoleService.Client")
-	private RpcRoleService.Iface roleService;
+//	@Autowired
+//	@Qualifier("rpcRoleService.Client")
+//	private RpcRoleService.Iface roleService;
+	
+	@Autowired(required=false)
+	private List<ObjectRoleList> objectRoleList;
 	
 	private PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
 
@@ -58,14 +61,29 @@ public class CustomAuthenticationProvider extends BaseAuthenticationProvider{//i
       List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
       grantedAuths.add(new SimpleGrantedAuthority("IS_AUTHENTICATED_ANONYMOUSLY"));
       
-		try {
-			List<RpcRole> roleList = roleService.listRoleByObject(loginName);
-	        for (RpcRole role : roleList) {
-	        	grantedAuths.add(new SimpleGrantedAuthority(role.getRoleCode()));
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
+      if(objectRoleList != null){
+    	  for (ObjectRoleList objectRoleList : objectRoleList) {
+    		  try {
+    			  List<RpcRole> roleList = objectRoleList.listRole(loginName);
+    			  for (RpcRole role : roleList) {
+    				  String roleCode = role.getRoleCode();
+    				  if(!grantedAuths.contains(roleCode)){
+    					  grantedAuths.add(new SimpleGrantedAuthority(roleCode));
+    				  }
+    			  }
+    		  }catch (Exception e) {
+    			  throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
+    		  }
 		}
+      }
+//		try {
+//			List<RpcRole> roleList = roleService.listRoleByObject(loginName);
+//	        for (RpcRole role : roleList) {
+//	        	grantedAuths.add(new SimpleGrantedAuthority(role.getRoleCode()));
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException("获取用户角色时出现错误：" + loginName,e);
+//		}
 		
 		UserToken userToken = new UserToken(user.getUserID(),loginName, password, user.getUserName(), grantedAuths);
 		return userToken;

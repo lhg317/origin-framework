@@ -48,6 +48,7 @@ service RpcOrganizationService {
 	void deleteOrganization(1:list<string> ids);
 	RpcOrganization getOrganization(1:string id);
 	RpcOrganizationQuery listOrganization(1:RpcOrganizationQuery query);
+	list<RpcOrganization> listOrganizationByUser(1:string user);
 	
 	void addOrgUser(1:string orgID,2:list<string> users);
 	void deleteOrgUser(1:list<string> orgUserID);

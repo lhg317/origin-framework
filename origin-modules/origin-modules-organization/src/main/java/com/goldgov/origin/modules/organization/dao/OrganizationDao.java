@@ -24,6 +24,8 @@ public interface OrganizationDao {
 	
 	List<Organization> listOrganization(@Param("query")OrganizationQuery query);
 	
+	List<Organization> listOrganizationByUser(@Param("user") String user);
+	
 	Organization getOrganization(@Param("id")String id);
 	
 	Integer getMaxNodeValue();

@@ -32,9 +32,9 @@ public interface RoleDao {
 	
 	public List<Role> listRole(RoleQuery<Role> query);
 	
-	public List<RoleResource> listRoleResourceByObject(@Param("roleObject") String roleObject);
+	public List<RoleResource> listRoleResourceByObject(@Param("roleObject") String roleObject,@Param("roleObjectType") String roleObjectType);
 
-	public List<Role> listRoleByObject(@Param("roleObject") String roleObject);
+	public List<Role> listRoleByObject(@Param("roleObject") String roleObject,@Param("roleObjectType") String roleObjectType);
 	
 	public List<Map<String,String>> listRoleResourceMap();
 

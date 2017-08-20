@@ -36,7 +36,6 @@ public interface RoleService {
 	 * @param roleObject 角色关联对象，可能为比如用户ID等通用的、表示角色拥有者特征的唯一标识。
 	 * @return 关联对象所属的所有资源对象
 	 */
-	List<RoleResource> listRoleResourceByObject(String roleObject);
 	List<RoleResource> listRoleResourceByObject(String roleObject,String roleObjectType);
 	
 	
@@ -48,7 +47,6 @@ public interface RoleService {
 //	 * @param roleObjectType 角色对象类型
 	 * @return 关联对象所属的所有角色对象
 	 */
-	List<Role> listRoleByObject(String roleObject);
 	List<Role> listRoleByObject(String roleObject,String roleObjectType);
 	
 	/**

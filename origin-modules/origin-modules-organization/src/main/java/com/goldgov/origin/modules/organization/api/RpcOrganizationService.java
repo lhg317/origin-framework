@@ -22,6 +22,8 @@ public class RpcOrganizationService {
 
     public RpcOrganizationQuery listOrganization(RpcOrganizationQuery query) throws org.apache.thrift.TException;
 
+    public java.util.List<RpcOrganization> listOrganizationByUser(java.lang.String user) throws org.apache.thrift.TException;
+
     public void addOrgUser(java.lang.String orgID, java.util.List<java.lang.String> users) throws org.apache.thrift.TException;
 
     public void deleteOrgUser(java.util.List<java.lang.String> orgUserID) throws org.apache.thrift.TException;
@@ -57,6 +59,8 @@ public class RpcOrganizationService {
     public void getOrganization(java.lang.String id, org.apache.thrift.async.AsyncMethodCallback<RpcOrganization> resultHandler) throws org.apache.thrift.TException;
 
     public void listOrganization(RpcOrganizationQuery query, org.apache.thrift.async.AsyncMethodCallback<RpcOrganizationQuery> resultHandler) throws org.apache.thrift.TException;
+
+    public void listOrganizationByUser(java.lang.String user, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcOrganization>> resultHandler) throws org.apache.thrift.TException;
 
     public void addOrgUser(java.lang.String orgID, java.util.List<java.lang.String> users, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -209,6 +213,29 @@ public class RpcOrganizationService {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listOrganization failed: unknown result");
+    }
+
+    public java.util.List<RpcOrganization> listOrganizationByUser(java.lang.String user) throws org.apache.thrift.TException
+    {
+      send_listOrganizationByUser(user);
+      return recv_listOrganizationByUser();
+    }
+
+    public void send_listOrganizationByUser(java.lang.String user) throws org.apache.thrift.TException
+    {
+      listOrganizationByUser_args args = new listOrganizationByUser_args();
+      args.setUser(user);
+      sendBase("listOrganizationByUser", args);
+    }
+
+    public java.util.List<RpcOrganization> recv_listOrganizationByUser() throws org.apache.thrift.TException
+    {
+      listOrganizationByUser_result result = new listOrganizationByUser_result();
+      receiveBase(result, "listOrganizationByUser");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listOrganizationByUser failed: unknown result");
     }
 
     public void addOrgUser(java.lang.String orgID, java.util.List<java.lang.String> users) throws org.apache.thrift.TException
@@ -619,6 +646,38 @@ public class RpcOrganizationService {
       }
     }
 
+    public void listOrganizationByUser(java.lang.String user, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcOrganization>> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      listOrganizationByUser_call method_call = new listOrganizationByUser_call(user, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class listOrganizationByUser_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<RpcOrganization>> {
+      private java.lang.String user;
+      public listOrganizationByUser_call(java.lang.String user, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcOrganization>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.user = user;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listOrganizationByUser", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        listOrganizationByUser_args args = new listOrganizationByUser_args();
+        args.setUser(user);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public java.util.List<RpcOrganization> getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_listOrganizationByUser();
+      }
+    }
+
     public void addOrgUser(java.lang.String orgID, java.util.List<java.lang.String> users, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       addOrgUser_call method_call = new addOrgUser_call(orgID, users, resultHandler, this, ___protocolFactory, ___transport);
@@ -1001,6 +1060,7 @@ public class RpcOrganizationService {
       processMap.put("deleteOrganization", new deleteOrganization());
       processMap.put("getOrganization", new getOrganization());
       processMap.put("listOrganization", new listOrganization());
+      processMap.put("listOrganizationByUser", new listOrganizationByUser());
       processMap.put("addOrgUser", new addOrgUser());
       processMap.put("deleteOrgUser", new deleteOrgUser());
       processMap.put("deleteOrgUserByUser", new deleteOrgUserByUser());
@@ -1111,6 +1171,26 @@ public class RpcOrganizationService {
       public listOrganization_result getResult(I iface, listOrganization_args args) throws org.apache.thrift.TException {
         listOrganization_result result = new listOrganization_result();
         result.success = iface.listOrganization(args.query);
+        return result;
+      }
+    }
+
+    public static class listOrganizationByUser<I extends Iface> extends org.apache.thrift.ProcessFunction<I, listOrganizationByUser_args> {
+      public listOrganizationByUser() {
+        super("listOrganizationByUser");
+      }
+
+      public listOrganizationByUser_args getEmptyArgsInstance() {
+        return new listOrganizationByUser_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public listOrganizationByUser_result getResult(I iface, listOrganizationByUser_args args) throws org.apache.thrift.TException {
+        listOrganizationByUser_result result = new listOrganizationByUser_result();
+        result.success = iface.listOrganizationByUser(args.user);
         return result;
       }
     }
@@ -1353,6 +1433,7 @@ public class RpcOrganizationService {
       processMap.put("deleteOrganization", new deleteOrganization());
       processMap.put("getOrganization", new getOrganization());
       processMap.put("listOrganization", new listOrganization());
+      processMap.put("listOrganizationByUser", new listOrganizationByUser());
       processMap.put("addOrgUser", new addOrgUser());
       processMap.put("deleteOrgUser", new deleteOrgUser());
       processMap.put("deleteOrgUserByUser", new deleteOrgUserByUser());
@@ -1667,6 +1748,67 @@ public class RpcOrganizationService {
 
       public void start(I iface, listOrganization_args args, org.apache.thrift.async.AsyncMethodCallback<RpcOrganizationQuery> resultHandler) throws org.apache.thrift.TException {
         iface.listOrganization(args.query,resultHandler);
+      }
+    }
+
+    public static class listOrganizationByUser<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, listOrganizationByUser_args, java.util.List<RpcOrganization>> {
+      public listOrganizationByUser() {
+        super("listOrganizationByUser");
+      }
+
+      public listOrganizationByUser_args getEmptyArgsInstance() {
+        return new listOrganizationByUser_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcOrganization>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcOrganization>>() { 
+          public void onComplete(java.util.List<RpcOrganization> o) {
+            listOrganizationByUser_result result = new listOrganizationByUser_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            listOrganizationByUser_result result = new listOrganizationByUser_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, listOrganizationByUser_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<RpcOrganization>> resultHandler) throws org.apache.thrift.TException {
+        iface.listOrganizationByUser(args.user,resultHandler);
       }
     }
 
@@ -5776,6 +5918,778 @@ public class RpcOrganizationService {
     }
   }
 
+  public static class listOrganizationByUser_args implements org.apache.thrift.TBase<listOrganizationByUser_args, listOrganizationByUser_args._Fields>, java.io.Serializable, Cloneable, Comparable<listOrganizationByUser_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listOrganizationByUser_args");
+
+    private static final org.apache.thrift.protocol.TField USER_FIELD_DESC = new org.apache.thrift.protocol.TField("user", org.apache.thrift.protocol.TType.STRING, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new listOrganizationByUser_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new listOrganizationByUser_argsTupleSchemeFactory();
+
+    private java.lang.String user; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      USER((short)1, "user");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // USER
+            return USER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.USER, new org.apache.thrift.meta_data.FieldMetaData("user", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listOrganizationByUser_args.class, metaDataMap);
+    }
+
+    public listOrganizationByUser_args() {
+    }
+
+    public listOrganizationByUser_args(
+      java.lang.String user)
+    {
+      this();
+      this.user = user;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public listOrganizationByUser_args(listOrganizationByUser_args other) {
+      if (other.isSetUser()) {
+        this.user = other.user;
+      }
+    }
+
+    public listOrganizationByUser_args deepCopy() {
+      return new listOrganizationByUser_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.user = null;
+    }
+
+    public java.lang.String getUser() {
+      return this.user;
+    }
+
+    public void setUser(java.lang.String user) {
+      this.user = user;
+    }
+
+    public void unsetUser() {
+      this.user = null;
+    }
+
+    /** Returns true if field user is set (has been assigned a value) and false otherwise */
+    public boolean isSetUser() {
+      return this.user != null;
+    }
+
+    public void setUserIsSet(boolean value) {
+      if (!value) {
+        this.user = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, java.lang.Object value) {
+      switch (field) {
+      case USER:
+        if (value == null) {
+          unsetUser();
+        } else {
+          setUser((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case USER:
+        return getUser();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case USER:
+        return isSetUser();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof listOrganizationByUser_args)
+        return this.equals((listOrganizationByUser_args)that);
+      return false;
+    }
+
+    public boolean equals(listOrganizationByUser_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_user = true && this.isSetUser();
+      boolean that_present_user = true && that.isSetUser();
+      if (this_present_user || that_present_user) {
+        if (!(this_present_user && that_present_user))
+          return false;
+        if (!this.user.equals(that.user))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetUser()) ? 131071 : 524287);
+      if (isSetUser())
+        hashCode = hashCode * 8191 + user.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(listOrganizationByUser_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.valueOf(isSetUser()).compareTo(other.isSetUser());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUser()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.user, other.user);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("listOrganizationByUser_args(");
+      boolean first = true;
+
+      sb.append("user:");
+      if (this.user == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.user);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class listOrganizationByUser_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listOrganizationByUser_argsStandardScheme getScheme() {
+        return new listOrganizationByUser_argsStandardScheme();
+      }
+    }
+
+    private static class listOrganizationByUser_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<listOrganizationByUser_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, listOrganizationByUser_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // USER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.user = iprot.readString();
+                struct.setUserIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, listOrganizationByUser_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.user != null) {
+          oprot.writeFieldBegin(USER_FIELD_DESC);
+          oprot.writeString(struct.user);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class listOrganizationByUser_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listOrganizationByUser_argsTupleScheme getScheme() {
+        return new listOrganizationByUser_argsTupleScheme();
+      }
+    }
+
+    private static class listOrganizationByUser_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<listOrganizationByUser_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, listOrganizationByUser_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetUser()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetUser()) {
+          oprot.writeString(struct.user);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, listOrganizationByUser_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.user = iprot.readString();
+          struct.setUserIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class listOrganizationByUser_result implements org.apache.thrift.TBase<listOrganizationByUser_result, listOrganizationByUser_result._Fields>, java.io.Serializable, Cloneable, Comparable<listOrganizationByUser_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listOrganizationByUser_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new listOrganizationByUser_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new listOrganizationByUser_resultTupleSchemeFactory();
+
+    private java.util.List<RpcOrganization> success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RpcOrganization.class))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listOrganizationByUser_result.class, metaDataMap);
+    }
+
+    public listOrganizationByUser_result() {
+    }
+
+    public listOrganizationByUser_result(
+      java.util.List<RpcOrganization> success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public listOrganizationByUser_result(listOrganizationByUser_result other) {
+      if (other.isSetSuccess()) {
+        java.util.List<RpcOrganization> __this__success = new java.util.ArrayList<RpcOrganization>(other.success.size());
+        for (RpcOrganization other_element : other.success) {
+          __this__success.add(new RpcOrganization(other_element));
+        }
+        this.success = __this__success;
+      }
+    }
+
+    public listOrganizationByUser_result deepCopy() {
+      return new listOrganizationByUser_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public int getSuccessSize() {
+      return (this.success == null) ? 0 : this.success.size();
+    }
+
+    public java.util.Iterator<RpcOrganization> getSuccessIterator() {
+      return (this.success == null) ? null : this.success.iterator();
+    }
+
+    public void addToSuccess(RpcOrganization elem) {
+      if (this.success == null) {
+        this.success = new java.util.ArrayList<RpcOrganization>();
+      }
+      this.success.add(elem);
+    }
+
+    public java.util.List<RpcOrganization> getSuccess() {
+      return this.success;
+    }
+
+    public void setSuccess(java.util.List<RpcOrganization> success) {
+      this.success = success;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.util.List<RpcOrganization>)value);
+        }
+        break;
+
+      }
+    }
+
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof listOrganizationByUser_result)
+        return this.equals((listOrganizationByUser_result)that);
+      return false;
+    }
+
+    public boolean equals(listOrganizationByUser_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(listOrganizationByUser_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("listOrganizationByUser_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class listOrganizationByUser_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listOrganizationByUser_resultStandardScheme getScheme() {
+        return new listOrganizationByUser_resultStandardScheme();
+      }
+    }
+
+    private static class listOrganizationByUser_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<listOrganizationByUser_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, listOrganizationByUser_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+                {
+                  org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<RpcOrganization>(_list24.size);
+                  RpcOrganization _elem25;
+                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
+                  {
+                    _elem25 = new RpcOrganization();
+                    _elem25.read(iprot);
+                    struct.success.add(_elem25);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, listOrganizationByUser_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
+            for (RpcOrganization _iter27 : struct.success)
+            {
+              _iter27.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class listOrganizationByUser_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public listOrganizationByUser_resultTupleScheme getScheme() {
+        return new listOrganizationByUser_resultTupleScheme();
+      }
+    }
+
+    private static class listOrganizationByUser_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<listOrganizationByUser_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, listOrganizationByUser_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          {
+            oprot.writeI32(struct.success.size());
+            for (RpcOrganization _iter28 : struct.success)
+            {
+              _iter28.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, listOrganizationByUser_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          {
+            org.apache.thrift.protocol.TList _list29 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new java.util.ArrayList<RpcOrganization>(_list29.size);
+            RpcOrganization _elem30;
+            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
+            {
+              _elem30 = new RpcOrganization();
+              _elem30.read(iprot);
+              struct.success.add(_elem30);
+            }
+          }
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
   public static class addOrgUser_args implements org.apache.thrift.TBase<addOrgUser_args, addOrgUser_args._Fields>, java.io.Serializable, Cloneable, Comparable<addOrgUser_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("addOrgUser_args");
 
@@ -6174,13 +7088,13 @@ public class RpcOrganizationService {
             case 2: // USERS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
-                  struct.users = new java.util.ArrayList<java.lang.String>(_list24.size);
-                  java.lang.String _elem25;
-                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
+                  org.apache.thrift.protocol.TList _list32 = iprot.readListBegin();
+                  struct.users = new java.util.ArrayList<java.lang.String>(_list32.size);
+                  java.lang.String _elem33;
+                  for (int _i34 = 0; _i34 < _list32.size; ++_i34)
                   {
-                    _elem25 = iprot.readString();
-                    struct.users.add(_elem25);
+                    _elem33 = iprot.readString();
+                    struct.users.add(_elem33);
                   }
                   iprot.readListEnd();
                 }
@@ -6211,9 +7125,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(USERS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.users.size()));
-            for (java.lang.String _iter27 : struct.users)
+            for (java.lang.String _iter35 : struct.users)
             {
-              oprot.writeString(_iter27);
+              oprot.writeString(_iter35);
             }
             oprot.writeListEnd();
           }
@@ -6250,9 +7164,9 @@ public class RpcOrganizationService {
         if (struct.isSetUsers()) {
           {
             oprot.writeI32(struct.users.size());
-            for (java.lang.String _iter28 : struct.users)
+            for (java.lang.String _iter36 : struct.users)
             {
-              oprot.writeString(_iter28);
+              oprot.writeString(_iter36);
             }
           }
         }
@@ -6268,13 +7182,13 @@ public class RpcOrganizationService {
         }
         if (incoming.get(1)) {
           {
-            org.apache.thrift.protocol.TList _list29 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.users = new java.util.ArrayList<java.lang.String>(_list29.size);
-            java.lang.String _elem30;
-            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
+            org.apache.thrift.protocol.TList _list37 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.users = new java.util.ArrayList<java.lang.String>(_list37.size);
+            java.lang.String _elem38;
+            for (int _i39 = 0; _i39 < _list37.size; ++_i39)
             {
-              _elem30 = iprot.readString();
-              struct.users.add(_elem30);
+              _elem38 = iprot.readString();
+              struct.users.add(_elem38);
             }
           }
           struct.setUsersIsSet(true);
@@ -6845,13 +7759,13 @@ public class RpcOrganizationService {
             case 1: // ORG_USER_ID
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list32 = iprot.readListBegin();
-                  struct.orgUserID = new java.util.ArrayList<java.lang.String>(_list32.size);
-                  java.lang.String _elem33;
-                  for (int _i34 = 0; _i34 < _list32.size; ++_i34)
+                  org.apache.thrift.protocol.TList _list40 = iprot.readListBegin();
+                  struct.orgUserID = new java.util.ArrayList<java.lang.String>(_list40.size);
+                  java.lang.String _elem41;
+                  for (int _i42 = 0; _i42 < _list40.size; ++_i42)
                   {
-                    _elem33 = iprot.readString();
-                    struct.orgUserID.add(_elem33);
+                    _elem41 = iprot.readString();
+                    struct.orgUserID.add(_elem41);
                   }
                   iprot.readListEnd();
                 }
@@ -6877,9 +7791,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(ORG_USER_ID_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.orgUserID.size()));
-            for (java.lang.String _iter35 : struct.orgUserID)
+            for (java.lang.String _iter43 : struct.orgUserID)
             {
-              oprot.writeString(_iter35);
+              oprot.writeString(_iter43);
             }
             oprot.writeListEnd();
           }
@@ -6910,9 +7824,9 @@ public class RpcOrganizationService {
         if (struct.isSetOrgUserID()) {
           {
             oprot.writeI32(struct.orgUserID.size());
-            for (java.lang.String _iter36 : struct.orgUserID)
+            for (java.lang.String _iter44 : struct.orgUserID)
             {
-              oprot.writeString(_iter36);
+              oprot.writeString(_iter44);
             }
           }
         }
@@ -6924,13 +7838,13 @@ public class RpcOrganizationService {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list37 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.orgUserID = new java.util.ArrayList<java.lang.String>(_list37.size);
-            java.lang.String _elem38;
-            for (int _i39 = 0; _i39 < _list37.size; ++_i39)
+            org.apache.thrift.protocol.TList _list45 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.orgUserID = new java.util.ArrayList<java.lang.String>(_list45.size);
+            java.lang.String _elem46;
+            for (int _i47 = 0; _i47 < _list45.size; ++_i47)
             {
-              _elem38 = iprot.readString();
-              struct.orgUserID.add(_elem38);
+              _elem46 = iprot.readString();
+              struct.orgUserID.add(_elem46);
             }
           }
           struct.setOrgUserIDIsSet(true);
@@ -7589,13 +8503,13 @@ public class RpcOrganizationService {
             case 2: // USERS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list40 = iprot.readListBegin();
-                  struct.users = new java.util.ArrayList<java.lang.String>(_list40.size);
-                  java.lang.String _elem41;
-                  for (int _i42 = 0; _i42 < _list40.size; ++_i42)
+                  org.apache.thrift.protocol.TList _list48 = iprot.readListBegin();
+                  struct.users = new java.util.ArrayList<java.lang.String>(_list48.size);
+                  java.lang.String _elem49;
+                  for (int _i50 = 0; _i50 < _list48.size; ++_i50)
                   {
-                    _elem41 = iprot.readString();
-                    struct.users.add(_elem41);
+                    _elem49 = iprot.readString();
+                    struct.users.add(_elem49);
                   }
                   iprot.readListEnd();
                 }
@@ -7626,9 +8540,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(USERS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.users.size()));
-            for (java.lang.String _iter43 : struct.users)
+            for (java.lang.String _iter51 : struct.users)
             {
-              oprot.writeString(_iter43);
+              oprot.writeString(_iter51);
             }
             oprot.writeListEnd();
           }
@@ -7665,9 +8579,9 @@ public class RpcOrganizationService {
         if (struct.isSetUsers()) {
           {
             oprot.writeI32(struct.users.size());
-            for (java.lang.String _iter44 : struct.users)
+            for (java.lang.String _iter52 : struct.users)
             {
-              oprot.writeString(_iter44);
+              oprot.writeString(_iter52);
             }
           }
         }
@@ -7683,13 +8597,13 @@ public class RpcOrganizationService {
         }
         if (incoming.get(1)) {
           {
-            org.apache.thrift.protocol.TList _list45 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.users = new java.util.ArrayList<java.lang.String>(_list45.size);
-            java.lang.String _elem46;
-            for (int _i47 = 0; _i47 < _list45.size; ++_i47)
+            org.apache.thrift.protocol.TList _list53 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.users = new java.util.ArrayList<java.lang.String>(_list53.size);
+            java.lang.String _elem54;
+            for (int _i55 = 0; _i55 < _list53.size; ++_i55)
             {
-              _elem46 = iprot.readString();
-              struct.users.add(_elem46);
+              _elem54 = iprot.readString();
+              struct.users.add(_elem54);
             }
           }
           struct.setUsersIsSet(true);
@@ -8872,13 +9786,13 @@ public class RpcOrganizationService {
             case 1: // IDS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list48 = iprot.readListBegin();
-                  struct.ids = new java.util.ArrayList<java.lang.String>(_list48.size);
-                  java.lang.String _elem49;
-                  for (int _i50 = 0; _i50 < _list48.size; ++_i50)
+                  org.apache.thrift.protocol.TList _list56 = iprot.readListBegin();
+                  struct.ids = new java.util.ArrayList<java.lang.String>(_list56.size);
+                  java.lang.String _elem57;
+                  for (int _i58 = 0; _i58 < _list56.size; ++_i58)
                   {
-                    _elem49 = iprot.readString();
-                    struct.ids.add(_elem49);
+                    _elem57 = iprot.readString();
+                    struct.ids.add(_elem57);
                   }
                   iprot.readListEnd();
                 }
@@ -8904,9 +9818,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(IDS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.ids.size()));
-            for (java.lang.String _iter51 : struct.ids)
+            for (java.lang.String _iter59 : struct.ids)
             {
-              oprot.writeString(_iter51);
+              oprot.writeString(_iter59);
             }
             oprot.writeListEnd();
           }
@@ -8937,9 +9851,9 @@ public class RpcOrganizationService {
         if (struct.isSetIds()) {
           {
             oprot.writeI32(struct.ids.size());
-            for (java.lang.String _iter52 : struct.ids)
+            for (java.lang.String _iter60 : struct.ids)
             {
-              oprot.writeString(_iter52);
+              oprot.writeString(_iter60);
             }
           }
         }
@@ -8951,13 +9865,13 @@ public class RpcOrganizationService {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list53 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.ids = new java.util.ArrayList<java.lang.String>(_list53.size);
-            java.lang.String _elem54;
-            for (int _i55 = 0; _i55 < _list53.size; ++_i55)
+            org.apache.thrift.protocol.TList _list61 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.ids = new java.util.ArrayList<java.lang.String>(_list61.size);
+            java.lang.String _elem62;
+            for (int _i63 = 0; _i63 < _list61.size; ++_i63)
             {
-              _elem54 = iprot.readString();
-              struct.ids.add(_elem54);
+              _elem62 = iprot.readString();
+              struct.ids.add(_elem62);
             }
           }
           struct.setIdsIsSet(true);
@@ -10502,14 +11416,14 @@ public class RpcOrganizationService {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list56 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<RpcOrganizationPost>(_list56.size);
-                  RpcOrganizationPost _elem57;
-                  for (int _i58 = 0; _i58 < _list56.size; ++_i58)
+                  org.apache.thrift.protocol.TList _list64 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<RpcOrganizationPost>(_list64.size);
+                  RpcOrganizationPost _elem65;
+                  for (int _i66 = 0; _i66 < _list64.size; ++_i66)
                   {
-                    _elem57 = new RpcOrganizationPost();
-                    _elem57.read(iprot);
-                    struct.success.add(_elem57);
+                    _elem65 = new RpcOrganizationPost();
+                    _elem65.read(iprot);
+                    struct.success.add(_elem65);
                   }
                   iprot.readListEnd();
                 }
@@ -10535,9 +11449,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (RpcOrganizationPost _iter59 : struct.success)
+            for (RpcOrganizationPost _iter67 : struct.success)
             {
-              _iter59.write(oprot);
+              _iter67.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -10568,9 +11482,9 @@ public class RpcOrganizationService {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (RpcOrganizationPost _iter60 : struct.success)
+            for (RpcOrganizationPost _iter68 : struct.success)
             {
-              _iter60.write(oprot);
+              _iter68.write(oprot);
             }
           }
         }
@@ -10582,14 +11496,14 @@ public class RpcOrganizationService {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list61 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.success = new java.util.ArrayList<RpcOrganizationPost>(_list61.size);
-            RpcOrganizationPost _elem62;
-            for (int _i63 = 0; _i63 < _list61.size; ++_i63)
+            org.apache.thrift.protocol.TList _list69 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new java.util.ArrayList<RpcOrganizationPost>(_list69.size);
+            RpcOrganizationPost _elem70;
+            for (int _i71 = 0; _i71 < _list69.size; ++_i71)
             {
-              _elem62 = new RpcOrganizationPost();
-              _elem62.read(iprot);
-              struct.success.add(_elem62);
+              _elem70 = new RpcOrganizationPost();
+              _elem70.read(iprot);
+              struct.success.add(_elem70);
             }
           }
           struct.setSuccessIsSet(true);
@@ -11723,13 +12637,13 @@ public class RpcOrganizationService {
             case 2: // USERS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list64 = iprot.readListBegin();
-                  struct.users = new java.util.ArrayList<java.lang.String>(_list64.size);
-                  java.lang.String _elem65;
-                  for (int _i66 = 0; _i66 < _list64.size; ++_i66)
+                  org.apache.thrift.protocol.TList _list72 = iprot.readListBegin();
+                  struct.users = new java.util.ArrayList<java.lang.String>(_list72.size);
+                  java.lang.String _elem73;
+                  for (int _i74 = 0; _i74 < _list72.size; ++_i74)
                   {
-                    _elem65 = iprot.readString();
-                    struct.users.add(_elem65);
+                    _elem73 = iprot.readString();
+                    struct.users.add(_elem73);
                   }
                   iprot.readListEnd();
                 }
@@ -11760,9 +12674,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(USERS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.users.size()));
-            for (java.lang.String _iter67 : struct.users)
+            for (java.lang.String _iter75 : struct.users)
             {
-              oprot.writeString(_iter67);
+              oprot.writeString(_iter75);
             }
             oprot.writeListEnd();
           }
@@ -11799,9 +12713,9 @@ public class RpcOrganizationService {
         if (struct.isSetUsers()) {
           {
             oprot.writeI32(struct.users.size());
-            for (java.lang.String _iter68 : struct.users)
+            for (java.lang.String _iter76 : struct.users)
             {
-              oprot.writeString(_iter68);
+              oprot.writeString(_iter76);
             }
           }
         }
@@ -11817,13 +12731,13 @@ public class RpcOrganizationService {
         }
         if (incoming.get(1)) {
           {
-            org.apache.thrift.protocol.TList _list69 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.users = new java.util.ArrayList<java.lang.String>(_list69.size);
-            java.lang.String _elem70;
-            for (int _i71 = 0; _i71 < _list69.size; ++_i71)
+            org.apache.thrift.protocol.TList _list77 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.users = new java.util.ArrayList<java.lang.String>(_list77.size);
+            java.lang.String _elem78;
+            for (int _i79 = 0; _i79 < _list77.size; ++_i79)
             {
-              _elem70 = iprot.readString();
-              struct.users.add(_elem70);
+              _elem78 = iprot.readString();
+              struct.users.add(_elem78);
             }
           }
           struct.setUsersIsSet(true);
@@ -12394,13 +13308,13 @@ public class RpcOrganizationService {
             case 1: // POST_USER_ID
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list72 = iprot.readListBegin();
-                  struct.postUserID = new java.util.ArrayList<java.lang.String>(_list72.size);
-                  java.lang.String _elem73;
-                  for (int _i74 = 0; _i74 < _list72.size; ++_i74)
+                  org.apache.thrift.protocol.TList _list80 = iprot.readListBegin();
+                  struct.postUserID = new java.util.ArrayList<java.lang.String>(_list80.size);
+                  java.lang.String _elem81;
+                  for (int _i82 = 0; _i82 < _list80.size; ++_i82)
                   {
-                    _elem73 = iprot.readString();
-                    struct.postUserID.add(_elem73);
+                    _elem81 = iprot.readString();
+                    struct.postUserID.add(_elem81);
                   }
                   iprot.readListEnd();
                 }
@@ -12426,9 +13340,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(POST_USER_ID_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.postUserID.size()));
-            for (java.lang.String _iter75 : struct.postUserID)
+            for (java.lang.String _iter83 : struct.postUserID)
             {
-              oprot.writeString(_iter75);
+              oprot.writeString(_iter83);
             }
             oprot.writeListEnd();
           }
@@ -12459,9 +13373,9 @@ public class RpcOrganizationService {
         if (struct.isSetPostUserID()) {
           {
             oprot.writeI32(struct.postUserID.size());
-            for (java.lang.String _iter76 : struct.postUserID)
+            for (java.lang.String _iter84 : struct.postUserID)
             {
-              oprot.writeString(_iter76);
+              oprot.writeString(_iter84);
             }
           }
         }
@@ -12473,13 +13387,13 @@ public class RpcOrganizationService {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list77 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.postUserID = new java.util.ArrayList<java.lang.String>(_list77.size);
-            java.lang.String _elem78;
-            for (int _i79 = 0; _i79 < _list77.size; ++_i79)
+            org.apache.thrift.protocol.TList _list85 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.postUserID = new java.util.ArrayList<java.lang.String>(_list85.size);
+            java.lang.String _elem86;
+            for (int _i87 = 0; _i87 < _list85.size; ++_i87)
             {
-              _elem78 = iprot.readString();
-              struct.postUserID.add(_elem78);
+              _elem86 = iprot.readString();
+              struct.postUserID.add(_elem86);
             }
           }
           struct.setPostUserIDIsSet(true);
@@ -13138,13 +14052,13 @@ public class RpcOrganizationService {
             case 2: // USERS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list80 = iprot.readListBegin();
-                  struct.users = new java.util.ArrayList<java.lang.String>(_list80.size);
-                  java.lang.String _elem81;
-                  for (int _i82 = 0; _i82 < _list80.size; ++_i82)
+                  org.apache.thrift.protocol.TList _list88 = iprot.readListBegin();
+                  struct.users = new java.util.ArrayList<java.lang.String>(_list88.size);
+                  java.lang.String _elem89;
+                  for (int _i90 = 0; _i90 < _list88.size; ++_i90)
                   {
-                    _elem81 = iprot.readString();
-                    struct.users.add(_elem81);
+                    _elem89 = iprot.readString();
+                    struct.users.add(_elem89);
                   }
                   iprot.readListEnd();
                 }
@@ -13175,9 +14089,9 @@ public class RpcOrganizationService {
           oprot.writeFieldBegin(USERS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.users.size()));
-            for (java.lang.String _iter83 : struct.users)
+            for (java.lang.String _iter91 : struct.users)
             {
-              oprot.writeString(_iter83);
+              oprot.writeString(_iter91);
             }
             oprot.writeListEnd();
           }
@@ -13214,9 +14128,9 @@ public class RpcOrganizationService {
         if (struct.isSetUsers()) {
           {
             oprot.writeI32(struct.users.size());
-            for (java.lang.String _iter84 : struct.users)
+            for (java.lang.String _iter92 : struct.users)
             {
-              oprot.writeString(_iter84);
+              oprot.writeString(_iter92);
             }
           }
         }
@@ -13232,13 +14146,13 @@ public class RpcOrganizationService {
         }
         if (incoming.get(1)) {
           {
-            org.apache.thrift.protocol.TList _list85 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-            struct.users = new java.util.ArrayList<java.lang.String>(_list85.size);
-            java.lang.String _elem86;
-            for (int _i87 = 0; _i87 < _list85.size; ++_i87)
+            org.apache.thrift.protocol.TList _list93 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+            struct.users = new java.util.ArrayList<java.lang.String>(_list93.size);
+            java.lang.String _elem94;
+            for (int _i95 = 0; _i95 < _list93.size; ++_i95)
             {
-              _elem86 = iprot.readString();
-              struct.users.add(_elem86);
+              _elem94 = iprot.readString();
+              struct.users.add(_elem94);
             }
           }
           struct.setUsersIsSet(true);

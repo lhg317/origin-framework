@@ -68,15 +68,15 @@ public class RpcRoleServiceImpl implements RpcRoleService.Iface{
 	}
 
 	@Override
-	public List<RpcRole> listRoleByObject(String roleObject) throws TException {
-		List<Role> roleList = roleService.listRoleByObject(roleObject);
+	public List<RpcRole> listRoleByObject(String roleObject,String objectType) throws TException {
+		List<Role> roleList = roleService.listRoleByObject(roleObject,objectType);
 		List<RpcRole> resultList = ResultSetUtils.convertToRpc(roleList, roleConverter);
 		return resultList;
 	}
 
 	@Override
-	public List<RpcRoleResource> listRoleResourceByObject(String roleObject) throws TException {
-		List<RoleResource> roleResourceList = roleService.listRoleResourceByObject(roleObject);
+	public List<RpcRoleResource> listRoleResourceByObject(String roleObject,String roleObjectType) throws TException {
+		List<RoleResource> roleResourceList = roleService.listRoleResourceByObject(roleObject,roleObjectType);
 		List<RpcRoleResource> resultList = new ArrayList<>();
 		for (RoleResource roleResource : roleResourceList) {
 			RpcRoleResource rpcRoleResource = new RpcRoleResource();
