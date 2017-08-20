@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import com.goldgov.origin.core.web.freemarker.model.I18nTemplateModel;
 import com.goldgov.origin.core.web.freemarker.model.ResourceTemplateModel;
+import com.goldgov.origin.core.web.freemarker.model.ThriftFieldValueTemplateModel;
 import com.goldgov.origin.core.web.freemarker.model.WebTokenTemplateModel;
 
 import freemarker.template.SimpleHash;
@@ -35,6 +36,8 @@ public class PuzzleFreeMarkerView extends FreeMarkerView{
 		templateModel.put("res", new ResourceTemplateModel(request,resourceUrlProvider));
 		
 //		templateModel.put("localContextPath", request.getContextPath());
+		
+		templateModel.put("out", new ThriftFieldValueTemplateModel());
 		
 		return templateModel;
 	}
