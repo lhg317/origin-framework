@@ -31,8 +31,11 @@ import com.goldgov.origin.core.dao.mybatis.StatementHandlerInterceptor;
 //@Import(C3p0DataSourceConfig.class)
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
-public class MyBatisConfiguration {
+public class MyBatisConfiguration {//implements ApplicationContextAware{
 	
+	
+//	private ApplicationContext applicationContext;
+
 	@Bean("mapperScannerConfigurer")
 	public MapperScannerConfigurer mapperScannerConfigurer(){
 		MapperScannerConfigurer scannerConfig = new MapperScannerConfigurer();
@@ -45,12 +48,11 @@ public class MyBatisConfiguration {
 		return scannerConfig;
 	}
 	
-	@Bean("sqlSessionFactoryBean")
+	@Bean("sqlSessionFactoryBean")//@Qualifier("dataSource") DataSource dataSource,
 	public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dataSource") DataSource dataSource,VendorDatabaseIdProvider provider,Interceptor interceptor){
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDatabaseIdProvider(provider);
 		sessionFactory.setDataSource(dataSource);
-		
 		sessionFactory.setPlugins(new Interceptor[]{interceptor});
 //		sessionFactory.setTypeAliases(new Class<?>[]{MyLanguageDriver.class});
 		
@@ -113,6 +115,33 @@ public class MyBatisConfiguration {
 	        return annos.value();
 		}
 	}
+	
+//	@Bean(name="dataSource")
+//	@Primary
+//	@ConfigurationProperties(prefix="spring.datasource")
+//	public DataSource dataSource(){
+//		DataSource dataSource = DataSourceBuilder.create().build();
+//		ConfigurableEnvironment env = applicationContext.getBean(ConfigurableEnvironment.class);
+//		PropertySourcesPropertyValues propertySourcesPropertyValues = new PropertySourcesPropertyValues(env.getPropertySources());
+//		MutablePropertyValues properties = new MutablePropertyValues(propertySourcesPropertyValues);
+//		new RelaxedDataBinder(dataSource,"spring.datasource").withAlias("url", "jdbcUrl")
+//				.withAlias("username", "user").bind(properties);
+//		return dataSource;
+//	}
+//
+//	@Override
+//	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+//		this.applicationContext = applicationContext;
+//		
+//	}
+
+//	@Override
+//	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+//		DataSource dataSource = (DataSource)beanFactory.getBean("dataSource");
+//		Environment bean = beanFactory.getBean(Environment.class);
+//		beanFactory.autowireBean(dataSource);
+//		sessionFactory.setDataSource(dataSource);
+//	}
 	
 //	@Bean(name="dataSource1")  
 //    @Primary  
