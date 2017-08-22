@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.thrift.TBase;
@@ -60,12 +59,12 @@ public class ThriftFieldValueTemplateModel implements TemplateDirectiveModel{
 		if(rpcObj.isSet(fieldEnum)){
 			Object fieldValue = rpcObj.getFieldValue(fieldEnum);
 			String valueStr = null;
-			if(fieldValue != null){
-				if(fieldValue instanceof Number){
-					numberFormat.applyPattern(formatPattern);
+			if(fieldValue != null && formatPattern != null){
+				if(formatPattern.startsWith("number:")){
+					numberFormat.applyPattern(formatPattern.substring(7));
 					valueStr = numberFormat.format(fieldValue);
-				}else if(fieldValue instanceof Date){
-					dateFormat.applyPattern(formatPattern);
+				}else if(formatPattern.startsWith("date:")){
+					dateFormat.applyPattern(formatPattern.substring(5));
 					valueStr = dateFormat.format(fieldValue);
 				}else{
 					valueStr = fieldValue.toString();
@@ -83,5 +82,5 @@ public class ThriftFieldValueTemplateModel implements TemplateDirectiveModel{
 			}
 		}
 	}
-
+	
 }
