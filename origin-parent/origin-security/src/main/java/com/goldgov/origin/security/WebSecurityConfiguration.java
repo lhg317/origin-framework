@@ -29,6 +29,10 @@ import com.goldgov.origin.security.authentication.OriginAuthenticationProvider;
 import com.goldgov.origin.security.authentication.remote.RemoteAuthenticationProvider;
 import com.goldgov.origin.security.filter.remote.RemoteAuthenticationFilter;
 
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.Configuration;
+import freemarker.template.Version;
+
 @Configurable
 //@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -155,6 +159,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		ApplicationContext context = event.getApplicationContext();
 		FreeMarkerConfigurer bean = context.getBean(FreeMarkerConfigurer.class);
+		bean.getTaglibFactory().setObjectWrapper(new BeansWrapper(Configuration.VERSION_2_3_25));
     	List<String> tldPaths = new ArrayList<>();
     	tldPaths.add("/META-INF/security.tld");
     	bean.getTaglibFactory().setClasspathTlds(tldPaths);
