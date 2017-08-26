@@ -66,19 +66,21 @@ public class BaseDataTemplateModel implements TemplateDirectiveModel{
 				throw new RuntimeException("获取基础数据时发生错误，localeCode:" + localeCode+",categoryCode:" + categoryCode,e);
 			}
 			
-			if(dataName == null && body != null){
-				RpcTreeData rpcTreeData = new RpcTreeData(localeCode.toString(),categoryCode.toString(),listData);
-				env.setVariable("data", beansWrapper.wrap(rpcTreeData));
-				body.render(out);
-				return;
-			}
 			for (RpcBaseData baseData : listData) {
 				dataCache.put(baseData.getDataName(), baseData.getDataValue());
 			}
 		}
 		
-		//FIXME NULL POINTER
-		out.write(dataCache.get(dataName.toString()));
+		if(dataName == null && body != null){
+			RpcTreeData rpcTreeData = new RpcTreeData(localeCode.toString(),categoryCode.toString(),listData);
+			env.setVariable("data", beansWrapper.wrap(rpcTreeData));
+			body.render(out);
+			return;
+		}
+		
+		if(dataName != null){
+			out.write(dataCache.get(dataName.toString()));
+		}
 		
 	}
 	

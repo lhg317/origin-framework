@@ -37,7 +37,7 @@
 		d.DATA_NAME,
 		v.DATA_VALUE,
 		d.DESCRIPTION,
-		v.ORDER_NUM,
+		d.ORDER_NUM,
 		d.NODE_VALUE,
 		d.NODE_PATH,
 		d.PARENT_ID,
@@ -86,16 +86,16 @@
 			<bind name="parentData.dataID" value="dataID"/>
 		</if>
 		INSERT INTO BASE_DATA
-		(CATEGORY_ID,DATA_ID,DATA_NAME,DESCRIPTION,NODE_VALUE,NODE_PATH,PARENT_ID)
+		(CATEGORY_ID,DATA_ID,DATA_NAME,DESCRIPTION,ORDER_NUM,NODE_VALUE,NODE_PATH,PARENT_ID)
 		VALUES
-		(#{dataCategory.categoryID},#{dataID},#{dataName},#{description},#{nodeValue},#{nodePath},#{parentData.dataID})
+		(#{dataCategory.categoryID},#{dataID},#{dataName},#{description},#{orderNum},#{nodeValue},#{nodePath},#{parentData.dataID})
 	</insert>
 	
 	<insert id="addDataValue">
 		INSERT INTO BASE_DATA_VALUE
-		(DATA_VALUE_ID,DATA_ID,DATA_LOCALE_ID,DATA_VALUE,ORDER_NUM)
+		(DATA_VALUE_ID,DATA_ID,DATA_LOCALE_ID,DATA_VALUE)
 		VALUES
-		(uuid(),#{dataID},#{localeID},#{dataValue},#{orderNum})
+		(uuid(),#{dataID},#{localeID},#{dataValue})
 	</insert>
 
 	<delete id="deleteLocale">
@@ -172,12 +172,7 @@
 	</update>
 	
 	<update id="updateDataValue">
-		UPDATE BASE_DATA_VALUE
-		<set>
-			<if test="dataValue != null ">DATA_VALUE = #{dataValue},</if>
-			<if test="orderNum != null ">ORDER_NUM = #{orderNum},</if>
-		</set>
-		WHERE DATA_ID = #{dataID} AND DATA_LOCALE_ID = #{localeID}
+		UPDATE BASE_DATA_VALUE SET DATA_VALUE = #{dataValue} WHERE DATA_ID = #{dataID} AND DATA_LOCALE_ID = #{localeID}
 	</update>
 
 	<select id="listLocale" resultMap="dataLocale">
@@ -199,7 +194,7 @@
 		BASE_DATA_LOCALE l,BASE_DATA d,BASE_DATA_VALUE v,BASE_DATA_CATEGORY c 
 		WHERE
 		c.CATEGORY_ID=d.CATEGORY_ID AND d.DATA_ID=v.DATA_ID AND l.DATA_LOCALE_ID=v.DATA_LOCALE_ID AND l.LOCALE_CODE=#{localeCode} AND c.CATEGORY_CODE=#{categoryCode}
-		ORDER BY v.ORDER_NUM
+		ORDER BY d.ORDER_NUM
 	</select>
 	
 	<select id="listDataByParent" resultMap="data">
@@ -215,7 +210,7 @@
 		</if>
 		 AND l.DATA_LOCALE_ID=v.DATA_LOCALE_ID AND l.LOCALE_CODE=#{localeCode} AND
 		c.CATEGORY_CODE=#{categoryCode}
-		ORDER BY v.ORDER_NUM
+		ORDER BY d.ORDER_NUM
 	</select>
 
 </mapper>
