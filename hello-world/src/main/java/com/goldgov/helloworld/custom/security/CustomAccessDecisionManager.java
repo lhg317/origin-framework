@@ -18,7 +18,7 @@ public class CustomAccessDecisionManager extends BaseAccessDecisionManager {
 	private RpcRoleService.Iface roleService;
 	
 	/**
-	 * key：角色资源编码，value:角色编码
+	 * key：角色编码，value:角色资源编码
 	 */
 	@Override
 	protected Map<String, List<String>> roleResourceMap()throws Exception {
