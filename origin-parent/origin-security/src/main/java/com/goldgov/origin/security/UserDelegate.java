@@ -1,13 +1,15 @@
 package com.goldgov.origin.security;
 
+import java.util.Map;
+
 public interface UserDelegate {
 
-	public String getUserID();
-	public String getLoginName();
-//	public void setLoginName(String loginName);
-	public String getUserName();
-//	public void setUserName(String userName);
-	public String[] getRoles();
-//	public void setRoles(String[] roles);
+	String getUserID();
+	String getLoginName();
+	String getUserName();
+	String[] getRoles();
+	Map<String,Object> getAttributes();
+	void setAttribute(String name,Object value);
+	Object getAttribute(String name);
 	
 }

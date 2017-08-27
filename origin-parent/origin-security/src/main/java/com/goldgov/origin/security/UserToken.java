@@ -1,7 +1,10 @@
 package com.goldgov.origin.security;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,6 +26,8 @@ public class UserToken extends User implements UserDelegate{
 	private final String userName;
 	
 	private final String[] roles;
+	
+	private Map<String,Object> attributes = new HashMap<>();
 
 	
 	public UserToken(String userID,String loginName, String password,String userName) {
@@ -70,4 +75,18 @@ public class UserToken extends User implements UserDelegate{
 		return userID;
 	}
 
+	@Override
+	public Map<String, Object> getAttributes() {
+		return Collections.unmodifiableMap(attributes);
+	}
+	
+	@Override
+	public void setAttribute(String name,Object value){
+		attributes.put(name, value);
+	}
+	
+	@Override
+	public Object getAttribute(String name){
+		return attributes.get(name);
+	}
 }
