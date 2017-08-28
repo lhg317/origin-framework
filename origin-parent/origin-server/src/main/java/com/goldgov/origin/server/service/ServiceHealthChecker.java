@@ -3,6 +3,8 @@ package com.goldgov.origin.server.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.logging.Log;
@@ -31,6 +33,8 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 	
 	private static final int RETRY_INTERVAL = 5000;//毫秒
 	
+	private static final int TRY_NUM = 3;//连接尝试次数
+	
 	private boolean isRunning = true;
 	
 	@Autowired
@@ -48,6 +52,10 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 	
 	private AtomicInteger failTotal = new AtomicInteger(0);
 	
+	private ExecutorService executorService = Executors.newFixedThreadPool(3);
+	
+	private HttpRequestClient httpRequestClient = new HttpRequestClient();
+	
 	@Override
 	public void run() {
 		while(isRunning){
@@ -55,12 +63,14 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 			logger.debug("Health begin check...(" + allServices.size() + ")");
 			for (int i = allServices.size() -1 ; i >= 0 ; i--) {
 				ServiceServer serviceObject = allServices.get(i);
-				if(!doCheck(serviceObject.getRpcServerAddress(),serviceObject.getHealthPath())){
-					logger.debug("Prepare to clear all services under " + serviceObject.getRpcServerAddress());
-//					discoveryServerService.deleteRequiredServiceName(serviceObject.getServerID());
-//					discoveryServerService.deleteOptionalServiceName(serviceObject.getServerID());
-					discoveryServerService.deleteServiceServer(serviceObject.getServerID());
-				}
+				HealthCheckJob healthCheckJob = new HealthCheckJob(serviceObject);
+				executorService.execute(healthCheckJob);
+//				if(!doCheck(serviceObject.getRpcServerAddress(),serviceObject.getHealthPath())){
+//					logger.debug("Prepare to clear all services under " + serviceObject.getRpcServerAddress());
+////					discoveryServerService.deleteRequiredServiceName(serviceObject.getServerID());
+////					discoveryServerService.deleteOptionalServiceName(serviceObject.getServerID());
+//					discoveryServerService.deleteServiceServer(serviceObject.getServerID());
+//				}
 			}
 			checkInterval = Math.max(RETRY_INTERVAL, RETRY_INTERVAL + (RETRY_INTERVAL/2)*(allServices.size() - 1));
 			if(logger.isDebugEnabled()){
@@ -76,40 +86,92 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 		
 	}
 	
-	public boolean doCheck(String host,String path){
-		HttpRequestClient httpRequestClient = new HttpRequestClient();
-		GetRequest request = new GetRequest(path);
-		boolean result = false;
+	class HealthCheckJob implements Runnable{
 		
-		String failReason = null;
-		
-		try {
-			Response response = httpRequestClient.sendRequest(request);
-			/*{"status":"UP",
-			 * "rpcServer":{"status":"UP","port":6666},
-			 * "diskSpace":{"status":"UP","total":196214018048,"free":51779588096,"threshold":10485760},
-			 * "db":{"status":"UP","database":"MySQL","hello":1}}
-			 */
-			if(response.isSuccess()){
-				HealthInfo healthInfo = response.toObject(HealthInfo.class);
-				result = Status.UP.equals(new Status(healthInfo.getStatus()));
+		private final String host;
+		private final String path;
+		private final ServiceServer serviceObject;
+
+		public HealthCheckJob(ServiceServer serviceObject){
+			this.serviceObject = serviceObject;
+			host = serviceObject.getRpcServerAddress();
+			path = serviceObject.getHealthPath();
+		}
+
+		@Override
+		public void run() {
+			int tryNum = TRY_NUM;
+			boolean result = false;
+			String failReason = null;
+			while(!result && tryNum > 0){
+				GetRequest request = new GetRequest(path);
+				try {
+					Response response = httpRequestClient.sendRequest(request);
+					if(response.isSuccess()){
+						HealthInfo healthInfo = response.toObject(HealthInfo.class);
+						result = Status.UP.equals(new Status(healthInfo.getStatus()));
+						break;
+					}
+				} catch (Throwable e) {
+					logger.warn("Health check fail:" + path,e);
+					failReason = e.toString();
+				}
+//				finally{
+//					httpRequestClient.close();
+//				}
+				tryNum--;
+				if(logger.isInfoEnabled()){
+					logger.info("Health check fail,number of retries: " + tryNum +" at " + path);
+				}
 			}
-		} catch (Exception e) {
-			logger.warn("Health check fail:" + path,e);
-			failReason = e.toString();
-		}finally{
-			httpRequestClient.close();
+			
+			if(!result){
+				failTotal.incrementAndGet();
+				failLogList.add(new CheckFailLog(host,failReason));
+				
+				logger.debug("Prepare to clear all services under " + serviceObject.getRpcServerAddress());
+				synchronized (discoveryServerService) {
+					discoveryServerService.deleteServiceServer(serviceObject.getServerID());
+				}
+			}
+			
 		}
-		
-		logger.debug("\t"+ path + " Health check :" + result);
-		
-		if(!result){
-			failTotal.incrementAndGet();
-			failLogList.add(new CheckFailLog(host,failReason));
-		}
-		
-		return result;
 	}
+	
+//	public boolean doCheck(String host,String path){
+//	 	HttpRequestClient httpRequestClient = new HttpRequestClient();
+//		GetRequest request = new GetRequest(path);
+//		boolean result = false;
+//		
+//		String failReason = null;
+//		
+//		try {
+//			Response response = httpRequestClient.sendRequest(request);
+//			/*{"status":"UP",
+//			 * "rpcServer":{"status":"UP","port":6666},
+//			 * "diskSpace":{"status":"UP","total":196214018048,"free":51779588096,"threshold":10485760},
+//			 * "db":{"status":"UP","database":"MySQL","hello":1}}
+//			 */
+//			if(response.isSuccess()){
+//				HealthInfo healthInfo = response.toObject(HealthInfo.class);
+//				result = Status.UP.equals(new Status(healthInfo.getStatus()));
+//			}
+//		} catch (Exception e) {
+//			logger.warn("Health check fail:" + path,e);
+//			failReason = e.toString();
+//		}finally{
+//			httpRequestClient.close();
+//		}
+//		
+//		logger.debug("\t"+ path + " Health check :" + result);
+//		
+//		if(!result){
+//			failTotal.incrementAndGet();
+//			failLogList.add(new CheckFailLog(host,failReason));
+//		}
+//		
+//		return result;
+//	}
 
 	public List<CheckFailLog> getFailLogList(){
 		return failLogList;
