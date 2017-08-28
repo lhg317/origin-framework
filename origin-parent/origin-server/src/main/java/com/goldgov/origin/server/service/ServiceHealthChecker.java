@@ -31,7 +31,7 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 
 	private final Log logger = LogFactory.getLog(getClass());
 	
-	private static final int RETRY_INTERVAL = 5000;//毫秒
+	private static final int RETRY_INTERVAL = 10000;//毫秒
 	
 	private static final int TRY_NUM = 3;//连接尝试次数
 	
@@ -119,10 +119,10 @@ public class ServiceHealthChecker extends Thread implements InitializingBean,Dis
 //				finally{
 //					httpRequestClient.close();
 //				}
-				tryNum--;
 				if(logger.isInfoEnabled()){
 					logger.info("Health check fail,number of retries: " + tryNum +" at " + path);
 				}
+				tryNum--;
 			}
 			
 			if(!result){

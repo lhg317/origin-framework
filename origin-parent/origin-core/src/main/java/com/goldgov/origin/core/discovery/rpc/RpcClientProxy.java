@@ -120,6 +120,7 @@ public class RpcClientProxy<T extends TServiceClient> implements FactoryBean{
 					if(targetException instanceof TApplicationException && ((TApplicationException) targetException).getType() == TApplicationException.MISSING_RESULT){
 						return null;
 					}
+//					targetException.getCause() instanceof java.net.SocketTimeoutException
 				}
 				
 				logger.warn("The current service is not available:" + serviceName, e);
