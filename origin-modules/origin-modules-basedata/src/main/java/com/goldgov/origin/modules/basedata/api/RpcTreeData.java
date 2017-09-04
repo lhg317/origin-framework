@@ -69,7 +69,7 @@ public class RpcTreeData {
 		}
 		
 		subDataMap.put(treeData, treeData.getSubDataList());
-		if(treeData.getSubDataList() == null || treeData.getSubDataList().size() < 0){
+		if(treeData.getSubDataList() == null || treeData.getSubDataList().size() == 0){
 			endPointDataList.add(treeData);
 			treeData.incrementEndPointNum();
 		}
