@@ -17,7 +17,7 @@
 
 <#escape user as user?html>
 <tr>
-	<td><input type="checkbox" name="loginName" value="${user.loginName}"></td>
+	<td><input type="checkbox" name="roleObject" value="${user.loginName}" <#if listRoleObject[user.loginName]??>checked</#if> ></td>
 	<td>${user.userName}</td>
 	<td>${user.loginName}</td>
 	<td>${user.email!}</td>
@@ -26,10 +26,9 @@
 
 </#list>
 </table>
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
 <input type="hidden" name="roleID" value="${RequestParameters['roleID']}"/>
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
-
+<input type="hidden" name="roleObjectType" value="USER"/>
+${csrfToken(true)}
 <button type="submit"><@i18n code="select"/></button>
 </form>
 

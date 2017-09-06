@@ -19,7 +19,7 @@
 	<td>
 		<#list resource.resourceOperateList as operate>
 			<#assign resourceOperate="${resource.resourceCode}_${operate.operateCode}"/>
-			<input id="${resourceOperate}" type="checkbox" name="resourceOperate" value="${resourceOperate}" ><label for="${resourceOperate}"><@i18n code="${operate.operateName}" /></label><br>
+			<input id="${resourceOperate}" type="checkbox" name="resourceOperate" value="${resourceOperate}" <#if roleResources[resourceOperate]??>checked</#if>><label for="${resourceOperate}"><@i18n code="${operate.operateName}" /></label><br>			
 		</#list>
 	</td>
 </tr>
@@ -27,7 +27,7 @@
 
 </#list>
 </table>
-<input type="hidden" name="${Request['_csrf'].parameterName}" value="${Request['_csrf'].token}"/>
+${csrfToken(true)}
 <input type="hidden" name="roleID" value="${RequestParameters['roleID']}"/>
 <button type="submit"><@i18n code="select"/></button> <input type="button" value="<@i18n code="back"/>" onclick="window.open('./listRole','_self')"/>
 </form>
