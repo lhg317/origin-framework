@@ -39,4 +39,5 @@ service RpcRoleService{
 	list<RpcRoleResource> listRoleResourceByObject(1:string roleObject,2:string objectType),	
 	map<string,list<string>> getRoleResourceMap();
 	list<RpcRoleResource> listRoleResourceByRoleID(1:string roleID);
+	list<RpcRoleObject> listRoleObjectByRoleID(1:string roleID,2:string roleObjectType);
 } 

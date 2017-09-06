@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.goldgov.origin.core.dao.Mapper;
 import com.goldgov.origin.modules.role.service.Role;
+import com.goldgov.origin.modules.role.service.RoleObject;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 import com.goldgov.origin.modules.role.service.RoleResource;
 
@@ -35,6 +36,8 @@ public interface RoleDao {
 	public List<RoleResource> listRoleResourceByObject(@Param("roleObject") String roleObject,@Param("roleObjectType") String roleObjectType);
 
 	public List<Role> listRoleByObject(@Param("roleObject") String roleObject,@Param("roleObjectType") String roleObjectType);
+	
+	public List<RoleObject> listRoleObjectByRoleID(@Param("roleID") String roleID,@Param("roleObjectType") String roleObjectType);
 	
 	public List<Map<String,String>> listRoleResourceMap();
 

@@ -19,7 +19,7 @@
 	<td>
 		<#list resource.resourceOperateList as operate>
 			<#assign resourceOperate="${resource.resourceCode}_${operate.operateCode}"/>
-			<input id="${resourceOperate}" type="checkbox" name="resourceOperate" value="${resourceOperate}" ><label for="${resourceOperate}"><@i18n code="${operate.operateName}" /></label><br>
+			<input id="${resourceOperate}" type="checkbox" name="resourceOperate" value="${resourceOperate}" <#if roleResources[resourceOperate]??>checked</#if>><label for="${resourceOperate}"><@i18n code="${operate.operateName}" /></label><br>			
 		</#list>
 	</td>
 </tr>

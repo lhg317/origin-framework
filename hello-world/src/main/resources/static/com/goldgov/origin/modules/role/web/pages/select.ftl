@@ -17,7 +17,7 @@
 
 <#escape user as user?html>
 <tr>
-	<td><input type="checkbox" name="roleObject" value="${user.loginName}"></td>
+	<td><input type="checkbox" name="roleObject" value="${user.loginName}" <#if listRoleObject[user.loginName]??>checked</#if> ></td>
 	<td>${user.userName}</td>
 	<td>${user.loginName}</td>
 	<td>${user.email!}</td>

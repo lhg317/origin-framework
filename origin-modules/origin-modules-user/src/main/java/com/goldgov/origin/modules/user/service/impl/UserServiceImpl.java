@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void deleteUser(String[] ids) {
 		userDao.deleteUser(ids);
+		throw new RuntimeException();
 	}
 
 	@Override

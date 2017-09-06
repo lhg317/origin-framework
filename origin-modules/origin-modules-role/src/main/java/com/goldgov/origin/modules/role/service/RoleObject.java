@@ -5,21 +5,21 @@ public class RoleObject {
 	public static final String USER = "USER";
 	public static final String GROUP = "GROUP";
 	
-	private Integer roleObjectID;
+	private String roleObjectID;
 	private String roleObject;
 	private String type;
-	private Integer roleID;
+	private String roleID;
 	
-	public Integer getRoleObjectID() {
+	public String getRoleObjectID() {
 		return roleObjectID;
 	}
-	public void setRoleObjectID(Integer roleObjectID) {
+	public void setRoleObjectID(String roleObjectID) {
 		this.roleObjectID = roleObjectID;
 	}
-	public Integer getRoleID() {
+	public String getRoleID() {
 		return roleID;
 	}
-	public void setRoleID(Integer roleID) {
+	public void setRoleID(String roleID) {
 		this.roleID = roleID;
 	}
 	public String getRoleObject() {

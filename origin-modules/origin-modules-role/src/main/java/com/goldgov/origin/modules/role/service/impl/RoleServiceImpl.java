@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.goldgov.origin.modules.role.dao.RoleDao;
 import com.goldgov.origin.modules.role.event.SaveRoleResourceEvent;
 import com.goldgov.origin.modules.role.service.Role;
+import com.goldgov.origin.modules.role.service.RoleObject;
 import com.goldgov.origin.modules.role.service.RoleQuery;
 import com.goldgov.origin.modules.role.service.RoleResource;
 import com.goldgov.origin.modules.role.service.RoleService;
@@ -158,6 +159,11 @@ public class RoleServiceImpl implements RoleService,ApplicationContextAware{
 	@Override
 	public List<RoleResource> listRoleResourceByRoleID(String roleID) {
 		return roleDao.listRoleResourceByRoleID(roleID);
+	}
+
+	@Override
+	public List<RoleObject> listRoleObjectByRoleID(String roleID, String roleObjectType) {
+		return roleDao.listRoleObjectByRoleID(roleID, roleObjectType);
 	}
 
 //	@Override

@@ -1,6 +1,8 @@
 package com.goldgov.helloworld.custom.role.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,8 +31,12 @@ public class GetAllResourceHandlerImpl implements GetAllResourceHandler{
 		String roleID = request.getParameter("roleID");
 		
 		List<RpcRoleResource> listRoleResource = roleService.listRoleResourceByRoleID(roleID);
-		
-		model.addAttribute("roleResources", listRoleResource);
+		Map<String,String> resourceOperateMap = new HashMap<String,String>();
+		for (RpcRoleResource rpcRoleResource : listRoleResource) {
+			String resourceOperate = rpcRoleResource.getResourceOperate();
+			resourceOperateMap.put(resourceOperate, resourceOperate);
+		}
+		model.addAttribute("roleResources", resourceOperateMap);
 		model.addAttribute("allResources", allResources);
 		return "com/goldgov/origin/modules/role/web/pages/tree";
 	}

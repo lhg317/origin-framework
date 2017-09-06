@@ -19,8 +19,9 @@
 	
 	<resultMap type="com.goldgov.origin.modules.role.service.RoleObject" id="roleObject">
 		<id column="ROLE_OBJECT_ID" jdbcType="VARCHAR" property="roleObjectID"/>
-		<result column="OBJECT_ID" jdbcType="VARCHAR" property="objectID"/>
-		<result column="ROLE_ID" jdbcType="VARCHAR" property="role_ID"/>
+		<result column="ROLE_OBJECT" jdbcType="VARCHAR" property="roleObject"/>
+		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleID"/>
+		<result column="OBJECT_TYPE" jdbcType="VARCHAR" property="type"/>
 	</resultMap>
 
 	<sql id="roleFields">
@@ -110,8 +111,20 @@
 	</select>
 	
 	<select id="listRoleResourceByRoleID" resultMap="roleResource">
-		SELECT res.ROLE_RESOURCE_ID,res.ROLE_ID,res.RESOURCE_OPERATE FROM ROLE r,ROLE_RESOURCE res,ROLE_OBJECT ro 
-		WHERE r.role_id=res.role_id AND r.role_id=ro.role_id AND r.role_id=#{roleID}
+		<!-- SELECT res.ROLE_RESOURCE_ID,res.ROLE_ID,res.RESOURCE_OPERATE FROM ROLE r,ROLE_RESOURCE res,ROLE_OBJECT ro 
+		WHERE r.role_id=res.role_id AND r.role_id=ro.role_id AND r.role_id=#{roleID} -->
+		SELECT
+			res.ROLE_RESOURCE_ID,
+			res.ROLE_ID,
+			res.RESOURCE_OPERATE
+		FROM
+			ROLE_RESOURCE res
+		WHERE
+		 res.role_id =#{roleID}
+	</select>
+	
+	<select id="listRoleObjectByRoleID" resultMap="roleObject">
+		SELECT ROLE_OBJECT_ID,ROLE_OBJECT,ROLE_ID,OBJECT_TYPE FROM ROLE_OBJECT WHERE ROLE_ID = #{roleID} AND OBJECT_TYPE = #{roleObjectType}
 	</select>
 	
 </mapper>
