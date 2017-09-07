@@ -73,7 +73,7 @@ public abstract class BaseAccessDecisionManager implements AccessDecisionManager
 		requestURI = requestURI.substring(contextPath.length());
 		
 		//根据请求的uri得到对应的资源编码
-		String resourceCode = pathMapping.get(requestURI);
+		String resourceCode = pathMapping.get(contextPath + requestURI);
 		//根据得到的资源编码获取到允许的角色编码集合
 		List<String> roleCodeList = null;
 		if(resourceCode != null){
