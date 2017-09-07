@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -28,6 +29,9 @@ import com.goldgov.origin.security.resource.ResourceContext;
 public abstract class BaseAccessDecisionManager implements AccessDecisionManager{
 
 	private boolean initialized; 
+	
+	@Value("${server.context-path:}")
+	private String contextPath; 
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -65,6 +69,8 @@ public abstract class BaseAccessDecisionManager implements AccessDecisionManager
 		Map<String,List<String>> roleResourceMapping = (Map<String, List<String>>) CacheHolder.get(ResourceConstants.CACHE_CODE_ROLE_RESOURCE_MAPPING);
 		
 		String requestURI = httpRequest.getRequestURI();
+		
+		requestURI = requestURI.substring(contextPath.length());
 		
 		//根据请求的uri得到对应的资源编码
 		String resourceCode = pathMapping.get(requestURI);
