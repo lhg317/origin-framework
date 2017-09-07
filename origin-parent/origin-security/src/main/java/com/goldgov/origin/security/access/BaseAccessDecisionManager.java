@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -28,6 +29,9 @@ import com.goldgov.origin.security.resource.ResourceContext;
 public abstract class BaseAccessDecisionManager implements AccessDecisionManager{
 
 	private boolean initialized; 
+	
+	@Value("${server.context-path:}")
+	private String contextPath; 
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -67,7 +71,7 @@ public abstract class BaseAccessDecisionManager implements AccessDecisionManager
 		String requestURI = httpRequest.getRequestURI();
 		
 		//根据请求的uri得到对应的资源编码
-		String resourceCode = pathMapping.get(requestURI);
+		String resourceCode = pathMapping.get(contextPath + requestURI);
 		//根据得到的资源编码获取到允许的角色编码集合
 		List<String> roleCodeList = null;
 		if(resourceCode != null){
