@@ -16,6 +16,7 @@ service RpcFileService {
 	RpcFile getFile(1:string fileID);
 	binary getFileContent(1:string fileID);
 	list<RpcFile> listFile(1:string groupID);
+	binary getImage(1:string fileID,2:i32 width,3:i32 height)
 }
 
 service RpcFileFragmentService extends RpcFileService{

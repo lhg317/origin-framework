@@ -205,5 +205,12 @@ public class FileFragmentServiceImpl implements FileFragmentService,ApplicationC
 		}
 		return null;
 	}
+	
+	@Override
+	@Transactional
+	public void addFileToStorage(String fileID, InputStream content) {
+		getFileStorage().saveFile(fileID, content);
+	}
+
 
 }

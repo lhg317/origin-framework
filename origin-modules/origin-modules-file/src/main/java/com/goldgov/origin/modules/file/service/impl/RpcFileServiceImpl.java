@@ -17,6 +17,7 @@ import com.goldgov.origin.modules.file.api.RpcFile;
 import com.goldgov.origin.modules.file.api.RpcFileFragmentService;
 import com.goldgov.origin.modules.file.service.File;
 import com.goldgov.origin.modules.file.service.FileFragmentService;
+import com.goldgov.origin.modules.file.service.ImgCompress;
 import com.goldgov.origin.modules.file.service.ProxyFile;
 
 @RpcService("RpcFileService")
@@ -24,6 +25,10 @@ public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
 
 	@Autowired
 	private FileFragmentService fileService;
+	
+	private static final int ALL = 6;
+	private static final int WIDTH = 2;
+	private static final int HEIGHT = 4;
 
 	@Override
 	public String addFile(RpcFile file, ByteBuffer bytes) throws TException {
@@ -103,5 +108,67 @@ public class RpcFileServiceImpl implements RpcFileFragmentService.Iface{
 		return byteBuffer;
 	}
 	
-
+	@Override
+	public ByteBuffer getImage(String fileID,int width,int height) throws TException {
+		int hasWidthHeight = hasWidthHeight(width, height);
+		if(hasWidthHeight == 0){
+			return this.getFileContent(fileID);
+		}
+		String file_px = fileID;
+		if(hasWidthHeight == WIDTH){
+			file_px += "_w" + width;
+		}else if(hasWidthHeight == HEIGHT){
+			file_px += "_h" + height;
+		}else if(hasWidthHeight == ALL){
+			file_px += "_w" + width + "_h" + height;
+		}
+		ByteBuffer byteBuffer = null;
+		try{
+			byteBuffer = this.getFileContent(file_px);
+		}catch(Exception e){
+			//do nothing
+		}
+		if(byteBuffer == null){
+			InputStream fileContent = fileService.getFileContent(fileID);
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			int copyCount = 0;
+			
+			ImgCompress imgCompress = new ImgCompress(fileContent, byteArrayOutputStream);
+			try {
+				if(hasWidthHeight == ALL){
+					imgCompress.resize(width, height);
+				}else if(hasWidthHeight == HEIGHT){
+					imgCompress.resizeByHeight(height);
+				}else if(hasWidthHeight == WIDTH){
+					imgCompress.resizeByWidth(width);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			copyCount = byteArrayOutputStream.size();
+			
+			byte[] bytes = byteArrayOutputStream.toByteArray();
+			byteBuffer = ByteBuffer.allocate(copyCount);
+			byteBuffer.put(bytes);
+			byteBuffer.flip();
+			
+			if(file_px != null){
+				ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+				fileService.addFileToStorage(file_px, inputStream);
+			}
+		}
+		return byteBuffer;
+	}
+	
+	private static int hasWidthHeight(int width,int height){
+		int result = 0;
+		if(width > 0){
+			result = WIDTH | result;
+		}
+		if(height > 0){
+			result = HEIGHT | result;
+		}
+		return result;
+	}
+	
 }

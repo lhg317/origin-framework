@@ -214,4 +214,25 @@ public class RpcFileController {
 		}
 		return false;
 	}
+	
+	@RequestMapping("/downloadImage")
+	public void downloadImage(@RequestParam("fileID") String fileID,@RequestParam(value="width",required=false,defaultValue="0") Integer width,@RequestParam(value="height",required=false,defaultValue="0") Integer height,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		if(!allowDownload(request)){
+			throw new NoPermissionException();
+		}
+		
+		RpcFile file = fileService.getFile(fileID);
+		if(file == null){
+			throw new FileNotFoundException(fileID);
+		}
+//		String fileName = file.getFileName(); 
+		
+		response.setContentType(file.getFileType());
+//		response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes(),"ISO-8859-1") +"\"");
+		
+		ServletOutputStream outputStream = response.getOutputStream();
+		uploadHelper.writeImageFile(fileID, outputStream, width, height);
+		
+		
+	}
 }

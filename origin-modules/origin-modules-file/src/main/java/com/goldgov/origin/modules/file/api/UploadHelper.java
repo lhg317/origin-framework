@@ -108,6 +108,21 @@ public class UploadHelper {
 	}
 	
 	/**
+	 * 一次性输出文件
+	 * @param fileID
+	 * @param outputStream
+	 * @param width
+	 * @param height
+	 * @throws Exception
+	 */
+	public void writeImageFile(String fileID,OutputStream outputStream,int width,int height) throws Exception{
+		ByteBuffer fileContent = fileService.getImage(fileID, width, height);
+		byte[] fileFragmentBytes = fileContent.array(); 
+		outputStream.write(fileFragmentBytes);
+		fileContent.clear();
+	}
+	
+	/**
 	 * 分片输出文件
 	 * 不会主动关闭输出流
 	 * @param fileID

@@ -19,4 +19,6 @@ public interface FileService {
 	
 	void updateGroupID(String groupID,String[] fileIDs);
 	
+	void addFileToStorage(String fileID, InputStream content);
+	
 }
